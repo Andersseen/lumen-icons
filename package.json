@@ -1,7 +1,30 @@
 {
-  "name": "lumen-icons",
-  "version": "0.0.0",
+  "name": "lumen",
+  "version": "0.0.1",
+  "description": "Beautiful, consistent Angular icon components — crafted for accessibility and tree-shaking.",
+  "author": {
+    "name": "Andrii",
+    "url": "https://github.com/andersseen"
+  },
+  "keywords": [
+    "angular",
+    "icons",
+    "svg",
+    "ui",
+    "components",
+    "lumen"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andersseen/lumen-icons.git"
+  },
+  "homepage": "https://lumen-icons.dev",
+  "bugs": {
+    "url": "https://github.com/andersseen/lumen-icons/issues"
+  },
   "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.30.1",
   "engines": {
     "node": ">=20.19.1"
   },
@@ -12,12 +35,12 @@
     "build": "pnpm run build:all",
     "build:all": "pnpm run build:lib && pnpm run build:app",
     "build:app": "vite build",
-    "build:lib": "tsup --config packages/lumen-icons/tsup.config.ts",
+    "build:lib": "tsup --config packages/icons/tsup.config.ts",
     "watch": "vite build --watch",
     "lint": "eslint .",
     "typecheck": "pnpm run typecheck:app && pnpm run typecheck:lib",
     "typecheck:app": "tsc --noEmit -p tsconfig.app.json",
-    "typecheck:lib": "tsc --noEmit -p packages/lumen-icons/tsconfig.lib.json",
+    "typecheck:lib": "tsc --noEmit -p packages/icons/tsconfig.lib.json",
     "test": "pnpm run test:unit",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
@@ -27,7 +50,6 @@
     "check": "pnpm run lint && pnpm run typecheck && pnpm run test:unit",
     "preview": "vite preview"
   },
-  "private": true,
   "dependencies": {
     "@analogjs/content": "^2.4.10",
     "@analogjs/router": "^2.4.10",

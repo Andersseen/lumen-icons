@@ -4,8 +4,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@lumen-icons/core": ["packages/lumen-icons/src/index.ts"],
-      "@lumen-icons/core/*": ["packages/lumen-icons/src/*"]
+      "@lumen/icons": ["packages/icons/src/index.ts"],
+      "@lumen/icons/*": ["packages/icons/src/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

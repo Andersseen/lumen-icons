@@ -1,5 +1,5 @@
 {
-  "name": "@lumen-icons/core",
+  "name": "@lumen/icons",
   "version": "0.1.0",
   "type": "module",
   "description": "Lumen icon components for Angular",
