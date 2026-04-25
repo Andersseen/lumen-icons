@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Read(//Users/andriipap/Andersseen/Web/Projects/volt-ui/**)",
-      "Read(//Users/andriipap/Andersseen/Web/Demos/demo-icons/**)"
+      "Read(//Users/andriipap/Andersseen/Web/Demos/demo-icons/**)",
+      "Bash(npm show *)",
+      "Bash(pnpm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(curl -s http://localhost:5173/icons)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/icons)"
     ]
   }
 }

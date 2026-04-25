@@ -1,3 +1,5 @@
+@import "@voltui/components/themes/presets/volt-soft.css";
+@import "@voltui/components/themes.css";
 @import "tailwindcss";
 
 @theme {
