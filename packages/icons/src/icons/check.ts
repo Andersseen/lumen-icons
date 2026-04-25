@@ -4,7 +4,6 @@ import { ANIMATE_STYLES } from '../lib/animate.styles';
 
 @Component({
   selector: 'lmn-check',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': 'ariaLabel() ? "img" : null',

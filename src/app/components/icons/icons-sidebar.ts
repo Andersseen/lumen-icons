@@ -13,7 +13,6 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
 
 @Component({
   selector: 'app-icons-sidebar',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [VoltInput],
   template: `

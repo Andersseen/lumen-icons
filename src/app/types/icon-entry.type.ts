@@ -1,8 +1,1 @@
-import type { Type } from '@angular/core';
-
-export interface IconEntry {
-  name: string;
-  selector: string;
-  component: Type<unknown>;
-  importStr: string;
-}
+export type { IconEntry, LumenIconInstance } from '../data/icon-catalog';

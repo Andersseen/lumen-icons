@@ -8,6 +8,13 @@ import { AppFooterComponent } from "./components/layout/app-footer";
   imports: [RouterOutlet, AppHeaderComponent, AppFooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-slate-900 focus:shadow-lg dark:focus:bg-slate-900 dark:focus:text-white"
+    >
+      Skip to main content
+    </a>
+
     <div class="flex min-h-screen flex-col bg-white dark:bg-slate-950">
       <app-header />
       <main id="main-content" class="flex-1">

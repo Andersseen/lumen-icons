@@ -5,7 +5,6 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, LmnStarIcon, LmnExternalLinkIcon],
   template: `
@@ -18,7 +17,7 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
             <lmn-star [size]="14" [strokeWidth]="2.5" />
           </div>
           <span class="text-sm font-semibold tracking-tight text-slate-900 dark:text-white">
-            lumen <span class="text-slate-400 dark:text-slate-600">/</span> icons
+            lumen <span class="text-slate-500 dark:text-slate-500">/</span> icons
           </span>
           <span class="hidden rounded-md bg-violet-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-violet-600 dark:bg-violet-950/50 dark:text-violet-400 sm:block">
             v0.1
@@ -31,14 +30,14 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
             <li>
               <a routerLink="/icons"
                 routerLinkActive="text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800"
-                class="rounded-md px-3 py-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white">
+                class="rounded-md px-3 py-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white">
                 Icons
               </a>
             </li>
             <li>
               <a routerLink="/docs"
                 routerLinkActive="text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800"
-                class="rounded-md px-3 py-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white">
+                class="rounded-md px-3 py-1.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white">
                 Docs
               </a>
             </li>

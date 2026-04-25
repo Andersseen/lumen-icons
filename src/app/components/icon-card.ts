@@ -1,18 +1,29 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  DestroyRef,
   inject,
   input,
   signal,
 } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { timer } from 'rxjs';
+
 import { LmnCheckIcon } from '@lumen/icons/icons/check';
+import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
+
 import type { IconEntry } from '../types/icon-entry.type';
+
+export interface IconCardInputs {
+  readonly size: LmnIconSize;
+  readonly strokeWidth: number;
+  readonly animate: LmnIconAnimate;
+  readonly [key: string]: unknown;
+}
 
 @Component({
   selector: 'app-icon-card',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgComponentOutlet, LmnCheckIcon],
   styles: [`
@@ -33,14 +44,14 @@ import type { IconEntry } from '../types/icon-entry.type';
       [attr.aria-label]="'Copy import for ' + icon().name"
       (click)="handleClick()"
     >
-      <div #iconInner class="icon-inner">
+      <div class="icon-inner" [class.popped]="popped()">
         <ng-container
           [ngComponentOutlet]="icon().component"
           [ngComponentOutletInputs]="iconInputs()"
         />
       </div>
 
-      <span class="truncate text-[11px] text-slate-400 dark:text-slate-600">
+      <span class="truncate text-[11px] text-slate-500 dark:text-slate-500">
         {{ icon().name }}
       </span>
 
@@ -54,23 +65,30 @@ import type { IconEntry } from '../types/icon-entry.type';
   `,
 })
 export class IconCardComponent {
-  private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly destroyRef = inject(DestroyRef);
 
-  icon = input.required<IconEntry>();
-  iconInputs = input.required<Record<string, unknown>>();
+  readonly icon = input.required<IconEntry>();
+  readonly iconInputs = input.required<IconCardInputs>();
 
-  copied = signal(false);
+  readonly copied = signal(false);
+  readonly popped = signal(false);
 
   handleClick() {
-    const inner = this.el.nativeElement.querySelector('.icon-inner') as HTMLElement | null;
-    if (inner) {
-      inner.classList.remove('popped');
-      void inner.offsetWidth;
-      inner.classList.add('popped');
-    }
+    this.triggerPop();
 
     navigator.clipboard.writeText(this.icon().importStr).catch(() => {});
     this.copied.set(true);
-    setTimeout(() => this.copied.set(false), 1500);
+    timer(1500)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.copied.set(false));
+  }
+
+  private triggerPop() {
+    this.popped.set(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.popped.set(true);
+      });
+    });
   }
 }

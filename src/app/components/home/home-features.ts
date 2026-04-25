@@ -8,7 +8,6 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
 
 @Component({
   selector: 'app-home-features',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [LmnCheckIcon, LmnStarIcon, LmnInfoIcon, LmnHeartIcon, LmnSearchIcon, LmnArrowRightIcon],
   template: `
@@ -18,7 +17,7 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
           <h2 id="features-heading" class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
             Designed for Angular
           </h2>
-          <p class="mt-3 text-slate-600 dark:text-slate-400">Every decision optimised for the Angular ecosystem.</p>
+          <p class="mt-3 text-slate-600 dark:text-slate-300">Every decision optimised for the Angular ecosystem.</p>
         </div>
 
         <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" role="list">
@@ -36,7 +35,7 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
                 }
               </div>
               <h3 class="font-semibold text-slate-900 dark:text-white">{{ f.title }}</h3>
-              <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{{ f.description }}</p>
+              <p class="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{{ f.description }}</p>
             </li>
           }
         </ul>

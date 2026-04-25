@@ -1,32 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Type,
+  DestroyRef,
+  inject,
   signal,
 } from "@angular/core";
 import { NgComponentOutlet } from "@angular/common";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { timer } from "rxjs";
 
-import { LmnAlertCircleIcon } from "@lumen/icons/icons/alert-circle";
-import { LmnArrowLeftIcon } from "@lumen/icons/icons/arrow-left";
-import { LmnArrowRightIcon } from "@lumen/icons/icons/arrow-right";
 import { LmnCheckIcon } from "@lumen/icons/icons/check";
-import { LmnHeartIcon } from "@lumen/icons/icons/heart";
-import { LmnInfoIcon } from "@lumen/icons/icons/info";
-import { LmnMenuIcon } from "@lumen/icons/icons/menu";
-import { LmnSearchIcon } from "@lumen/icons/icons/search";
-import { LmnStarIcon } from "@lumen/icons/icons/star";
-import { LmnXIcon } from "@lumen/icons/icons/x";
 
-interface IconRow {
-  name: string;
-  selector: string;
-  component: Type<unknown>;
-  importStr: string;
-}
+import { ICON_CATALOG } from "../data/icon-catalog";
 
 @Component({
   selector: "app-docs",
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgComponentOutlet, LmnCheckIcon],
   template: `
@@ -36,7 +24,7 @@ interface IconRow {
       >
         Documentation
       </h1>
-      <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
         Accessible, tree-shakable Angular icon components with a consistent
         <code class="rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800"
           >lmn-*</code
@@ -75,7 +63,7 @@ interface IconRow {
         >
           Installation
         </h2>
-        <p class="mt-3 text-slate-600 dark:text-slate-400">Install from npm:</p>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Install from npm:</p>
         <div
           class="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-slate-800"
         >
@@ -93,9 +81,9 @@ interface IconRow {
           </div>
           <pre
             class="overflow-x-auto p-4 text-sm text-slate-300"
-          ><code>npm install @lumen/icons</code></pre>
+          ><code>npm install &#64;lumen/icons</code></pre>
         </div>
-        <p class="mt-3 text-sm text-slate-500">
+        <p class="mt-3 text-sm text-slate-600">
           Peer deps:
           <code class="rounded bg-slate-100 px-1 dark:bg-slate-800"
             >&#64;angular/core</code
@@ -115,7 +103,7 @@ interface IconRow {
         >
           Usage
         </h2>
-        <p class="mt-3 text-slate-600 dark:text-slate-400">
+        <p class="mt-3 text-slate-600 dark:text-slate-300">
           Import the icon you need and add it to your component's
           <code
             class="rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800"
@@ -179,19 +167,19 @@ interface IconRow {
           >
             <div class="flex items-center gap-2">
               <lmn-check [size]="20" />
-              <span class="text-sm text-slate-500">default</span>
+              <span class="text-sm text-slate-600 dark:text-slate-400">default</span>
             </div>
             <div class="flex items-center gap-2">
               <lmn-check [size]="20" ariaLabel="Task complete" />
-              <span class="text-sm text-slate-500">ariaLabel</span>
+              <span class="text-sm text-slate-600 dark:text-slate-400">ariaLabel</span>
             </div>
             <div class="flex items-center gap-2">
               <lmn-check [size]="32" [strokeWidth]="1" />
-              <span class="text-sm text-slate-500">size=32 stroke=1</span>
+              <span class="text-sm text-slate-600 dark:text-slate-400">size=32 stroke=1</span>
             </div>
             <div class="flex items-center gap-2">
               <lmn-check [size]="20" [strokeWidth]="3" />
-              <span class="text-sm text-slate-500">stroke=3</span>
+              <span class="text-sm text-slate-600 dark:text-slate-400">stroke=3</span>
             </div>
           </div>
         </div>
@@ -204,7 +192,7 @@ interface IconRow {
         >
           Accessibility
         </h2>
-        <p class="mt-3 text-slate-600 dark:text-slate-400">
+        <p class="mt-3 text-slate-600 dark:text-slate-300">
           Icons are decorative by default —
           <code
             class="rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800"
@@ -233,7 +221,7 @@ interface IconRow {
         >
           API Reference
         </h2>
-        <p class="mt-3 text-slate-600 dark:text-slate-400">
+        <p class="mt-3 text-slate-600 dark:text-slate-300">
           All icons share the same three inputs.
         </p>
 
@@ -246,21 +234,25 @@ interface IconRow {
                 class="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900"
               >
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Input
                 </th>
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Type
                 </th>
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Default
                 </th>
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Description
@@ -273,8 +265,8 @@ interface IconRow {
                 <td class="px-4 py-3 font-mono text-xs text-slate-500">
                   12|14|16|20|24|32
                 </td>
-                <td class="px-4 py-3 font-mono text-xs text-slate-400">24</td>
-                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">
+                <td class="px-4 py-3 font-mono text-xs text-slate-500">24</td>
+                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">
                   Width and height in px
                 </td>
               </tr>
@@ -283,8 +275,8 @@ interface IconRow {
                 <td class="px-4 py-3 font-mono text-xs text-slate-500">
                   number
                 </td>
-                <td class="px-4 py-3 font-mono text-xs text-slate-400">2</td>
-                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">
+                <td class="px-4 py-3 font-mono text-xs text-slate-500">2</td>
+                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">
                   SVG stroke-width
                 </td>
               </tr>
@@ -293,10 +285,10 @@ interface IconRow {
                 <td class="px-4 py-3 font-mono text-xs text-slate-500">
                   string | undefined
                 </td>
-                <td class="px-4 py-3 font-mono text-xs text-slate-400">
+                <td class="px-4 py-3 font-mono text-xs text-slate-500">
                   undefined
                 </td>
-                <td class="px-4 py-3 text-slate-600 dark:text-slate-400">
+                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">
                   When set, adds
                   <code class="rounded bg-slate-100 px-1 dark:bg-slate-800"
                     >role="img"</code
@@ -315,7 +307,7 @@ interface IconRow {
         >
           Available Icons
         </h2>
-        <p class="mt-3 text-slate-600 dark:text-slate-400">
+        <p class="mt-3 text-slate-600 dark:text-slate-300">
           Click the import path to copy it.
         </p>
 
@@ -328,16 +320,19 @@ interface IconRow {
                 class="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900"
               >
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Icon
                 </th>
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Selector
                 </th>
                 <th
+                  scope="col"
                   class="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300"
                 >
                   Import (click to copy)
@@ -345,7 +340,7 @@ interface IconRow {
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-              @for (row of iconRows; track row.selector) {
+              @for (row of iconCatalog; track row.selector) {
                 <tr class="bg-white dark:bg-slate-950">
                   <td class="px-4 py-3">
                     <div
@@ -387,7 +382,7 @@ interface IconRow {
       </section>
 
       <div class="mt-20 border-t border-slate-200 pt-8 dark:border-slate-800">
-        <p class="text-sm text-slate-400">
+        <p class="text-sm text-slate-500">
           MIT License · Built with Angular 21
         </p>
       </div>
@@ -395,6 +390,8 @@ interface IconRow {
   `,
 })
 export default class DocsPageComponent {
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly copied = signal<string | null>(null);
 
   readonly sections = [
@@ -431,72 +428,13 @@ export class MyComponent {}`;
 <!-- standalone icon with meaning -->
 <lmn-alert-circle ariaLabel="Warning: action is irreversible" />`;
 
-  readonly iconRows: IconRow[] = [
-    {
-      name: "check",
-      selector: "lmn-check",
-      component: LmnCheckIcon,
-      importStr: `import { LmnCheckIcon } from '@lumen/icons/icons/check';`,
-    },
-    {
-      name: "x",
-      selector: "lmn-x",
-      component: LmnXIcon,
-      importStr: `import { LmnXIcon } from '@lumen/icons/icons/x';`,
-    },
-    {
-      name: "arrow-right",
-      selector: "lmn-arrow-right",
-      component: LmnArrowRightIcon,
-      importStr: `import { LmnArrowRightIcon } from '@lumen/icons/icons/arrow-right';`,
-    },
-    {
-      name: "arrow-left",
-      selector: "lmn-arrow-left",
-      component: LmnArrowLeftIcon,
-      importStr: `import { LmnArrowLeftIcon } from '@lumen/icons/icons/arrow-left';`,
-    },
-    {
-      name: "search",
-      selector: "lmn-search",
-      component: LmnSearchIcon,
-      importStr: `import { LmnSearchIcon } from '@lumen/icons/icons/search';`,
-    },
-    {
-      name: "menu",
-      selector: "lmn-menu",
-      component: LmnMenuIcon,
-      importStr: `import { LmnMenuIcon } from '@lumen/icons/icons/menu';`,
-    },
-    {
-      name: "alert-circle",
-      selector: "lmn-alert-circle",
-      component: LmnAlertCircleIcon,
-      importStr: `import { LmnAlertCircleIcon } from '@lumen/icons/icons/alert-circle';`,
-    },
-    {
-      name: "info",
-      selector: "lmn-info",
-      component: LmnInfoIcon,
-      importStr: `import { LmnInfoIcon } from '@lumen/icons/icons/info';`,
-    },
-    {
-      name: "star",
-      selector: "lmn-star",
-      component: LmnStarIcon,
-      importStr: `import { LmnStarIcon } from '@lumen/icons/icons/star';`,
-    },
-    {
-      name: "heart",
-      selector: "lmn-heart",
-      component: LmnHeartIcon,
-      importStr: `import { LmnHeartIcon } from '@lumen/icons/icons/heart';`,
-    },
-  ];
+  readonly iconCatalog = ICON_CATALOG;
 
   copy(text: string, key: string) {
     navigator.clipboard.writeText(text).catch(() => {});
     this.copied.set(key);
-    setTimeout(() => this.copied.set(null), 2000);
+    timer(2000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.copied.set(null));
   }
 }

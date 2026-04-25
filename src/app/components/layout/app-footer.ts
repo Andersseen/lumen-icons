@@ -5,7 +5,6 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
 
 @Component({
   selector: 'app-footer',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, LmnStarIcon, LmnExternalLinkIcon],
   template: `
@@ -18,11 +17,11 @@ import { LmnStarIcon } from '@lumen/icons/icons/star';
               <lmn-star [size]="12" [strokeWidth]="2.5" />
             </div>
             <span class="text-sm font-medium text-slate-700 dark:text-slate-300">lumen icons</span>
-            <span class="text-sm text-slate-400 dark:text-slate-600">&mdash; MIT License</span>
+            <span class="text-sm text-slate-500 dark:text-slate-500">&mdash; MIT License</span>
           </div>
 
           <nav aria-label="Footer navigation">
-            <ul class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-500" role="list">
+            <ul class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400" role="list">
               <li><a routerLink="/icons" class="transition-colors hover:text-slate-900 dark:hover:text-white">Icons</a></li>
               <li><a routerLink="/docs" class="transition-colors hover:text-slate-900 dark:hover:text-white">Docs</a></li>
               <li>

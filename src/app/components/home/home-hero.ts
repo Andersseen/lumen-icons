@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { timer } from 'rxjs';
 
 import { LmnAlertCircleIcon } from '@lumen/icons/icons/alert-circle';
 import { LmnArrowLeftIcon } from '@lumen/icons/icons/arrow-left';
@@ -16,7 +18,6 @@ import { LmnXIcon } from '@lumen/icons/icons/x';
 
 @Component({
   selector: 'app-home-hero',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
@@ -91,7 +92,7 @@ import { LmnXIcon } from '@lumen/icons/icons/x';
           <!-- Right: live animation showcase -->
           <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-sm"
             aria-label="Live icon animation preview" role="region">
-            <p class="mb-4 text-[11px] font-semibold uppercase tracking-widest text-slate-600">
+            <p class="mb-4 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
               Animations — live preview
             </p>
 
@@ -100,25 +101,25 @@ import { LmnXIcon } from '@lumen/icons/icons/x';
                 <div class="text-violet-400">
                   <lmn-star [size]="32" [strokeWidth]="1.5" animate="spin" />
                 </div>
-                <code class="text-[11px] font-mono text-slate-500 group-hover:text-slate-400">animate="spin"</code>
+                <code class="text-[11px] font-mono text-slate-400 group-hover:text-slate-300">animate="spin"</code>
               </div>
               <div class="group flex flex-col items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/70 px-4 py-5 transition-colors hover:border-rose-700/50 hover:bg-rose-950/20">
                 <div class="text-rose-400">
                   <lmn-heart [size]="32" [strokeWidth]="1.5" animate="pulse" />
                 </div>
-                <code class="text-[11px] font-mono text-slate-500 group-hover:text-slate-400">animate="pulse"</code>
+                <code class="text-[11px] font-mono text-slate-400 group-hover:text-slate-300">animate="pulse"</code>
               </div>
               <div class="group flex flex-col items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/70 px-4 py-5 transition-colors hover:border-blue-700/50 hover:bg-blue-950/20">
                 <div class="text-blue-400">
                   <lmn-arrow-right [size]="32" [strokeWidth]="1.5" animate="bounce" />
                 </div>
-                <code class="text-[11px] font-mono text-slate-500 group-hover:text-slate-400">animate="bounce"</code>
+                <code class="text-[11px] font-mono text-slate-400 group-hover:text-slate-300">animate="bounce"</code>
               </div>
               <div class="group flex flex-col items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/70 px-4 py-5 transition-colors hover:border-amber-700/50 hover:bg-amber-950/20">
                 <div class="text-amber-400">
                   <lmn-alert-circle [size]="32" [strokeWidth]="1.5" animate="ping" />
                 </div>
-                <code class="text-[11px] font-mono text-slate-500 group-hover:text-slate-400">animate="ping"</code>
+                <code class="text-[11px] font-mono text-slate-400 group-hover:text-slate-300">animate="ping"</code>
               </div>
             </div>
 
@@ -157,11 +158,15 @@ import { LmnXIcon } from '@lumen/icons/icons/x';
   `,
 })
 export class HomeHeroComponent {
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly installCopied = signal(false);
 
   copyInstall() {
     navigator.clipboard.writeText('npm install @lumen/icons').catch(() => {});
     this.installCopied.set(true);
-    setTimeout(() => this.installCopied.set(false), 2000);
+    timer(2000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.installCopied.set(false));
   }
 }

@@ -1,42 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { VoltInput } from '@voltui/components';
 
-import { LmnAlertCircleIcon } from '@lumen/icons/icons/alert-circle';
-import { LmnArrowLeftIcon } from '@lumen/icons/icons/arrow-left';
-import { LmnArrowRightIcon } from '@lumen/icons/icons/arrow-right';
-import { LmnCheckIcon } from '@lumen/icons/icons/check';
-import { LmnCopyIcon } from '@lumen/icons/icons/copy';
-import { LmnExternalLinkIcon } from '@lumen/icons/icons/external-link';
-import { LmnHeartIcon } from '@lumen/icons/icons/heart';
-import { LmnInfoIcon } from '@lumen/icons/icons/info';
-import { LmnMenuIcon } from '@lumen/icons/icons/menu';
 import { LmnSearchIcon } from '@lumen/icons/icons/search';
-import { LmnStarIcon } from '@lumen/icons/icons/star';
-import { LmnXIcon } from '@lumen/icons/icons/x';
 import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
-import { IconCardComponent } from '../components/icon-card';
+import { IconCardComponent, type IconCardInputs } from '../components/icon-card';
 import { IconsSidebarComponent } from '../components/icons/icons-sidebar';
-import type { IconEntry } from '../types/icon-entry.type';
-
-const ALL_ICONS: IconEntry[] = [
-  { name: 'check',         selector: 'lmn-check',         component: LmnCheckIcon,        importStr: "import { LmnCheckIcon } from '@lumen/icons/icons/check';" },
-  { name: 'x',             selector: 'lmn-x',             component: LmnXIcon,            importStr: "import { LmnXIcon } from '@lumen/icons/icons/x';" },
-  { name: 'arrow-right',   selector: 'lmn-arrow-right',   component: LmnArrowRightIcon,   importStr: "import { LmnArrowRightIcon } from '@lumen/icons/icons/arrow-right';" },
-  { name: 'arrow-left',    selector: 'lmn-arrow-left',    component: LmnArrowLeftIcon,    importStr: "import { LmnArrowLeftIcon } from '@lumen/icons/icons/arrow-left';" },
-  { name: 'search',        selector: 'lmn-search',        component: LmnSearchIcon,       importStr: "import { LmnSearchIcon } from '@lumen/icons/icons/search';" },
-  { name: 'menu',          selector: 'lmn-menu',          component: LmnMenuIcon,         importStr: "import { LmnMenuIcon } from '@lumen/icons/icons/menu';" },
-  { name: 'alert-circle',  selector: 'lmn-alert-circle',  component: LmnAlertCircleIcon,  importStr: "import { LmnAlertCircleIcon } from '@lumen/icons/icons/alert-circle';" },
-  { name: 'info',          selector: 'lmn-info',          component: LmnInfoIcon,         importStr: "import { LmnInfoIcon } from '@lumen/icons/icons/info';" },
-  { name: 'star',          selector: 'lmn-star',          component: LmnStarIcon,         importStr: "import { LmnStarIcon } from '@lumen/icons/icons/star';" },
-  { name: 'heart',         selector: 'lmn-heart',         component: LmnHeartIcon,        importStr: "import { LmnHeartIcon } from '@lumen/icons/icons/heart';" },
-  { name: 'copy',          selector: 'lmn-copy',          component: LmnCopyIcon,         importStr: "import { LmnCopyIcon } from '@lumen/icons/icons/copy';" },
-  { name: 'external-link', selector: 'lmn-external-link', component: LmnExternalLinkIcon, importStr: "import { LmnExternalLinkIcon } from '@lumen/icons/icons/external-link';" },
-];
+import { ICON_CATALOG } from '../data/icon-catalog';
 
 @Component({
   selector: 'app-icons',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [VoltInput, LmnSearchIcon, IconCardComponent, IconsSidebarComponent],
   template: `
@@ -132,10 +105,10 @@ export default class IconsPageComponent {
 
   readonly filteredIcons = computed(() => {
     const term = this.search().toLowerCase().trim();
-    return term ? ALL_ICONS.filter(i => i.name.includes(term)) : ALL_ICONS;
+    return term ? ICON_CATALOG.filter(i => i.name.includes(term)) : ICON_CATALOG;
   });
 
-  readonly iconInputs = computed((): Record<string, unknown> => ({
+  readonly iconInputs = computed((): IconCardInputs => ({
     size: this.size(),
     strokeWidth: this.strokeWidth(),
     animate: this.animate(),
