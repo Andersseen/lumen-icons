@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { LmnExternalLinkIcon } from "@lumen/icons/external-link";
-import { LmnStarIcon } from "@lumen/icons/star";
+import { VoltBadge } from "@voltui/components";
+import { AppLogoComponent } from "./app-logo";
 import { ThemeToggleComponent } from "../theme-toggle";
 
 @Component({
@@ -10,8 +11,9 @@ import { ThemeToggleComponent } from "../theme-toggle";
   imports: [
     RouterLink,
     RouterLinkActive,
-    LmnStarIcon,
     LmnExternalLinkIcon,
+    VoltBadge,
+    AppLogoComponent,
     ThemeToggleComponent,
   ],
   template: `
@@ -30,16 +32,12 @@ import { ThemeToggleComponent } from "../theme-toggle";
           <div
             class="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm shadow-primary/30"
           >
-            <lmn-star [size]="14" [strokeWidth]="2.5" />
+            <app-logo [size]="20" />
           </div>
           <span class="text-sm font-semibold tracking-tight text-foreground">
             lumen <span class="text-muted-foreground">/</span> icons
           </span>
-          <span
-            class="hidden rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary sm:block"
-          >
-            v0.1
-          </span>
+          <volt-badge variant="secondary" class="hidden sm:inline-flex">v0.1</volt-badge>
         </a>
 
         <!-- Nav -->

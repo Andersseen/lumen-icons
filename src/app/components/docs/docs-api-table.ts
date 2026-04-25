@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { VoltCard } from "@voltui/components";
 
 @Component({
   selector: "app-docs-api-table",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [VoltCard],
   template: `
     <section id="api" class="mt-16">
       <h2 class="text-2xl font-bold tracking-tight text-foreground">API Reference</h2>
       <p class="mt-3 text-secondary-foreground">All icons share the same three inputs.</p>
 
-      <div class="mt-5 overflow-hidden rounded-xl border border-border">
+      <volt-card class="mt-5 block overflow-hidden">
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b border-border bg-muted dark:bg-card">
@@ -41,7 +43,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
             </tr>
           </tbody>
         </table>
-      </div>
+      </volt-card>
     </section>
   `,
 })

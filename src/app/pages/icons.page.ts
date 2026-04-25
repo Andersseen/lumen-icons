@@ -6,12 +6,21 @@ import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
 import { IconCardComponent, type IconCardInputs } from '../components/icon-card';
 import { IconsSidebarComponent } from '../components/icons/icons-sidebar';
+import { AnimationPickerComponent } from '../components/shared/animation-picker';
+import { SizePickerComponent } from '../components/shared/size-picker';
 import { ICON_CATALOG } from '../data/icon-catalog';
 
 @Component({
   selector: 'app-icons',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [VoltInput, LmnSearchIcon, IconCardComponent, IconsSidebarComponent],
+  imports: [
+    VoltInput,
+    LmnSearchIcon,
+    IconCardComponent,
+    IconsSidebarComponent,
+    SizePickerComponent,
+    AnimationPickerComponent,
+  ],
   template: `
     <!-- Page header -->
     <div class="border-b border-border bg-background dark:border-border dark:bg-background">
@@ -45,22 +54,8 @@ import { ICON_CATALOG } from '../data/icon-catalog';
             (valueChange)="search.set($event)"
             class="max-w-48"
           />
-          <select
-            class="rounded-lg border border-border bg-background px-2 py-2 text-sm dark:border-border dark:bg-card dark:text-secondary-foreground"
-            [value]="size()"
-            (change)="setSize($event)"
-            aria-label="Icon size"
-          >
-            @for (s of sizes; track s) { <option [value]="s">{{ s }}px</option> }
-          </select>
-          <select
-            class="rounded-lg border border-border bg-background px-2 py-2 text-sm dark:border-border dark:bg-card dark:text-secondary-foreground"
-            [value]="animate()"
-            (change)="setAnimate($event)"
-            aria-label="Animation"
-          >
-            @for (a of animations; track a.value) { <option [value]="a.value">{{ a.label }}</option> }
-          </select>
+          <app-size-picker [(size)]="size" ariaLabel="Icon size" />
+          <app-animation-picker [(animate)]="animate" ariaLabel="Animation" />
         </div>
 
         @if (filteredIcons().length > 0) {
@@ -94,15 +89,6 @@ export default class IconsPageComponent {
   readonly strokeWidth = signal(2);
   readonly animate = signal<LmnIconAnimate>('none');
 
-  readonly sizes: LmnIconSize[] = [12, 14, 16, 20, 24, 32];
-  readonly animations = [
-    { value: 'none' as LmnIconAnimate,   label: 'None' },
-    { value: 'spin' as LmnIconAnimate,   label: 'Spin' },
-    { value: 'pulse' as LmnIconAnimate,  label: 'Pulse' },
-    { value: 'bounce' as LmnIconAnimate, label: 'Bounce' },
-    { value: 'ping' as LmnIconAnimate,   label: 'Ping' },
-  ];
-
   readonly filteredIcons = computed(() => {
     const term = this.search().toLowerCase().trim();
     return term ? ICON_CATALOG.filter(i => i.name.includes(term)) : ICON_CATALOG;
@@ -113,12 +99,4 @@ export default class IconsPageComponent {
     strokeWidth: this.strokeWidth(),
     animate: this.animate(),
   }));
-
-  setSize(event: Event) {
-    this.size.set(+(event.target as HTMLSelectElement).value as LmnIconSize);
-  }
-
-  setAnimate(event: Event) {
-    this.animate.set((event.target as HTMLSelectElement).value as LmnIconAnimate);
-  }
 }
