@@ -82,6 +82,7 @@
     "@angular/build": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.2.10",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.59.1",
     "@testing-library/angular": "^19.2.1",

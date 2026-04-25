@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input } from "@angular/core
 import { ClipboardService } from "../../services/clipboard";
 
 @Component({
+  standalone: true,
   selector: "app-docs-code-block",
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -23,7 +24,7 @@ import { ClipboardService } from "../../services/clipboard";
 export class DocsCodeBlockComponent {
   readonly clipboard = inject(ClipboardService);
 
-  readonly code = input.required<string>();
-  readonly label = input.required<string>();
-  readonly copyKey = input.required<string>();
+  readonly code = input("");
+  readonly label = input("");
+  readonly copyKey = input("");
 }

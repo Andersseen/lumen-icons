@@ -10,6 +10,8 @@ import { NgComponentOutlet } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { timer } from 'rxjs';
 
+import { ClipboardService } from '../services/clipboard';
+
 import { LmnCheckIcon } from '@lumen/icons/check';
 import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
@@ -66,6 +68,7 @@ export interface IconCardInputs {
 })
 export class IconCardComponent {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly clipboard = inject(ClipboardService);
 
   readonly icon = input.required<IconEntry>();
   readonly iconInputs = input.required<IconCardInputs>();
@@ -76,7 +79,7 @@ export class IconCardComponent {
   handleClick() {
     this.triggerPop();
 
-    navigator.clipboard.writeText(this.icon().importStr).catch(() => {});
+    this.clipboard.copy(this.icon().importStr, this.icon().name);
     this.copied.set(true);
     timer(1500)
       .pipe(takeUntilDestroyed(this.destroyRef))
