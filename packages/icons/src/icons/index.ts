@@ -7,6 +7,8 @@ export { LmnExternalLinkIcon } from './external-link';
 export { LmnHeartIcon } from './heart';
 export { LmnInfoIcon } from './info';
 export { LmnMenuIcon } from './menu';
+export { LmnMoonIcon } from './moon';
 export { LmnSearchIcon } from './search';
 export { LmnStarIcon } from './star';
+export { LmnSunIcon } from './sun';
 export { LmnXIcon } from './x';

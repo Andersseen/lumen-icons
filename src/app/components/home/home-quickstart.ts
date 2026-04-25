@@ -13,82 +13,82 @@ import { LmnCopyIcon } from '@lumen/icons/icons/copy';
   imports: [RouterLink, LmnCheckIcon, LmnCopyIcon, LmnArrowRightIcon],
   template: `
     <section
-      class="border-t border-slate-200 bg-slate-50 py-20 dark:border-slate-800 dark:bg-slate-900"
+      class="border-t border-border bg-muted py-20 dark:border-border dark:bg-card"
       aria-labelledby="quickstart-heading"
     >
       <div class="mx-auto max-w-2xl px-4">
         <div class="mb-8 text-center">
-          <h2 id="quickstart-heading" class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h2 id="quickstart-heading" class="text-3xl font-bold tracking-tight text-foreground">
             Up and running in seconds
           </h2>
-          <p class="mt-3 text-slate-600 dark:text-slate-300">Three steps — install, import, drop the tag.</p>
+          <p class="mt-3 text-secondary-foreground">Three steps — install, import, drop the tag.</p>
         </div>
 
         <div class="space-y-3">
           <!-- Install snippet -->
-          <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-slate-800">
-            <div class="flex items-center justify-between border-b border-slate-800 px-4 py-2">
-              <span class="text-xs font-medium text-slate-500">Terminal</span>
+          <div class="overflow-hidden rounded-xl border border-border bg-background dark:border-border">
+            <div class="flex items-center justify-between border-b border-border px-4 py-2">
+              <span class="text-xs font-medium text-muted-foreground">Terminal</span>
               <button
                 type="button"
                 (click)="copy('install', installCode)"
-                class="rounded-md p-1 text-slate-600 transition-colors hover:bg-slate-800 hover:text-slate-400"
+                class="rounded-md p-1 text-secondary-foreground transition-colors hover:bg-secondary hover:text-muted-foreground"
                 [attr.aria-label]="copiedKey() === 'install' ? 'Copied!' : 'Copy Terminal'"
               >
                 @if (copiedKey() === 'install') {
-                  <lmn-check [size]="12" [strokeWidth]="2.5" class="text-emerald-400" />
+                  <lmn-check [size]="12" [strokeWidth]="2.5" class="text-success" />
                 } @else {
                   <lmn-copy [size]="12" [strokeWidth]="2" />
                 }
               </button>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-slate-500">$</span> npm install <span class="text-sky-300">&#64;lumen/icons</span></code></pre>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-muted-foreground">$</span> npm install <span class="text-info">&#64;lumen/icons</span></code></pre>
           </div>
 
           <!-- Import snippet -->
-          <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-slate-800">
-            <div class="flex items-center justify-between border-b border-slate-800 px-4 py-2">
-              <span class="text-xs font-medium text-slate-500">TypeScript</span>
+          <div class="overflow-hidden rounded-xl border border-border bg-background dark:border-border">
+            <div class="flex items-center justify-between border-b border-border px-4 py-2">
+              <span class="text-xs font-medium text-muted-foreground">TypeScript</span>
               <button
                 type="button"
                 (click)="copy('import', importCode)"
-                class="rounded-md p-1 text-slate-600 transition-colors hover:bg-slate-800 hover:text-slate-400"
+                class="rounded-md p-1 text-secondary-foreground transition-colors hover:bg-secondary hover:text-muted-foreground"
                 [attr.aria-label]="copiedKey() === 'import' ? 'Copied!' : 'Copy TypeScript'"
               >
                 @if (copiedKey() === 'import') {
-                  <lmn-check [size]="12" [strokeWidth]="2.5" class="text-emerald-400" />
+                  <lmn-check [size]="12" [strokeWidth]="2.5" class="text-success" />
                 } @else {
                   <lmn-copy [size]="12" [strokeWidth]="2" />
                 }
               </button>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-purple-400">import</span> &#123; <span class="text-sky-300">LmnCheckIcon</span> &#125; <span class="text-purple-400">from</span> <span class="text-green-400">'&#64;lumen/icons/icons/check'</span>;</code></pre>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-primary">import</span> &#123; <span class="text-info">LmnCheckIcon</span> &#125; <span class="text-primary">from</span> <span class="text-success">'&#64;lumen/icons/icons/check'</span>;</code></pre>
           </div>
 
           <!-- Template snippet -->
-          <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-950 dark:border-slate-800">
-            <div class="flex items-center justify-between border-b border-slate-800 px-4 py-2">
-              <span class="text-xs font-medium text-slate-500">Template</span>
+          <div class="overflow-hidden rounded-xl border border-border bg-background dark:border-border">
+            <div class="flex items-center justify-between border-b border-border px-4 py-2">
+              <span class="text-xs font-medium text-muted-foreground">Template</span>
               <button
                 type="button"
                 (click)="copy('template', templateCode)"
-                class="rounded-md p-1 text-slate-600 transition-colors hover:bg-slate-800 hover:text-slate-400"
+                class="rounded-md p-1 text-secondary-foreground transition-colors hover:bg-secondary hover:text-muted-foreground"
                 [attr.aria-label]="copiedKey() === 'template' ? 'Copied!' : 'Copy Template'"
               >
                 @if (copiedKey() === 'template') {
-                  <lmn-check [size]="12" [strokeWidth]="2.5" class="text-emerald-400" />
+                  <lmn-check [size]="12" [strokeWidth]="2.5" class="text-success" />
                 } @else {
                   <lmn-copy [size]="12" [strokeWidth]="2" />
                 }
               </button>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-slate-500">&lt;</span><span class="text-purple-400">lmn-check</span> <span class="text-sky-300">[size]</span><span class="text-slate-500">=</span><span class="text-green-400">"24"</span> <span class="text-sky-300">animate</span><span class="text-slate-500">=</span><span class="text-green-400">"spin"</span> <span class="text-slate-500">/&gt;</span></code></pre>
+            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-muted-foreground">&lt;</span><span class="text-primary">lmn-check</span> <span class="text-info">[size]</span><span class="text-muted-foreground">=</span><span class="text-success">"24"</span> <span class="text-info">animate</span><span class="text-muted-foreground">=</span><span class="text-success">"spin"</span> <span class="text-muted-foreground">/&gt;</span></code></pre>
           </div>
         </div>
 
         <div class="mt-8 text-center">
           <a routerLink="/docs"
-            class="inline-flex items-center gap-2 text-sm font-medium text-violet-600 transition-colors hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300">
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary dark:text-primary dark:hover:text-primary">
             Read the full documentation
             <lmn-arrow-right [size]="14" [strokeWidth]="2" />
           </a>

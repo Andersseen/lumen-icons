@@ -10,12 +10,12 @@ import { AppFooterComponent } from "./components/layout/app-footer";
   template: `
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-slate-900 focus:shadow-lg dark:focus:bg-slate-900 dark:focus:text-white"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:shadow-lg dark:focus:bg-card dark:focus:text-primary-foreground"
     >
       Skip to main content
     </a>
 
-    <div class="flex min-h-screen flex-col bg-white dark:bg-slate-950">
+    <div class="flex min-h-screen flex-col bg-background">
       <app-header />
       <main id="main-content" class="flex-1">
         <router-outlet />

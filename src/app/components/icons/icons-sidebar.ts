@@ -21,7 +21,7 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
 
         <!-- Search -->
         <div>
-          <label for="icon-search" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <label for="icon-search" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Search
           </label>
           <volt-input
@@ -34,15 +34,15 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
 
         <!-- Size -->
         <div>
-          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Size</p>
+          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Size</p>
           <div class="flex flex-wrap gap-1.5">
             @for (s of sizes; track s) {
               <button
                 type="button"
                 class="rounded-md px-2.5 py-1 text-sm font-medium transition-colors"
                 [class]="s === size()
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                  : 'border border-slate-200 text-slate-600 hover:border-slate-400 dark:border-slate-700 dark:text-slate-400 dark:hover:border-slate-500'"
+                  ? 'bg-card text-primary-foreground dark:bg-background dark:text-foreground'
+                  : 'border border-border text-secondary-foreground hover:border-border dark:border-border dark:text-muted-foreground dark:hover:border-border'"
                 (click)="size.set(s)"
               >{{ s }}</button>
             }
@@ -52,37 +52,37 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
         <!-- Stroke -->
         <div>
           <div class="mb-1.5 flex items-center justify-between">
-            <label for="stroke-slider" class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <label for="stroke-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Stroke
             </label>
-            <span class="tabular-nums text-sm font-medium text-slate-700 dark:text-slate-300">{{ strokeWidth() }}</span>
+            <span class="tabular-nums text-sm font-medium text-foreground">{{ strokeWidth() }}</span>
           </div>
           <input
             id="stroke-slider"
             type="range" min="0.5" max="3" step="0.5"
             [value]="strokeWidth()"
             (input)="setStroke($event)"
-            class="w-full accent-violet-600"
+            class="w-full accent-primary"
           />
         </div>
 
         <!-- Animation -->
         <div>
-          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Animation</p>
+          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Animation</p>
           <div class="flex flex-col gap-1">
             @for (anim of animations; track anim.value) {
               <button
                 type="button"
                 class="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors"
                 [class]="anim.value === animate()
-                  ? 'bg-violet-50 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300'
-                  : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'"
+                  ? 'bg-primary text-primary dark:bg-primary/50 dark:text-primary'
+                  : 'text-secondary-foreground hover:bg-secondary dark:text-muted-foreground dark:hover:bg-secondary'"
                 (click)="animate.set(anim.value)"
               >
                 <span class="flex h-5 w-5 items-center justify-center rounded-md border text-[10px]"
                   [class]="anim.value === animate()
-                    ? 'border-violet-300 bg-violet-100 dark:border-violet-700 dark:bg-violet-900/50'
-                    : 'border-slate-200 dark:border-slate-700'">
+                    ? 'border-primary bg-primary dark:border-primary dark:bg-primary/50'
+                    : 'border-border dark:border-border'">
                   {{ anim.symbol }}
                 </span>
                 {{ anim.label }}
@@ -92,7 +92,7 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
         </div>
 
         @if (animate() !== 'none') {
-          <p class="rounded-lg border border-violet-200 bg-violet-50 px-3 py-2.5 text-xs text-violet-700 dark:border-violet-800 dark:bg-violet-950/40 dark:text-violet-300">
+          <p class="rounded-lg border border-primary bg-primary px-3 py-2.5 text-xs text-primary dark:border-primary dark:bg-primary/40 dark:text-primary">
             Previewing <strong>{{ animate() }}</strong> on all icons. Click any to copy.
           </p>
         }

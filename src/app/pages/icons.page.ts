@@ -14,10 +14,10 @@ import { ICON_CATALOG } from '../data/icon-catalog';
   imports: [VoltInput, LmnSearchIcon, IconCardComponent, IconsSidebarComponent],
   template: `
     <!-- Page header -->
-    <div class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+    <div class="border-b border-border bg-background dark:border-border dark:bg-background">
       <div class="mx-auto max-w-6xl px-4 py-10">
-        <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Icons</h1>
-        <p class="mt-1.5 text-slate-500 dark:text-slate-400">
+        <h1 class="text-3xl font-bold tracking-tight text-foreground">Icons</h1>
+        <p class="mt-1.5 text-muted-foreground">
           {{ filteredIcons().length }} icon{{ filteredIcons().length === 1 ? '' : 's' }}
           &middot; Click any to copy its import.
         </p>
@@ -46,7 +46,7 @@ import { ICON_CATALOG } from '../data/icon-catalog';
             class="max-w-48"
           />
           <select
-            class="rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+            class="rounded-lg border border-border bg-background px-2 py-2 text-sm dark:border-border dark:bg-card dark:text-secondary-foreground"
             [value]="size()"
             (change)="setSize($event)"
             aria-label="Icon size"
@@ -54,7 +54,7 @@ import { ICON_CATALOG } from '../data/icon-catalog';
             @for (s of sizes; track s) { <option [value]="s">{{ s }}px</option> }
           </select>
           <select
-            class="rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+            class="rounded-lg border border-border bg-background px-2 py-2 text-sm dark:border-border dark:bg-card dark:text-secondary-foreground"
             [value]="animate()"
             (change)="setAnimate($event)"
             aria-label="Animation"
@@ -71,13 +71,13 @@ import { ICON_CATALOG } from '../data/icon-catalog';
           </div>
         } @else {
           <div class="flex flex-col items-center gap-3 py-24 text-center">
-            <div class="text-slate-300 dark:text-slate-700">
+            <div class="text-muted-foreground dark:text-foreground">
               <lmn-search [size]="32" [strokeWidth]="1.5" />
             </div>
-            <p class="text-sm text-slate-500 dark:text-slate-400">
-              No icons matching <strong class="text-slate-700 dark:text-slate-300">"{{ search() }}"</strong>
+            <p class="text-sm text-muted-foreground">
+              No icons matching <strong class="text-foreground">"{{ search() }}"</strong>
             </p>
-            <button type="button" class="text-sm text-violet-600 hover:underline dark:text-violet-400"
+            <button type="button" class="text-sm text-primary hover:underline dark:text-primary"
               (click)="search.set('')">
               Clear search
             </button>

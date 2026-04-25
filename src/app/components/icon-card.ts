@@ -40,7 +40,7 @@ export interface IconCardInputs {
   template: `
     <button
       type="button"
-      class="group relative flex w-full flex-col items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-5 text-slate-700 transition-all hover:border-violet-300 hover:shadow-md hover:shadow-violet-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-violet-700/50 dark:hover:shadow-violet-900/20"
+      class="group relative flex w-full flex-col items-center gap-3 rounded-xl border border-border bg-background px-3 py-5 text-foreground transition-all hover:border-primary hover:shadow-md hover:shadow-primary dark:border-border dark:bg-card dark:text-secondary-foreground dark:hover:border-primary/50 dark:hover:shadow-primary/20"
       [attr.aria-label]="'Copy import for ' + icon().name"
       (click)="handleClick()"
     >
@@ -51,14 +51,14 @@ export interface IconCardInputs {
         />
       </div>
 
-      <span class="truncate text-[11px] text-slate-500 dark:text-slate-500">
+      <span class="truncate text-[11px] text-muted-foreground">
         {{ icon().name }}
       </span>
 
       @if (copied()) {
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60">
-          <lmn-check [size]="16" [strokeWidth]="2.5" class="text-emerald-600 dark:text-emerald-400" />
-          <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">Copied!</span>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl bg-success/10 dark:bg-success/20">
+          <lmn-check [size]="16" [strokeWidth]="2.5" class="text-success" />
+          <span class="text-[11px] font-semibold text-success">Copied!</span>
         </div>
       }
     </button>
