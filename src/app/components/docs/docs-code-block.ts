@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, input } from "@angular/core";
+import { VoltCard } from "@voltui/components";
 import { ClipboardService } from "../../services/clipboard";
 
 @Component({
   standalone: true,
   selector: "app-docs-code-block",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [VoltCard],
   template: `
-    <div class="overflow-hidden rounded-xl border border-border bg-background">
+    <volt-card class="block overflow-hidden">
       <div class="flex items-center justify-between border-b border-border px-4 py-2">
         <span class="text-xs text-muted-foreground">{{ label() }}</span>
         <button
@@ -17,8 +19,10 @@ import { ClipboardService } from "../../services/clipboard";
           {{ clipboard.copiedKey() === copyKey() ? "Copied!" : "Copy" }}
         </button>
       </div>
-      <pre class="overflow-x-auto p-4 text-sm text-muted-foreground"><code>{{ code() }}</code></pre>
-    </div>
+      <div class="p-4">
+        <pre class="overflow-x-auto text-sm text-muted-foreground"><code>{{ code() }}</code></pre>
+      </div>
+    </volt-card>
   `,
 })
 export class DocsCodeBlockComponent {

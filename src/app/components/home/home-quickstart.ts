@@ -6,11 +6,12 @@ import { timer } from 'rxjs';
 import { LmnArrowRightIcon } from '@lumen/icons/arrow-right';
 import { LmnCheckIcon } from '@lumen/icons/check';
 import { LmnCopyIcon } from '@lumen/icons/copy';
+import { VoltCard } from '@voltui/components';
 
 @Component({
   selector: 'app-home-quickstart',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, LmnCheckIcon, LmnCopyIcon, LmnArrowRightIcon],
+  imports: [RouterLink, LmnCheckIcon, LmnCopyIcon, LmnArrowRightIcon, VoltCard],
   template: `
     <section
       class="border-t border-border bg-muted py-20 dark:border-border dark:bg-card"
@@ -26,7 +27,7 @@ import { LmnCopyIcon } from '@lumen/icons/copy';
 
         <div class="space-y-3">
           <!-- Install snippet -->
-          <div class="overflow-hidden rounded-xl border border-border bg-background dark:border-border">
+          <volt-card class="block overflow-hidden">
             <div class="flex items-center justify-between border-b border-border px-4 py-2">
               <span class="text-xs font-medium text-muted-foreground">Terminal</span>
               <button
@@ -42,11 +43,13 @@ import { LmnCopyIcon } from '@lumen/icons/copy';
                 }
               </button>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-muted-foreground">$</span> npm install <span class="text-info">&#64;lumen/icons</span></code></pre>
-          </div>
+            <div class="p-4">
+              <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-muted-foreground">$</span> npm install <span class="text-info">&#64;lumen/icons</span></code></pre>
+            </div>
+          </volt-card>
 
           <!-- Import snippet -->
-          <div class="overflow-hidden rounded-xl border border-border bg-background dark:border-border">
+          <volt-card class="block overflow-hidden">
             <div class="flex items-center justify-between border-b border-border px-4 py-2">
               <span class="text-xs font-medium text-muted-foreground">TypeScript</span>
               <button
@@ -62,11 +65,13 @@ import { LmnCopyIcon } from '@lumen/icons/copy';
                 }
               </button>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-primary">import</span> &#123; <span class="text-info">LmnCheckIcon</span> &#125; <span class="text-primary">from</span> <span class="text-success">'&#64;lumen/icons/icons/check'</span>;</code></pre>
-          </div>
+            <div class="p-4">
+              <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-primary">import</span> &#123; <span class="text-info">LmnCheckIcon</span> &#125; <span class="text-primary">from</span> <span class="text-success">'&#64;lumen/icons/icons/check'</span>;</code></pre>
+            </div>
+          </volt-card>
 
           <!-- Template snippet -->
-          <div class="overflow-hidden rounded-xl border border-border bg-background dark:border-border">
+          <volt-card class="block overflow-hidden">
             <div class="flex items-center justify-between border-b border-border px-4 py-2">
               <span class="text-xs font-medium text-muted-foreground">Template</span>
               <button
@@ -82,8 +87,10 @@ import { LmnCopyIcon } from '@lumen/icons/copy';
                 }
               </button>
             </div>
-            <pre class="overflow-x-auto p-4 text-sm leading-relaxed"><code><span class="text-muted-foreground">&lt;</span><span class="text-primary">lmn-check</span> <span class="text-info">[size]</span><span class="text-muted-foreground">=</span><span class="text-success">"24"</span> <span class="text-info">animate</span><span class="text-muted-foreground">=</span><span class="text-success">"spin"</span> <span class="text-muted-foreground">/&gt;</span></code></pre>
-          </div>
+            <div class="p-4">
+              <pre class="overflow-x-auto text-sm leading-relaxed"><code><span class="text-muted-foreground">&lt;</span><span class="text-primary">lmn-check</span> <span class="text-info">[size]</span><span class="text-muted-foreground">=</span><span class="text-success">"24"</span> <span class="text-info">animate</span><span class="text-muted-foreground">=</span><span class="text-success">"spin"</span> <span class="text-muted-foreground">/&gt;</span></code></pre>
+            </div>
+          </volt-card>
         </div>
 
         <div class="mt-8 text-center">

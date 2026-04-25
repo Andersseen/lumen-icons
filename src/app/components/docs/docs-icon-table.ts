@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { NgComponentOutlet } from "@angular/common";
+import { VoltCard } from "@voltui/components";
 import { ICON_CATALOG } from "../../data/icon-catalog";
 import { ClipboardService } from "../../services/clipboard";
 
 @Component({
   selector: "app-docs-icon-table",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet],
+  imports: [NgComponentOutlet, VoltCard],
   template: `
     <section id="icons" class="mt-16">
       <h2 class="text-2xl font-bold tracking-tight text-foreground">Available Icons</h2>
       <p class="mt-3 text-secondary-foreground">Click the import path to copy it.</p>
 
-      <div class="mt-5 overflow-hidden rounded-xl border border-border">
+      <volt-card class="mt-5 block overflow-hidden">
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b border-border bg-muted dark:bg-card">
@@ -53,7 +54,7 @@ import { ClipboardService } from "../../services/clipboard";
             }
           </tbody>
         </table>
-      </div>
+      </volt-card>
     </section>
   `,
 })

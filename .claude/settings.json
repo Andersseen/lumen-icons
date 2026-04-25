@@ -7,7 +7,11 @@
       "Bash(pnpm run *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
       "Bash(curl -s http://localhost:5173/icons)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/icons)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/icons)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('mcpServers',{}\\), indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('name',''\\), d.get\\('version',''\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('name',''\\), d.get\\('version',''\\), d.get\\('description',''\\)[:80]\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('name:', d.get\\('name'\\)\\); print\\('version:', d.get\\('version'\\)\\); print\\('desc:', d.get\\('description',''\\)\\); bin=d.get\\('bin',{}\\); print\\('bin:', bin\\)\")"
     ]
   }
 }

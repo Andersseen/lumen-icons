@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Outer glow ring -->
+  <circle cx="256" cy="256" r="220" stroke="currentColor" stroke-width="24" opacity="0.15"/>
+  <circle cx="256" cy="256" r="180" stroke="currentColor" stroke-width="16" opacity="0.25"/>
+  
+  <!-- Four-point star / lumen burst -->
+  <path
+    d="M256 48 L280 180 L432 180 L308 268 L352 400 L256 312 L160 400 L204 268 L80 180 L232 180 Z"
+    fill="currentColor"
+    opacity="0.95"
+  />
+  
+  <!-- Inner core circle -->
+  <circle cx="256" cy="256" r="48" fill="white" opacity="0.15"/>
+  <circle cx="256" cy="256" r="28" fill="currentColor" opacity="0.3"/>
+</svg>

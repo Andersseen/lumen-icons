@@ -21,14 +21,14 @@ import { LmnMenuIcon } from "@lumen/icons/menu";
 import { LmnSearchIcon } from "@lumen/icons/search";
 import { LmnStarIcon } from "@lumen/icons/star";
 import { LmnXIcon } from "@lumen/icons/x";
-import { VoltButton, VoltCard } from "@voltui/components";
+import { AppLogoComponent } from "../layout/app-logo";
+import { VoltBadge, VoltButton, VoltCard } from "@voltui/components";
 
 @Component({
   selector: "app-home-hero",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
-    LmnStarIcon,
     LmnHeartIcon,
     LmnArrowRightIcon,
     LmnAlertCircleIcon,
@@ -40,6 +40,9 @@ import { VoltButton, VoltCard } from "@voltui/components";
     LmnArrowLeftIcon,
     LmnCopyIcon,
     LmnExternalLinkIcon,
+    LmnStarIcon,
+    AppLogoComponent,
+    VoltBadge,
     VoltButton,
     VoltCard,
   ],
@@ -66,15 +69,11 @@ import { VoltButton, VoltCard } from "@voltui/components";
         <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <!-- Left: content -->
           <div>
-            <div
-              class="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1.5"
-            >
-              <span
-                class="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"
-              ></span>
-              <span class="text-xs font-medium text-muted-foreground"
-                >v0.1 &middot; Open source &middot; MIT</span
-              >
+            <div class="mb-6 inline-flex items-center gap-2">
+              <volt-badge variant="outline" class="inline-flex items-center gap-2">
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"></span>
+                <span class="text-xs font-medium">v0.1 &middot; Open source &middot; MIT</span>
+              </volt-badge>
             </div>
 
             <h1

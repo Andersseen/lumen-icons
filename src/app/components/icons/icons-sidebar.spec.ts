@@ -7,7 +7,8 @@ describe("IconsSidebarComponent", () => {
     await render(IconsSidebarComponent);
 
     expect(screen.getByLabelText(/search/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/stroke/i)).toBeInTheDocument();
+    expect(screen.getByText(/stroke/i)).toBeInTheDocument();
+    expect(screen.getByRole("slider")).toBeInTheDocument();
     expect(screen.getByText("Size")).toBeInTheDocument();
     expect(screen.getByText("Animation")).toBeInTheDocument();
   });

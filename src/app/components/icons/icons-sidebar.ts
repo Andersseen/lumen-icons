@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, model } from '@angular/core';
-import { VoltInput } from '@voltui/components';
+import { VoltInput, VoltSlider } from '@voltui/components';
 import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
 const SIZES: LmnIconSize[] = [12, 14, 16, 20, 24, 32];
@@ -14,7 +14,7 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
 @Component({
   selector: 'app-icons-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [VoltInput],
+  imports: [VoltInput, VoltSlider],
   template: `
     <aside class="hidden w-56 shrink-0 lg:block" aria-label="Icon controls">
       <div class="sticky top-20 space-y-6">
@@ -57,12 +57,13 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
             </label>
             <span class="tabular-nums text-sm font-medium text-foreground">{{ strokeWidth() }}</span>
           </div>
-          <input
+          <volt-slider
             id="stroke-slider"
-            type="range" min="0.5" max="3" step="0.5"
             [value]="strokeWidth()"
-            (input)="setStroke($event)"
-            class="w-full accent-primary"
+            (valueChange)="strokeWidth.set($event)"
+            [min]="0.5"
+            [max]="3"
+            [step]="0.5"
           />
         </div>
 
