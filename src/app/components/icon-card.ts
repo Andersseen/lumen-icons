@@ -7,13 +7,14 @@ import {
   signal,
 } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
+import { LmnCheckIcon } from '@lumen/icons/icons/check';
 import type { IconEntry } from '../types/icon-entry.type';
 
 @Component({
   selector: 'app-icon-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet],
+  imports: [NgComponentOutlet, LmnCheckIcon],
   styles: [`
     @keyframes icon-pop {
       0%   { transform: scale(1) rotate(0deg); }
@@ -45,11 +46,7 @@ import type { IconEntry } from '../types/icon-entry.type';
 
       @if (copied()) {
         <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-            class="text-emerald-600 dark:text-emerald-400" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
+          <lmn-check [size]="16" [strokeWidth]="2.5" class="text-emerald-600 dark:text-emerald-400" />
           <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">Copied!</span>
         </div>
       }
