@@ -48,7 +48,10 @@
     "test:e2e:ui": "playwright test --ui",
     "playwright:install": "playwright install",
     "check": "pnpm run lint && pnpm run typecheck && pnpm run test:unit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:local": "pnpm run build && wrangler pages dev",
+    "deploy:preview": "pnpm run build && wrangler pages deploy --branch=preview",
+    "deploy:prod": "pnpm run build && wrangler pages deploy --branch=main"
   },
   "dependencies": {
     "@analogjs/content": "^2.4.10",
