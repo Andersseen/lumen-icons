@@ -16,8 +16,8 @@ describe("IconsSidebarComponent", () => {
   it("has size buttons", async () => {
     await render(IconsSidebarComponent);
 
-    expect(screen.getByRole("button", { name: "12" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "24" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "32" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "12" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "24" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "32" })).toBeInTheDocument();
   });
 });

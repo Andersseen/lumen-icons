@@ -2,19 +2,13 @@ import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { VoltInput, VoltSlider } from '@voltui/components';
 import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
-const SIZES: LmnIconSize[] = [12, 14, 16, 20, 24, 32];
-const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
-  { value: 'none',   label: 'None',   symbol: '—' },
-  { value: 'spin',   label: 'Spin',   symbol: '↻' },
-  { value: 'pulse',  label: 'Pulse',  symbol: '◉' },
-  { value: 'bounce', label: 'Bounce', symbol: '↕' },
-  { value: 'ping',   label: 'Ping',   symbol: '◎' },
-];
+import { AnimationPickerComponent } from '../shared/animation-picker';
+import { SizePickerComponent } from '../shared/size-picker';
 
 @Component({
   selector: 'app-icons-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [VoltInput, VoltSlider],
+  imports: [VoltInput, VoltSlider, SizePickerComponent, AnimationPickerComponent],
   template: `
     <aside class="hidden w-56 shrink-0 lg:block" aria-label="Icon controls">
       <div class="sticky top-20 space-y-6">
@@ -35,18 +29,7 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
         <!-- Size -->
         <div>
           <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Size</p>
-          <div class="flex flex-wrap gap-1.5">
-            @for (s of sizes; track s) {
-              <button
-                type="button"
-                class="rounded-md px-2.5 py-1 text-sm font-medium transition-colors"
-                [class]="s === size()
-                  ? 'bg-card text-primary-foreground dark:bg-background dark:text-foreground'
-                  : 'border border-border text-secondary-foreground hover:border-border dark:border-border dark:text-muted-foreground dark:hover:border-border'"
-                (click)="size.set(s)"
-              >{{ s }}</button>
-            }
-          </div>
+          <app-size-picker [(size)]="size" />
         </div>
 
         <!-- Stroke -->
@@ -70,26 +53,7 @@ const ANIMATIONS: { value: LmnIconAnimate; label: string; symbol: string }[] = [
         <!-- Animation -->
         <div>
           <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Animation</p>
-          <div class="flex flex-col gap-1">
-            @for (anim of animations; track anim.value) {
-              <button
-                type="button"
-                class="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors"
-                [class]="anim.value === animate()
-                  ? 'bg-primary text-primary dark:bg-primary/50 dark:text-primary'
-                  : 'text-secondary-foreground hover:bg-secondary dark:text-muted-foreground dark:hover:bg-secondary'"
-                (click)="animate.set(anim.value)"
-              >
-                <span class="flex h-5 w-5 items-center justify-center rounded-md border text-[10px]"
-                  [class]="anim.value === animate()
-                    ? 'border-primary bg-primary dark:border-primary dark:bg-primary/50'
-                    : 'border-border dark:border-border'">
-                  {{ anim.symbol }}
-                </span>
-                {{ anim.label }}
-              </button>
-            }
-          </div>
+          <app-animation-picker [(animate)]="animate" />
         </div>
 
         @if (animate() !== 'none') {
@@ -107,11 +71,4 @@ export class IconsSidebarComponent {
   readonly size = model<LmnIconSize>(24);
   readonly strokeWidth = model(2);
   readonly animate = model<LmnIconAnimate>('none');
-
-  readonly sizes = SIZES;
-  readonly animations = ANIMATIONS;
-
-  setStroke(event: Event) {
-    this.strokeWidth.set(parseFloat((event.target as HTMLInputElement).value));
-  }
 }
