@@ -1,2 +1,14 @@
-// Re-export each icon component from this file as icons are added.
-export {};
+export { LmnAlertCircleIcon } from './alert-circle';
+export { LmnArrowLeftIcon } from './arrow-left';
+export { LmnArrowRightIcon } from './arrow-right';
+export { LmnCheckIcon } from './check';
+export { LmnCopyIcon } from './copy';
+export { LmnExternalLinkIcon } from './external-link';
+export { LmnHeartIcon } from './heart';
+export { LmnInfoIcon } from './info';
+export { LmnMenuIcon } from './menu';
+export { LmnMoonIcon } from './moon';
+export { LmnSearchIcon } from './search';
+export { LmnStarIcon } from './star';
+export { LmnSunIcon } from './sun';
+export { LmnXIcon } from './x';

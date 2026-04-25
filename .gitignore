@@ -46,3 +46,7 @@ Thumbs.db
 
 # Environment files
 .env*
+
+# Playwright
+/playwright-report
+/test-results

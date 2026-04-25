@@ -9,6 +9,8 @@ export default defineConfig({
     resolve(packageRoot, "src/index.ts"),
     resolve(packageRoot, "src/icons/index.ts"),
     resolve(packageRoot, "src/icons/*.ts"),
+    resolve(packageRoot, "src/*.ts"),
+    "!**/*.spec.ts",
   ],
   format: ["esm"],
   dts: true,
