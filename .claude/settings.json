@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/andriipap/Andersseen/Web/Projects/volt-ui/**)"
+      "Read(//Users/andriipap/Andersseen/Web/Projects/volt-ui/**)",
+      "Read(//Users/andriipap/Andersseen/Web/Demos/demo-icons/**)"
     ]
   }
 }
