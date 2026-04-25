@@ -26,7 +26,7 @@ describe("DocsIconTableComponent", () => {
       providers: [{ provide: ClipboardService, useValue: clipboardMock }],
     });
 
-    const checkButton = screen.getByRole("button", { name: /copy import for check/i });
+    const checkButton = screen.getByRole("button", { name: "Copy import for check" });
     await user.click(checkButton);
 
     expect(copyMock).toHaveBeenCalledWith(
