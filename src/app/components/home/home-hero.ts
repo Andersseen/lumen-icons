@@ -9,18 +9,18 @@ import { RouterLink } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { timer } from "rxjs";
 
-import { LmnAlertCircleIcon } from "@lumen/icons/icons/alert-circle";
-import { LmnArrowLeftIcon } from "@lumen/icons/icons/arrow-left";
-import { LmnArrowRightIcon } from "@lumen/icons/icons/arrow-right";
-import { LmnCheckIcon } from "@lumen/icons/icons/check";
-import { LmnCopyIcon } from "@lumen/icons/icons/copy";
-import { LmnExternalLinkIcon } from "@lumen/icons/icons/external-link";
-import { LmnHeartIcon } from "@lumen/icons/icons/heart";
-import { LmnInfoIcon } from "@lumen/icons/icons/info";
-import { LmnMenuIcon } from "@lumen/icons/icons/menu";
-import { LmnSearchIcon } from "@lumen/icons/icons/search";
-import { LmnStarIcon } from "@lumen/icons/icons/star";
-import { LmnXIcon } from "@lumen/icons/icons/x";
+import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
+import { LmnArrowLeftIcon } from "@lumen/icons/arrow-left";
+import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
+import { LmnCheckIcon } from "@lumen/icons/check";
+import { LmnCopyIcon } from "@lumen/icons/copy";
+import { LmnExternalLinkIcon } from "@lumen/icons/external-link";
+import { LmnHeartIcon } from "@lumen/icons/heart";
+import { LmnInfoIcon } from "@lumen/icons/info";
+import { LmnMenuIcon } from "@lumen/icons/menu";
+import { LmnSearchIcon } from "@lumen/icons/search";
+import { LmnStarIcon } from "@lumen/icons/star";
+import { LmnXIcon } from "@lumen/icons/x";
 import { VoltButton, VoltCard } from "@voltui/components";
 
 @Component({

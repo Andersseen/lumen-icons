@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { VoltInput } from '@voltui/components';
 
-import { LmnSearchIcon } from '@lumen/icons/icons/search';
+import { LmnSearchIcon } from '@lumen/icons/search';
 import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
 import { IconCardComponent, type IconCardInputs } from '../components/icon-card';

@@ -3,9 +3,9 @@ import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { timer } from 'rxjs';
 
-import { LmnArrowRightIcon } from '@lumen/icons/icons/arrow-right';
-import { LmnCheckIcon } from '@lumen/icons/icons/check';
-import { LmnCopyIcon } from '@lumen/icons/icons/copy';
+import { LmnArrowRightIcon } from '@lumen/icons/arrow-right';
+import { LmnCheckIcon } from '@lumen/icons/check';
+import { LmnCopyIcon } from '@lumen/icons/copy';
 
 @Component({
   selector: 'app-home-quickstart',
@@ -103,7 +103,7 @@ export class HomeQuickstartComponent {
   readonly copiedKey = signal<string | null>(null);
 
   readonly installCode = 'npm install @lumen/icons';
-  readonly importCode = "import { LmnCheckIcon } from '@lumen/icons/icons/check';";
+  readonly importCode = "import { LmnCheckIcon } from '@lumen/icons/check';";
   readonly templateCode = '<lmn-check [size]="24" animate="spin" />';
 
   copy(key: string, code: string) {

@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { LmnExternalLinkIcon } from "@lumen/icons/icons/external-link";
-import { LmnStarIcon } from "@lumen/icons/icons/star";
+import { LmnExternalLinkIcon } from "@lumen/icons/external-link";
+import { LmnStarIcon } from "@lumen/icons/star";
 import { ThemeToggleComponent } from "../theme-toggle";
-import { VoltButton } from "@voltui/components";
 
 @Component({
   selector: "app-header",
@@ -14,7 +13,6 @@ import { VoltButton } from "@voltui/components";
     LmnStarIcon,
     LmnExternalLinkIcon,
     ThemeToggleComponent,
-    VoltButton,
   ],
   template: `
     <header
@@ -66,16 +64,16 @@ import { VoltButton } from "@voltui/components";
               </a>
             </li>
             <li class="ml-1">
-              <volt-button
+              <a
                 href="https://github.com/andersseen/lumen-icons"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View source on GitHub (opens in new tab)"
-                variant="link"
+                class="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-secondary-foreground transition-all hover:border-border hover:text-foreground"
               >
                 GitHub
                 <lmn-external-link [size]="12" [strokeWidth]="2" />
-              </volt-button>
+              </a>
             </li>
           </ul>
           <app-theme-toggle />

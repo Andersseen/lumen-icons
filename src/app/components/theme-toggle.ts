@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { LmnMoonIcon } from "@lumen/icons/icons/moon";
-import { LmnSunIcon } from "@lumen/icons/icons/sun";
+import { LmnMoonIcon } from "@lumen/icons/moon";
+import { LmnSunIcon } from "@lumen/icons/sun";
 import { ThemeService } from "../services/theme";
 import { VoltButton } from "@voltui/components";
 
@@ -10,7 +10,7 @@ import { VoltButton } from "@voltui/components";
   imports: [LmnSunIcon, LmnMoonIcon, VoltButton],
   template: `
     <volt-button
-      variant="outline"
+      variant="solid"
       [attr.aria-label]="
         resolvedTheme() === 'dark'
           ? 'Switch to light mode'

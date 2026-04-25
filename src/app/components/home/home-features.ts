@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { LmnArrowRightIcon } from '@lumen/icons/icons/arrow-right';
-import { LmnCheckIcon } from '@lumen/icons/icons/check';
-import { LmnHeartIcon } from '@lumen/icons/icons/heart';
-import { LmnInfoIcon } from '@lumen/icons/icons/info';
-import { LmnSearchIcon } from '@lumen/icons/icons/search';
-import { LmnStarIcon } from '@lumen/icons/icons/star';
+import { LmnArrowRightIcon } from '@lumen/icons/arrow-right';
+import { LmnCheckIcon } from '@lumen/icons/check';
+import { LmnHeartIcon } from '@lumen/icons/heart';
+import { LmnInfoIcon } from '@lumen/icons/info';
+import { LmnSearchIcon } from '@lumen/icons/search';
+import { LmnStarIcon } from '@lumen/icons/star';
 
 @Component({
   selector: 'app-home-features',

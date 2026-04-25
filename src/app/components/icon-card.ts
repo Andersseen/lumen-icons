@@ -10,7 +10,7 @@ import { NgComponentOutlet } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { timer } from 'rxjs';
 
-import { LmnCheckIcon } from '@lumen/icons/icons/check';
+import { LmnCheckIcon } from '@lumen/icons/check';
 import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
 
 import type { IconEntry } from '../types/icon-entry.type';

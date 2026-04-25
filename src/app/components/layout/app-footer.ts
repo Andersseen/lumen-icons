@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LmnExternalLinkIcon } from '@lumen/icons/icons/external-link';
-import { LmnStarIcon } from '@lumen/icons/icons/star';
+import { LmnExternalLinkIcon } from '@lumen/icons/external-link';
+import { LmnStarIcon } from '@lumen/icons/star';
 
 @Component({
   selector: 'app-footer',
