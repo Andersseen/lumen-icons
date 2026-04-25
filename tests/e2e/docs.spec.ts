@@ -3,10 +3,15 @@ import { expect, test } from "@playwright/test";
 test("copy terminal snippet in docs", async ({ page }) => {
   await page.goto("/docs");
 
-  const copyButton = page.getByRole("button", { name: /^copy$/i }).first();
+  const installationSection = page.locator("section#installation");
+  const copyButton = installationSection.getByRole("button", {
+    name: /^copy terminal$/i,
+  });
   await copyButton.click();
 
-  await expect(page.getByRole("button", { name: /^copied!$/i }).first()).toBeVisible();
+  await expect(
+    installationSection.getByRole("button", { name: /^copied!$/i }),
+  ).toBeVisible();
 });
 
 test("table of contents links point to sections", async ({ page }) => {
@@ -20,8 +25,10 @@ test("table of contents links point to sections", async ({ page }) => {
 test("icon table copy import", async ({ page }) => {
   await page.goto("/docs");
 
-  const copyButton = page.getByRole("button", { name: /copy import for heart/i });
+  const copyButton = page.getByRole("button", {
+    name: /copy import for heart/i,
+  });
   await copyButton.click();
 
-  await expect(page.getByText("✓").first()).toBeVisible();
+  await expect(copyButton.getByText("✓")).toBeVisible();
 });

@@ -13,10 +13,13 @@ test("search filters icons", async ({ page }) => {
 test("clicking icon card copies import", async ({ page }) => {
   await page.goto("/icons");
 
-  const card = page.getByRole("button", { name: /copy import for check/i });
+  const card = page.getByRole("button", {
+    name: "Copy import for check",
+    exact: true,
+  });
   await card.click();
 
-  await expect(page.getByText("Copied!").first()).toBeVisible();
+  await expect(card.getByText("Copied!")).toBeVisible();
 });
 
 test("clear search restores all icons", async ({ page }) => {
@@ -27,5 +30,7 @@ test("clear search restores all icons", async ({ page }) => {
   await expect(page.getByText(/no icons matching/i)).toBeVisible();
 
   await page.getByRole("button", { name: /clear search/i }).click();
-  await expect(page.getByText("check")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy import for check", exact: true }),
+  ).toBeVisible();
 });
