@@ -1,0 +1,17 @@
+  `
+      <volt-button
+        variant="solid"
+        [attr.aria-label]="
+          resolvedTheme() === 'dark'
+            ? 'Switch to light mode'
+            : 'Switch to dark mode'
+        "
+        (click)="themeService.toggle()"
+      >
+        @if (resolvedTheme() === "dark") {
+          <lmn-sun [size]="16" [strokeWidth]="2" />
+        } @else {
+          <lmn-moon [size]="16" [strokeWidth]="2" />
+        }
+      </volt-button>
+    `,

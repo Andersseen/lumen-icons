@@ -1,0 +1,49 @@
+`
+    <section id="usage" class="mt-16">
+      <h2 class="text-2xl font-bold tracking-tight text-foreground">Usage</h2>
+      <p class="mt-3 text-secondary-foreground">
+        Import the icon you need and add it to your component's
+        <code class="rounded bg-secondary px-1 py-0.5 text-sm">imports</code>
+        array. Each icon is its own entry point — only what you import gets bundled.
+      </p>
+
+      <app-docs-code-block
+        class="mt-4 block"
+        [code]="tsSnippet"
+        label="my-component.ts"
+        copyKey="ts"
+      />
+
+      <app-docs-code-block
+        class="mt-3 block"
+        [code]="htmlSnippet"
+        label="template"
+        copyKey="html"
+      />
+
+      <!-- Live preview -->
+      <div class="mt-5 rounded-xl border border-border bg-muted p-5 dark:bg-card">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          Live preview
+        </p>
+        <div class="flex flex-wrap items-center gap-6 text-foreground">
+          <div class="flex items-center gap-2">
+            <lmn-check [size]="20" />
+            <span class="text-sm text-secondary-foreground">default</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <lmn-check [size]="20" ariaLabel="Task complete" />
+            <span class="text-sm text-secondary-foreground">ariaLabel</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <lmn-check [size]="32" [strokeWidth]="1" />
+            <span class="text-sm text-secondary-foreground">size=32 stroke=1</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <lmn-check [size]="20" [strokeWidth]="3" />
+            <span class="text-sm text-secondary-foreground">stroke=3</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  `,

@@ -7,7 +7,7 @@ import { CodeSnippetComponent } from '../shared/code-snippet';
   selector: 'app-home-quickstart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, LmnArrowRightIcon, CodeSnippetComponent],
-  templateUrl:'home-quickstart.html'
+  templateUrl:'./home-quickstart.html'
 })
 export class HomeQuickstartComponent {
   readonly importCode = "import { LmnCheckIcon } from '@lumen/icons/check';";
