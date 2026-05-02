@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { AnimationEngine } from 'angular-movement';
+import type { MoveKeyframes } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { animateStrokeDraw } from '../lib/animate-waapi';
 
 @Component({
   selector: 'lmn-check',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: LM_ICON_HOST,
   template: `
@@ -19,20 +19,29 @@ export class LmnCheckIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
 
   private path = viewChild.required('path', { read: ElementRef<SVGPolylineElement> });
-  private animation: Animation | null = null;
+  private engine = inject(AnimationEngine);
+  private player: ReturnType<AnimationEngine['play']> = null;
 
   constructor() {
     super();
     effect(() => {
-      this.animation?.cancel();
-      this.animation = null;
+      this.player?.cancel();
+      this.player = null;
 
       const el = this.path().nativeElement;
-      el.style.strokeDasharray = '';
-      el.style.strokeDashoffset = '';
-
       if (this.animate()) {
-        this.animation = animateStrokeDraw(el, 400);
+        const length = el.getTotalLength?.() ?? 28;
+        (el as unknown as HTMLElement).style.strokeDasharray = `${length}`;
+        (el as unknown as HTMLElement).style.strokeDashoffset = `${length}`;
+
+        this.player = this.engine.play(
+          el,
+          { strokeDashoffset: [length, 0] } as MoveKeyframes,
+          { config: { duration: 400, easing: 'ease-out', delay: 0, disabled: false } },
+        );
+      } else {
+        (el as unknown as HTMLElement).style.strokeDasharray = '';
+        (el as unknown as HTMLElement).style.strokeDashoffset = '';
       }
     });
   }

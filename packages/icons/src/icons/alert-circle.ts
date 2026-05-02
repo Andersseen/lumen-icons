@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { AnimationEngine } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { animateShake } from '../lib/animate-waapi';
 
 @Component({
   selector: 'lmn-alert-circle',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: LM_ICON_HOST,
   template: `
@@ -21,16 +20,21 @@ export class LmnAlertCircleIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
 
   private svg = viewChild.required('svg', { read: ElementRef<SVGElement> });
-  private animation: Animation | null = null;
+  private engine = inject(AnimationEngine);
+  private player: ReturnType<AnimationEngine['play']> = null;
 
   constructor() {
     super();
     effect(() => {
-      this.animation?.cancel();
-      this.animation = null;
+      this.player?.cancel();
+      this.player = null;
 
       if (this.animate()) {
-        this.animation = animateShake(this.svg().nativeElement, 400);
+        this.player = this.engine.play(
+          this.svg().nativeElement,
+          { x: [0, -4, 4, -3, 3, 0] },
+          { config: { duration: 400, easing: 'ease-in-out', delay: 0, disabled: false } },
+        );
       }
     });
   }

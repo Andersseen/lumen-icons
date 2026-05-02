@@ -45,11 +45,13 @@ export interface IconCardInputs {
       class="group relative flex w-full flex-col items-center gap-3 rounded-xl border border-border bg-background px-3 py-5 text-foreground transition-all hover:border-primary hover:shadow-md hover:shadow-primary dark:border-border dark:bg-card dark:text-secondary-foreground dark:hover:border-primary/50 dark:hover:shadow-primary/20"
       [attr.aria-label]="'Copy import for ' + icon().name"
       (click)="handleClick()"
+      (mouseenter)="isHovered.set(true)"
+      (mouseleave)="isHovered.set(false)"
     >
       <div class="icon-inner" [class.popped]="popped()">
         <ng-container
           [ngComponentOutlet]="icon().component"
-          [ngComponentOutletInputs]="iconInputs()"
+          [ngComponentOutletInputs]="cardInputs()"
         />
       </div>
 
@@ -73,8 +75,14 @@ export class IconCardComponent {
   readonly icon = input.required<IconEntry>();
   readonly iconInputs = input.required<IconCardInputs>();
 
+  readonly isHovered = signal(false);
   readonly copied = signal(false);
   readonly popped = signal(false);
+
+  readonly cardInputs = (): IconCardInputs => ({
+    ...this.iconInputs(),
+    animate: this.isHovered() && this.iconInputs().animate,
+  });
 
   handleClick() {
     this.triggerPop();

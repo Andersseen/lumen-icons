@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { AnimationEngine } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { animateScalePulse } from '../lib/animate-waapi';
+import { applyTransformOrigin } from '../lib/animation-utils';
 
 @Component({
   selector: 'lmn-heart',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: LM_ICON_HOST,
   template: `
@@ -19,16 +19,30 @@ export class LmnHeartIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
 
   private path = viewChild.required('path', { read: ElementRef<SVGPathElement> });
-  private animation: Animation | null = null;
+  private engine = inject(AnimationEngine);
+  private player: ReturnType<AnimationEngine['play']> = null;
 
   constructor() {
     super();
     effect(() => {
-      this.animation?.cancel();
-      this.animation = null;
+      this.player?.cancel();
+      this.player = null;
+
+      const el = this.path().nativeElement;
+      applyTransformOrigin(el);
 
       if (this.animate()) {
-        this.animation = animateScalePulse(this.path().nativeElement, { from: 1, to: 1.15, duration: 800 });
+        this.player = this.engine.play(
+          el,
+          { scale: [1, 1.12] },
+          { config: { duration: 300, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 0, disabled: false } },
+        );
+      } else {
+        this.player = this.engine.play(
+          el,
+          { scale: [1.12, 1] },
+          { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } },
+        );
       }
     });
   }
