@@ -59,7 +59,7 @@ import { VoltCard } from "@voltui/components";
                       <lmn-heart
                         [size]="16"
                         [strokeWidth]="2.5"
-                        animate="pulse"
+                        [animate]="true"
                       />
                     }
                     @case ("search") {
@@ -112,7 +112,7 @@ export class HomeFeaturesComponent {
       iconColor: "text-primary dark:text-primary",
       title: "Opt-in animations",
       description:
-        'Pass animate="spin | pulse | bounce | ping". Pure CSS — no extra dependencies required.',
+        'Pass [animate]="true" to trigger each icon\'s unique semantic animation. Zero config, maximum expressiveness.',
     },
     {
       icon: "search",

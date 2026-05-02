@@ -1,18 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import type { LmnIconSize, LmnIconAnimate } from '../types/icon.types';
-import { ANIMATE_STYLES } from '../lib/animate.styles';
+import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-github',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[attr.role]': 'ariaLabel() ? "img" : null',
-    '[attr.aria-label]': 'ariaLabel() || null',
-    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
-    '[attr.data-animate]': 'animate() !== "none" ? animate() : null',
-    'style': 'display: inline-flex; flex-shrink: 0;',
-  },
-  styles: [ANIMATE_STYLES],
+  standalone: true,
+  host: LM_ICON_HOST,
   template: `
     <svg [attr.width]="size()" [attr.height]="size()"
       viewBox="0 0 24 24" fill="currentColor"
@@ -21,8 +14,6 @@ import { ANIMATE_STYLES } from '../lib/animate.styles';
     </svg>
   `,
 })
-export class LmnGithubIcon {
-  readonly size = input<LmnIconSize>(24);
-  readonly ariaLabel = input<string | undefined>(undefined);
-  readonly animate = input<LmnIconAnimate>('none');
+export class LmnGithubIcon extends LmnIconBase {
+  readonly animate = input<boolean>(false);
 }

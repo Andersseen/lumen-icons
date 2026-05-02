@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { VoltInput, VoltSlider } from '@voltui/components';
-import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
+import type { LmnIconSize } from '@lumen/icons';
 
 import { AnimationPickerComponent } from '../shared/animation-picker';
 import { SizePickerComponent } from '../shared/size-picker';
@@ -56,9 +56,9 @@ import { SizePickerComponent } from '../shared/size-picker';
           <app-animation-picker [(animate)]="animate" />
         </div>
 
-        @if (animate() !== 'none') {
+        @if (animate()) {
           <p class="rounded-lg border border-primary bg-primary px-3 py-2.5 text-xs text-primary dark:border-primary dark:bg-primary/40 dark:text-primary">
-            Previewing <strong>{{ animate() }}</strong> on all icons. Click any to copy.
+            Previewing semantic animation on all icons. Click any to copy.
           </p>
         }
 
@@ -70,5 +70,5 @@ export class IconsSidebarComponent {
   readonly search = model('');
   readonly size = model<LmnIconSize>(24);
   readonly strokeWidth = model(2);
-  readonly animate = model<LmnIconAnimate>('none');
+  readonly animate = model<boolean>(false);
 }

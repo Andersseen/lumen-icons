@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
 import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
 import { LmnArrowLeftIcon } from "@lumen/icons/arrow-left";
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
@@ -14,7 +14,7 @@ import { LmnStarIcon } from "@lumen/icons/star";
 import { LmnXIcon } from "@lumen/icons/x";
 
 interface StripIcon {
-  readonly component: typeof LmnCheckIcon;
+  readonly component: Type<unknown>;
   readonly name: string;
 }
 

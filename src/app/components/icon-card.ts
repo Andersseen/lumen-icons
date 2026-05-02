@@ -13,14 +13,14 @@ import { timer } from 'rxjs';
 import { ClipboardService } from '../services/clipboard';
 
 import { LmnCheckIcon } from '@lumen/icons/check';
-import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
+import type { LmnIconSize } from '@lumen/icons';
 
 import type { IconEntry } from '../types/icon-entry.type';
 
 export interface IconCardInputs {
   readonly size: LmnIconSize;
   readonly strokeWidth: number;
-  readonly animate: LmnIconAnimate;
+  readonly animate: boolean;
   readonly [key: string]: unknown;
 }
 

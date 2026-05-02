@@ -25,12 +25,18 @@ describe("LmnCheckIcon", () => {
     expect(host.hasAttribute("aria-hidden")).toBe(false);
   });
 
-  it("applies animation attribute", async () => {
-    const { fixture } = await render(LmnCheckIcon, {
-      componentInputs: { animate: "spin" },
-    });
+  it("renders without animation by default", async () => {
+    const { fixture } = await render(LmnCheckIcon);
+    const polyline = fixture.nativeElement.querySelector("polyline");
+    expect(polyline).toBeInTheDocument();
+    const style = polyline?.getAttribute("style") ?? "";
+    expect(style).not.toContain("stroke-dashoffset");
+  });
 
-    const host = fixture.nativeElement as HTMLElement;
-    expect(host.getAttribute("data-animate")).toBe("spin");
+  it("accepts animate input as boolean", async () => {
+    const { fixture } = await render(LmnCheckIcon, {
+      componentInputs: { animate: true },
+    });
+    expect(fixture.componentInstance.animate()).toBe(true);
   });
 });
