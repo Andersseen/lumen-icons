@@ -4,4 +4,5 @@ export interface LmnIconProps {
   size?: LmnIconSize;
   strokeWidth?: number;
   ariaLabel?: string;
+  animate?: boolean;
 }
