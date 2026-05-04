@@ -8,7 +8,7 @@ import { applyTransformOrigin } from '../lib/animation-utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: LM_ICON_HOST,
   template: `
-    <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
+<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
       viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <polygon #path points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
@@ -18,7 +18,7 @@ import { applyTransformOrigin } from '../lib/animation-utils';
 export class LmnStarIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
 
-  private path = viewChild.required('path', { read: ElementRef<SVGPolygonElement> });
+  private path = viewChild('path', { read: ElementRef<SVGPolygonElement> });
   private engine = inject(AnimationEngine);
   private player: ReturnType<AnimationEngine['play']> = null;
 
@@ -28,21 +28,13 @@ export class LmnStarIcon extends LmnIconBase {
       this.player?.cancel();
       this.player = null;
 
-      const el = this.path().nativeElement;
+      const el = this.path()?.nativeElement;
+      if (!el) return;
       applyTransformOrigin(el);
-
       if (this.animate()) {
-        this.player = this.engine.play(
-          el,
-          { scale: [1, 1.12] },
-          { config: { duration: 300, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 0, disabled: false } },
-        );
+        this.player = this.engine.play(el, { scale: [1, 1.2, 0.95, 1.1, 1] }, { config: { duration: 700, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 0, disabled: false } });
       } else {
-        this.player = this.engine.play(
-          el,
-          { scale: [1.12, 1] },
-          { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } },
-        );
+        this.player = this.engine.play(el, { scale: [1] }, { config: { duration: 300, easing: 'ease-out', delay: 0, disabled: false } });
       }
     });
   }

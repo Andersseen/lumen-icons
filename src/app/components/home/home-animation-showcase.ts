@@ -1,10 +1,17 @@
 import { NgComponentOutlet } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
 import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
 import { LmnHeartIcon } from "@lumen/icons/heart";
 import { LmnStarIcon } from "@lumen/icons/star";
 import { VoltCard } from "@voltui/components";
+
+interface AnimationDemo {
+  readonly icon: Type<unknown>;
+  readonly animate: boolean;
+  readonly colorClass: string;
+  readonly hoverClasses: string;
+}
 
 @Component({
   selector: "app-home-animation-showcase",
@@ -32,9 +39,9 @@ import { VoltCard } from "@voltui/components";
               [ngComponentOutletInputs]="{ size: 32, strokeWidth: 1.5, animate: demo.animate }"
             />
             </div>
-            <code class="text-[11px] font-mono text-muted-foreground group-hover:text-muted-foreground">
-              animate="{{ demo.animate }}"
-            </code>
+             <code class="text-[11px] font-mono text-muted-foreground group-hover:text-muted-foreground">
+               animate="true"
+             </code>
           </div>
         }
       </div>
@@ -51,28 +58,28 @@ import { VoltCard } from "@voltui/components";
   `,
 })
 export class HomeAnimationShowcaseComponent {
-  readonly demos = [
+  readonly demos: AnimationDemo[] = [
     {
       icon: LmnStarIcon,
-      animate: "spin" as const,
+      animate: true,
       colorClass: "text-primary",
       hoverClasses: "hover:border-primary/50 hover:bg-primary/30",
     },
     {
       icon: LmnHeartIcon,
-      animate: "pulse" as const,
+      animate: true,
       colorClass: "text-destructive",
       hoverClasses: "hover:border-destructive/50 hover:bg-destructive/20",
     },
     {
       icon: LmnArrowRightIcon,
-      animate: "bounce" as const,
+      animate: true,
       colorClass: "text-info",
       hoverClasses: "hover:border-info/50 hover:bg-info/20",
     },
     {
       icon: LmnAlertCircleIcon,
-      animate: "ping" as const,
+      animate: true,
       colorClass: "text-warning",
       hoverClasses: "hover:border-warning/50 hover:bg-warning/20",
     },
