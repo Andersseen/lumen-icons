@@ -1,49 +1,57 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
-import { AnimationEngine } from 'angular-movement';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { applyTransformOrigin } from '../lib/animation-utils';
 
 @Component({
   selector: 'lmn-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    .motion-root { display: inline-flex; }
+    .home-shell,
+    .home-door {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+    }
+    .is-animated .home-shell {
+      animation: home-settle 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .is-animated .home-door {
+      animation: door-rise 360ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
+    }
+
+    @keyframes home-settle {
+      0% { opacity: 0.55; transform: translateY(-3px) scale(0.96); }
+      60% { transform: translateY(1px) scale(1.04); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes door-rise {
+      0% { opacity: 0.4; transform: translateY(3px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  `],
   template: `
-<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
+    <span
+      class="motion-root"
+      [class.is-animated]="animate()"
+      [moveVariants]="{
+        active: { opacity: [0.85, 1], y: [-1, 0] }
+      }"
+      [moveAnimate]="animate() ? 'active' : undefined"
+      [moveDuration]="420"
+      moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
+    >
+      <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
       viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path #p2 #p1 d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
+        <path class="home-shell" d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline class="home-door" points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </span>
   `,
 })
 export class LmnHomeIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
-
-  private p1 = viewChild('p1', { read: ElementRef<SVGPathElement> });
-  private p2 = viewChild('p2', { read: ElementRef<SVGPathElement> });
-  private engine = inject(AnimationEngine);
-  private player: ReturnType<AnimationEngine['play']> = null;
-  private player2: ReturnType<AnimationEngine['play']> = null;
-
-  constructor() {
-    super();
-    effect(() => {
-      this.player?.cancel();
-      this.player2?.cancel();
-      this.player = null;
-      this.player2 = null;
-
-      const el1 = this.p1()?.nativeElement;
-      const el2 = this.p2()?.nativeElement;
-      if (!el1 || !el2) return;
-      applyTransformOrigin(el1); applyTransformOrigin(el2);
-      if (this.animate()) {
-        this.player = this.engine.play(el1, { scale: [0.95, 1.08, 1] }, { config: { duration: 500, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(el2, { scale: [0.95, 1.08, 1] }, { config: { duration: 500, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 100, disabled: false } });
-      } else {
-        this.player = this.engine.play(el1, { scale: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(el2, { scale: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-      }
-    });
-  }
 }

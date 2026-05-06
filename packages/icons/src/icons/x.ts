@@ -1,48 +1,57 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
-import { AnimationEngine } from 'angular-movement';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { applyTransformOrigin } from '../lib/animation-utils';
 
 @Component({
   selector: 'lmn-x',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    .motion-root { display: inline-flex; }
+    .x-stroke {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .is-animated .x-stroke:first-child {
+      animation: x-cut-a 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .is-animated .x-stroke:last-child {
+      animation: x-cut-b 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes x-cut-a {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      38% { transform: rotate(-18deg) translateY(-1px); }
+      68% { transform: rotate(7deg) translateY(0); }
+    }
+
+    @keyframes x-cut-b {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      38% { transform: rotate(18deg) translateY(1px); }
+      68% { transform: rotate(-7deg) translateY(0); }
+    }
+  `],
   template: `
-<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
+    <span
+      class="motion-root"
+      [class.is-animated]="animate()"
+      [moveVariants]="{
+        active: { opacity: [0.85, 1], rotate: [-8, 4, 0] }
+      }"
+      [moveAnimate]="animate() ? 'active' : undefined"
+      [moveDuration]="380"
+      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
+    >
+      <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
       viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path #p2 #p1 d="M18 6 6 18"/><path d="m6 6 12 12"/>
-    </svg>
+        <path class="x-stroke" d="M18 6 6 18"/>
+        <path class="x-stroke" d="m6 6 12 12"/>
+      </svg>
+    </span>
   `,
 })
 export class LmnXIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
-
-  private p1 = viewChild('p1', { read: ElementRef<SVGPathElement> });
-  private p2 = viewChild('p2', { read: ElementRef<SVGPathElement> });
-  private engine = inject(AnimationEngine);
-  private player: ReturnType<AnimationEngine['play']> = null;
-  private player2: ReturnType<AnimationEngine['play']> = null;
-
-  constructor() {
-    super();
-    effect(() => {
-      this.player?.cancel();
-      this.player2?.cancel();
-      this.player = null;
-      this.player2 = null;
-
-      const el1 = this.p1()?.nativeElement;
-      const el2 = this.p2()?.nativeElement;
-      if (!el1 || !el2) return;
-      applyTransformOrigin(el1); applyTransformOrigin(el2);
-      if (this.animate()) {
-        this.player = this.engine.play(el1, { rotate: [0, 90] }, { config: { duration: 300, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(el2, { rotate: [0, -90] }, { config: { duration: 300, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', delay: 0, disabled: false } });
-      } else {
-        this.player = this.engine.play(el1, { rotate: [0] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(el2, { rotate: [0] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-      }
-    });
-  }
 }

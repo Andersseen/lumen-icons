@@ -1,48 +1,52 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
-import { AnimationEngine } from 'angular-movement';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { applyTransformOrigin } from '../lib/animation-utils';
 
 @Component({
   selector: 'lmn-arrow-left',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    .motion-root { display: inline-flex; }
+    .is-animated .arrow-line {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: arrow-draw 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .is-animated .arrow-head {
+      animation: arrow-head 360ms cubic-bezier(0.34, 1.56, 0.64, 1) 90ms both;
+    }
+
+    @keyframes arrow-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes arrow-head {
+      0% { opacity: 0.35; transform: translateX(4px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+  `],
   template: `
-<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
+    <span
+      class="motion-root"
+      [class.is-animated]="animate()"
+      [moveVariants]="{
+        active: { x: [3, 0], opacity: [0.65, 1] }
+      }"
+      [moveAnimate]="animate() ? 'active' : undefined"
+      [moveDuration]="320"
+      moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
+    >
+      <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
       viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path #p2 #p1 d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
-    </svg>
+        <path class="arrow-line" pathLength="1" d="M19 12H5"/>
+        <path class="arrow-head" d="m12 19-7-7 7-7"/>
+      </svg>
+    </span>
   `,
 })
 export class LmnArrowLeftIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
-
-  private p1 = viewChild('p1', { read: ElementRef<SVGPathElement> });
-  private p2 = viewChild('p2', { read: ElementRef<SVGPathElement> });
-  private engine = inject(AnimationEngine);
-  private player: ReturnType<AnimationEngine['play']> = null;
-  private player2: ReturnType<AnimationEngine['play']> = null;
-
-  constructor() {
-    super();
-    effect(() => {
-      this.player?.cancel();
-      this.player2?.cancel();
-      this.player = null;
-      this.player2 = null;
-
-      const p1 = this.p1()?.nativeElement;
-      const p2 = this.p2()?.nativeElement;
-      if (!p1 || !p2) return;
-      applyTransformOrigin(p1); applyTransformOrigin(p2);
-      if (this.animate()) {
-        this.player = this.engine.play(p1, { x: [4, 0], opacity: [0.4, 1] }, { config: { duration: 400, easing: 'ease-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(p2, { x: [4, 0], opacity: [0.4, 1] }, { config: { duration: 400, easing: 'ease-out', delay: 80, disabled: false } });
-      } else {
-        this.player = this.engine.play(p1, { x: [0], opacity: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(p2, { x: [0], opacity: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-      }
-    });
-  }
 }

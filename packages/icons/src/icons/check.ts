@@ -1,44 +1,43 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
-import { AnimationEngine } from 'angular-movement';
-import type { MoveKeyframes } from 'angular-movement';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-check',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    .motion-root { display: inline-flex; }
+    .is-animated .check-mark {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: check-draw 420ms cubic-bezier(0.16, 1, 0.3, 1) 70ms forwards;
+    }
+
+    @keyframes check-draw {
+      to { stroke-dashoffset: 0; }
+    }
+  `],
   template: `
-<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
+    <span
+      class="motion-root"
+      [class.is-animated]="animate()"
+      [moveVariants]="{
+        active: { opacity: [0.7, 1], scale: [0.92, 1.08, 1], y: [2, -1, 0] }
+      }"
+      [moveAnimate]="animate() ? 'active' : undefined"
+      [moveDuration]="460"
+      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
+    >
+      <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
       viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <polyline #path points="20 6 9 17 4 12"/>
-    </svg>
+        <polyline class="check-mark" pathLength="1" points="4 12 9 17 20 6"/>
+      </svg>
+    </span>
   `,
 })
 export class LmnCheckIcon extends LmnIconBase {
   readonly animate = input<boolean>(false);
-
-  private path = viewChild('path', { read: ElementRef<SVGPolylineElement> });
-  private engine = inject(AnimationEngine);
-  private player: ReturnType<AnimationEngine['play']> = null;
-
-  constructor() {
-    super();
-    effect(() => {
-      this.player?.cancel();
-      this.player = null;
-
-      const el = this.path()?.nativeElement;
-      if (!el) return;
-      if (this.animate()) {
-        const length = el.getTotalLength?.() ?? 28;
-        (el as unknown as HTMLElement).style.strokeDasharray = `${length}`;
-        (el as unknown as HTMLElement).style.strokeDashoffset = `${length}`;
-        this.player = this.engine.play(el, { strokeDashoffset: [length, 0] } as MoveKeyframes, { config: { duration: 400, easing: 'ease-out', delay: 0, disabled: false } });
-      } else {
-        (el as unknown as HTMLElement).style.strokeDasharray = '';
-        (el as unknown as HTMLElement).style.strokeDashoffset = '';
-      }
-    });
-  }
 }
