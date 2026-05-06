@@ -9,6 +9,7 @@ import {
 import { NgComponentOutlet } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { timer } from 'rxjs';
+import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 
 import { ClipboardService } from '../services/clipboard';
 
@@ -27,7 +28,7 @@ export interface IconCardInputs {
 @Component({
   selector: 'app-icon-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet, LmnCheckIcon],
+  imports: [NgComponentOutlet, LmnCheckIcon, MOVEMENT_DIRECTIVES],
   styles: [`
     @keyframes icon-pop {
       0%   { transform: scale(1) rotate(0deg); }
@@ -44,6 +45,10 @@ export interface IconCardInputs {
       type="button"
       class="group relative flex w-full flex-col items-center gap-3 rounded-xl border border-border bg-background px-3 py-5 text-foreground transition-all hover:border-primary hover:shadow-md hover:shadow-primary dark:border-border dark:bg-card dark:text-secondary-foreground dark:hover:border-primary/50 dark:hover:shadow-primary/20"
       [attr.aria-label]="'Copy import for ' + icon().name"
+      [moveWhileHover]="{ scale: [1, 1.025], y: [0, -2] }"
+      [moveWhileTap]="{ scale: [1, 0.975] }"
+      [moveWhileFocus]="{ scale: [1, 1.015] }"
+      [moveDuration]="180"
       (click)="handleClick()"
       (mouseenter)="isHovered.set(true)"
       (mouseleave)="isHovered.set(false)"
@@ -60,7 +65,11 @@ export interface IconCardInputs {
       </span>
 
       @if (copied()) {
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl bg-success/10 dark:bg-success/20">
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl bg-success/10 dark:bg-success/20"
+          [move]="{ opacity: [0, 1], scale: [0.96, 1] }"
+          [moveDuration]="180"
+        >
           <lmn-check [size]="16" [strokeWidth]="2.5" class="text-success" />
           <span class="text-[11px] font-semibold text-success">Copied!</span>
         </div>

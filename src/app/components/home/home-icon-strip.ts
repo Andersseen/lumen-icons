@@ -1,5 +1,6 @@
 import { NgComponentOutlet } from "@angular/common";
 import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
 import { LmnArrowLeftIcon } from "@lumen/icons/arrow-left";
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
@@ -21,7 +22,7 @@ interface StripIcon {
 @Component({
   selector: "app-home-icon-strip",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet],
+  imports: [NgComponentOutlet, MOVEMENT_DIRECTIVES],
   template: `
     <div
       class="border-y border-border bg-card/40 py-8"
@@ -31,12 +32,20 @@ interface StripIcon {
       <div class="mx-auto max-w-3xl px-4">
         <div
           class="flex flex-wrap items-center justify-center gap-6 text-muted-foreground"
+          [moveStagger]="45"
         >
           @for (icon of icons; track icon.name) {
-            <ng-container
-              [ngComponentOutlet]="icon.component"
-              [ngComponentOutletInputs]="{ size: 20, strokeWidth: 1.75 }"
-            />
+            <span
+              class="inline-flex"
+              [move]="{ opacity: [0, 1], y: [6, 0], scale: [0.92, 1] }"
+              [moveWhileHover]="{ scale: [1, 1.14], y: [0, -2] }"
+              [moveDuration]="220"
+            >
+              <ng-container
+                [ngComponentOutlet]="icon.component"
+                [ngComponentOutletInputs]="{ size: 20, strokeWidth: 1.75 }"
+              />
+            </span>
           }
         </div>
       </div>

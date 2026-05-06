@@ -1,5 +1,6 @@
 import { NgComponentOutlet } from "@angular/common";
 import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
 import { LmnHeartIcon } from "@lumen/icons/heart";
@@ -16,7 +17,7 @@ interface AnimationDemo {
 @Component({
   selector: "app-home-animation-showcase",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet, VoltCard],
+  imports: [NgComponentOutlet, VoltCard, MOVEMENT_DIRECTIVES],
   template: `
     <volt-card
       class="rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm"
@@ -32,12 +33,19 @@ interface AnimationDemo {
           <div
             class="group flex flex-col items-center gap-3 rounded-xl border border-border/50 bg-secondary/70 px-4 py-5 transition-colors"
             [class]="demo.hoverClasses"
+            [moveWhileHover]="{ scale: [1, 1.035], y: [0, -2] }"
+            [moveWhileTap]="{ scale: [1, 0.98] }"
+            [moveDuration]="180"
           >
-            <div [class]="demo.colorClass">
+            <div
+              [class]="demo.colorClass"
+              [move]="{ opacity: [0, 1], scale: [0.9, 1] }"
+              [moveDuration]="260"
+            >
               <ng-container
-              [ngComponentOutlet]="demo.icon"
-              [ngComponentOutletInputs]="{ size: 32, strokeWidth: 1.5, animate: demo.animate }"
-            />
+                [ngComponentOutlet]="demo.icon"
+                [ngComponentOutletInputs]="{ size: 32, strokeWidth: 1.5, animate: demo.animate }"
+              />
             </div>
              <code class="text-[11px] font-mono text-muted-foreground group-hover:text-muted-foreground">
                animate="true"

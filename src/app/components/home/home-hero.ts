@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { timer } from "rxjs";
 
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
@@ -25,6 +26,7 @@ import { HomeIconStripComponent } from "./home-icon-strip";
     LmnArrowRightIcon,
     LmnCheckIcon,
     LmnCopyIcon,
+    MOVEMENT_DIRECTIVES,
     VoltBadge,
     VoltButton,
     HomeAnimationShowcaseComponent,
@@ -89,14 +91,26 @@ import { HomeIconStripComponent } from "./home-icon-strip";
                 routerLink="/icons"
                 variant="solid"
                 class="inline-flex items-center gap-1"
+                [moveWhileHover]="{ scale: [1, 1.035] }"
+                [moveWhileTap]="{ scale: [1, 0.97] }"
+                [moveDuration]="180"
               >
                 Browse icons
-                <lmn-arrow-right [size]="14" [strokeWidth]="2.5" />
+                <span
+                  class="inline-flex"
+                  [moveWhileHover]="{ x: [0, 3] }"
+                  [moveDuration]="180"
+                >
+                  <lmn-arrow-right [size]="14" [strokeWidth]="2.5" />
+                </span>
               </volt-button>
               <volt-button
                 routerLink="/docs"
                 variant="outline"
                 class="inline-flex items-center gap-1"
+                [moveWhileHover]="{ scale: [1, 1.025] }"
+                [moveWhileTap]="{ scale: [1, 0.98] }"
+                [moveDuration]="180"
               >
                 Documentation
               </volt-button>
@@ -110,6 +124,8 @@ import { HomeIconStripComponent } from "./home-icon-strip";
                 [size]="14"
                 [strokeWidth]="2"
                 class="shrink-0 text-secondary-foreground"
+                [move]="{ opacity: [0, 1], x: [-4, 0] }"
+                [moveDuration]="260"
               />
               <code class="text-sm text-muted-foreground">
                 <span class="text-secondary-foreground select-none">$ </span>npm
@@ -119,6 +135,9 @@ import { HomeIconStripComponent } from "./home-icon-strip";
                 type="button"
                 (click)="copyInstall()"
                 class="ml-auto shrink-0 rounded-md p-1.5 text-secondary-foreground transition-colors hover:bg-secondary hover:text-muted-foreground"
+                [moveWhileHover]="{ scale: [1, 1.08], rotate: [0, -3] }"
+                [moveWhileTap]="{ scale: [1, 0.92] }"
+                [moveDuration]="160"
                 [attr.aria-label]="
                   installCopied() ? 'Copied!' : 'Copy install command'
                 "
@@ -128,6 +147,8 @@ import { HomeIconStripComponent } from "./home-icon-strip";
                     [size]="14"
                     [strokeWidth]="2.5"
                     class="text-success"
+                    [move]="{ opacity: [0, 1], scale: [0.7, 1.08, 1], rotate: [-8, 3, 0] }"
+                    [moveDuration]="420"
                   />
                 } @else {
                   <lmn-copy [size]="14" [strokeWidth]="2" />
