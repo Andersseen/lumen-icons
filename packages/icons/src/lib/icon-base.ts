@@ -1,5 +1,5 @@
 import { Directive, input } from '@angular/core';
-import type { LmnIconSize } from '../types/icon.types';
+import type { LmnIconInstance, LmnIconSize } from '../types/icon.types';
 
 export const LM_ICON_HOST = {
   '[attr.role]': 'ariaLabel() ? "img" : null',
@@ -9,8 +9,9 @@ export const LM_ICON_HOST = {
 } as const;
 
 @Directive()
-export abstract class LmnIconBase {
+export abstract class LmnIconBase implements LmnIconInstance {
   readonly size = input<LmnIconSize>(24);
   readonly strokeWidth = input<number>(2);
   readonly ariaLabel = input<string | undefined>(undefined);
+  readonly animate = input<boolean>(false);
 }

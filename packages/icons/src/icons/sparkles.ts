@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
@@ -8,7 +8,6 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
-    .motion-root { display: inline-flex; }
     .spark-line,
     .spark-core {
       transform-box: fill-box;
@@ -32,8 +31,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     }
   `],
   template: `
-    <span
-      class="motion-root"
+    <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
       [moveVariants]="{
         active: { opacity: [0.7, 1], scale: [0.9, 1.04, 1], rotate: [-5, 2, 0] }
@@ -41,21 +42,22 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="420"
       moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
     >
-      <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
-      viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path class="spark-line" d="M12 2v4"/>
-        <path class="spark-line" d="m5 5 2.8 2.8"/>
-        <path class="spark-line" d="m19 5-2.8 2.8"/>
-        <path class="spark-line" d="M12 12v8"/>
-        <path class="spark-line" d="m5 19 2.8-2.8"/>
-        <path class="spark-line" d="m19 19-2.8-2.8"/>
-        <circle class="spark-core" cx="12" cy="12" r="3"/>
-      </svg>
-    </span>
+      <path class="spark-line" d="M12 2v4"/>
+      <path class="spark-line" d="m5 5 2.8 2.8"/>
+      <path class="spark-line" d="m19 5-2.8 2.8"/>
+      <path class="spark-line" d="M12 12v8"/>
+      <path class="spark-line" d="m5 19 2.8-2.8"/>
+      <path class="spark-line" d="m19 19-2.8-2.8"/>
+      <circle class="spark-core" cx="12" cy="12" r="3"/>
+    </svg>
   `,
 })
-export class LmnSparklesIcon extends LmnIconBase {
-  readonly animate = input<boolean>(false);
-}
+export class LmnSparklesIcon extends LmnIconBase {}

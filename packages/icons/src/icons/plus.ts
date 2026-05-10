@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, viewChild } from '@angular/core';
 import { AnimationEngine } from 'angular-movement';
 import type { MoveKeyframes } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
@@ -17,7 +17,6 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   `,
 })
 export class LmnPlusIcon extends LmnIconBase {
-  readonly animate = input<boolean>(false);
 
   private v = viewChild('v', { read: ElementRef<SVGPathElement> });
   private h = viewChild('h', { read: ElementRef<SVGPathElement> });

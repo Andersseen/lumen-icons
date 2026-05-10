@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, viewChild } from '@angular/core';
 import { AnimationEngine } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 import { applyTransformOrigin } from '../lib/animation-utils';
@@ -16,7 +16,6 @@ import { applyTransformOrigin } from '../lib/animation-utils';
   `,
 })
 export class LmnStarIcon extends LmnIconBase {
-  readonly animate = input<boolean>(false);
 
   private path = viewChild('path', { read: ElementRef<SVGPolygonElement> });
   private engine = inject(AnimationEngine);

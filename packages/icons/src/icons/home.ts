@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
@@ -8,7 +8,6 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
-    .motion-root { display: inline-flex; }
     .home-shell,
     .home-door {
       transform-box: fill-box;
@@ -33,8 +32,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     }
   `],
   template: `
-    <span
-      class="motion-root"
+    <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
       [moveVariants]="{
         active: { opacity: [0.85, 1], y: [-1, 0] }
@@ -42,16 +43,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="420"
       moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
     >
-      <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
-      viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path class="home-shell" d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline class="home-door" points="9 22 9 12 15 12 15 22"/>
-      </svg>
-    </span>
+      <path class="home-shell" d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline class="home-door" points="9 22 9 12 15 12 15 22"/>
+    </svg>
   `,
 })
-export class LmnHomeIcon extends LmnIconBase {
-  readonly animate = input<boolean>(false);
-}
+export class LmnHomeIcon extends LmnIconBase {}
