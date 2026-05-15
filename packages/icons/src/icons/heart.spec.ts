@@ -1,40 +1,32 @@
 import { render } from "@testing-library/angular";
 import { describe, expect, it } from "vitest";
-import { LmnCheckIcon } from "./check";
+import { LmnHeartIcon } from "./heart";
 
-describe("LmnCheckIcon", () => {
+describe("LmnHeartIcon", () => {
   it("renders an svg", async () => {
-    const { fixture } = await render(LmnCheckIcon);
+    const { fixture } = await render(LmnHeartIcon);
     expect(fixture.nativeElement.querySelector("svg")).toBeInTheDocument();
   });
 
   it("is aria-hidden by default", async () => {
-    const { fixture } = await render(LmnCheckIcon);
+    const { fixture } = await render(LmnHeartIcon);
     const host = fixture.nativeElement as HTMLElement;
     expect(host.getAttribute("aria-hidden")).toBe("true");
   });
 
   it("adds role=img and aria-label when ariaLabel is provided", async () => {
-    const { fixture } = await render(LmnCheckIcon, {
-      componentInputs: { ariaLabel: "Completed" },
+    const { fixture } = await render(LmnHeartIcon, {
+      componentInputs: { ariaLabel: "Like" },
     });
 
     const host = fixture.nativeElement as HTMLElement;
     expect(host.getAttribute("role")).toBe("img");
-    expect(host.getAttribute("aria-label")).toBe("Completed");
+    expect(host.getAttribute("aria-label")).toBe("Like");
     expect(host.hasAttribute("aria-hidden")).toBe(false);
   });
 
-  it("renders without animation by default", async () => {
-    const { fixture } = await render(LmnCheckIcon);
-    const polyline = fixture.nativeElement.querySelector("polyline");
-    expect(polyline).toBeInTheDocument();
-    const style = polyline?.getAttribute("style") ?? "";
-    expect(style).not.toContain("stroke-dashoffset");
-  });
-
   it("accepts animate input as boolean", async () => {
-    const { fixture } = await render(LmnCheckIcon, {
+    const { fixture } = await render(LmnHeartIcon, {
       componentInputs: { animate: true },
     });
     expect(fixture.componentInstance.animate()).toBe(true);

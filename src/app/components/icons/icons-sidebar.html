@@ -44,9 +44,9 @@
             <app-animation-picker [(animate)]="animate" />
           </div>
 
-          @if (animate() !== 'none') {
+          @if (animate()) {
             <p class="rounded-lg border border-primary bg-primary px-3 py-2.5 text-xs text-primary dark:border-primary dark:bg-primary/40 dark:text-primary">
-              Previewing <strong>{{ animate() }}</strong> on all icons. Click any to copy.
+              Previewing semantic animation on all icons. Click any to copy.
             </p>
           }
 

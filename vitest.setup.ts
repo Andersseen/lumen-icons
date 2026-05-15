@@ -6,6 +6,15 @@ import { vi } from "vitest";
 
 setupTestBed({ zoneless: false });
 
+Element.prototype.animate = vi.fn().mockReturnValue({
+  cancel: vi.fn(),
+  play: vi.fn(),
+  pause: vi.fn(),
+  finish: Promise.resolve(),
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+});
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   configurable: true,

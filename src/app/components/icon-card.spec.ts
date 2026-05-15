@@ -23,7 +23,7 @@ describe("IconCardComponent", () => {
           component: LmnCheckIcon,
           importStr: "import { LmnCheckIcon } from '@lumen/icons/check';",
         },
-        iconInputs: { size: 24, strokeWidth: 2, animate: "none" as const },
+        iconInputs: { size: 24, strokeWidth: 2, animate: false },
       },
       providers: [{ provide: ClipboardService, useValue: clipboardMock }],
     });

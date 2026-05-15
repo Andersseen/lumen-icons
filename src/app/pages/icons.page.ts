@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { VoltInput } from '@voltui/components';
 
 import { LmnSearchIcon } from '@lumen/icons/search';
-import type { LmnIconAnimate, LmnIconSize } from '@lumen/icons';
+import type { LmnIconSize } from '@lumen/icons';
 
 import { IconCardComponent, type IconCardInputs } from '../components/icon-card';
 import { IconsSidebarComponent } from '../components/icons/icons-sidebar';
@@ -87,7 +87,7 @@ export default class IconsPageComponent {
   readonly search = signal('');
   readonly size = signal<LmnIconSize>(24);
   readonly strokeWidth = signal(2);
-  readonly animate = signal<LmnIconAnimate>('none');
+  readonly animate = signal<boolean>(false);
 
   readonly filteredIcons = computed(() => {
     const term = this.search().toLowerCase().trim();

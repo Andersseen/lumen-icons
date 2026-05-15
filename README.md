@@ -3,14 +3,14 @@
 Single repository for:
 
 - Angular app (demo + official website)
-- Publishable icon library package (`@lumen-icons/core`)
+- Publishable icon library package (`@lumen/icons`)
 
 This is not a monorepo with multiple apps/packages managed by separate tooling; it is one repository with a clear internal package boundary for the icon library.
 
 ## Base Structure
 
 - `src/`: Angular application shell (demo and docs website)
-- `packages/lumen-icons/`: npm package source and build config
+- `packages/icons/`: npm package source and build config
 - `tests/e2e/`: Playwright tests
 - `docs/architecture-plan.md`: project structure and roadmap
 
@@ -28,7 +28,8 @@ This is not a monorepo with multiple apps/packages managed by separate tooling; 
 
 - `pnpm run dev`: run the Angular app locally
 - `pnpm run build:app`: build app
-- `pnpm run build:lib`: build `@lumen-icons/core`
+- `pnpm run build:lib`: build `@lumen/icons`
+- `pnpm run check:package`: build and validate the publishable package
 - `pnpm run build`: build lib + app
 - `pnpm run lint`: lint all files
 - `pnpm run typecheck`: typecheck app + lib
@@ -39,5 +40,5 @@ This is not a monorepo with multiple apps/packages managed by separate tooling; 
 
 - Prefix for selectors: `lmn`
 - Selector examples: `lmn-check`, `lmn-alert-circle`
-- One icon component per file inside `packages/lumen-icons/src/icons/`
+- One icon component per file inside `packages/icons/src/icons/`
 - Named exports through package root and per-icon subpath exports

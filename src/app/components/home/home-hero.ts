@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { timer } from "rxjs";
 
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
@@ -25,12 +26,13 @@ import { HomeIconStripComponent } from "./home-icon-strip";
     LmnArrowRightIcon,
     LmnCheckIcon,
     LmnCopyIcon,
+    MOVEMENT_DIRECTIVES,
     VoltBadge,
     VoltButton,
     HomeAnimationShowcaseComponent,
     HomeIconStripComponent,
   ],
-  templateUrl:'./home-hero.html'
+  templateUrl: "./home-hero.html",
 })
 export class HomeHeroComponent {
   private readonly destroyRef = inject(DestroyRef);

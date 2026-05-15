@@ -11,7 +11,7 @@ Create a single-repo foundation with:
 ## Repository Shape
 
 - `src/`: Angular app (demo + docs site)
-- `packages/lumen-icons/`: publishable library package
+- `packages/icons/`: publishable library package
   - `src/icons/`: one component per icon (`lmn-check`, etc.)
   - `src/types/`: shared library types
   - `src/index.ts`: public API surface
@@ -24,7 +24,7 @@ Create a single-repo foundation with:
 - Lint: ESLint + angular-eslint + typescript-eslint
 - Type checks:
   - app: `tsconfig.app.json`
-  - library: `packages/lumen-icons/tsconfig.lib.json`
+  - library: `packages/icons/tsconfig.lib.json`
 
 ## Build Strategy
 
@@ -34,9 +34,9 @@ Create a single-repo foundation with:
 
 ## Icon Packaging Strategy
 
-- Main export: `@lumen-icons/core`
-- Barrel export: `@lumen-icons/core/icons`
-- Per-icon export: `@lumen-icons/core/icons/<name>`
+- Main export: `@lumen/icons`
+- Barrel export: `@lumen/icons/icons`
+- Per-icon export: `@lumen/icons/<name>`
 
 ## Selector Convention
 

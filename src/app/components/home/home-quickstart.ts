@@ -11,5 +11,5 @@ import { CodeSnippetComponent } from '../shared/code-snippet';
 })
 export class HomeQuickstartComponent {
   readonly importCode = "import { LmnCheckIcon } from '@lumen/icons/check';";
-  readonly templateCode = '<lmn-check [size]="24" animate="spin" />';
+  readonly templateCode = '<lmn-check [size]="24" [animate]="true" />';
 }

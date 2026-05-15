@@ -1,5 +1,6 @@
 import { NgComponentOutlet } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
 import { LmnArrowLeftIcon } from "@lumen/icons/arrow-left";
 import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
@@ -14,15 +15,15 @@ import { LmnStarIcon } from "@lumen/icons/star";
 import { LmnXIcon } from "@lumen/icons/x";
 
 interface StripIcon {
-  readonly component: typeof LmnCheckIcon;
+  readonly component: Type<unknown>;
   readonly name: string;
 }
 
 @Component({
   selector: "app-home-icon-strip",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet],
-  templateUrl:'./home-icon-strip.html'
+  imports: [NgComponentOutlet, MOVEMENT_DIRECTIVES],
+  templateUrl: "./home-icon-strip.html",
 })
 export class HomeIconStripComponent {
   readonly icons: StripIcon[] = [
