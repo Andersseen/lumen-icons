@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { NgComponentOutlet } from "@angular/common";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { VoltCard } from "@voltui/components";
 import { ICON_CATALOG } from "../../data/icon-catalog";
 import { ClipboardService } from "../../services/clipboard";
@@ -8,55 +8,7 @@ import { ClipboardService } from "../../services/clipboard";
   selector: "app-docs-icon-table",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgComponentOutlet, VoltCard],
-  template: `
-    <section id="icons" class="mt-16">
-      <h2 class="text-2xl font-bold tracking-tight text-foreground">Available Icons</h2>
-      <p class="mt-3 text-secondary-foreground">Click the import path to copy it.</p>
-
-      <volt-card class="mt-5 block overflow-hidden">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="border-b border-border bg-muted dark:bg-card">
-              <th scope="col" class="px-4 py-3 text-left font-semibold text-foreground">Icon</th>
-              <th scope="col" class="px-4 py-3 text-left font-semibold text-foreground">Selector</th>
-              <th scope="col" class="px-4 py-3 text-left font-semibold text-foreground">Import (click to copy)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-border">
-            @for (row of iconCatalog; track row.selector) {
-              <tr class="bg-background">
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-3 text-foreground">
-                    <ng-container
-                      [ngComponentOutlet]="row.component"
-                      [ngComponentOutletInputs]="{ size: 20 }"
-                    />
-                    <span class="text-foreground">{{ row.name }}</span>
-                  </div>
-                </td>
-                <td class="px-4 py-3 font-mono text-xs text-muted-foreground">
-                  &lt;{{ row.selector }} /&gt;
-                </td>
-                <td class="px-4 py-3">
-                  <button
-                    type="button"
-                    (click)="clipboard.copy(row.importStr, row.name)"
-                    class="flex items-center gap-2 font-mono text-xs text-secondary-foreground transition hover:text-foreground"
-                    [attr.aria-label]="'Copy import for ' + row.name"
-                  >
-                    <span class="truncate">{{ row.importStr }}</span>
-                    @if (clipboard.copiedKey() === row.name) {
-                      <span class="shrink-0 text-success">✓</span>
-                    }
-                  </button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </volt-card>
-    </section>
-  `,
+  templateUrl :'./docs-icon-table.html'
 })
 export class DocsIconTableComponent {
   readonly clipboard = inject(ClipboardService);
