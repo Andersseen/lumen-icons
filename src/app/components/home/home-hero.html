@@ -1,0 +1,113 @@
+<section
+  class="dark relative overflow-hidden bg-background py-20 sm:py-28"
+  aria-labelledby="hero-heading"
+>
+  <div
+    class="pointer-events-none absolute inset-0 flex items-start justify-center pt-10"
+    aria-hidden="true"
+  >
+    <div class="h-80 w-[600px] rounded-full bg-primary/20 blur-3xl"></div>
+  </div>
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.35]"
+    style="background-image: radial-gradient(circle, rgb(148 163 184 / 0.18) 1px, transparent 1px); background-size: 28px 28px;"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-4">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <div class="mb-6 inline-flex items-center gap-2">
+          <volt-badge variant="outline" class="inline-flex items-center gap-2">
+            <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"></span>
+            <span class="text-xs font-medium">v0.1 &middot; Open source &middot; MIT</span>
+          </volt-badge>
+        </div>
+
+        <h1
+          id="hero-heading"
+          class="text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl xl:text-6xl"
+        >
+          Beautiful icons,<br />
+          <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            built for Angular.
+          </span>
+        </h1>
+
+        <p class="mt-5 text-lg leading-relaxed text-muted-foreground">
+          Accessible, tree-shakable, Angular&#8209;native icon components.
+          Zero framework dependencies. Opt&#8209;in animations included.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <volt-button
+            routerLink="/icons"
+            variant="solid"
+            class="inline-flex items-center gap-1"
+            [moveWhileHover]="{ scale: [1, 1.035] }"
+            [moveWhileTap]="{ scale: [1, 0.97] }"
+            [moveDuration]="180"
+          >
+            Browse icons
+            <span
+              class="inline-flex"
+              [moveWhileHover]="{ x: [0, 3] }"
+              [moveDuration]="180"
+            >
+              <lmn-arrow-right [size]="14" [strokeWidth]="2.5" />
+            </span>
+          </volt-button>
+          <volt-button
+            routerLink="/docs"
+            variant="outline"
+            class="inline-flex items-center gap-1"
+            [moveWhileHover]="{ scale: [1, 1.025] }"
+            [moveWhileTap]="{ scale: [1, 0.98] }"
+            [moveDuration]="180"
+          >
+            Documentation
+          </volt-button>
+        </div>
+
+        <div class="mt-6 flex items-center gap-3 rounded-xl border border-border bg-card/60 px-4 py-3">
+          <lmn-arrow-right
+            [size]="14"
+            [strokeWidth]="2"
+            class="shrink-0 text-secondary-foreground"
+            [move]="{ opacity: [0, 1], x: [-4, 0] }"
+            [moveDuration]="260"
+          />
+          <code class="text-sm text-muted-foreground">
+            <span class="text-secondary-foreground select-none">$ </span>npm
+            install &#64;lumen/icons
+          </code>
+          <button
+            type="button"
+            (click)="copyInstall()"
+            class="ml-auto shrink-0 rounded-md p-1.5 text-secondary-foreground transition-colors hover:bg-secondary hover:text-muted-foreground"
+            [moveWhileHover]="{ scale: [1, 1.08], rotate: [0, -3] }"
+            [moveWhileTap]="{ scale: [1, 0.92] }"
+            [moveDuration]="160"
+            [attr.aria-label]="installCopied() ? 'Copied!' : 'Copy install command'"
+          >
+            @if (installCopied()) {
+            <lmn-check
+              [size]="14"
+              [strokeWidth]="2.5"
+              class="text-success"
+              [move]="{ opacity: [0, 1], scale: [0.7, 1.08, 1], rotate: [-8, 3, 0] }"
+              [moveDuration]="420"
+            />
+            } @else {
+            <lmn-copy [size]="14" [strokeWidth]="2" />
+            }
+          </button>
+        </div>
+      </div>
+
+      <app-home-animation-showcase />
+    </div>
+  </div>
+</section>
+
+<app-home-icon-strip />

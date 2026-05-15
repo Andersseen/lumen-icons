@@ -13,6 +13,17 @@ export default defineConfig(() => ({
     mainFields: ["module"],
     tsconfigPaths: true,
   },
+  server: {
+    watch: {
+      ignored: [
+        "**/coverage/**",
+        "**/dist/**",
+        "**/playwright-report/**",
+        "**/test-results/**",
+        "**/.wrangler/**",
+      ],
+    },
+  },
   plugins: [
     analog({
       ssr: false,

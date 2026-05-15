@@ -23,34 +23,7 @@ interface StripIcon {
   selector: "app-home-icon-strip",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgComponentOutlet, MOVEMENT_DIRECTIVES],
-  template: `
-    <div
-      class="border-y border-border bg-card/40 py-8"
-      aria-label="All available icons"
-      role="region"
-    >
-      <div class="mx-auto max-w-3xl px-4">
-        <div
-          class="flex flex-wrap items-center justify-center gap-6 text-muted-foreground"
-          [moveStagger]="45"
-        >
-          @for (icon of icons; track icon.name) {
-            <span
-              class="inline-flex"
-              [move]="{ opacity: [0, 1], y: [6, 0], scale: [0.92, 1] }"
-              [moveWhileHover]="{ scale: [1, 1.14], y: [0, -2] }"
-              [moveDuration]="220"
-            >
-              <ng-container
-                [ngComponentOutlet]="icon.component"
-                [ngComponentOutletInputs]="{ size: 20, strokeWidth: 1.75 }"
-              />
-            </span>
-          }
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: "./home-icon-strip.html",
 })
 export class HomeIconStripComponent {
   readonly icons: StripIcon[] = [
