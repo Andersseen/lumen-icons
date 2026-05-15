@@ -4,6 +4,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-settings',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
