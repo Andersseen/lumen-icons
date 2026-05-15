@@ -9,10 +9,14 @@ test("toggle theme switches dark class on html", async ({ page }) => {
   const html = page.locator("html");
   await expect(html).not.toHaveClass(/dark/);
 
-  await page.getByRole("button", { name: /switch to dark mode/i }).click();
+  const toggle = page.getByLabel(/switch to dark mode/i);
+  await expect(toggle).toBeVisible();
+  await toggle.click();
   await expect(html).toHaveClass(/dark/);
 
-  await page.getByRole("button", { name: /switch to light mode/i }).click();
+  const toggleLight = page.getByLabel(/switch to light mode/i);
+  await expect(toggleLight).toBeVisible();
+  await toggleLight.click();
   await expect(html).not.toHaveClass(/dark/);
 });
 
@@ -21,7 +25,10 @@ test("theme preference persists across navigation", async ({ page }) => {
     localStorage.setItem("lumen-theme", "light");
   });
   await page.goto("/");
-  await page.getByRole("button", { name: /switch to dark mode/i }).click();
+
+  const toggle = page.getByLabel(/switch to dark mode/i);
+  await expect(toggle).toBeVisible();
+  await toggle.click();
 
   // Use SPA navigation via header link to avoid full reload
   await page.getByLabel("Main navigation").getByRole("link", { name: "Icons" }).click();

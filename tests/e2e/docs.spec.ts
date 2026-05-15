@@ -6,10 +6,10 @@ test("copy terminal snippet in docs", async ({ page }) => {
   const installationHeading = page.getByRole("heading", { name: "Installation" });
   await expect(installationHeading).toBeVisible();
 
-  // Find the copy button within the same section region by navigating from the heading
   const copyButton = page
     .getByRole("button", { name: /^copy terminal$/i })
     .first();
+  await expect(copyButton).toBeVisible();
   await copyButton.click();
 
   await expect(
@@ -31,6 +31,7 @@ test("icon table copy import", async ({ page }) => {
   const copyButton = page.getByRole("button", {
     name: /copy import for heart/i,
   });
+  await expect(copyButton).toBeVisible();
   await copyButton.click();
 
   await expect(copyButton.getByText("✓")).toBeVisible();
