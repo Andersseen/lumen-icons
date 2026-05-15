@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { type ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideFileRouter } from '@analogjs/router';
 import { provideMovement } from 'angular-movement';
 

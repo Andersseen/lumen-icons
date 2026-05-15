@@ -1,0 +1,11 @@
+# Global code owners
+* @andersseen
+
+# Library code
+/packages/icons/src/ @andersseen
+
+# Demo app
+/src/app/ @andersseen
+
+# CI/CD and tooling
+/.github/ @andersseen
