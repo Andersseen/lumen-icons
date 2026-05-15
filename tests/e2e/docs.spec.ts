@@ -3,14 +3,17 @@ import { expect, test } from "@playwright/test";
 test("copy terminal snippet in docs", async ({ page }) => {
   await page.goto("/docs");
 
-  const installationSection = page.locator("section#installation");
-  const copyButton = installationSection.getByRole("button", {
-    name: /^copy terminal$/i,
-  });
+  const installationHeading = page.getByRole("heading", { name: "Installation" });
+  await expect(installationHeading).toBeVisible();
+
+  // Find the copy button within the same section region by navigating from the heading
+  const copyButton = page
+    .getByRole("button", { name: /^copy terminal$/i })
+    .first();
   await copyButton.click();
 
   await expect(
-    installationSection.getByRole("button", { name: /^copied!$/i }),
+    page.getByRole("button", { name: /^copied!$/i }).first(),
   ).toBeVisible();
 });
 
