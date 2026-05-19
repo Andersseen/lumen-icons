@@ -13,13 +13,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveVariants]="{
-        active: { scale: [0.9, 1.05, 1], opacity: [0.85, 1] }
-      }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="400"
-      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
-      style="transform-origin: center; transform-box: fill-box;"
+      [class.is-animated]="animate()"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -28,9 +22,38 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="12" cy="8" r="5"/>
-      <path d="M20 21a8 8 0 1 0-16 0"/>
+      <circle class="head" cx="12" cy="8" r="5"/>
+      <path class="body" d="M20 21a8 8 0 1 0-16 0"/>
     </svg>
   `,
+  styles: [`
+    .head, .body {
+      transform-box: fill-box;
+      transition: none;
+    }
+    .head {
+      transform-origin: center bottom;
+    }
+    .body {
+      transform-origin: center bottom;
+    }
+    .is-animated .head {
+      animation: head-greet 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .is-animated .body {
+      animation: body-ack 500ms ease-out 100ms both;
+    }
+    @keyframes head-greet {
+      0%   { transform: rotate(0deg) translateY(0); }
+      40%  { transform: rotate(-14deg) translateY(-1px); }
+      75%  { transform: rotate(4deg) translateY(0); }
+      100% { transform: rotate(0deg) translateY(0); }
+    }
+    @keyframes body-ack {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+  `],
 })
 export class LmnAvatarIcon extends LmnIconBase {}

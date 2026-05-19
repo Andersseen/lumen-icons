@@ -13,13 +13,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveVariants]="{
-        active: { scale: [0.92, 1.06, 1], rotate: [0, -6, 0] }
-      }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="450"
-      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
-      style="transform-origin: center; transform-box: fill-box;"
+      [class.is-animated]="animate()"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -28,9 +22,38 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="11" cy="11" r="8"/>
-      <path d="m21 21-4.3-4.3"/>
+      <circle class="lens" pathLength="1" cx="11" cy="11" r="8"/>
+      <path class="handle" pathLength="1" d="m21 21-4.3-4.3"/>
     </svg>
   `,
+  styles: [`
+    .lens, .handle {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+      transform-box: fill-box;
+      transition: none;
+    }
+    .handle {
+      transform-origin: top left;
+    }
+    .is-animated .lens {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 320ms ease-out forwards;
+    }
+    .is-animated .handle {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: handle-tilt 460ms cubic-bezier(0.34, 1.56, 0.64, 1) 180ms both;
+    }
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes handle-tilt {
+      0%   { stroke-dashoffset: 1; transform: rotate(0deg); }
+      50%  { stroke-dashoffset: 0; transform: rotate(10deg); }
+      100% { stroke-dashoffset: 0; transform: rotate(0deg); }
+    }
+  `],
 })
 export class LmnSearchIcon extends LmnIconBase {}

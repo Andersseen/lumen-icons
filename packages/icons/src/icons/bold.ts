@@ -13,13 +13,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveVariants]="{
-        active: { scale: [0.92, 1.08, 1], x: [-1, 0] }
-      }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="360"
-      moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
-      style="transform-origin: center; transform-box: fill-box;"
+      [class.is-animated]="animate()"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -28,9 +22,26 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M14 12a4 4 0 0 0 0-8H6v8"/>
-      <path d="M15 20a4 4 0 0 0 0-8H6v8Z"/>
+      <path class="bold-stroke" d="M14 12a4 4 0 0 0 0-8H6v8"/>
+      <path class="bold-stroke" d="M15 20a4 4 0 0 0 0-8H6v8Z"/>
     </svg>
   `,
+  styles: [`
+    .bold-stroke {
+      stroke-width: 2;
+      transition: none;
+    }
+    .is-animated .bold-stroke {
+      animation: bold-pulse 500ms ease-out both;
+    }
+    .is-animated .bold-stroke:nth-child(2) {
+      animation-delay: 60ms;
+    }
+    @keyframes bold-pulse {
+      0%   { stroke-width: 2; }
+      45%  { stroke-width: 4.5; }
+      100% { stroke-width: 2; }
+    }
+  `],
 })
 export class LmnBoldIcon extends LmnIconBase {}
