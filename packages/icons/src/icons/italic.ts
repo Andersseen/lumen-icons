@@ -13,13 +13,11 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveVariants]="{
-        active: { rotate: [0, -4, 0], x: [-2, 0] }
-      }"
+      [moveVariants]="{ active: { rotate: [0, -10, 0] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="400"
+      [moveDuration]="600"
       moveEasing="ease-in-out"
-      style="transform-origin: center; transform-box: fill-box;"
+      style="transform-origin: bottom center; transform-box: fill-box;"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
