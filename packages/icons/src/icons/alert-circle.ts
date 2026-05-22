@@ -8,6 +8,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`svg { transform-origin: center; transform-box: fill-box; }`],
   template: `
     <svg
       [attr.width]="size()"
@@ -18,8 +19,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="500"
-      moveEasing="ease-in-out"
-      style="transform-origin: center; transform-box: fill-box;"
+      [moveSpring]="{ stiffness: 350, damping: 16 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

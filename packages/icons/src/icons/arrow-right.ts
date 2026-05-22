@@ -9,11 +9,19 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .arrow-line, .arrow-head {
+      transform-origin: center;
+      transition: stroke-dashoffset 180ms ease-out, opacity 220ms ease-out, transform 220ms ease-out;
+    }
+
     .is-animated .arrow-line {
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
       animation: arrow-draw 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+
     .is-animated .arrow-head {
       animation: arrow-head 360ms cubic-bezier(0.34, 1.56, 0.64, 1) 90ms both;
     }
@@ -38,7 +46,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="320"
-      moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
+      [moveSpring]="{ stiffness: 300, damping: 15 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

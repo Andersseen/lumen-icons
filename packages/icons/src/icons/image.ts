@@ -3,22 +3,15 @@ import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
-  selector: 'lmn-moon',
-  standalone: true,
+  selector: 'lmn-image',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
-  styles: [`svg { transform-origin: center; transform-box: fill-box; }`],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{ active: { rotate: [0, 15], scale: [1, 1.08, 1] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="700"
-      moveEasing="ease-in-out"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -27,8 +20,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+      <circle cx="9" cy="9" r="2"/>
+      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
     </svg>
   `,
 })
-export class LmnMoonIcon extends LmnIconBase {}
+export class LmnImageIcon extends LmnIconBase {}

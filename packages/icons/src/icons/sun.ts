@@ -9,13 +9,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
     .sun-ray {
-      transform-box: fill-box;
       transform-origin: center;
+      transition: transform 220ms ease-out, opacity 220ms ease-out;
     }
+
     .is-animated .sun-ray {
       animation: sun-ray-pop 400ms ease-out both;
     }
+
     .is-animated .sun-ray:nth-child(2)  { animation-delay: 60ms; }
     .is-animated .sun-ray:nth-child(3)  { animation-delay: 120ms; }
     .is-animated .sun-ray:nth-child(4)  { animation-delay: 180ms; }
@@ -39,8 +43,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveVariants]="{ active: { rotate: [0, 12], scale: [1, 1.05, 1] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="800"
-      moveEasing="ease-in-out"
-      style="transform-origin: center; transform-box: fill-box;"
+      [moveSpring]="{ stiffness: 200, damping: 10 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

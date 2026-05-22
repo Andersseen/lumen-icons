@@ -9,13 +9,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
     .x-stroke {
-      transform-box: fill-box;
       transform-origin: center;
+      transition: transform 220ms ease-out;
     }
+
     .is-animated .x-stroke:first-child {
       animation: x-cut-a 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
+
     .is-animated .x-stroke:last-child {
       animation: x-cut-b 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
@@ -43,7 +47,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="380"
-      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
+      [moveSpring]="{ stiffness: 300, damping: 13 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

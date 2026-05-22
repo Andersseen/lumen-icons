@@ -8,17 +8,36 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .arrow-1, .arrow-2, .box {
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+
+    .is-animated .arrow-1,
+    .is-animated .arrow-2,
+    .is-animated .box {
+      animation: draw 350ms ease-out forwards;
+    }
+
+    .is-animated .arrow-2 { animation-delay: 80ms; }
+    .is-animated .box { animation-delay: 160ms; }
+
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
-      [moveVariants]="{ active: { x: [0, -2, 0], y: [0, 2, 0] } }"
+      [moveVariants]="{ active: { scale: [0.92, 1.08, 1] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="450"
-      moveEasing="ease-out"
-      style="transform-origin: center; transform-box: fill-box;"
+      [moveDuration]="400"
+      [moveSpring]="{ stiffness: 340, damping: 15 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -27,34 +46,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="arrow-up" pathLength="1" d="M15 3h6v6"/>
-      <path class="arrow-diagonal" pathLength="1" d="M10 14 21 3"/>
+      <path class="arrow-1" pathLength="1" d="M15 3h6v6"/>
+      <path class="arrow-2" pathLength="1" d="M10 14 21 3"/>
       <path class="box" pathLength="1" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
     </svg>
   `,
-  styles: [`
-    .arrow-up, .arrow-diagonal, .box {
-      stroke-dasharray: none;
-      stroke-dashoffset: 0;
-    }
-    .is-animated .box {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: draw 260ms ease-out 0ms forwards;
-    }
-    .is-animated .arrow-up {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: draw 260ms ease-out 120ms forwards;
-    }
-    .is-animated .arrow-diagonal {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: draw 260ms ease-out 220ms forwards;
-    }
-    @keyframes draw {
-      to { stroke-dashoffset: 0; }
-    }
-  `],
 })
 export class LmnExternalLinkIcon extends LmnIconBase {}

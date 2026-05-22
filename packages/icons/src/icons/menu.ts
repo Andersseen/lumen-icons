@@ -9,13 +9,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
     .menu-line {
-      transform-box: fill-box;
       transform-origin: center;
+      transition: transform 220ms ease-out;
     }
+
     .is-animated .menu-line {
       animation: menu-wave 500ms ease-in-out both;
     }
+
     .is-animated .menu-line:nth-child(1) { animation-delay: 0ms; }
     .is-animated .menu-line:nth-child(2) { animation-delay: 80ms; }
     .is-animated .menu-line:nth-child(3) { animation-delay: 160ms; }
@@ -34,7 +38,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveVariants]="{ active: { opacity: [0.85, 1] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="400"
-      moveEasing="ease-out"
+      [moveSpring]="{ stiffness: 260, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

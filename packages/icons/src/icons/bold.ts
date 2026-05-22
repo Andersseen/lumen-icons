@@ -8,12 +8,36 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .bold-top, .bold-bottom {
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+
+    .is-animated .bold-top,
+    .is-animated .bold-bottom {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 400ms ease-out forwards;
+    }
+
+    .is-animated .bold-bottom { animation-delay: 100ms; }
+
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
+      [moveVariants]="{ active: { scale: [0.92, 1.08, 1] } }"
+      [moveAnimate]="animate() ? 'active' : undefined"
+      [moveDuration]="400"
+      [moveSpring]="{ stiffness: 320, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -22,26 +46,9 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="bold-stroke" d="M14 12a4 4 0 0 0 0-8H6v8"/>
-      <path class="bold-stroke" d="M15 20a4 4 0 0 0 0-8H6v8Z"/>
+      <path class="bold-top" pathLength="1" d="M14 12a4 4 0 0 0 0-8H6v8"/>
+      <path class="bold-bottom" pathLength="1" d="M15 20a4 4 0 0 0 0-8H6v8Z"/>
     </svg>
   `,
-  styles: [`
-    .bold-stroke {
-      stroke-width: 2;
-      transition: none;
-    }
-    .is-animated .bold-stroke {
-      animation: bold-pulse 500ms ease-out both;
-    }
-    .is-animated .bold-stroke:nth-child(2) {
-      animation-delay: 60ms;
-    }
-    @keyframes bold-pulse {
-      0%   { stroke-width: 2; }
-      45%  { stroke-width: 4.5; }
-      100% { stroke-width: 2; }
-    }
-  `],
 })
 export class LmnBoldIcon extends LmnIconBase {}
