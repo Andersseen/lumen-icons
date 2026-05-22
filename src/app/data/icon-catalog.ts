@@ -5,32 +5,52 @@ import { LmnArrowLeftIcon } from '@lumen/icons/arrow-left';
 import { LmnArrowRightIcon } from '@lumen/icons/arrow-right';
 import { LmnAvatarIcon } from '@lumen/icons/avatar';
 import { LmnBadgeIcon } from '@lumen/icons/badge';
+import { LmnBellIcon } from '@lumen/icons/bell';
 import { LmnBoldIcon } from '@lumen/icons/bold';
+import { LmnCalendarIcon } from '@lumen/icons/calendar';
+import { LmnCameraIcon } from '@lumen/icons/camera';
 import { LmnCheckIcon } from '@lumen/icons/check';
 import { LmnCheckboxIcon } from '@lumen/icons/checkbox';
 import { LmnChevronDownIcon } from '@lumen/icons/chevron-down';
 import { LmnChevronRightIcon } from '@lumen/icons/chevron-right';
+import { LmnClockIcon } from '@lumen/icons/clock';
 import { LmnCopyIcon } from '@lumen/icons/copy';
+import { LmnDownloadIcon } from '@lumen/icons/download';
+import { LmnEditIcon } from '@lumen/icons/edit';
 import { LmnExternalLinkIcon } from '@lumen/icons/external-link';
+import { LmnEyeIcon } from '@lumen/icons/eye';
+import { LmnFileIcon } from '@lumen/icons/file';
+import { LmnFolderIcon } from '@lumen/icons/folder';
 import { LmnGithubIcon } from '@lumen/icons/github';
 import { LmnHeartIcon } from '@lumen/icons/heart';
 import { LmnHomeIcon } from '@lumen/icons/home';
+import { LmnImageIcon } from '@lumen/icons/image';
 import { LmnInfoIcon } from '@lumen/icons/info';
 import { LmnItalicIcon } from '@lumen/icons/italic';
+import { LmnLinkIcon } from '@lumen/icons/link';
+import { LmnLockIcon } from '@lumen/icons/lock';
 import { LmnMailIcon } from '@lumen/icons/mail';
+import { LmnMapPinIcon } from '@lumen/icons/map-pin';
 import { LmnMenuIcon } from '@lumen/icons/menu';
 import { LmnMoonIcon } from '@lumen/icons/moon';
 import { LmnMoreVerticalIcon } from '@lumen/icons/more-vertical';
 import { LmnPaperclipIcon } from '@lumen/icons/paperclip';
+import { LmnPhoneIcon } from '@lumen/icons/phone';
 import { LmnPlusIcon } from '@lumen/icons/plus';
 import { LmnRadioIcon } from '@lumen/icons/radio';
 import { LmnSearchIcon } from '@lumen/icons/search';
 import { LmnSettingsIcon } from '@lumen/icons/settings';
+import { LmnShareIcon } from '@lumen/icons/share';
+import { LmnShieldIcon } from '@lumen/icons/shield';
 import { LmnSmileIcon } from '@lumen/icons/smile';
 import { LmnSparklesIcon } from '@lumen/icons/sparkles';
 import { LmnStarIcon } from '@lumen/icons/star';
 import { LmnSunIcon } from '@lumen/icons/sun';
+import { LmnTrashIcon } from '@lumen/icons/trash';
+import { LmnUploadIcon } from '@lumen/icons/upload';
+import { LmnUserIcon } from '@lumen/icons/user';
 import { LmnXIcon } from '@lumen/icons/x';
+import { LmnZapIcon } from '@lumen/icons/zap';
 import type { LmnIconInstance } from '@lumen/icons';
 
 export interface IconEntry {
@@ -72,10 +92,28 @@ export const ICON_CATALOG: IconEntry[] = [
     importStr: "import { LmnBadgeIcon } from '@lumen/icons/badge';",
   },
   {
+    name: 'bell',
+    selector: 'lmn-bell',
+    component: LmnBellIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnBellIcon } from '@lumen/icons/bell';",
+  },
+  {
     name: 'bold',
     selector: 'lmn-bold',
     component: LmnBoldIcon as Type<LmnIconInstance>,
     importStr: "import { LmnBoldIcon } from '@lumen/icons/bold';",
+  },
+  {
+    name: 'calendar',
+    selector: 'lmn-calendar',
+    component: LmnCalendarIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnCalendarIcon } from '@lumen/icons/calendar';",
+  },
+  {
+    name: 'camera',
+    selector: 'lmn-camera',
+    component: LmnCameraIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnCameraIcon } from '@lumen/icons/camera';",
   },
   {
     name: 'check',
@@ -102,16 +140,52 @@ export const ICON_CATALOG: IconEntry[] = [
     importStr: "import { LmnChevronRightIcon } from '@lumen/icons/chevron-right';",
   },
   {
+    name: 'clock',
+    selector: 'lmn-clock',
+    component: LmnClockIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnClockIcon } from '@lumen/icons/clock';",
+  },
+  {
     name: 'copy',
     selector: 'lmn-copy',
     component: LmnCopyIcon as Type<LmnIconInstance>,
     importStr: "import { LmnCopyIcon } from '@lumen/icons/copy';",
   },
   {
+    name: 'download',
+    selector: 'lmn-download',
+    component: LmnDownloadIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnDownloadIcon } from '@lumen/icons/download';",
+  },
+  {
+    name: 'edit',
+    selector: 'lmn-edit',
+    component: LmnEditIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnEditIcon } from '@lumen/icons/edit';",
+  },
+  {
     name: 'external-link',
     selector: 'lmn-external-link',
     component: LmnExternalLinkIcon as Type<LmnIconInstance>,
     importStr: "import { LmnExternalLinkIcon } from '@lumen/icons/external-link';",
+  },
+  {
+    name: 'eye',
+    selector: 'lmn-eye',
+    component: LmnEyeIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnEyeIcon } from '@lumen/icons/eye';",
+  },
+  {
+    name: 'file',
+    selector: 'lmn-file',
+    component: LmnFileIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnFileIcon } from '@lumen/icons/file';",
+  },
+  {
+    name: 'folder',
+    selector: 'lmn-folder',
+    component: LmnFolderIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnFolderIcon } from '@lumen/icons/folder';",
   },
   {
     name: 'github',
@@ -132,6 +206,12 @@ export const ICON_CATALOG: IconEntry[] = [
     importStr: "import { LmnHomeIcon } from '@lumen/icons/home';",
   },
   {
+    name: 'image',
+    selector: 'lmn-image',
+    component: LmnImageIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnImageIcon } from '@lumen/icons/image';",
+  },
+  {
     name: 'info',
     selector: 'lmn-info',
     component: LmnInfoIcon as Type<LmnIconInstance>,
@@ -144,10 +224,28 @@ export const ICON_CATALOG: IconEntry[] = [
     importStr: "import { LmnItalicIcon } from '@lumen/icons/italic';",
   },
   {
+    name: 'link',
+    selector: 'lmn-link',
+    component: LmnLinkIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnLinkIcon } from '@lumen/icons/link';",
+  },
+  {
+    name: 'lock',
+    selector: 'lmn-lock',
+    component: LmnLockIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnLockIcon } from '@lumen/icons/lock';",
+  },
+  {
     name: 'mail',
     selector: 'lmn-mail',
     component: LmnMailIcon as Type<LmnIconInstance>,
     importStr: "import { LmnMailIcon } from '@lumen/icons/mail';",
+  },
+  {
+    name: 'map-pin',
+    selector: 'lmn-map-pin',
+    component: LmnMapPinIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnMapPinIcon } from '@lumen/icons/map-pin';",
   },
   {
     name: 'menu',
@@ -174,6 +272,12 @@ export const ICON_CATALOG: IconEntry[] = [
     importStr: "import { LmnPaperclipIcon } from '@lumen/icons/paperclip';",
   },
   {
+    name: 'phone',
+    selector: 'lmn-phone',
+    component: LmnPhoneIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnPhoneIcon } from '@lumen/icons/phone';",
+  },
+  {
     name: 'plus',
     selector: 'lmn-plus',
     component: LmnPlusIcon as Type<LmnIconInstance>,
@@ -196,6 +300,18 @@ export const ICON_CATALOG: IconEntry[] = [
     selector: 'lmn-settings',
     component: LmnSettingsIcon as Type<LmnIconInstance>,
     importStr: "import { LmnSettingsIcon } from '@lumen/icons/settings';",
+  },
+  {
+    name: 'share',
+    selector: 'lmn-share',
+    component: LmnShareIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnShareIcon } from '@lumen/icons/share';",
+  },
+  {
+    name: 'shield',
+    selector: 'lmn-shield',
+    component: LmnShieldIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnShieldIcon } from '@lumen/icons/shield';",
   },
   {
     name: 'smile',
@@ -222,9 +338,33 @@ export const ICON_CATALOG: IconEntry[] = [
     importStr: "import { LmnSunIcon } from '@lumen/icons/sun';",
   },
   {
+    name: 'trash',
+    selector: 'lmn-trash',
+    component: LmnTrashIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnTrashIcon } from '@lumen/icons/trash';",
+  },
+  {
+    name: 'upload',
+    selector: 'lmn-upload',
+    component: LmnUploadIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnUploadIcon } from '@lumen/icons/upload';",
+  },
+  {
+    name: 'user',
+    selector: 'lmn-user',
+    component: LmnUserIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnUserIcon } from '@lumen/icons/user';",
+  },
+  {
     name: 'x',
     selector: 'lmn-x',
     component: LmnXIcon as Type<LmnIconInstance>,
     importStr: "import { LmnXIcon } from '@lumen/icons/x';",
+  },
+  {
+    name: 'zap',
+    selector: 'lmn-zap',
+    component: LmnZapIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnZapIcon } from '@lumen/icons/zap';",
   },
 ] as const;
