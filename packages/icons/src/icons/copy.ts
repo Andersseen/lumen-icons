@@ -8,14 +8,19 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .copy-back, .copy-front {
+      transform-origin: center;
+      transition: transform 220ms ease-out, opacity 220ms ease-out;
+    }
+
     .is-animated .copy-back {
       animation: copy-shift 400ms ease-in-out forwards;
-      transform-origin: center;
     }
 
     .is-animated .copy-front {
       animation: copy-shift-rev 400ms ease-in-out forwards;
-      transform-origin: center;
     }
 
     @keyframes copy-shift {

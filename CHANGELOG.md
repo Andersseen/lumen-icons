@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **10 new basic icons**: `bell`, `calendar`, `camera`, `clock`, `download`, `edit`, `lock`, `trash`, `upload`, `user` — clean SVG, no animations, ready for production use.
+- **Smooth reset transitions** on all CSS-animated icons: `transition` added to animated elements so deactivating `animate()` returns to base state gracefully instead of snapping.
+
+### Changed
+
+- **Diversified animation personalities**: replaced generic `cubic-bezier(0.34, 1.56, 0.64, 1)` bounce on ~15 icons with unique spring configs or custom easings:
+  - `badge`, `bold`, `checkbox`, `external-link`, `plus` → spring `{ stiffness: 280-340, damping: 12-15 }`
+  - `heart` → soft spring `{ stiffness: 180, damping: 8 }`
+  - `sparkles` → bouncy spring `{ stiffness: 260, damping: 11 }`
+  - `moon` → eased rotate + scale (unchanged easing, no bounce)
+  - `alert-circle` → snappy spring `{ stiffness: 350, damping: 16 }`
+  - `arrow-left`, `arrow-right` → spring `{ stiffness: 300, damping: 15 }`
+  - `sun` → slow spring `{ stiffness: 200, damping: 10 }`
+  - `home`, `menu`, `search` → varied spring configs
+  - `chevron-down`, `chevron-right`, `github`, `info`, `italic`, `settings`, `star` → unique spring stiffness/damping combos
+- **Cleaned inline styles**: moved `style="transform-origin: center; transform-box: fill-box;"` from SVG templates into `styles: []` arrays on all icon components.
+
+## [0.1.0] - 2026-05-22
+
+### Added
+
 - **31 icons** with semantic, opt-in animations via `angular-movement` (`MoveVariantsDirective`) and CSS `@keyframes`.
 - **stroke-draw animations** for icons with narrative paths: `bold`, `checkbox`, `copy`, `external-link`, `home`, `mail`, `paperclip`, `radio`, `search`.
 - **transform animations** for icons with kinetic meaning: `avatar` (head greeting), `smile` (smile + wink), `heart` (heartbeat), `sparkles` (sequential pop), `sun` (ray burst), `x` (cross-cut).

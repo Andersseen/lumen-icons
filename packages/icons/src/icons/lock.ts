@@ -3,21 +3,15 @@ import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
-  selector: 'lmn-italic',
+  selector: 'lmn-lock',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
-  styles: [`svg { transform-origin: center; transform-box: fill-box; }`],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{ active: { rotate: [0, -4, 0], x: [0, -2, 0] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="500"
-      [moveSpring]="{ stiffness: 260, damping: 13 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -26,10 +20,9 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M19 4h-9"/>
-      <path d="M14 20H5"/>
-      <path d="M15 4 9 20"/>
+      <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
   `,
 })
-export class LmnItalicIcon extends LmnIconBase {}
+export class LmnLockIcon extends LmnIconBase {}

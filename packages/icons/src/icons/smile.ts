@@ -8,19 +8,23 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .mouth, .eye-left, .eye-right {
+      transform-origin: center;
+      transition: transform 220ms ease-out;
+    }
+
     .is-animated .mouth {
       animation: smile-mouth 400ms ease-out 100ms forwards;
-      transform-origin: center;
     }
 
     .is-animated .eye-left {
       animation: smile-eye 300ms ease-out 150ms forwards;
-      transform-origin: center;
     }
 
     .is-animated .eye-right {
       animation: smile-eye 300ms ease-out 180ms forwards;
-      transform-origin: center;
     }
 
     @keyframes smile-mouth {
@@ -42,7 +46,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveVariants]="{ active: { rotate: [0, 4, -4, 0], scale: [1, 1.06, 1] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="600"
-      moveEasing="ease-in-out"
+      [moveSpring]="{ stiffness: 240, damping: 12 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

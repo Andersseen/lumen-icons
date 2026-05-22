@@ -8,6 +8,12 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .paperclip-path {
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+
     .is-animated .paperclip-path {
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
@@ -27,7 +33,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveVariants]="{ active: { scale: [0.95, 1.05, 1] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="500"
-      moveEasing="ease-out"
+      [moveSpring]="{ stiffness: 280, damping: 13 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

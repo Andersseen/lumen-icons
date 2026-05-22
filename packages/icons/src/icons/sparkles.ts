@@ -8,15 +8,18 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
-    .spark-line,
-    .spark-core {
-      transform-box: fill-box;
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .spark-line, .spark-core {
       transform-origin: center;
+      transition: transform 220ms ease-out, opacity 220ms ease-out;
     }
+
     .is-animated .spark-line,
     .is-animated .spark-core {
       animation: spark-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
+
     .is-animated .spark-line:nth-child(2) { animation-delay: 35ms; }
     .is-animated .spark-line:nth-child(3) { animation-delay: 70ms; }
     .is-animated .spark-line:nth-child(4) { animation-delay: 105ms; }
@@ -41,7 +44,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="420"
-      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
+      [moveSpring]="{ stiffness: 260, damping: 11 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

@@ -8,9 +8,15 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .mail-rect, .mail-flap {
+      transform-origin: center;
+      transition: transform 220ms ease-out;
+    }
+
     .is-animated .mail-rect {
       animation: mail-scale 500ms ease-in-out forwards;
-      transform-origin: center;
     }
 
     .is-animated .mail-flap {

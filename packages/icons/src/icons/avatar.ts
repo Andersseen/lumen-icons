@@ -8,10 +8,16 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .head, .body {
+      transform-origin: center;
+      transition: transform 220ms ease-out;
+    }
+
     .is-animated .head,
     .is-animated .body {
       animation: avatar-pop 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      transform-origin: center;
     }
 
     .is-animated .body { animation-delay: 60ms; }

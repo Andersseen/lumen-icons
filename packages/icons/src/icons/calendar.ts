@@ -3,21 +3,15 @@ import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
-  selector: 'lmn-italic',
+  selector: 'lmn-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
-  styles: [`svg { transform-origin: center; transform-box: fill-box; }`],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{ active: { rotate: [0, -4, 0], x: [0, -2, 0] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="500"
-      [moveSpring]="{ stiffness: 260, damping: 13 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -26,10 +20,11 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M19 4h-9"/>
-      <path d="M14 20H5"/>
-      <path d="M15 4 9 20"/>
+      <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+      <line x1="16" x2="16" y1="2" y2="6"/>
+      <line x1="8" x2="8" y1="2" y2="6"/>
+      <line x1="3" x2="21" y1="10" y2="10"/>
     </svg>
   `,
 })
-export class LmnItalicIcon extends LmnIconBase {}
+export class LmnCalendarIcon extends LmnIconBase {}

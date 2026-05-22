@@ -8,14 +8,19 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    circle {
+      transform-origin: center;
+      transition: transform 220ms ease-out;
+    }
+
     .is-animated circle:nth-child(1) {
       animation: radio-outer 500ms ease-in-out forwards;
-      transform-origin: center;
     }
 
     .is-animated circle:nth-child(2) {
       animation: radio-inner 500ms ease-in-out forwards;
-      transform-origin: center;
     }
 
     @keyframes radio-outer {

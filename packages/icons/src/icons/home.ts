@@ -8,14 +8,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
-    .home-shell,
-    .home-door {
-      transform-box: fill-box;
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .home-shell, .home-door {
       transform-origin: center bottom;
+      transition: transform 220ms ease-out, opacity 220ms ease-out;
     }
+
     .is-animated .home-shell {
       animation: home-settle 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+
     .is-animated .home-door {
       animation: door-rise 360ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
     }
@@ -42,7 +45,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="420"
-      moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
+      [moveSpring]="{ stiffness: 260, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

@@ -8,6 +8,12 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
   styles: [`
+    svg { transform-origin: center; transform-box: fill-box; }
+
+    .bold-top, .bold-bottom {
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+
     .is-animated .bold-top,
     .is-animated .bold-bottom {
       stroke-dasharray: 1;
@@ -30,7 +36,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [moveVariants]="{ active: { scale: [0.92, 1.08, 1] } }"
       [moveAnimate]="animate() ? 'active' : undefined"
       [moveDuration]="400"
-      moveEasing="cubic-bezier(0.34, 1.56, 0.64, 1)"
+      [moveSpring]="{ stiffness: 320, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
