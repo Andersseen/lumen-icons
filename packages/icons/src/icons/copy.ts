@@ -1,48 +1,50 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, viewChild } from '@angular/core';
-import { AnimationEngine } from 'angular-movement';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { applyTransformOrigin } from '../lib/animation-utils';
 
 @Component({
   selector: 'lmn-copy',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    .is-animated .copy-back {
+      animation: copy-shift 400ms ease-in-out forwards;
+      transform-origin: center;
+    }
+
+    .is-animated .copy-front {
+      animation: copy-shift-rev 400ms ease-in-out forwards;
+      transform-origin: center;
+    }
+
+    @keyframes copy-shift {
+      0%, 100% { transform: translate(0, 0); opacity: 1; }
+      50% { transform: translate(2px, 2px); opacity: 0.7; }
+    }
+
+    @keyframes copy-shift-rev {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-1px, -1px); }
+    }
+  `],
   template: `
-<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
-      viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-      <path #p #r d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+    <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
+      [class.is-animated]="animate()"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect class="copy-back" width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+      <path class="copy-front" d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
     </svg>
   `,
 })
-export class LmnCopyIcon extends LmnIconBase {
-
-  private r = viewChild('r', { read: ElementRef<SVGPathElement> });
-  private p = viewChild('p', { read: ElementRef<SVGPathElement> });
-  private engine = inject(AnimationEngine);
-  private player: ReturnType<AnimationEngine['play']> = null;
-  private player2: ReturnType<AnimationEngine['play']> = null;
-
-  constructor() {
-    super();
-    effect(() => {
-      this.player?.cancel();
-      this.player2?.cancel();
-      this.player = null;
-      this.player2 = null;
-
-      const r = this.r()?.nativeElement;
-      const p = this.p()?.nativeElement;
-      if (!r || !p) return;
-      applyTransformOrigin(r); applyTransformOrigin(p);
-      if (this.animate()) {
-        this.player = this.engine.play(r, { x: [0, 2], y: [0, 2], opacity: [1, 0.7, 1] }, { config: { duration: 400, easing: 'ease-in-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(p, { x: [0, -1], y: [0, -1] }, { config: { duration: 400, easing: 'ease-in-out', delay: 0, disabled: false } });
-      } else {
-        this.player = this.engine.play(r, { x: [0], y: [0], opacity: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(p, { x: [0], y: [0] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-      }
-    });
-  }
-}
+export class LmnCopyIcon extends LmnIconBase {}

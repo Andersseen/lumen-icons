@@ -1,48 +1,50 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, viewChild } from '@angular/core';
-import { AnimationEngine } from 'angular-movement';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
-import { applyTransformOrigin } from '../lib/animation-utils';
 
 @Component({
   selector: 'lmn-radio',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MoveVariantsDirective],
   host: LM_ICON_HOST,
+  styles: [`
+    .is-animated circle:nth-child(1) {
+      animation: radio-outer 500ms ease-in-out forwards;
+      transform-origin: center;
+    }
+
+    .is-animated circle:nth-child(2) {
+      animation: radio-inner 500ms ease-in-out forwards;
+      transform-origin: center;
+    }
+
+    @keyframes radio-outer {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    @keyframes radio-inner {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(0.85); }
+    }
+  `],
   template: `
-<svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()"
-      viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
+      [class.is-animated]="animate()"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
       <circle cx="12" cy="12" r="10"/>
       <circle cx="12" cy="12" r="4"/>
     </svg>
   `,
 })
-export class LmnRadioIcon extends LmnIconBase {
-
-  private outer = viewChild('outer', { read: ElementRef<SVGPathElement> });
-  private inner = viewChild('inner', { read: ElementRef<SVGPathElement> });
-  private engine = inject(AnimationEngine);
-  private player: ReturnType<AnimationEngine['play']> = null;
-  private player2: ReturnType<AnimationEngine['play']> = null;
-
-  constructor() {
-    super();
-    effect(() => {
-      this.player?.cancel();
-      this.player2?.cancel();
-      this.player = null;
-      this.player2 = null;
-
-      const o = this.outer()?.nativeElement;
-      const i = this.inner()?.nativeElement;
-      if (!o || !i) return;
-      applyTransformOrigin(o); applyTransformOrigin(i);
-      if (this.animate()) {
-        this.player = this.engine.play(o, { scale: [1, 1.15, 1] }, { config: { duration: 500, easing: 'ease-in-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(i, { scale: [1, 0.85, 1] }, { config: { duration: 500, easing: 'ease-in-out', delay: 0, disabled: false } });
-      } else {
-        this.player = this.engine.play(o, { scale: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-        this.player2 = this.engine.play(i, { scale: [1] }, { config: { duration: 200, easing: 'ease-out', delay: 0, disabled: false } });
-      }
-    });
-  }
-}
+export class LmnRadioIcon extends LmnIconBase {}

@@ -11,7 +11,7 @@ An open-source Angular icon library inspired by projects like Lucide and Radix I
 - **Tree-shakable by default** — each icon is its own entry point (`@lumen/icons/icons/check`).
 - **Accessible by default** — correct ARIA defaults, configurable `ariaLabel`.
 - **Zero framework styling** — no Tailwind in the library; consumers control appearance.
-- **Optionally animated** — animations via `@angular/animations` (opt-in per icon use).
+- **Optionally animated** — animations via `angular-movement` (`MoveVariantsDirective`) + CSS `@keyframes` (opt-in per icon use).
 - **Installable as a package** OR copy-pasteable as single files into any Angular project.
 
 The companion `src/` application is the official demo + docs site, built with AnalogJS and styled with Tailwind CSS. The demo uses `@voltui/components` for its own UI chrome so development stays fast.
@@ -125,42 +125,40 @@ packages/icons/src/icons/
 Each icon is a standalone Angular component wrapping an inline SVG:
 
 ```typescript
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import type { LmnIconProps, LmnIconSize } from '../types/icon.types';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MoveVariantsDirective } from 'angular-movement';
+import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-check',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'role': 'img',
-    '[attr.aria-label]': 'ariaLabel() || null',
-    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
-    '[style.width.px]': 'size()',
-    '[style.height.px]': 'size()',
-    'style': 'display: inline-flex; flex-shrink: 0;',
-  },
+  imports: [MoveVariantsDirective],
+  host: LM_ICON_HOST,
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.is-animated]="animate()"
+      [moveVariants]="{ active: { scale: [1, 1.06, 1] } }"
+      [moveAnimate]="animate() ? 'active' : undefined"
+      [moveDuration]="400"
+      moveEasing="ease-out"
+      style="transform-origin: center; transform-box: fill-box;"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
       aria-hidden="true"
+      focusable="false"
     >
       <!-- SVG path(s) here -->
     </svg>
   `,
 })
-export class LmnCheckIcon implements LmnIconProps {
-  readonly size    = input<LmnIconSize>(24);
-  readonly strokeWidth = input<number>(2);
-  readonly ariaLabel   = input<string | undefined>(undefined);
-}
+export class LmnCheckIcon extends LmnIconBase {}
 ```
 
 **Rules:**
@@ -169,18 +167,18 @@ export class LmnCheckIcon implements LmnIconProps {
 - Default `size`: 24. Default `strokeWidth`: 2.
 - `ariaLabel` present → `role="img"` + `aria-label` on host, SVG gets `aria-hidden="true"`. Absent → host gets `aria-hidden="true"`.
 - SVGs use `stroke="currentColor"` — color is always inherited from CSS.
-- No classes, no Tailwind, no inline styles beyond `display` and dimensions.
+- No classes, no Tailwind, no inline styles beyond `display`, dimensions, and `transform-origin` / `transform-box` when animating.
 - `sideEffects: false` is declared in `packages/icons/package.json` — do not add module-level side effects.
 
 ### Optional animations
 
-Animations are opt-in via an `animate` input. When `false` (the default), no `@angular/animations` code runs. Import `BrowserAnimationsModule` or `provideAnimations()` only when consuming the animated version.
+Animations are opt-in via an `animate` input. When `false` (the default), no animation code runs.
 
 ```typescript
 readonly animate = input<boolean>(false);
 ```
 
-Use Angular's `trigger`/`transition`/`style` from `@angular/animations` — keep animation metadata co-located inside the component file. Do not import `angular-motion` or any third-party animation package in the library.
+Use `MoveVariantsDirective` from `angular-movement` for declarative transform animations (`scale`, `rotate`, `x`, `y`, `opacity`). For stroke-draw effects or complex multi-element sequences, use CSS `@keyframes` scoped to the component's `styles` and gated behind the `.is-animated` class. `angular-movement` is the project's official animation engine; do not introduce other third-party animation packages in the library.
 
 ### Exporting a new icon
 
@@ -289,7 +287,7 @@ describe('LmnCheckIcon', () => {
 
 - `sideEffects: false` must remain in `packages/icons/package.json` — it enables tree-shaking in consumer bundlers.
 - The `files` field in `packages/icons/package.json` must list only `dist/` — never ship source.
-- Keep peer dependencies minimal and exact (only `@angular/core` and `@angular/common`).
+- Keep peer dependencies minimal and exact (`@angular/core`, `@angular/common`, and `angular-movement`).
 - Run `publint` before every release: `pnpm publint packages/icons` to catch export map issues.
 
 ### Versioning and changelog

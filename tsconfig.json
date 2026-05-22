@@ -5,7 +5,8 @@
     "baseUrl": "./",
     "paths": {
       "@lumen/icons": ["packages/icons/src/index.ts"],
-      "@lumen/icons/*": ["packages/icons/src/*"]
+      "@lumen/icons/icons": ["packages/icons/src/icons/index.ts"],
+      "@lumen/icons/*": ["packages/icons/src/icons/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
