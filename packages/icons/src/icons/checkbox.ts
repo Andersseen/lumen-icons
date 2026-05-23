@@ -1,29 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-checkbox',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
   styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
     .check-box, .check-tick {
-      transition: stroke-dashoffset 180ms ease-out;
-    }
-
-    .is-animated .check-box,
-    .is-animated .check-tick {
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+    .is-animated .check-box,
+    .is-animated .check-tick {
       animation: draw 400ms ease-out forwards;
     }
-
     .is-animated .check-tick { animation-delay: 100ms; }
-
     @keyframes draw {
       to { stroke-dashoffset: 0; }
     }
@@ -34,9 +28,9 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
-      [moveVariants]="{ active: { scale: [0.92, 1.08, 1] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="400"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scale: [0.92, 1.08, 1] }"
+      moveDuration="400"
       [moveSpring]="{ stiffness: 300, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"

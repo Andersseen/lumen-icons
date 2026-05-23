@@ -1,26 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-paperclip',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
   styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
     .paperclip-path {
-      transition: stroke-dashoffset 180ms ease-out;
-    }
-
-    .is-animated .paperclip-path {
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+    .is-animated .paperclip-path {
       animation: draw 500ms ease-out forwards;
     }
-
     @keyframes draw {
       to { stroke-dashoffset: 0; }
     }
@@ -31,9 +26,9 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
-      [moveVariants]="{ active: { scale: [0.95, 1.05, 1] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="500"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scale: [0.95, 1.05, 1] }"
+      moveDuration="500"
       [moveSpring]="{ stiffness: 280, damping: 13 }"
       viewBox="0 0 24 24"
       fill="none"

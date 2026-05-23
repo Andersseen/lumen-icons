@@ -1,29 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-bold',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
   styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
     .bold-top, .bold-bottom {
-      transition: stroke-dashoffset 180ms ease-out;
-    }
-
-    .is-animated .bold-top,
-    .is-animated .bold-bottom {
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
+      transition: stroke-dashoffset 180ms ease-out;
+    }
+    .is-animated .bold-top,
+    .is-animated .bold-bottom {
       animation: draw 400ms ease-out forwards;
     }
-
     .is-animated .bold-bottom { animation-delay: 100ms; }
-
     @keyframes draw {
       to { stroke-dashoffset: 0; }
     }
@@ -34,9 +28,9 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.is-animated]="animate()"
-      [moveVariants]="{ active: { scale: [0.92, 1.08, 1] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="400"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scale: [0.92, 1.08, 1] }"
+      moveDuration="400"
       [moveSpring]="{ stiffness: 320, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"

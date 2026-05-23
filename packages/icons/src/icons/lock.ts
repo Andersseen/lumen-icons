@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-lock',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scale: [1, 1.1, 1] }"
+      moveDuration="400"
+      [moveSpring]="{ stiffness: 300, damping: 14 }"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

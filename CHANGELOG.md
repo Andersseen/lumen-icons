@@ -9,12 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **10 new basic icons**: `bell`, `calendar`, `camera`, `clock`, `download`, `edit`, `lock`, `trash`, `upload`, `user` — clean SVG, no animations, ready for production use.
+- **20 new basic icons**: `bell`, `calendar`, `camera`, `clock`, `download`, `edit`, `eye`, `file`, `folder`, `image`, `link`, `lock`, `map-pin`, `phone`, `share`, `shield`, `trash`, `upload`, `user`, `zap` — clean SVG, accessible defaults, tree-shakable entry points.
+- **Animations on all 20 new icons** via `MoveTargetDirective` from `angular-movement` (spring configs with unique stiffness/damping per icon).
 - **Smooth reset transitions** on all CSS-animated icons: `transition` added to animated elements so deactivating `animate()` returns to base state gracefully instead of snapping.
 
 ### Changed
 
-- **Diversified animation personalities**: replaced generic `cubic-bezier(0.34, 1.56, 0.64, 1)` bounce on ~15 icons with unique spring configs or custom easings:
+- **Migrated `angular-movement` to `0.1.0`** introducing `MoveTargetDirective` for direct, animation-engine-backed transforms.
+- **Refactored ~41 icons** from `MoveVariantsDirective` to `MoveTargetDirective` (pure or hybrid with CSS `@keyframes` for stroke-draw effects):
+  - Pure `MoveTargetDirective`: `avatar`, `bell`, `camera`, `calendar`, `chevron-down`, `chevron-right`, `clock`, `copy`, `download`, `edit`, `eye`, `file`, `folder`, `heart`, `home`, `image`, `info`, `italic`, `link`, `lock`, `mail`, `map-pin`, `menu`, `moon`, `more-vertical`, `paperclip`, `phone`, `radio`, `search`, `share`, `shield`, `smile`, `sparkles`, `star`, `sun`, `trash`, `upload`, `user`, `x`, `zap`
+  - Hybrid (`MoveTargetDirective` + CSS `@keyframes` for `strokeDashoffset`): `arrow-left`, `arrow-right`, `bold`, `check`, `checkbox`, `external-link`, `plus`
+  - Still on `MoveVariantsDirective` (pending future refactor): `alert-circle`, `badge`, `github`, `settings`
+- **Diversified animation personalities**: replaced generic `cubic-bezier(0.34, 1.56, 0.64, 1)` bounce with unique spring configs or custom easings:
   - `badge`, `bold`, `checkbox`, `external-link`, `plus` → spring `{ stiffness: 280-340, damping: 12-15 }`
   - `heart` → soft spring `{ stiffness: 180, damping: 8 }`
   - `sparkles` → bouncy spring `{ stiffness: 260, damping: 11 }`
@@ -51,5 +57,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Icon visibility in non-animated state: removed `stroke-dasharray` / `stroke-dashoffset` from default styles; applied only inside `.is-animated` selectors.
+- Icon visibility in non-animated state: removed `stroke-dasharray` / `stroke-dashoffset` from default styles; applied only inside `.is-animated` selectors so icons are visible by default.
+- Fixed `moveSpring` string literal binding to property binding (`[moveSpring]="..."`) across all `MoveTargetDirective` icons.
 - E2E test selectors in `theme.spec.ts` and `docs.spec.ts` replaced CSS selectors with semantic Playwright queries (`getByLabel`, `getByRole`).
