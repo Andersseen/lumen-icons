@@ -1,52 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-arrow-left',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
-  styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
-    .arrow-line, .arrow-head {
-      transform-origin: center;
-      transition: stroke-dashoffset 180ms ease-out, opacity 220ms ease-out, transform 220ms ease-out;
-    }
-
-    .is-animated .arrow-line {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: arrow-draw 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .is-animated .arrow-head {
-      animation: arrow-head 360ms cubic-bezier(0.34, 1.56, 0.64, 1) 90ms both;
-    }
-
-    @keyframes arrow-draw {
-      to { stroke-dashoffset: 0; }
-    }
-
-    @keyframes arrow-head {
-      0% { opacity: 0.35; transform: translateX(4px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{
-        active: { x: [3, 0], opacity: [0.65, 1] }
-      }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="320"
-      [moveSpring]="{ stiffness: 300, damping: 15 }"
+      [moveTarget]="animate()"
+      [moveFrames]="{ x: [0, 1.26, 0, -0.42, 0], opacity: [1, 0.853, 1], scaleX: [1, 0.97, 1.015, 1] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -55,8 +24,8 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="arrow-line" pathLength="1" d="M19 12H5"/>
-      <path class="arrow-head" d="m12 19-7-7 7-7"/>
+      <path d="M19 12H5"/>
+      <path d="m12 19-7-7 7-7"/>
     </svg>
   `,
 })

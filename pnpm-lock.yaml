@@ -45,8 +45,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(95872548e2fc444457fa11d459033224)
       angular-movement:
-        specifier: ^0.0.2
-        version: 0.0.2(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+        specifier: ^0.1.0
+        version: 0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
       front-matter:
         specifier: ^4.0.2
         version: 4.0.2
@@ -2445,8 +2445,8 @@ packages:
       typescript: '*'
       typescript-eslint: ^8.0.0
 
-  angular-movement@0.0.2:
-    resolution: {integrity: sha512-kXIH01rLVe0BGqvVf807Ya+6NuwsUvR1xsmh7pA4WGS/hSC6zdV7Ciins2iXxAR4tvNlzFrIE2Qih/bx6lOfag==}
+  angular-movement@0.1.0:
+    resolution: {integrity: sha512-A2se3E07otNR6PbTSSZjSqs7xgbc84bMQT5WrO9/pMBNWcjm6U0JzZJDd+7/mUjVP7+OOKh3+4oFpF0bNvq84w==}
     peerDependencies:
       '@angular/common': ^21.2.0
       '@angular/core': ^21.2.0
@@ -7533,7 +7533,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  angular-movement@0.0.2(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
+  angular-movement@0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
     dependencies:
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)

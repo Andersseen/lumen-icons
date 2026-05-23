@@ -1,25 +1,22 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-heart',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
-  styles: [`svg { transform-origin: center; transform-box: fill-box; }`],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveVariants]="{
-        active: { scale: [1, 1.18, 1, 1.14, 1, 1.08, 1] }
-      }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="1500"
-      [moveSpring]="{ stiffness: 180, damping: 8 }"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scale: [1, 1.068, 1, 1.053, 1, 1.03, 1], y: [0, -0.42, 0, -0.21, 0] }"
+      moveReverseDuration="0"
+      moveDuration="1500"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

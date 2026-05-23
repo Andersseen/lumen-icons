@@ -6,6 +6,7 @@ Create a single-repo foundation with:
 
 - Angular app for demo + official website
 - Publishable icon library package with `lmn-*` selectors
+- Optional semantic animation per icon
 - Strong quality gates (lint, typecheck, unit tests, e2e)
 
 ## Repository Shape
@@ -37,16 +38,24 @@ Create a single-repo foundation with:
 - Main export: `@lumen/icons`
 - Barrel export: `@lumen/icons/icons`
 - Per-icon export: `@lumen/icons/<name>`
+- `pnpm run sync:icons` keeps the barrel exports and website catalog aligned with source files
 
 ## Selector Convention
 
 - Prefix: `lmn`
 - Example selectors: `lmn-check`, `lmn-alert-circle`, `lmn-loader`
 
+## Current Quality Gates
+
+1. `pnpm run lint`
+2. `pnpm run typecheck`
+3. `pnpm run test:unit`
+4. `pnpm run check:package`
+5. `pnpm run test:e2e`
+
 ## Next Implementation Milestones
 
-1. Add icon base component contract (host bindings, size/stroke inputs, a11y defaults).
-2. Add first 10 icons and re-export barrel files.
-3. Add generator script to transform source SVG into Angular components.
-4. Add docs page with live previews + copy selector/import snippets.
-5. Add release flow (changesets or semantic-release) for npm publishing.
+1. Validate the published package inside a fresh external Angular app.
+2. Decide whether to move the library build to Angular Package Format tooling before public npm release.
+3. Add a source SVG to Angular component generator for creating new icons, not only syncing existing metadata.
+4. Add release flow with Changesets or semantic-release for npm publishing.

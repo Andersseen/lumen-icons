@@ -1,32 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-search',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
-  styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
-    .is-animated {
-      animation: search-wiggle 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    @keyframes search-wiggle {
-      0% { transform: scale(1) rotate(0deg) translate(0, 0); }
-      50% { transform: scale(1.1) rotate(-5deg) translate(0.5px, 0); }
-      100% { transform: scale(1) rotate(0deg) translate(0, 0); }
-    }
-  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
+      [moveTarget]="animate()"
+      [moveFrames]="{ rotate: [0, -1.9, 0], scale: [1, 1.038, 1], x: [0, 0.21, 0] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

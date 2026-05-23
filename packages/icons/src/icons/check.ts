@@ -1,42 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-check',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
-  styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
-    .check-mark {
-      transition: stroke-dashoffset 200ms ease-out;
-    }
-
-    .is-animated .check-mark {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: check-draw 420ms cubic-bezier(0.16, 1, 0.3, 1) 70ms forwards;
-    }
-
-    @keyframes check-draw {
-      to { stroke-dashoffset: 0; }
-    }
-  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{
-        active: { opacity: [0.7, 1], scale: [0.92, 1.08, 1], y: [2, -1, 0] }
-      }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="460"
-      [moveSpring]="{ stiffness: 300, damping: 13 }"
+      [moveTarget]="animate()"
+      [moveFrames]="{ opacity: [1, 0.874, 1], scale: [1, 0.97, 1.03, 1], y: [0, 0.84, -0.42, 0], rotate: [0, -1.14, 0] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -45,7 +24,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <polyline class="check-mark" pathLength="1" points="4 12 9 17 20 6"/>
+      <polyline points="4 12 9 17 20 6"/>
     </svg>
   `,
 })

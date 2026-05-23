@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-eye',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scaleY: [1, 0.894, 1], scaleX: [1, 1.023, 1] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -21,7 +25,16 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       focusable="false"
     >
       <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-      <circle cx="12" cy="12" r="3"/>
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        [moveTarget]="animate()"
+        [moveFrames]="{ scale: [1, 0.894, 1], opacity: [1, 0.853, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
+        moveDelay="40"
+      />
     </svg>
   `,
 })

@@ -62,10 +62,11 @@ We use Husky + lint-staged. Before each commit:
 
 1. Create `packages/icons/src/icons/my-icon.ts`
 2. Add the component following existing patterns (see `CLAUDE.md`)
-3. Export it in `packages/icons/src/icons/index.ts`
-4. Add tests in `packages/icons/src/icons/my-icon.spec.ts`
-5. Add it to the demo app catalog if desired
-6. Run `pnpm run check` to verify everything passes
+3. Run `pnpm run sync:icons` to update the library barrel and demo catalog
+4. Add focused tests if the icon has custom animation or unusual SVG structure
+5. Run `pnpm run check` to verify everything passes
+
+Animation is optional API surface. Every icon must be fully visible when `animate` is false; stroke-draw hiding such as `stroke-dashoffset` belongs inside `.is-animated` selectors only.
 
 ## Pull Request Process
 

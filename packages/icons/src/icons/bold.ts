@@ -1,43 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
+import { MoveTargetDirective } from 'angular-movement';
 import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-bold',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
+  imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
-  styles: [`
-    svg { transform-origin: center; transform-box: fill-box; }
-
-    .bold-top, .bold-bottom {
-      transition: stroke-dashoffset 180ms ease-out;
-    }
-
-    .is-animated .bold-top,
-    .is-animated .bold-bottom {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: draw 400ms ease-out forwards;
-    }
-
-    .is-animated .bold-bottom { animation-delay: 100ms; }
-
-    @keyframes draw {
-      to { stroke-dashoffset: 0; }
-    }
-  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{ active: { scale: [0.92, 1.08, 1] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="400"
-      [moveSpring]="{ stiffness: 320, damping: 14 }"
+      [moveTarget]="animate()"
+      [moveFrames]="{ scaleX: [1, 1.046, 1], scaleY: [1, 0.985, 1], x: [0, 0.42, 0] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -46,8 +24,8 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="bold-top" pathLength="1" d="M14 12a4 4 0 0 0 0-8H6v8"/>
-      <path class="bold-bottom" pathLength="1" d="M15 20a4 4 0 0 0 0-8H6v8Z"/>
+      <path d="M14 12a4 4 0 0 0 0-8H6v8"/>
+      <path d="M15 20a4 4 0 0 0 0-8H6v8Z"/>
     </svg>
   `,
 })
