@@ -13,9 +13,9 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [moveTarget]="animate()"
-      [moveFrames]="{ scale: [1, 1.1, 1] }"
-      moveDuration="400"
-      [moveSpring]="{ stiffness: 300, damping: 14 }"
+      [moveFrames]="{ y: [0, -0.42, 0], scale: [1, 1.015, 1] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -25,7 +25,14 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       focusable="false"
     >
       <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      <path
+        d="M7 11V7a5 5 0 0 1 10 0v4"
+        [moveTarget]="animate()"
+        [moveFrames]="{ y: [0, -0.84, 0] }"
+        moveReverseDuration="0"
+      moveDuration="560"
+        moveDelay="50"
+      />
     </svg>
   `,
 })

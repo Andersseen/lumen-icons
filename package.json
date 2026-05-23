@@ -40,6 +40,7 @@
     "build:all": "pnpm run build:lib && pnpm run build:app",
     "build:app": "vite build",
     "build:lib": "tsup --config packages/icons/tsup.config.ts",
+    "sync:icons": "node scripts/sync-icons.mjs",
     "watch": "vite build --watch",
     "lint": "eslint .",
     "typecheck": "pnpm run typecheck:app && pnpm run typecheck:lib",

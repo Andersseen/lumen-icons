@@ -23,16 +23,16 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       <path
         d="M18 6 6 18"
         [moveTarget]="animate()"
-        [moveFrames]="{ rotate: [0, -18, 7, 0], y: [0, -1, 0] }"
-        moveDuration="420"
-        [moveSpring]="{ stiffness: 300, damping: 13 }"
+        [moveFrames]="{ rotate: [0, -6.84, 2.66, 0], y: [0, -0.42, 0] }"
+        moveReverseDuration="0"
+      moveDuration="560"
       />
       <path
         d="m6 6 12 12"
         [moveTarget]="animate()"
-        [moveFrames]="{ rotate: [0, 18, -7, 0], y: [0, 1, 0] }"
-        moveDuration="420"
-        [moveSpring]="{ stiffness: 300, damping: 13 }"
+        [moveFrames]="{ rotate: [0, 6.84, -2.66, 0], y: [0, 0.42, 0] }"
+        moveReverseDuration="0"
+      moveDuration="560"
       />
     </svg>
   `,

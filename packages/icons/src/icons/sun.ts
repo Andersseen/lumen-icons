@@ -22,18 +22,18 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <circle cx="12" cy="12" r="4"
         [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.05, 1] }"
+        [moveFrames]="{ scale: [1, 1.019, 1] }"
+        moveReverseDuration="0"
         moveDuration="800"
-        [moveSpring]="{ stiffness: 200, damping: 10 }"
       />
-      <path d="M12 2v2"         [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="60"  moveEasing="ease-out" />
-      <path d="M12 20v2"         [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="120" moveEasing="ease-out" />
-      <path d="M4.93 4.93l1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="180" moveEasing="ease-out" />
-      <path d="M17.66 17.66l1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="240" moveEasing="ease-out" />
-      <path d="M2 12h2"         [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="300" moveEasing="ease-out" />
-      <path d="M20 12h2"         [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="360" moveEasing="ease-out" />
-      <path d="M6.34 17.66l-1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="420" moveEasing="ease-out" />
-      <path d="M19.07 4.93l-1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [0.5, 1], opacity: [0.35, 1] }" moveDuration="400" moveDelay="480" moveEasing="ease-out" />
+      <path d="M12 2v2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="60"  moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M12 20v2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="120" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M4.93 4.93l1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="180" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M17.66 17.66l1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="240" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M2 12h2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="300" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M20 12h2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="360" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M6.34 17.66l-1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="420" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+      <path d="M19.07 4.93l-1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="480" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
     </svg>
   `,
 })

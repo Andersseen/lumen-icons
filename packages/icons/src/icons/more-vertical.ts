@@ -23,25 +23,25 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       <circle
         cx="12" cy="12" r="1"
         [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.5, 1] }"
-        moveDuration="400"
-        [moveSpring]="{ stiffness: 300, damping: 13 }"
+        [moveFrames]="{ scale: [1, 1.11, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
       />
       <circle
         cx="12" cy="5" r="1"
         [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.5, 1] }"
-        moveDuration="400"
+        [moveFrames]="{ scale: [1, 1.11, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveDelay="100"
-        [moveSpring]="{ stiffness: 300, damping: 13 }"
       />
       <circle
         cx="12" cy="19" r="1"
         [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.5, 1] }"
-        moveDuration="400"
+        [moveFrames]="{ scale: [1, 1.11, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveDelay="200"
-        [moveSpring]="{ stiffness: 300, damping: 13 }"
       />
     </svg>
   `,

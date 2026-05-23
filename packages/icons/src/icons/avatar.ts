@@ -23,17 +23,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       <circle
         cx="12" cy="8" r="5"
         [moveTarget]="animate()"
-        [moveFrames]="{ scale: [0.9, 1.1, 1] }"
-        moveDuration="400"
-        [moveSpring]="{ stiffness: 320, damping: 14 }"
+        [moveFrames]="{ scale: [1, 0.962, 1.038, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
       />
       <path
         d="M20 21a8 8 0 1 0-16 0"
         [moveTarget]="animate()"
-        [moveFrames]="{ scale: [0.9, 1.1, 1] }"
-        moveDuration="400"
+        [moveFrames]="{ scale: [1, 0.962, 1.038, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveDelay="60"
-        [moveSpring]="{ stiffness: 320, damping: 14 }"
       />
     </svg>
   `,

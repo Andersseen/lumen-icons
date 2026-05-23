@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Icon contract tests** covering every exported icon component plus a guard against default hidden stroke-draw styles.
+- **`pnpm run sync:icons`** to regenerate icon exports and the website catalog from source icon files.
 - **20 new basic icons**: `bell`, `calendar`, `camera`, `clock`, `download`, `edit`, `eye`, `file`, `folder`, `image`, `link`, `lock`, `map-pin`, `phone`, `share`, `shield`, `trash`, `upload`, `user`, `zap` — clean SVG, accessible defaults, tree-shakable entry points.
 - **Animations on all 20 new icons** via `MoveTargetDirective` from `angular-movement` (spring configs with unique stiffness/damping per icon).
 - **Smooth reset transitions** on all CSS-animated icons: `transition` added to animated elements so deactivating `animate()` returns to base state gracefully instead of snapping.
@@ -16,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Migrated `angular-movement` to `0.1.0`** introducing `MoveTargetDirective` for direct, animation-engine-backed transforms.
+- **Aligned the publishable package peer dependency** to `angular-movement@^0.1.0`.
 - **Refactored ~41 icons** from `MoveVariantsDirective` to `MoveTargetDirective` (pure or hybrid with CSS `@keyframes` for stroke-draw effects):
   - Pure `MoveTargetDirective`: `avatar`, `bell`, `camera`, `calendar`, `chevron-down`, `chevron-right`, `clock`, `copy`, `download`, `edit`, `eye`, `file`, `folder`, `heart`, `home`, `image`, `info`, `italic`, `link`, `lock`, `mail`, `map-pin`, `menu`, `moon`, `more-vertical`, `paperclip`, `phone`, `radio`, `search`, `share`, `shield`, `smile`, `sparkles`, `star`, `sun`, `trash`, `upload`, `user`, `x`, `zap`
   - Hybrid (`MoveTargetDirective` + CSS `@keyframes` for `strokeDashoffset`): `arrow-left`, `arrow-right`, `bold`, `check`, `checkbox`, `external-link`, `plus`

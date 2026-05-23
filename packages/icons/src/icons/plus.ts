@@ -7,31 +7,15 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MoveTargetDirective],
   host: LM_ICON_HOST,
-  styles: [`
-    .plus-h, .plus-v {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      transition: stroke-dashoffset 180ms ease-out;
-    }
-    .is-animated .plus-h,
-    .is-animated .plus-v {
-      animation: draw 400ms ease-out forwards;
-    }
-    .is-animated .plus-v { animation-delay: 100ms; }
-    @keyframes draw {
-      to { stroke-dashoffset: 0; }
-    }
-  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
       [moveTarget]="animate()"
-      [moveFrames]="{ scale: [0.92, 1.08, 1] }"
-      moveDuration="400"
-      [moveSpring]="{ stiffness: 300, damping: 14 }"
+      [moveFrames]="{ rotate: [0, 14, 0], scale: [1, 0.97, 1.03, 1] }"
+      moveReverseDuration="0"
+      moveDuration="560"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -40,8 +24,8 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="plus-h" pathLength="1" d="M5 12h14"/>
-      <path class="plus-v" pathLength="1" d="M12 5v14"/>
+      <path d="M5 12h14"/>
+      <path d="M12 5v14"/>
     </svg>
   `,
 })

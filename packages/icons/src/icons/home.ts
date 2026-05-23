@@ -23,15 +23,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       <path
         d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
         [moveTarget]="animate()"
-        [moveFrames]="{ opacity: [0.55, 1], y: [-3, 0], scale: [0.96, 1.04, 1] }"
-        moveDuration="460"
+        [moveFrames]="{ opacity: [1, 0.811, 1], y: [0, -1.26, 0], scale: [1, 0.985, 1.015, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
       />
       <polyline
         points="9 22 9 12 15 12 15 22"
         [moveTarget]="animate()"
-        [moveFrames]="{ opacity: [0.4, 1], y: [3, 0] }"
-        moveDuration="360"
+        [moveFrames]="{ opacity: [1, 0.748, 1], y: [0, 1.26, 0] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveDelay="90"
         moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
       />

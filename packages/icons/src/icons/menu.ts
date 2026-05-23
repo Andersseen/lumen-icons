@@ -23,23 +23,26 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       <line
         x1="4" x2="20" y1="6" y2="6"
         [moveTarget]="animate()"
-        [moveFrames]="{ scaleX: [1, 0.82, 1] }"
-        moveDuration="500"
+        [moveFrames]="{ scaleX: [1, 0.932, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveEasing="ease-in-out"
       />
       <line
         x1="4" x2="20" y1="12" y2="12"
         [moveTarget]="animate()"
-        [moveFrames]="{ scaleX: [1, 0.82, 1] }"
-        moveDuration="500"
+        [moveFrames]="{ scaleX: [1, 0.932, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveDelay="80"
         moveEasing="ease-in-out"
       />
       <line
         x1="4" x2="20" y1="18" y2="18"
         [moveTarget]="animate()"
-        [moveFrames]="{ scaleX: [1, 0.82, 1] }"
-        moveDuration="500"
+        [moveFrames]="{ scaleX: [1, 0.932, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveDelay="160"
         moveEasing="ease-in-out"
       />

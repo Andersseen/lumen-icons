@@ -23,15 +23,17 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       <rect
         width="14" height="14" x="8" y="8" rx="2" ry="2"
         [moveTarget]="animate()"
-        [moveFrames]="{ x: [0, 2, 0], y: [0, 2, 0], opacity: [1, 0.7, 1] }"
-        moveDuration="400"
+        [moveFrames]="{ x: [0, 0.84, 0], y: [0, 0.84, 0], opacity: [1, 0.874, 1] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveEasing="ease-in-out"
       />
       <path
         d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
         [moveTarget]="animate()"
-        [moveFrames]="{ x: [0, -1, 0], y: [0, -1, 0] }"
-        moveDuration="400"
+        [moveFrames]="{ x: [0, -0.42, 0], y: [0, -0.42, 0] }"
+        moveReverseDuration="0"
+      moveDuration="560"
         moveEasing="ease-in-out"
       />
     </svg>
