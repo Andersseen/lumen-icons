@@ -3,6 +3,7 @@ import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-plus',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': 'ariaLabel() ? "img" : null',

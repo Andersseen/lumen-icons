@@ -30,7 +30,9 @@ Create a single-repo foundation with:
 ## Build Strategy
 
 - App build: Vite/Analog (`pnpm run build:app`)
-- Library build: tsup (`pnpm run build:lib`)
+- Library build: ng-packagr in Angular Package Format (APF) (`pnpm run build:lib`)
+  - Produces FESM2022 bundles, Ivy-compiled metadata, and unified type declarations
+  - Post-build script generates per-icon re-exports so `@lumen/icons/<name>` continues to work
 - Full build: `pnpm run build`
 
 ## Icon Packaging Strategy

@@ -10,24 +10,6 @@
     "README.md",
     "LICENSE"
   ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./icons": {
-      "types": "./dist/icons/index.d.ts",
-      "import": "./dist/icons/index.js"
-    },
-    "./icons/*": {
-      "types": "./dist/icons/*.d.ts",
-      "import": "./dist/icons/*.js"
-    },
-    "./*": {
-      "types": "./dist/icons/*.d.ts",
-      "import": "./dist/icons/*.js"
-    }
-  },
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0"
