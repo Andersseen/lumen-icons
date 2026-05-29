@@ -27,10 +27,10 @@ describe("LmnCheckIcon", () => {
 
   it("renders without animation by default", async () => {
     const { fixture } = await render(LmnCheckIcon);
-    const polyline = fixture.nativeElement.querySelector("polyline");
-    expect(polyline).toBeInTheDocument();
-    const style = polyline?.getAttribute("style") ?? "";
-    expect(style).not.toContain("stroke-dashoffset");
+    const svg = fixture.nativeElement.querySelector("svg");
+    expect(svg).toBeInTheDocument();
+    const style = svg?.getAttribute("style") ?? "";
+    expect(style).not.toContain("animation");
   });
 
   it("accepts animate input as boolean", async () => {

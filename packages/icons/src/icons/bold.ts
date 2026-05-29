@@ -1,22 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-bold',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-bold {
+        0%, 100% { scale: 1 1; scale: 1 1; translate: 0px 0; }
+        50% { scale: 1.046 1; scale: 1 0.985; translate: 0.42px 0; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ scaleX: [1, 1.046, 1], scaleY: [1, 0.985, 1], x: [0, 0.42, 0] }"
-      moveReverseDuration="0"
-      moveDuration="560"
-      viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-bold 560ms ease both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"

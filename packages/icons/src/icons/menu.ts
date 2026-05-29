@@ -1,12 +1,24 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-menu',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-menu {
+        0%, 100% { scale: 1 1; }
+        50% { scale: 0.932 1; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,30 +34,13 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <line
         x1="4" x2="20" y1="6" y2="6"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scaleX: [1, 0.932, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 0ms both' : null"/>
       <line
         x1="4" x2="20" y1="12" y2="12"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scaleX: [1, 0.932, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="80"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 80ms both' : null"/>
       <line
         x1="4" x2="20" y1="18" y2="18"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scaleX: [1, 0.932, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="160"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 160ms both' : null"/>
     </svg>
   `,
 })

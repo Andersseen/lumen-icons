@@ -1,22 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-camera',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-camera {
+        0%, 100% { scale: 1; translate: 0 0px; }
+        50% { scale: 1.015; translate: 0 0px; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ scale: [1, 0.989, 1.015, 1], y: [0, -0.42, 0] }"
-      moveReverseDuration="0"
-      moveDuration="560"
-      viewBox="0 0 24 24"
+      class="lmn-animate-el" [style.animation]="animate() ? 'lmn-camera 560ms ease 0ms both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -29,12 +37,7 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
         cx="12"
         cy="13"
         r="3"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 0.905, 1.084, 1], opacity: [1, 0.811, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="60"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-camera 560ms ease 60ms both' : null"/>
     </svg>
   `,
 })

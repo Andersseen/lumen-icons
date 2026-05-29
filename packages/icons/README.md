@@ -1,7 +1,7 @@
 # @lumen/icons
 
 Accessible, tree-shakable Angular icon components with consistent `lmn-*`
-selectors and optional per-icon animations.
+selectors and optional per-icon CSS animations.
 
 ## Installation
 
@@ -39,12 +39,11 @@ Every icon supports:
 - `ariaLabel`: string
 - `animate`: boolean
 
-Icons are visible by default. Set `animate` to opt into the icon's semantic
-motion.
+Set `animate` to `true` to trigger the icon's built-in CSS keyframe animation.
+Animations are pure CSS — no extra animation library is required.
 
 ## Exports
 
 - `@lumen/icons`
 - `@lumen/icons/icons`
 - `@lumen/icons/<name>`
-- `@lumen/icons/icons/<name>`

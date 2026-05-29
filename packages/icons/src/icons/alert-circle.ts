@@ -1,23 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-alert-circle',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-alert-circle {
+        0%, 100% { translate: 0px 0; rotate: 0deg; }
+        50% { translate: -1.26px 0; rotate: 0deg; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ x: [0, -1.68, 1.68, -1.26, 1.26, 0], rotate: [0, -1.52, 1.52, 0] }"
-      moveReverseDuration="0"
-      moveDuration="560"
-      viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-alert-circle 560ms ease both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"

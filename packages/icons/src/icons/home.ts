@@ -1,12 +1,24 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-home',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-home {
+        0%, 100% { opacity: 1; translate: 0 0px; scale: 1; }
+        50% { opacity: 1; translate: 0 0px; scale: 1.015; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,21 +34,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <path
         d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-        [moveTarget]="animate()"
-        [moveFrames]="{ opacity: [1, 0.811, 1], y: [0, -1.26, 0], scale: [1, 0.985, 1.015, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-home 560ms cubic-bezier(0.16, 1, 0.3, 1) 0ms both' : null"/>
       <polyline
         points="9 22 9 12 15 12 15 22"
-        [moveTarget]="animate()"
-        [moveFrames]="{ opacity: [1, 0.748, 1], y: [0, 1.26, 0] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="90"
-        moveEasing="cubic-bezier(0.16, 1, 0.3, 1)"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-home 560ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both' : null"/>
     </svg>
   `,
 })

@@ -6,7 +6,7 @@ Create a single-repo foundation with:
 
 - Angular app for demo + official website
 - Publishable icon library package with `lmn-*` selectors
-- Optional semantic animation per icon
+- Optional semantic CSS animation per icon (no external animation dependency)
 - Strong quality gates (lint, typecheck, unit tests, e2e)
 
 ## Repository Shape
@@ -30,7 +30,9 @@ Create a single-repo foundation with:
 ## Build Strategy
 
 - App build: Vite/Analog (`pnpm run build:app`)
-- Library build: tsup (`pnpm run build:lib`)
+- Library build: ng-packagr in Angular Package Format (APF) (`pnpm run build:lib`)
+  - Produces FESM2022 bundles, Ivy-compiled metadata, and unified type declarations
+  - Post-build script generates per-icon re-exports so `@lumen/icons/<name>` continues to work
 - Full build: `pnpm run build`
 
 ## Icon Packaging Strategy
@@ -44,6 +46,13 @@ Create a single-repo foundation with:
 
 - Prefix: `lmn`
 - Example selectors: `lmn-check`, `lmn-alert-circle`, `lmn-loader`
+
+## Animation Strategy
+
+- Each icon defines its own `@keyframes` inside the component's `styles` array.
+- The `animate` input toggles the animation via `[class.lmn-animate]` and `[style.animation]`.
+- No peer dependency on animation libraries — animations are pure CSS.
+- The demo app may use `angular-movement` for layout/UI animations, but the icon library itself does not depend on it.
 
 ## Current Quality Gates
 

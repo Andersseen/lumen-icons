@@ -1,22 +1,29 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-github',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-github {
+        0%, 100% { translate: 0 0px; scale: 1; rotate: 0deg; }
+        50% { translate: 0 0px; scale: 1; rotate: 1.14deg; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ y: [0, -0.84, 0], scale: [1, 1.03, 1], rotate: [0, -1.14, 1.14, 0] }"
-      moveReverseDuration="0"
-      moveDuration="650"
-      viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-github 650ms ease both' : null" viewBox="0 0 24 24"
       fill="currentColor"
       aria-hidden="true"
       focusable="false"

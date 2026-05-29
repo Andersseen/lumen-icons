@@ -1,12 +1,24 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-radio',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-radio {
+        0%, 100% { scale: 1; }
+        50% { scale: 1.057; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,20 +34,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <circle
         cx="12" cy="12" r="10"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.057, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-radio 560ms ease-in-out 0ms both' : null"/>
       <circle
         cx="12" cy="12" r="4"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 0.943, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-radio 560ms ease-in-out 60ms both' : null"/>
     </svg>
   `,
 })

@@ -11,18 +11,18 @@
   [moveDuration]="180"
 >
   @if (resolvedTheme() === "dark") {
-  <lmn-sun
-    [size]="16"
-    [strokeWidth]="2"
+  <span
     [move]="{ opacity: [0, 1], rotate: [-18, 0], scale: [0.86, 1] }"
     [moveDuration]="260"
-  />
+  >
+    <lmn-sun [size]="16" [strokeWidth]="2" />
+  </span>
   } @else {
-  <lmn-moon
-    [size]="16"
-    [strokeWidth]="2"
+  <span
     [move]="{ opacity: [0, 1], rotate: [14, 0], scale: [0.86, 1] }"
     [moveDuration]="260"
-  />
+  >
+    <lmn-moon [size]="16" [strokeWidth]="2" />
+  </span>
   }
 </volt-button>

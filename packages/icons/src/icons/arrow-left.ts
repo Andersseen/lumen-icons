@@ -1,22 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-arrow-left',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-arrow-left {
+        0%, 100% { translate: 0px 0; opacity: 1; scale: 1 1; }
+        50% { translate: 0px 0; opacity: 1; scale: 1.015 1; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ x: [0, 1.26, 0, -0.42, 0], opacity: [1, 0.853, 1], scaleX: [1, 0.97, 1.015, 1] }"
-      moveReverseDuration="0"
-      moveDuration="560"
-      viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-arrow-left 560ms ease both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"

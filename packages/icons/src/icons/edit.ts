@@ -1,22 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-edit',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-edit {
+        0%, 100% { rotate: 0deg; }
+        50% { rotate: -1.9deg; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ rotate: [0, -1.9, 0] }"
-      moveReverseDuration="0"
-      moveDuration="560"
-      viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-edit 560ms ease both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
