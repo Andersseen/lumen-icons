@@ -1,22 +1,29 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-external-link',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-external-link {
+        0%, 100% { scale: 1; }
+        50% { scale: 1.015; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [moveTarget]="animate()"
-      [moveFrames]="{ scale: [1, 0.981, 1.015, 1] }"
-      moveReverseDuration="0"
-      moveDuration="560"
-      viewBox="0 0 24 24"
+      class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 0ms both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -26,19 +33,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <path
         d="M15 3h6v6"
-        [moveTarget]="animate()"
-        [moveFrames]="{ x: [0, -0.42, 0.42, 0], y: [0, 0.42, -0.42, 0], opacity: [1, 0.853, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 60ms both' : null"/>
       <path
         d="M10 14 21 3"
-        [moveTarget]="animate()"
-        [moveFrames]="{ x: [0, -0.84, 0.42, 0], y: [0, 0.84, -0.42, 0], opacity: [1, 0.853, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="60"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 60ms both' : null"/>
       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
     </svg>
   `,

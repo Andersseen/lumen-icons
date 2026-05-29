@@ -1,12 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-sun',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-sun {
+        0%, 100% { scale: 1; }
+        50% { scale: 1.019; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -21,19 +32,15 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       focusable="false"
     >
       <circle cx="12" cy="12" r="4"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.019, 1] }"
-        moveReverseDuration="0"
-        moveDuration="800"
-      />
-      <path d="M12 2v2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="60"  moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M12 20v2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="120" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M4.93 4.93l1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="180" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M17.66 17.66l1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="240" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M2 12h2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="300" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M20 12h2"         [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="360" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M6.34 17.66l-1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="420" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
-      <path d="M19.07 4.93l-1.41 1.41" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="480" moveEasing="cubic-bezier(0.22, 1, 0.36, 1)" />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 800ms ease 0ms both' : null"/>
+      <path d="M12 2v2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both' : null"/>
+      <path d="M12 20v2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both' : null"/>
+      <path d="M4.93 4.93l1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both' : null"/>
+      <path d="M17.66 17.66l1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 240ms both' : null"/>
+      <path d="M2 12h2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both' : null"/>
+      <path d="M20 12h2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 360ms both' : null"/>
+      <path d="M6.34 17.66l-1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 420ms both' : null"/>
+      <path d="M19.07 4.93l-1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 480ms both' : null"/>
     </svg>
   `,
 })

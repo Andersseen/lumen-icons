@@ -1,12 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-more-vertical',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-more-vertical {
+        0%, 100% { scale: 1; }
+        50% { scale: 1.11; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,27 +33,13 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <circle
         cx="12" cy="12" r="1"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.11, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 0ms both' : null"/>
       <circle
         cx="12" cy="5" r="1"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.11, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="100"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 100ms both' : null"/>
       <circle
         cx="12" cy="19" r="1"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.11, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="200"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 200ms both' : null"/>
     </svg>
   `,
 })

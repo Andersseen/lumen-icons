@@ -1,12 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-mail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-mail {
+        0%, 100% { scale: 1; }
+        50% { scale: 1.023; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,21 +33,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <rect
         width="20" height="16" x="2" y="4" rx="2"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 1.023, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-mail 560ms ease-in-out 0ms both' : null"/>
       <path
         d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
-        [moveTarget]="animate()"
-        [moveFrames]="{ y: [0, -0.84, 0] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveDelay="80"
-        moveEasing="cubic-bezier(0.22, 1, 0.36, 1)"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-mail 560ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both' : null"/>
     </svg>
   `,
 })

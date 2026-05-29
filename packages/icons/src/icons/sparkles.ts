@@ -1,12 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-sparkles',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-sparkles {
+        0%, 100% { scale: 1; opacity: 1; }
+        50% { scale: 1.04; opacity: 1; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -20,19 +31,14 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M12 2v4"     [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="0" />
-      <path d="m5 5 2.8 2.8" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="35" />
-      <path d="m19 5-2.8 2.8" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="70" />
-      <path d="M12 12v8"     [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="105" />
-      <path d="m5 19 2.8-2.8" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="140" />
-      <path d="m19 19-2.8-2.8" [moveTarget]="animate()" [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }" moveReverseDuration="0" moveDuration="560" moveDelay="175" />
+      <path d="M12 2v4"     class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 0ms both' : null"/>
+      <path d="m5 5 2.8 2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 35ms both' : null"/>
+      <path d="m19 5-2.8 2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 70ms both' : null"/>
+      <path d="M12 12v8"     class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 105ms both' : null"/>
+      <path d="m5 19 2.8-2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 140ms both' : null"/>
+      <path d="m19 19-2.8-2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 175ms both' : null"/>
       <circle cx="12" cy="12" r="3"
-        [moveTarget]="animate()"
-        [moveFrames]="{ scale: [1, 0.92, 1.04, 1], opacity: [1, 0.88, 1] }"
-        moveReverseDuration="0"
-        moveDuration="560"
-        moveDelay="90"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 90ms both' : null"/>
     </svg>
   `,
 })

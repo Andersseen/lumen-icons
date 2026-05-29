@@ -1,12 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-x',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-x {
+        0%, 100% { rotate: 0deg; translate: 0 0px; }
+        50% { rotate: 2.66deg; translate: 0 0px; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,18 +33,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <path
         d="M18 6 6 18"
-        [moveTarget]="animate()"
-        [moveFrames]="{ rotate: [0, -6.84, 2.66, 0], y: [0, -0.42, 0] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-x 560ms ease 0ms both' : null"/>
       <path
         d="m6 6 12 12"
-        [moveTarget]="animate()"
-        [moveFrames]="{ rotate: [0, 6.84, -2.66, 0], y: [0, 0.42, 0] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-x 560ms ease 60ms both' : null"/>
     </svg>
   `,
 })

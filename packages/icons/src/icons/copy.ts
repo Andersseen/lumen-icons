@@ -1,12 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveTargetDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-copy',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveTargetDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    .lmn-animate-el { display: inline-block; }
+    
+      @keyframes lmn-copy {
+        0%, 100% { translate: 0px 0; translate: 0 0px; opacity: 1; }
+        50% { translate: 0.84px 0; translate: 0 0.84px; opacity: 0.874; }
+      }
+  `],
   template: `
     <svg
       [attr.width]="size()"
@@ -22,20 +33,10 @@ import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
     >
       <rect
         width="14" height="14" x="8" y="8" rx="2" ry="2"
-        [moveTarget]="animate()"
-        [moveFrames]="{ x: [0, 0.84, 0], y: [0, 0.84, 0], opacity: [1, 0.874, 1] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-copy 560ms ease-in-out 0ms both' : null"/>
       <path
         d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-        [moveTarget]="animate()"
-        [moveFrames]="{ x: [0, -0.42, 0], y: [0, -0.42, 0] }"
-        moveReverseDuration="0"
-      moveDuration="560"
-        moveEasing="ease-in-out"
-      />
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-copy 560ms ease-in-out 60ms both' : null"/>
     </svg>
   `,
 })

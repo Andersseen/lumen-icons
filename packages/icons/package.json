@@ -30,7 +30,6 @@
   },
   "peerDependencies": {
     "@angular/common": "^21.0.0",
-    "@angular/core": "^21.0.0",
-    "angular-movement": "^0.1.0"
+    "@angular/core": "^21.0.0"
   }
 }
