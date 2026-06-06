@@ -67,6 +67,7 @@ Create a single-repo foundation with:
 
 - Search matches icon name, selector, category label, category id, and aliases.
 - Category filters use the metadata map and are independent of the generated icon source list.
+- The catalog demo exposes preview controls for size, stroke width, animation, and icon color.
 - Each icon card can copy the import, selector snippet, or a complete standalone Angular example.
 - Copy feedback is visible and announced through an `aria-live` region.
 - Catalog card interactions use CSS transitions so the icon page does not need the app animation helper.

@@ -13,6 +13,12 @@ import { ICON_CATEGORIES, ICON_CATEGORY_LABELS, type IconCategory } from '../dat
 
 type CategoryFilter = IconCategory | 'all';
 
+interface PreviewColorOption {
+  readonly value: string;
+  readonly label: string;
+  readonly swatch: string;
+}
+
 @Component({
   selector: 'app-icons',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,6 +53,9 @@ type CategoryFilter = IconCategory | 'all';
             <span class="rounded-md border border-border px-2.5 py-1">
               {{ strokeWidth() }} stroke
             </span>
+            <span class="rounded-md border border-border px-2.5 py-1">
+              {{ selectedPreviewColor().label }}
+            </span>
           </div>
         </div>
       </div>
@@ -61,7 +70,9 @@ type CategoryFilter = IconCategory | 'all';
         [(size)]="size"
         [(strokeWidth)]="strokeWidth"
         [(animate)]="animate"
+        [(previewColor)]="previewColor"
         [categories]="categoryFilters"
+        [previewColors]="previewColors"
         [resultCount]="filteredIcons().length"
         [totalCount]="totalIcons"
       />
@@ -98,6 +109,20 @@ type CategoryFilter = IconCategory | 'all';
             <app-size-picker [(size)]="size" ariaLabel="Icon size" />
             <app-animation-picker [(animate)]="animate" ariaLabel="Animation" />
           </div>
+          <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Preview color">
+            @for (item of previewColors; track item.value) {
+              <button
+                type="button"
+                role="radio"
+                [attr.aria-checked]="previewColor() === item.value"
+                class="h-8 w-8 rounded-md border transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                [class]="previewColor() === item.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'"
+                [style.background]="item.swatch"
+                [attr.aria-label]="item.label"
+                (click)="previewColor.set(item.value)"
+              ></button>
+            }
+          </div>
         </div>
 
         @if (filteredIcons().length > 0) {
@@ -111,6 +136,7 @@ type CategoryFilter = IconCategory | 'all';
                 [icon]="icon"
                 [iconInputs]="iconInputs()"
                 [categoryLabel]="categoryLabel(icon.category)"
+                [previewColor]="previewColor()"
               />
             }
           </div>
@@ -138,11 +164,20 @@ export default class IconsPageComponent {
   readonly size = signal<LmnIconSize>(24);
   readonly strokeWidth = signal(2);
   readonly animate = signal<boolean>(false);
+  readonly previewColor = signal('inherit');
 
   readonly totalIcons = ICON_CATALOG.length;
   readonly categoryFilters: readonly { value: CategoryFilter; label: string }[] = [
     { value: 'all', label: 'All' },
     ...ICON_CATEGORIES,
+  ];
+  readonly previewColors: readonly PreviewColorOption[] = [
+    { value: 'inherit', label: 'Default', swatch: 'linear-gradient(135deg, #94a3b8, #e2e8f0)' },
+    { value: 'oklch(0.6056 0.2189 292.7172)', label: 'Primary', swatch: 'oklch(0.6056 0.2189 292.7172)' },
+    { value: 'oklch(0.6959 0.1491 162.4796)', label: 'Success', swatch: 'oklch(0.6959 0.1491 162.4796)' },
+    { value: 'oklch(0.7686 0.1647 70.0804)', label: 'Warning', swatch: 'oklch(0.7686 0.1647 70.0804)' },
+    { value: 'oklch(0.6368 0.2078 25.3313)', label: 'Danger', swatch: 'oklch(0.6368 0.2078 25.3313)' },
+    { value: 'oklch(0.6231 0.1880 259.8145)', label: 'Info', swatch: 'oklch(0.6231 0.1880 259.8145)' },
   ];
 
   readonly filteredIcons = computed(() => {
@@ -167,6 +202,9 @@ export default class IconsPageComponent {
 
   readonly selectedCategoryLabel = computed(() => (
     this.category() === 'all' ? 'All categories' : this.categoryLabel(this.category() as IconCategory)
+  ));
+  readonly selectedPreviewColor = computed(() => (
+    this.previewColors.find(color => color.value === this.previewColor()) ?? this.previewColors[0]
   ));
 
   readonly iconInputs = computed((): IconCardInputs => ({

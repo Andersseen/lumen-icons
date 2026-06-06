@@ -9,7 +9,11 @@
     [attr.aria-label]="'Copy import for ' + icon().name"
     (click)="handlePreviewClick()"
   >
-    <div class="icon-inner text-secondary-foreground transition-colors group-hover:text-foreground" [class.popped]="popped()">
+    <div
+      class="icon-inner transition-colors"
+      [class.popped]="popped()"
+      [style.color]="previewColor()"
+    >
       <ng-container
         [ngComponentOutlet]="icon().component"
         [ngComponentOutletInputs]="cardInputs()"
@@ -33,9 +37,9 @@
       (click)="copySnippet('import')"
     >
       @if (isCopied('import')) {
-        <lmn-check [size]="13" [strokeWidth]="2.5" class="text-success" />
+        <lmn-check [size]="14" [strokeWidth]="2.5" class="text-success" />
       } @else {
-        <lmn-copy [size]="13" [strokeWidth]="2" />
+        <lmn-copy [size]="14" [strokeWidth]="2" />
       }
       Import
     </button>
@@ -47,9 +51,9 @@
       (click)="copySnippet('selector')"
     >
       @if (isCopied('selector')) {
-        <lmn-check [size]="13" [strokeWidth]="2.5" class="text-success" />
+        <lmn-check [size]="14" [strokeWidth]="2.5" class="text-success" />
       } @else {
-        <lmn-copy [size]="13" [strokeWidth]="2" />
+        <lmn-copy [size]="14" [strokeWidth]="2" />
       }
       HTML
     </button>
@@ -61,9 +65,9 @@
       (click)="copySnippet('example')"
     >
       @if (isCopied('example')) {
-        <lmn-check [size]="13" [strokeWidth]="2.5" class="text-success" />
+        <lmn-check [size]="14" [strokeWidth]="2.5" class="text-success" />
       } @else {
-        <lmn-copy [size]="13" [strokeWidth]="2" />
+        <lmn-copy [size]="14" [strokeWidth]="2" />
       }
       Code
     </button>

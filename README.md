@@ -5,6 +5,7 @@ Single repository for:
 - Angular app (demo + official website)
 - Publishable icon library package (`@lumen/icons`)
 - Optional per-icon animations powered by `angular-movement`
+- Interactive catalog demo with search aliases, categories, size, stroke, animation, and color preview controls
 
 This is not a monorepo with multiple apps/packages managed by separate tooling; it is one repository with a clear internal package boundary for the icon library.
 

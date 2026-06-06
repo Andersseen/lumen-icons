@@ -1,54 +1,79 @@
 import type { Type } from '@angular/core';
 
 import { LmnAlertCircleIcon } from '@lumen/icons/alert-circle';
+import { LmnArrowDownIcon } from '@lumen/icons/arrow-down';
 import { LmnArrowLeftIcon } from '@lumen/icons/arrow-left';
 import { LmnArrowRightIcon } from '@lumen/icons/arrow-right';
+import { LmnArrowUpIcon } from '@lumen/icons/arrow-up';
 import { LmnAvatarIcon } from '@lumen/icons/avatar';
 import { LmnBadgeIcon } from '@lumen/icons/badge';
 import { LmnBellIcon } from '@lumen/icons/bell';
 import { LmnBoldIcon } from '@lumen/icons/bold';
+import { LmnBookmarkIcon } from '@lumen/icons/bookmark';
 import { LmnCalendarIcon } from '@lumen/icons/calendar';
 import { LmnCameraIcon } from '@lumen/icons/camera';
 import { LmnCheckIcon } from '@lumen/icons/check';
 import { LmnCheckboxIcon } from '@lumen/icons/checkbox';
 import { LmnChevronDownIcon } from '@lumen/icons/chevron-down';
+import { LmnChevronLeftIcon } from '@lumen/icons/chevron-left';
 import { LmnChevronRightIcon } from '@lumen/icons/chevron-right';
 import { LmnClockIcon } from '@lumen/icons/clock';
 import { LmnCopyIcon } from '@lumen/icons/copy';
+import { LmnDatabaseIcon } from '@lumen/icons/database';
 import { LmnDownloadIcon } from '@lumen/icons/download';
 import { LmnEditIcon } from '@lumen/icons/edit';
 import { LmnExternalLinkIcon } from '@lumen/icons/external-link';
 import { LmnEyeIcon } from '@lumen/icons/eye';
 import { LmnFileIcon } from '@lumen/icons/file';
+import { LmnFilterIcon } from '@lumen/icons/filter';
 import { LmnFolderIcon } from '@lumen/icons/folder';
 import { LmnGithubIcon } from '@lumen/icons/github';
+import { LmnGlobeIcon } from '@lumen/icons/globe';
+import { LmnGridIcon } from '@lumen/icons/grid';
 import { LmnHeartIcon } from '@lumen/icons/heart';
 import { LmnHomeIcon } from '@lumen/icons/home';
 import { LmnImageIcon } from '@lumen/icons/image';
 import { LmnInfoIcon } from '@lumen/icons/info';
 import { LmnItalicIcon } from '@lumen/icons/italic';
+import { LmnKeyIcon } from '@lumen/icons/key';
 import { LmnLinkIcon } from '@lumen/icons/link';
+import { LmnListIcon } from '@lumen/icons/list';
+import { LmnLoaderIcon } from '@lumen/icons/loader';
 import { LmnLockIcon } from '@lumen/icons/lock';
+import { LmnLogInIcon } from '@lumen/icons/log-in';
+import { LmnLogOutIcon } from '@lumen/icons/log-out';
 import { LmnMailIcon } from '@lumen/icons/mail';
 import { LmnMapPinIcon } from '@lumen/icons/map-pin';
 import { LmnMenuIcon } from '@lumen/icons/menu';
+import { LmnMessageCircleIcon } from '@lumen/icons/message-circle';
+import { LmnMinusIcon } from '@lumen/icons/minus';
 import { LmnMoonIcon } from '@lumen/icons/moon';
 import { LmnMoreVerticalIcon } from '@lumen/icons/more-vertical';
+import { LmnPackageIcon } from '@lumen/icons/package';
 import { LmnPaperclipIcon } from '@lumen/icons/paperclip';
+import { LmnPauseIcon } from '@lumen/icons/pause';
 import { LmnPhoneIcon } from '@lumen/icons/phone';
+import { LmnPlayIcon } from '@lumen/icons/play';
 import { LmnPlusIcon } from '@lumen/icons/plus';
 import { LmnRadioIcon } from '@lumen/icons/radio';
+import { LmnRefreshCwIcon } from '@lumen/icons/refresh-cw';
+import { LmnSaveIcon } from '@lumen/icons/save';
 import { LmnSearchIcon } from '@lumen/icons/search';
+import { LmnSendIcon } from '@lumen/icons/send';
 import { LmnSettingsIcon } from '@lumen/icons/settings';
 import { LmnShareIcon } from '@lumen/icons/share';
 import { LmnShieldIcon } from '@lumen/icons/shield';
+import { LmnShoppingCartIcon } from '@lumen/icons/shopping-cart';
 import { LmnSmileIcon } from '@lumen/icons/smile';
 import { LmnSparklesIcon } from '@lumen/icons/sparkles';
 import { LmnStarIcon } from '@lumen/icons/star';
 import { LmnSunIcon } from '@lumen/icons/sun';
+import { LmnTagIcon } from '@lumen/icons/tag';
+import { LmnTerminalIcon } from '@lumen/icons/terminal';
 import { LmnTrashIcon } from '@lumen/icons/trash';
 import { LmnUploadIcon } from '@lumen/icons/upload';
 import { LmnUserIcon } from '@lumen/icons/user';
+import { LmnUsersIcon } from '@lumen/icons/users';
 import { LmnXIcon } from '@lumen/icons/x';
 import { LmnZapIcon } from '@lumen/icons/zap';
 import type { LmnIconInstance } from '@lumen/icons';
@@ -85,6 +110,24 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['alert-circle']?.aliases ?? [],
   },
   {
+    name: 'arrow-down',
+    selector: 'lmn-arrow-down',
+    component: LmnArrowDownIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnArrowDownIcon } from '@lumen/icons/arrow-down';",
+    selectorStr: '<lmn-arrow-down ariaLabel="arrow-down" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnArrowDownIcon } from '@lumen/icons/arrow-down';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnArrowDownIcon],
+  template: '<lmn-arrow-down ariaLabel="arrow-down" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['arrow-down']?.category ?? 'system',
+    aliases: ICON_METADATA['arrow-down']?.aliases ?? [],
+  },
+  {
     name: 'arrow-left',
     selector: 'lmn-arrow-left',
     component: LmnArrowLeftIcon as Type<LmnIconInstance>,
@@ -119,6 +162,24 @@ import { LmnArrowRightIcon } from '@lumen/icons/arrow-right';
 export class ExampleComponent {}`,
     category: ICON_METADATA['arrow-right']?.category ?? 'system',
     aliases: ICON_METADATA['arrow-right']?.aliases ?? [],
+  },
+  {
+    name: 'arrow-up',
+    selector: 'lmn-arrow-up',
+    component: LmnArrowUpIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnArrowUpIcon } from '@lumen/icons/arrow-up';",
+    selectorStr: '<lmn-arrow-up ariaLabel="arrow-up" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnArrowUpIcon } from '@lumen/icons/arrow-up';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnArrowUpIcon],
+  template: '<lmn-arrow-up ariaLabel="arrow-up" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['arrow-up']?.category ?? 'system',
+    aliases: ICON_METADATA['arrow-up']?.aliases ?? [],
   },
   {
     name: 'avatar',
@@ -191,6 +252,24 @@ import { LmnBoldIcon } from '@lumen/icons/bold';
 export class ExampleComponent {}`,
     category: ICON_METADATA['bold']?.category ?? 'system',
     aliases: ICON_METADATA['bold']?.aliases ?? [],
+  },
+  {
+    name: 'bookmark',
+    selector: 'lmn-bookmark',
+    component: LmnBookmarkIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnBookmarkIcon } from '@lumen/icons/bookmark';",
+    selectorStr: '<lmn-bookmark ariaLabel="bookmark" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnBookmarkIcon } from '@lumen/icons/bookmark';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnBookmarkIcon],
+  template: '<lmn-bookmark ariaLabel="bookmark" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['bookmark']?.category ?? 'system',
+    aliases: ICON_METADATA['bookmark']?.aliases ?? [],
   },
   {
     name: 'calendar',
@@ -283,6 +362,24 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['chevron-down']?.aliases ?? [],
   },
   {
+    name: 'chevron-left',
+    selector: 'lmn-chevron-left',
+    component: LmnChevronLeftIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnChevronLeftIcon } from '@lumen/icons/chevron-left';",
+    selectorStr: '<lmn-chevron-left ariaLabel="chevron-left" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnChevronLeftIcon } from '@lumen/icons/chevron-left';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnChevronLeftIcon],
+  template: '<lmn-chevron-left ariaLabel="chevron-left" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['chevron-left']?.category ?? 'system',
+    aliases: ICON_METADATA['chevron-left']?.aliases ?? [],
+  },
+  {
     name: 'chevron-right',
     selector: 'lmn-chevron-right',
     component: LmnChevronRightIcon as Type<LmnIconInstance>,
@@ -335,6 +432,24 @@ import { LmnCopyIcon } from '@lumen/icons/copy';
 export class ExampleComponent {}`,
     category: ICON_METADATA['copy']?.category ?? 'system',
     aliases: ICON_METADATA['copy']?.aliases ?? [],
+  },
+  {
+    name: 'database',
+    selector: 'lmn-database',
+    component: LmnDatabaseIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnDatabaseIcon } from '@lumen/icons/database';",
+    selectorStr: '<lmn-database ariaLabel="database" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnDatabaseIcon } from '@lumen/icons/database';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnDatabaseIcon],
+  template: '<lmn-database ariaLabel="database" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['database']?.category ?? 'system',
+    aliases: ICON_METADATA['database']?.aliases ?? [],
   },
   {
     name: 'download',
@@ -427,6 +542,24 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['file']?.aliases ?? [],
   },
   {
+    name: 'filter',
+    selector: 'lmn-filter',
+    component: LmnFilterIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnFilterIcon } from '@lumen/icons/filter';",
+    selectorStr: '<lmn-filter ariaLabel="filter" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnFilterIcon } from '@lumen/icons/filter';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnFilterIcon],
+  template: '<lmn-filter ariaLabel="filter" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['filter']?.category ?? 'system',
+    aliases: ICON_METADATA['filter']?.aliases ?? [],
+  },
+  {
     name: 'folder',
     selector: 'lmn-folder',
     component: LmnFolderIcon as Type<LmnIconInstance>,
@@ -461,6 +594,42 @@ import { LmnGithubIcon } from '@lumen/icons/github';
 export class ExampleComponent {}`,
     category: ICON_METADATA['github']?.category ?? 'system',
     aliases: ICON_METADATA['github']?.aliases ?? [],
+  },
+  {
+    name: 'globe',
+    selector: 'lmn-globe',
+    component: LmnGlobeIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnGlobeIcon } from '@lumen/icons/globe';",
+    selectorStr: '<lmn-globe ariaLabel="globe" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnGlobeIcon } from '@lumen/icons/globe';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnGlobeIcon],
+  template: '<lmn-globe ariaLabel="globe" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['globe']?.category ?? 'system',
+    aliases: ICON_METADATA['globe']?.aliases ?? [],
+  },
+  {
+    name: 'grid',
+    selector: 'lmn-grid',
+    component: LmnGridIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnGridIcon } from '@lumen/icons/grid';",
+    selectorStr: '<lmn-grid ariaLabel="grid" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnGridIcon } from '@lumen/icons/grid';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnGridIcon],
+  template: '<lmn-grid ariaLabel="grid" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['grid']?.category ?? 'system',
+    aliases: ICON_METADATA['grid']?.aliases ?? [],
   },
   {
     name: 'heart',
@@ -553,6 +722,24 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['italic']?.aliases ?? [],
   },
   {
+    name: 'key',
+    selector: 'lmn-key',
+    component: LmnKeyIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnKeyIcon } from '@lumen/icons/key';",
+    selectorStr: '<lmn-key ariaLabel="key" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnKeyIcon } from '@lumen/icons/key';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnKeyIcon],
+  template: '<lmn-key ariaLabel="key" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['key']?.category ?? 'system',
+    aliases: ICON_METADATA['key']?.aliases ?? [],
+  },
+  {
     name: 'link',
     selector: 'lmn-link',
     component: LmnLinkIcon as Type<LmnIconInstance>,
@@ -571,6 +758,42 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['link']?.aliases ?? [],
   },
   {
+    name: 'list',
+    selector: 'lmn-list',
+    component: LmnListIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnListIcon } from '@lumen/icons/list';",
+    selectorStr: '<lmn-list ariaLabel="list" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnListIcon } from '@lumen/icons/list';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnListIcon],
+  template: '<lmn-list ariaLabel="list" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['list']?.category ?? 'system',
+    aliases: ICON_METADATA['list']?.aliases ?? [],
+  },
+  {
+    name: 'loader',
+    selector: 'lmn-loader',
+    component: LmnLoaderIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnLoaderIcon } from '@lumen/icons/loader';",
+    selectorStr: '<lmn-loader ariaLabel="loader" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnLoaderIcon } from '@lumen/icons/loader';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnLoaderIcon],
+  template: '<lmn-loader ariaLabel="loader" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['loader']?.category ?? 'system',
+    aliases: ICON_METADATA['loader']?.aliases ?? [],
+  },
+  {
     name: 'lock',
     selector: 'lmn-lock',
     component: LmnLockIcon as Type<LmnIconInstance>,
@@ -587,6 +810,42 @@ import { LmnLockIcon } from '@lumen/icons/lock';
 export class ExampleComponent {}`,
     category: ICON_METADATA['lock']?.category ?? 'system',
     aliases: ICON_METADATA['lock']?.aliases ?? [],
+  },
+  {
+    name: 'log-in',
+    selector: 'lmn-log-in',
+    component: LmnLogInIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnLogInIcon } from '@lumen/icons/log-in';",
+    selectorStr: '<lmn-log-in ariaLabel="log-in" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnLogInIcon } from '@lumen/icons/log-in';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnLogInIcon],
+  template: '<lmn-log-in ariaLabel="log-in" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['log-in']?.category ?? 'system',
+    aliases: ICON_METADATA['log-in']?.aliases ?? [],
+  },
+  {
+    name: 'log-out',
+    selector: 'lmn-log-out',
+    component: LmnLogOutIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnLogOutIcon } from '@lumen/icons/log-out';",
+    selectorStr: '<lmn-log-out ariaLabel="log-out" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnLogOutIcon } from '@lumen/icons/log-out';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnLogOutIcon],
+  template: '<lmn-log-out ariaLabel="log-out" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['log-out']?.category ?? 'system',
+    aliases: ICON_METADATA['log-out']?.aliases ?? [],
   },
   {
     name: 'mail',
@@ -643,6 +902,42 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['menu']?.aliases ?? [],
   },
   {
+    name: 'message-circle',
+    selector: 'lmn-message-circle',
+    component: LmnMessageCircleIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnMessageCircleIcon } from '@lumen/icons/message-circle';",
+    selectorStr: '<lmn-message-circle ariaLabel="message-circle" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnMessageCircleIcon } from '@lumen/icons/message-circle';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnMessageCircleIcon],
+  template: '<lmn-message-circle ariaLabel="message-circle" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['message-circle']?.category ?? 'system',
+    aliases: ICON_METADATA['message-circle']?.aliases ?? [],
+  },
+  {
+    name: 'minus',
+    selector: 'lmn-minus',
+    component: LmnMinusIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnMinusIcon } from '@lumen/icons/minus';",
+    selectorStr: '<lmn-minus ariaLabel="minus" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnMinusIcon } from '@lumen/icons/minus';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnMinusIcon],
+  template: '<lmn-minus ariaLabel="minus" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['minus']?.category ?? 'system',
+    aliases: ICON_METADATA['minus']?.aliases ?? [],
+  },
+  {
     name: 'moon',
     selector: 'lmn-moon',
     component: LmnMoonIcon as Type<LmnIconInstance>,
@@ -679,6 +974,24 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['more-vertical']?.aliases ?? [],
   },
   {
+    name: 'package',
+    selector: 'lmn-package',
+    component: LmnPackageIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnPackageIcon } from '@lumen/icons/package';",
+    selectorStr: '<lmn-package ariaLabel="package" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnPackageIcon } from '@lumen/icons/package';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnPackageIcon],
+  template: '<lmn-package ariaLabel="package" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['package']?.category ?? 'system',
+    aliases: ICON_METADATA['package']?.aliases ?? [],
+  },
+  {
     name: 'paperclip',
     selector: 'lmn-paperclip',
     component: LmnPaperclipIcon as Type<LmnIconInstance>,
@@ -697,6 +1010,24 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['paperclip']?.aliases ?? [],
   },
   {
+    name: 'pause',
+    selector: 'lmn-pause',
+    component: LmnPauseIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnPauseIcon } from '@lumen/icons/pause';",
+    selectorStr: '<lmn-pause ariaLabel="pause" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnPauseIcon } from '@lumen/icons/pause';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnPauseIcon],
+  template: '<lmn-pause ariaLabel="pause" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['pause']?.category ?? 'system',
+    aliases: ICON_METADATA['pause']?.aliases ?? [],
+  },
+  {
     name: 'phone',
     selector: 'lmn-phone',
     component: LmnPhoneIcon as Type<LmnIconInstance>,
@@ -713,6 +1044,24 @@ import { LmnPhoneIcon } from '@lumen/icons/phone';
 export class ExampleComponent {}`,
     category: ICON_METADATA['phone']?.category ?? 'system',
     aliases: ICON_METADATA['phone']?.aliases ?? [],
+  },
+  {
+    name: 'play',
+    selector: 'lmn-play',
+    component: LmnPlayIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnPlayIcon } from '@lumen/icons/play';",
+    selectorStr: '<lmn-play ariaLabel="play" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnPlayIcon } from '@lumen/icons/play';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnPlayIcon],
+  template: '<lmn-play ariaLabel="play" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['play']?.category ?? 'system',
+    aliases: ICON_METADATA['play']?.aliases ?? [],
   },
   {
     name: 'plus',
@@ -751,6 +1100,42 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['radio']?.aliases ?? [],
   },
   {
+    name: 'refresh-cw',
+    selector: 'lmn-refresh-cw',
+    component: LmnRefreshCwIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnRefreshCwIcon } from '@lumen/icons/refresh-cw';",
+    selectorStr: '<lmn-refresh-cw ariaLabel="refresh-cw" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnRefreshCwIcon } from '@lumen/icons/refresh-cw';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnRefreshCwIcon],
+  template: '<lmn-refresh-cw ariaLabel="refresh-cw" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['refresh-cw']?.category ?? 'system',
+    aliases: ICON_METADATA['refresh-cw']?.aliases ?? [],
+  },
+  {
+    name: 'save',
+    selector: 'lmn-save',
+    component: LmnSaveIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnSaveIcon } from '@lumen/icons/save';",
+    selectorStr: '<lmn-save ariaLabel="save" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnSaveIcon } from '@lumen/icons/save';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnSaveIcon],
+  template: '<lmn-save ariaLabel="save" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['save']?.category ?? 'system',
+    aliases: ICON_METADATA['save']?.aliases ?? [],
+  },
+  {
     name: 'search',
     selector: 'lmn-search',
     component: LmnSearchIcon as Type<LmnIconInstance>,
@@ -767,6 +1152,24 @@ import { LmnSearchIcon } from '@lumen/icons/search';
 export class ExampleComponent {}`,
     category: ICON_METADATA['search']?.category ?? 'system',
     aliases: ICON_METADATA['search']?.aliases ?? [],
+  },
+  {
+    name: 'send',
+    selector: 'lmn-send',
+    component: LmnSendIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnSendIcon } from '@lumen/icons/send';",
+    selectorStr: '<lmn-send ariaLabel="send" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnSendIcon } from '@lumen/icons/send';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnSendIcon],
+  template: '<lmn-send ariaLabel="send" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['send']?.category ?? 'system',
+    aliases: ICON_METADATA['send']?.aliases ?? [],
   },
   {
     name: 'settings',
@@ -821,6 +1224,24 @@ import { LmnShieldIcon } from '@lumen/icons/shield';
 export class ExampleComponent {}`,
     category: ICON_METADATA['shield']?.category ?? 'system',
     aliases: ICON_METADATA['shield']?.aliases ?? [],
+  },
+  {
+    name: 'shopping-cart',
+    selector: 'lmn-shopping-cart',
+    component: LmnShoppingCartIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnShoppingCartIcon } from '@lumen/icons/shopping-cart';",
+    selectorStr: '<lmn-shopping-cart ariaLabel="shopping-cart" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnShoppingCartIcon } from '@lumen/icons/shopping-cart';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnShoppingCartIcon],
+  template: '<lmn-shopping-cart ariaLabel="shopping-cart" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['shopping-cart']?.category ?? 'system',
+    aliases: ICON_METADATA['shopping-cart']?.aliases ?? [],
   },
   {
     name: 'smile',
@@ -895,6 +1316,42 @@ export class ExampleComponent {}`,
     aliases: ICON_METADATA['sun']?.aliases ?? [],
   },
   {
+    name: 'tag',
+    selector: 'lmn-tag',
+    component: LmnTagIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnTagIcon } from '@lumen/icons/tag';",
+    selectorStr: '<lmn-tag ariaLabel="tag" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnTagIcon } from '@lumen/icons/tag';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnTagIcon],
+  template: '<lmn-tag ariaLabel="tag" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['tag']?.category ?? 'system',
+    aliases: ICON_METADATA['tag']?.aliases ?? [],
+  },
+  {
+    name: 'terminal',
+    selector: 'lmn-terminal',
+    component: LmnTerminalIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnTerminalIcon } from '@lumen/icons/terminal';",
+    selectorStr: '<lmn-terminal ariaLabel="terminal" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnTerminalIcon } from '@lumen/icons/terminal';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnTerminalIcon],
+  template: '<lmn-terminal ariaLabel="terminal" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['terminal']?.category ?? 'system',
+    aliases: ICON_METADATA['terminal']?.aliases ?? [],
+  },
+  {
     name: 'trash',
     selector: 'lmn-trash',
     component: LmnTrashIcon as Type<LmnIconInstance>,
@@ -947,6 +1404,24 @@ import { LmnUserIcon } from '@lumen/icons/user';
 export class ExampleComponent {}`,
     category: ICON_METADATA['user']?.category ?? 'system',
     aliases: ICON_METADATA['user']?.aliases ?? [],
+  },
+  {
+    name: 'users',
+    selector: 'lmn-users',
+    component: LmnUsersIcon as Type<LmnIconInstance>,
+    importStr: "import { LmnUsersIcon } from '@lumen/icons/users';",
+    selectorStr: '<lmn-users ariaLabel="users" />',
+    exampleStr: `import { Component } from '@angular/core';
+import { LmnUsersIcon } from '@lumen/icons/users';
+
+@Component({
+  selector: 'app-example',
+  imports: [LmnUsersIcon],
+  template: '<lmn-users ariaLabel="users" />',
+})
+export class ExampleComponent {}`,
+    category: ICON_METADATA['users']?.category ?? 'system',
+    aliases: ICON_METADATA['users']?.aliases ?? [],
   },
   {
     name: 'x',

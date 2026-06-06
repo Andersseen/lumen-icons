@@ -30,6 +30,17 @@ test("category filter narrows icons", async ({ page }) => {
   await expect(page.getByText("calendar")).not.toBeVisible();
 });
 
+test("demo controls include color preview and reset", async ({ page }) => {
+  await page.goto("/icons");
+
+  await page.getByRole("radio", { name: "Primary" }).click();
+  await page.getByRole("radio", { name: "Communication" }).click();
+  await page.getByRole("button", { name: /reset demo/i }).click();
+
+  await expect(page.getByText(/76 of 76 icons/i)).toBeVisible();
+  await expect(page.getByRole("radio", { name: "Default" })).toHaveAttribute("aria-checked", "true");
+});
+
 test("clicking icon card copies import", async ({ page }) => {
   await page.goto("/icons");
 

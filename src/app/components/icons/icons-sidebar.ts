@@ -13,6 +13,12 @@ interface CategoryFilterOption {
   readonly label: string;
 }
 
+interface PreviewColorOption {
+  readonly value: string;
+  readonly label: string;
+  readonly swatch: string;
+}
+
 @Component({
   selector: 'app-icons-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +31,18 @@ export class IconsSidebarComponent {
   readonly size = model<LmnIconSize>(24);
   readonly strokeWidth = model(2);
   readonly animate = model<boolean>(false);
+  readonly previewColor = model('inherit');
   readonly categories = input<readonly CategoryFilterOption[]>([]);
+  readonly previewColors = input<readonly PreviewColorOption[]>([]);
   readonly resultCount = input(0);
   readonly totalCount = input(0);
+
+  resetDemo(): void {
+    this.search.set('');
+    this.category.set('all');
+    this.size.set(24);
+    this.strokeWidth.set(2);
+    this.animate.set(false);
+    this.previewColor.set('inherit');
+  }
 }

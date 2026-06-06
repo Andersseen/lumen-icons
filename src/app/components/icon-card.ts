@@ -78,6 +78,7 @@ export class IconCardComponent {
   readonly icon = input.required<IconEntry>();
   readonly iconInputs = input.required<IconCardInputs>();
   readonly categoryLabel = input.required<string>();
+  readonly previewColor = input<string>('inherit');
 
   readonly isHovered = signal(false);
   readonly copiedAction = signal<string | null>(null);

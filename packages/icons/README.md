@@ -3,6 +3,9 @@
 Accessible, tree-shakable Angular icon components with consistent `lmn-*`
 selectors and optional per-icon CSS animations.
 
+The package currently includes 76 UI icons covering navigation, actions,
+feedback, media, content, communication, security, and system surfaces.
+
 ## Installation
 
 ```sh
