@@ -41,6 +41,7 @@ Create a single-repo foundation with:
 - Barrel export: `@lumen/icons/icons`
 - Per-icon export: `@lumen/icons/<name>`
 - `pnpm run sync:icons` keeps the barrel exports and website catalog aligned with source files
+- `src/app/data/icon-metadata.ts` enriches the generated catalog with categories and aliases for website search/filtering
 
 ## Selector Convention
 
@@ -62,9 +63,17 @@ Create a single-repo foundation with:
 4. `pnpm run check:package`
 5. `pnpm run test:e2e`
 
+## Website Catalog UX
+
+- Search matches icon name, selector, category label, category id, and aliases.
+- Category filters use the metadata map and are independent of the generated icon source list.
+- Each icon card can copy the import, selector snippet, or a complete standalone Angular example.
+- Copy feedback is visible and announced through an `aria-live` region.
+- Catalog card interactions use CSS transitions so the icon page does not need the app animation helper.
+
 ## Next Implementation Milestones
 
 1. Validate the published package inside a fresh external Angular app.
-2. Decide whether to move the library build to Angular Package Format tooling before public npm release.
-3. Add a source SVG to Angular component generator for creating new icons, not only syncing existing metadata.
-4. Add release flow with Changesets or semantic-release for npm publishing.
+2. Add a source SVG to Angular component generator for creating new icons, not only syncing existing metadata.
+3. Add release flow with Changesets or semantic-release for npm publishing.
+4. Add visual regression checks for the icon grid in light and dark themes.

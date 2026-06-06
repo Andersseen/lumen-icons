@@ -31,12 +31,17 @@ const catalogSource = `import type { Type } from '@angular/core';
 
 ${icons.map(icon => `import { ${icon.className} } from '@lumen/icons/${icon.name}';`).join('\n')}
 import type { LmnIconInstance } from '@lumen/icons';
+import { ICON_METADATA, type IconCategory } from './icon-metadata';
 
 export interface IconEntry {
   readonly name: string;
   readonly selector: string;
   readonly component: Type<LmnIconInstance>;
   readonly importStr: string;
+  readonly selectorStr: string;
+  readonly exampleStr: string;
+  readonly category: IconCategory;
+  readonly aliases: readonly string[];
 }
 
 export const ICON_CATALOG: IconEntry[] = [
@@ -45,6 +50,18 @@ ${icons.map(icon => `  {
     selector: '${icon.selector}',
     component: ${icon.className} as Type<LmnIconInstance>,
     importStr: "import { ${icon.className} } from '@lumen/icons/${icon.name}';",
+    selectorStr: '<${icon.selector} ariaLabel="${icon.name}" />',
+    exampleStr: \`import { Component } from '@angular/core';
+import { ${icon.className} } from '@lumen/icons/${icon.name}';
+
+@Component({
+  selector: 'app-example',
+  imports: [${icon.className}],
+  template: '<${icon.selector} ariaLabel="${icon.name}" />',
+})
+export class ExampleComponent {}\`,
+    category: ICON_METADATA['${icon.name}']?.category ?? 'system',
+    aliases: ICON_METADATA['${icon.name}']?.aliases ?? [],
   },`).join('\n')}
 ] as const;
 `;

@@ -1,34 +1,80 @@
-<button
-  type="button"
-  class="group relative flex w-full flex-col items-center gap-3 rounded-xl border border-border bg-background px-3 py-5 text-foreground transition-all hover:border-primary hover:shadow-md hover:shadow-primary dark:border-border dark:bg-card dark:text-secondary-foreground dark:hover:border-primary/50 dark:hover:shadow-primary/20"
-  [attr.aria-label]="'Copy import for ' + icon().name"
-  [moveWhileHover]="{ scale: [1, 1.025], y: [0, -2] }"
-  [moveWhileTap]="{ scale: [1, 0.975] }"
-  [moveWhileFocus]="{ scale: [1, 1.015] }"
-  [moveDuration]="180"
-  (click)="handleClick()"
+<article
+  class="icon-card group relative flex min-h-44 flex-col overflow-hidden rounded-lg border border-border bg-background text-foreground shadow-sm transition-all duration-150 hover:border-primary hover:shadow-md hover:shadow-primary/10 dark:border-border dark:bg-card dark:text-secondary-foreground dark:hover:border-primary/50"
   (mouseenter)="isHovered.set(true)"
   (mouseleave)="isHovered.set(false)"
 >
-  <div class="icon-inner" [class.popped]="popped()">
-    <ng-container
-      [ngComponentOutlet]="icon().component"
-      [ngComponentOutletInputs]="cardInputs()"
-    />
-  </div>
-
-  <span class="truncate text-[11px] text-muted-foreground">
-    {{ icon().name }}
-  </span>
-
-  @if (copied()) {
-  <div
-    class="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl bg-success/10 dark:bg-success/20"
-    [move]="{ opacity: [0, 1], scale: [0.96, 1] }"
-    [moveDuration]="180"
+  <button
+    type="button"
+    class="flex flex-1 flex-col items-center justify-center gap-3 px-3 pb-2 pt-5 text-center outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+    [attr.aria-label]="'Copy import for ' + icon().name"
+    (click)="handlePreviewClick()"
   >
-    <lmn-check [size]="16" [strokeWidth]="2.5" class="text-success" />
-    <span class="text-[11px] font-semibold text-success">Copied!</span>
+    <div class="icon-inner text-secondary-foreground transition-colors group-hover:text-foreground" [class.popped]="popped()">
+      <ng-container
+        [ngComponentOutlet]="icon().component"
+        [ngComponentOutletInputs]="cardInputs()"
+      />
+    </div>
+
+    <span class="max-w-full truncate text-sm font-medium text-foreground">
+      {{ icon().name }}
+    </span>
+    <span class="rounded-md bg-secondary px-2 py-0.5 text-[11px] text-secondary-foreground">
+      {{ categoryLabel() }}
+    </span>
+  </button>
+
+  <div class="grid grid-cols-3 border-t border-border bg-secondary/40 text-[11px] font-medium">
+    <button
+      type="button"
+      class="flex min-h-9 items-center justify-center gap-1 px-1 text-secondary-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      [attr.aria-label]="'Copy import snippet for ' + icon().name"
+      title="Copy import"
+      (click)="copySnippet('import')"
+    >
+      @if (isCopied('import')) {
+        <lmn-check [size]="13" [strokeWidth]="2.5" class="text-success" />
+      } @else {
+        <lmn-copy [size]="13" [strokeWidth]="2" />
+      }
+      Import
+    </button>
+    <button
+      type="button"
+      class="flex min-h-9 items-center justify-center gap-1 border-x border-border px-1 text-secondary-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      [attr.aria-label]="'Copy selector for ' + icon().name"
+      title="Copy selector"
+      (click)="copySnippet('selector')"
+    >
+      @if (isCopied('selector')) {
+        <lmn-check [size]="13" [strokeWidth]="2.5" class="text-success" />
+      } @else {
+        <lmn-copy [size]="13" [strokeWidth]="2" />
+      }
+      HTML
+    </button>
+    <button
+      type="button"
+      class="flex min-h-9 items-center justify-center gap-1 px-1 text-secondary-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      [attr.aria-label]="'Copy Angular example for ' + icon().name"
+      title="Copy Angular example"
+      (click)="copySnippet('example')"
+    >
+      @if (isCopied('example')) {
+        <lmn-check [size]="13" [strokeWidth]="2.5" class="text-success" />
+      } @else {
+        <lmn-copy [size]="13" [strokeWidth]="2" />
+      }
+      Code
+    </button>
   </div>
+
+  @if (copiedAction()) {
+  <span class="absolute right-2 top-2 rounded-md bg-success px-2 py-1 text-[11px] font-semibold text-success-foreground shadow-sm">
+    Copied
+  </span>
+  <span class="sr-only" aria-live="polite">
+    Copied {{ copiedAction() }} for {{ icon().name }}.
+  </span>
   }
-</button>
+</article>
