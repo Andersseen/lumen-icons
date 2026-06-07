@@ -10,6 +10,47 @@ test("search filters icons", async ({ page }) => {
   await expect(page.getByText("heart")).not.toBeVisible();
 });
 
+test("search finds aliases", async ({ page }) => {
+  await page.goto("/icons");
+
+  const searchInput = page.getByRole("textbox", { name: "Search" });
+  await searchInput.fill("profile");
+
+  await expect(page.getByText("avatar")).toBeVisible();
+  await expect(page.getByText("user")).toBeVisible();
+});
+
+test("category filter narrows icons", async ({ page }) => {
+  await page.goto("/icons");
+
+  await page.getByRole("radio", { name: "Communication" }).click();
+
+  await expect(page.getByText("mail")).toBeVisible();
+  await expect(page.getByText("phone")).toBeVisible();
+  await expect(page.getByText("calendar")).not.toBeVisible();
+});
+
+test("demo controls include theme tone and reset", async ({ page }) => {
+  await page.goto("/icons");
+
+  await page.getByRole("radio", { name: "Primary" }).click();
+  await page.getByRole("radio", { name: "Communication" }).click();
+  await page.getByRole("button", { name: /reset demo/i }).click();
+
+  await expect(page.getByText(/76 of 76 icons/i)).toBeVisible();
+  await expect(page.getByRole("radio", { name: "Inherit" })).toHaveAttribute("aria-checked", "true");
+});
+
+test("copied snippets include active visual configuration", async ({ page }) => {
+  await page.goto("/icons");
+
+  await page.getByRole("radio", { name: "Filled" }).click();
+  await page.getByRole("radio", { name: "Solid" }).click();
+  await page.getByRole("button", { name: "Copy selector for check", exact: true }).click();
+
+  await expect(page.getByText("Copied", { exact: true })).toBeVisible();
+});
+
 test("clicking icon card copies import", async ({ page }) => {
   await page.goto("/icons");
 
@@ -19,7 +60,7 @@ test("clicking icon card copies import", async ({ page }) => {
   });
   await card.click();
 
-  await expect(card.getByText("Copied!")).toBeVisible();
+  await expect(page.getByText("Copied", { exact: true })).toBeVisible();
 });
 
 test("clear search restores all icons", async ({ page }) => {
@@ -29,7 +70,7 @@ test("clear search restores all icons", async ({ page }) => {
   await searchInput.fill("xyz");
   await expect(page.getByText(/no icons matching/i)).toBeVisible();
 
-  await page.getByRole("button", { name: /clear search/i }).click();
+  await page.getByRole("button", { name: /clear filters/i }).click();
   await expect(
     page.getByRole("button", { name: "Copy import for check", exact: true }),
   ).toBeVisible();

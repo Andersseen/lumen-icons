@@ -12,6 +12,8 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
+    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
+
     .lmn-animate-el { display: inline-block; }
     
       @keyframes lmn-mail {

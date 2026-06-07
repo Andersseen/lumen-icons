@@ -11,6 +11,8 @@ describe("IconsSidebarComponent", () => {
     expect(screen.getByRole("slider")).toBeInTheDocument();
     expect(screen.getByText("Size")).toBeInTheDocument();
     expect(screen.getByText("Animation")).toBeInTheDocument();
+    expect(screen.getByText("Tone")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /reset demo/i })).toBeInTheDocument();
   });
 
   it("has size buttons", async () => {

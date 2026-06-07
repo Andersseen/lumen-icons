@@ -30,7 +30,7 @@ describe("DocsIconTableComponent", () => {
     await user.click(checkButton);
 
     expect(copyMock).toHaveBeenCalledWith(
-      "import { LmnCheckIcon } from '@lumen/icons/check';",
+      "import { LmnCheckIcon } from 'lumen-icons/check';",
       "check"
     );
   });

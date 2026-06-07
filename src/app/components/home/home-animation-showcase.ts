@@ -1,12 +1,12 @@
 import { NgComponentOutlet } from "@angular/common";
 import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
 import { MOVEMENT_DIRECTIVES } from "angular-movement";
-import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
-import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
-import { LmnCheckIcon } from "@lumen/icons/check";
-import { LmnHeartIcon } from "@lumen/icons/heart";
-import { LmnHomeIcon } from "@lumen/icons/home";
-import { LmnSparklesIcon } from "@lumen/icons/sparkles";
+import { LmnAlertCircleIcon } from "lumen-icons/alert-circle";
+import { LmnArrowRightIcon } from "lumen-icons/arrow-right";
+import { LmnCheckIcon } from "lumen-icons/check";
+import { LmnHeartIcon } from "lumen-icons/heart";
+import { LmnHomeIcon } from "lumen-icons/home";
+import { LmnSparklesIcon } from "lumen-icons/sparkles";
 import { VoltCard } from "@voltui/components";
 
 interface AnimationDemo {

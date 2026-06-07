@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { LmnCheckIcon } from "@lumen/icons/check";
+import { LmnCheckIcon } from "lumen-icons/check";
 import { DocsCodeBlockComponent } from "./docs-code-block";
 
 @Component({
@@ -10,7 +10,7 @@ import { DocsCodeBlockComponent } from "./docs-code-block";
 })
 export class DocsUsageComponent {
   readonly tsSnippet = `import { Component } from '@angular/core';
-import { LmnCheckIcon } from '@lumen/icons/check';
+import { LmnCheckIcon } from 'lumen-icons/check';
 
 @Component({
   imports: [LmnCheckIcon],
@@ -25,5 +25,15 @@ export class MyComponent {}`;
 <lmn-check ariaLabel="Task complete" />
 
 <!-- custom size and stroke -->
-<lmn-check [size]="32" [strokeWidth]="1.5" />`;
+<lmn-check [size]="32" [strokeWidth]="1.5" />
+
+<!-- framed icon for toolbar/sidebar/badge UI -->
+<lmn-check
+  tone="primary"
+  variant="filled"
+  background="soft"
+  backgroundTone="primary"
+  [padding]="8"
+  [radius]="10"
+/>`;
 }

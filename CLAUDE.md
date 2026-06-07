@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project vision
 
-An open-source Angular icon library inspired by projects like Lucide and Radix Icons but built specifically for Angular 21+. The library (`@lumen/icons`) ships individual icon components with the `lmn-*` selector prefix. Icons are:
+An open-source Angular icon library inspired by projects like Lucide and Radix Icons but built specifically for Angular 21+. The library (`lumen-icons`) ships individual icon components with the `lmn-*` selector prefix. Icons are:
 
-- **Tree-shakable by default** — each icon is its own entry point (`@lumen/icons/icons/check`).
+- **Tree-shakable by default** — each icon is its own entry point (`lumen-icons/icons/check`).
 - **Accessible by default** — correct ARIA defaults, configurable `ariaLabel`.
 - **Zero framework styling** — no Tailwind in the library; consumers control appearance.
 - **Optionally animated** — animations via `angular-movement` (`MoveVariantsDirective`) + CSS `@keyframes` (opt-in per icon use).
@@ -22,7 +22,7 @@ The companion `src/` application is the official demo + docs site, built with An
 
 ```
 lumen-icons/
-├── packages/icons/          ← publishable library: @lumen/icons
+├── packages/icons/          ← publishable library: lumen-icons
 │   ├── src/
 │   │   ├── index.ts         ← public API surface (re-exports types + icons)
 │   │   ├── icons/           ← one .ts file per icon, barelled by index.ts
@@ -58,7 +58,7 @@ pnpm run preview             # preview production build locally
 
 # Building
 pnpm run build               # build lib then app (full pipeline)
-pnpm run build:lib           # bundle @lumen/icons via tsup → packages/icons/dist/
+pnpm run build:lib           # bundle lumen-icons via tsup → packages/icons/dist/
 pnpm run build:app           # build AnalogJS app → dist/
 
 # Quality gates
@@ -86,11 +86,11 @@ pnpm vitest run packages/icons/src/icons/check.spec.ts
 
 | Import path | What it exposes |
 |---|---|
-| `@lumen/icons` | types + all icons (use sparingly — prefers tree-shaking) |
-| `@lumen/icons/icons` | barrel of all icon components |
-| `@lumen/icons/icons/check` | single icon (preferred import) |
+| `lumen-icons` | types + all icons (use sparingly — prefers tree-shaking) |
+| `lumen-icons/icons` | barrel of all icon components |
+| `lumen-icons/icons/check` | single icon (preferred import) |
 
-**Path alias** — `tsconfig.json` maps `@lumen/icons → packages/icons/src/index.ts` so the app imports the same source during development without building the lib first.
+**Path alias** — `tsconfig.json` maps `lumen-icons → packages/icons/src/index.ts` so the app imports the same source during development without building the lib first.
 
 **Building** — tsup produces ESM-only output with `.d.ts` declarations, sourcemaps, and `treeshake: true`. Target is `es2022`.
 
@@ -313,7 +313,7 @@ describe('LmnCheckIcon', () => {
 - Root `tsconfig.json` — shared base. Sets `strict: true`, `noImplicitReturns`, `noImplicitOverride`, `noPropertyAccessFromIndexSignature`. Do not relax these.
 - `tsconfig.app.json` — app build. Includes `src/app/pages/**/*.page.ts`.
 - `packages/icons/tsconfig.lib.json` — library typecheck and declaration output. Excludes `*.spec.ts`.
-- The path alias `"@lumen/icons": ["packages/icons/src/index.ts"]` lets the app import the live source during development without an intermediate build step.
+- The path alias `"lumen-icons": ["packages/icons/src/index.ts"]` lets the app import the live source during development without an intermediate build step.
 
 ---
 

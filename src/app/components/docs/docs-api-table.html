@@ -1,6 +1,6 @@
     <section id="api" class="mt-16">
       <h2 class="text-2xl font-bold tracking-tight text-foreground">API Reference</h2>
-      <p class="mt-3 text-secondary-foreground">All icons share the same three inputs.</p>
+      <p class="mt-3 text-secondary-foreground">All icons share the same inputs for sizing, accessibility, motion, color and framed UI states.</p>
 
       <volt-card class="mt-5 block overflow-hidden">
         <table class="w-full text-sm">
@@ -32,6 +32,60 @@
               <td class="px-4 py-3 text-secondary-foreground">
                 When set, adds <code class="rounded bg-secondary px-1">role="img"</code>
               </td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">animate</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">boolean</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">false</td>
+              <td class="px-4 py-3 text-secondary-foreground">Enables the icon's semantic CSS animation</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">tone</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">inherit|foreground|muted|primary|...</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'inherit'</td>
+              <td class="px-4 py-3 text-secondary-foreground">Uses theme tokens such as <code class="rounded bg-secondary px-1">--primary</code> and <code class="rounded bg-secondary px-1">--success</code></td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">color</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">string | undefined</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">undefined</td>
+              <td class="px-4 py-3 text-secondary-foreground">Optional custom override when a theme token is not enough</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">variant</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'outline' | 'filled'</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'outline'</td>
+              <td class="px-4 py-3 text-secondary-foreground">Filled mode adds a soft currentColor fill while preserving readable strokes</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">background</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'none' | 'soft' | 'solid'</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'none'</td>
+              <td class="px-4 py-3 text-secondary-foreground">Adds optional host background for badges, toolbars and nav items. Solid backgrounds use theme foreground automatically.</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">backgroundTone</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">same as tone</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'primary'</td>
+              <td class="px-4 py-3 text-secondary-foreground">Theme token used by soft and solid backgrounds</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">backgroundColor</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">string | undefined</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">undefined</td>
+              <td class="px-4 py-3 text-secondary-foreground">Optional custom background override</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">padding</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">number</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">0</td>
+              <td class="px-4 py-3 text-secondary-foreground">Host padding in px when using a framed icon</td>
+            </tr>
+            <tr class="bg-background">
+              <td class="px-4 py-3 font-mono text-xs">radius</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">number | string</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'0.5rem'</td>
+              <td class="px-4 py-3 text-secondary-foreground">Host border radius for background modes</td>
             </tr>
           </tbody>
         </table>

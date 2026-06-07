@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LmnExternalLinkIcon } from '@lumen/icons/external-link';
+import { LmnExternalLinkIcon } from 'lumen-icons/external-link';
 import { VoltSeparator } from '@voltui/components';
 import { AppLogoComponent } from './app-logo';
 
