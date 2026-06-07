@@ -5,8 +5,8 @@ import {
   input,
 } from "@angular/core";
 import { MOVEMENT_DIRECTIVES } from "angular-movement";
-import { LmnCheckIcon } from "@lumen/icons/check";
-import { LmnCopyIcon } from "@lumen/icons/copy";
+import { LmnCheckIcon } from "lumen-icons/check";
+import { LmnCopyIcon } from "lumen-icons/copy";
 import { VoltCard } from "@voltui/components";
 import { ClipboardService } from "../../services/clipboard";
 

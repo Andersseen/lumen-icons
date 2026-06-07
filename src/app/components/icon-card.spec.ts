@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/angular";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { IconCardComponent } from "./icon-card";
-import { LmnCheckIcon } from "@lumen/icons/check";
+import { LmnCheckIcon } from "lumen-icons/check";
 import { ClipboardService } from "../services/clipboard";
 
 describe("IconCardComponent", () => {
@@ -21,7 +21,7 @@ describe("IconCardComponent", () => {
           name: "check",
           selector: "lmn-check",
           component: LmnCheckIcon,
-          importStr: "import { LmnCheckIcon } from '@lumen/icons/check';",
+          importStr: "import { LmnCheckIcon } from 'lumen-icons/check';",
           selectorStr: '<lmn-check ariaLabel="check" />',
           exampleStr: "example code",
           category: "status",
@@ -50,7 +50,7 @@ describe("IconCardComponent", () => {
     await user.click(button);
 
     expect(copyMock).toHaveBeenCalledWith(
-      "import { LmnCheckIcon } from '@lumen/icons/check';",
+      "import { LmnCheckIcon } from 'lumen-icons/check';",
       "check:import"
     );
   });
@@ -69,7 +69,7 @@ describe("IconCardComponent", () => {
           name: "check",
           selector: "lmn-check",
           component: LmnCheckIcon,
-          importStr: "import { LmnCheckIcon } from '@lumen/icons/check';",
+          importStr: "import { LmnCheckIcon } from 'lumen-icons/check';",
           selectorStr: '<lmn-check ariaLabel="check" />',
           exampleStr: "example code",
           category: "status",

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { LmnExternalLinkIcon } from "@lumen/icons/external-link";
+import { LmnExternalLinkIcon } from "lumen-icons/external-link";
 import { VoltBadge } from "@voltui/components";
 import { ThemeToggleComponent } from "../theme-toggle";
 import { AppLogoComponent } from "./app-logo";

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
+import { LmnArrowRightIcon } from "lumen-icons/arrow-right";
 import {
   LmnCheckIcon,
   LmnHeartIcon,
   LmnInfoIcon,
   LmnSearchIcon,
   LmnStarIcon,
-} from "@lumen/icons";
+} from "lumen-icons";
 
 import { VoltCard } from "@voltui/components";
 

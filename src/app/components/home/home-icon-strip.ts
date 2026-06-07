@@ -1,18 +1,18 @@
 import { NgComponentOutlet } from "@angular/common";
 import { ChangeDetectionStrategy, Component, type Type } from "@angular/core";
 import { MOVEMENT_DIRECTIVES } from "angular-movement";
-import { LmnAlertCircleIcon } from "@lumen/icons/alert-circle";
-import { LmnArrowLeftIcon } from "@lumen/icons/arrow-left";
-import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
-import { LmnCheckIcon } from "@lumen/icons/check";
-import { LmnCopyIcon } from "@lumen/icons/copy";
-import { LmnExternalLinkIcon } from "@lumen/icons/external-link";
-import { LmnHeartIcon } from "@lumen/icons/heart";
-import { LmnInfoIcon } from "@lumen/icons/info";
-import { LmnMenuIcon } from "@lumen/icons/menu";
-import { LmnSearchIcon } from "@lumen/icons/search";
-import { LmnStarIcon } from "@lumen/icons/star";
-import { LmnXIcon } from "@lumen/icons/x";
+import { LmnAlertCircleIcon } from "lumen-icons/alert-circle";
+import { LmnArrowLeftIcon } from "lumen-icons/arrow-left";
+import { LmnArrowRightIcon } from "lumen-icons/arrow-right";
+import { LmnCheckIcon } from "lumen-icons/check";
+import { LmnCopyIcon } from "lumen-icons/copy";
+import { LmnExternalLinkIcon } from "lumen-icons/external-link";
+import { LmnHeartIcon } from "lumen-icons/heart";
+import { LmnInfoIcon } from "lumen-icons/info";
+import { LmnMenuIcon } from "lumen-icons/menu";
+import { LmnSearchIcon } from "lumen-icons/search";
+import { LmnStarIcon } from "lumen-icons/star";
+import { LmnXIcon } from "lumen-icons/x";
 
 interface StripIcon {
   readonly component: Type<unknown>;

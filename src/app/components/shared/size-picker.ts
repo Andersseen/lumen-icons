@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
-import type { LmnIconSize } from "@lumen/icons";
+import type { LmnIconSize } from "lumen-icons";
 
 const SIZES: LmnIconSize[] = [12, 14, 16, 20, 24, 32];
 

@@ -10,9 +10,9 @@ import { RouterLink } from "@angular/router";
 import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { timer } from "rxjs";
 
-import { LmnArrowRightIcon } from "@lumen/icons/arrow-right";
-import { LmnCheckIcon } from "@lumen/icons/check";
-import { LmnCopyIcon } from "@lumen/icons/copy";
+import { LmnArrowRightIcon } from "lumen-icons/arrow-right";
+import { LmnCheckIcon } from "lumen-icons/check";
+import { LmnCopyIcon } from "lumen-icons/copy";
 import { VoltBadge, VoltButton } from "@voltui/components";
 
 import { HomeAnimationShowcaseComponent } from "./home-animation-showcase";
@@ -40,7 +40,7 @@ export class HomeHeroComponent {
   readonly installCopied = signal(false);
 
   copyInstall() {
-    navigator.clipboard.writeText("npm install @lumen/icons").catch(() => {});
+    navigator.clipboard.writeText("npm install lumen-icons").catch(() => {});
     this.installCopied.set(true);
     timer(2000)
       .pipe(takeUntilDestroyed(this.destroyRef))

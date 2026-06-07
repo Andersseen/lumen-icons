@@ -12,9 +12,9 @@ import { timer } from "rxjs";
 
 import { ClipboardService } from "../services/clipboard";
 
-import { LmnCheckIcon } from "@lumen/icons/check";
-import { LmnCopyIcon } from "@lumen/icons/copy";
-import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from "@lumen/icons";
+import { LmnCheckIcon } from "lumen-icons/check";
+import { LmnCopyIcon } from "lumen-icons/copy";
+import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from "lumen-icons";
 
 import type { IconEntry } from "../types/icon-entry.type";
 

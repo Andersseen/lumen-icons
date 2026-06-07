@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { LmnCheckIcon } from "@lumen/icons/check";
+import { LmnCheckIcon } from "lumen-icons/check";
 import { DocsCodeBlockComponent } from "./docs-code-block";
 
 @Component({
@@ -10,7 +10,7 @@ import { DocsCodeBlockComponent } from "./docs-code-block";
 })
 export class DocsUsageComponent {
   readonly tsSnippet = `import { Component } from '@angular/core';
-import { LmnCheckIcon } from '@lumen/icons/check';
+import { LmnCheckIcon } from 'lumen-icons/check';
 
 @Component({
   imports: [LmnCheckIcon],

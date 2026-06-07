@@ -3,7 +3,7 @@
 Single repository for:
 
 - Angular app (demo + official website)
-- Publishable icon library package (`@lumen/icons`)
+- Publishable icon library package (`lumen-icons`)
 - Optional per-icon animations powered by `angular-movement`
 - Interactive catalog demo with search aliases, categories, size, stroke, animation, variant, color, background, padding and radius controls
 
@@ -30,7 +30,7 @@ This is not a monorepo with multiple apps/packages managed by separate tooling; 
 
 - `pnpm run dev`: run the Angular app locally
 - `pnpm run build:app`: build app
-- `pnpm run build:lib`: build `@lumen/icons`
+- `pnpm run build:lib`: build `lumen-icons`
 - `pnpm run sync:icons`: regenerate icon exports and the website catalog from icon source files
 - `pnpm run check:package`: build and validate the publishable package
 - `pnpm run build`: build lib + app

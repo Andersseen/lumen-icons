@@ -1,4 +1,4 @@
-# @lumen/icons
+# lumen-icons
 
 Accessible, tree-shakable Angular icon components with consistent `lmn-*`
 selectors, optional per-icon CSS animations, filled mode and framed icon
@@ -10,7 +10,7 @@ feedback, media, content, communication, security, and system surfaces.
 ## Installation
 
 ```sh
-npm install @lumen/icons
+npm install lumen-icons
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ npm install @lumen/icons
 Import only the icons you need:
 
 ```ts
-import { LmnCheckIcon } from '@lumen/icons/check';
+import { LmnCheckIcon } from 'lumen-icons/check';
 ```
 
 Then add the component to an Angular component's `imports` array:
@@ -72,6 +72,6 @@ Animations are pure CSS — no extra animation library is required.
 
 ## Exports
 
-- `@lumen/icons`
-- `@lumen/icons/icons`
-- `@lumen/icons/<name>`
+- `lumen-icons`
+- `lumen-icons/icons`
+- `lumen-icons/<name>`

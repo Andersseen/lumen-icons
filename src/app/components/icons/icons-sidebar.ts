@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from '@lumen/icons';
+import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from 'lumen-icons';
 import { VoltInput, VoltSlider } from '@voltui/components';
 
 import { AnimationPickerComponent } from '../shared/animation-picker';

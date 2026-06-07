@@ -29,8 +29,8 @@ const indexSource = `${icons.map(icon => `export { ${icon.className} } from './$
 
 const catalogSource = `import type { Type } from '@angular/core';
 
-${icons.map(icon => `import { ${icon.className} } from '@lumen/icons/${icon.name}';`).join('\n')}
-import type { LmnIconInstance } from '@lumen/icons';
+${icons.map(icon => `import { ${icon.className} } from 'lumen-icons/${icon.name}';`).join('\n')}
+import type { LmnIconInstance } from 'lumen-icons';
 import { ICON_METADATA, type IconCategory } from './icon-metadata';
 
 export interface IconEntry {
@@ -49,10 +49,10 @@ ${icons.map(icon => `  {
     name: '${icon.name}',
     selector: '${icon.selector}',
     component: ${icon.className} as Type<LmnIconInstance>,
-    importStr: "import { ${icon.className} } from '@lumen/icons/${icon.name}';",
+    importStr: "import { ${icon.className} } from 'lumen-icons/${icon.name}';",
     selectorStr: '<${icon.selector} ariaLabel="${icon.name}" />',
     exampleStr: \`import { Component } from '@angular/core';
-import { ${icon.className} } from '@lumen/icons/${icon.name}';
+import { ${icon.className} } from 'lumen-icons/${icon.name}';
 
 @Component({
   selector: 'app-example',

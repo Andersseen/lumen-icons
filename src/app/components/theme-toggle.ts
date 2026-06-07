@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MOVEMENT_DIRECTIVES } from "angular-movement";
-import { LmnMoonIcon } from "@lumen/icons/moon";
-import { LmnSunIcon } from "@lumen/icons/sun";
+import { LmnMoonIcon } from "lumen-icons/moon";
+import { LmnSunIcon } from "lumen-icons/sun";
 import { VoltButton } from "@voltui/components";
 import { ThemeService } from "../services/theme";
 

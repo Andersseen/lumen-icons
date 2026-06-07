@@ -32,14 +32,14 @@ Create a single-repo foundation with:
 - App build: Vite/Analog (`pnpm run build:app`)
 - Library build: ng-packagr in Angular Package Format (APF) (`pnpm run build:lib`)
   - Produces FESM2022 bundles, Ivy-compiled metadata, and unified type declarations
-  - Post-build script generates per-icon re-exports so `@lumen/icons/<name>` continues to work
+  - Post-build script generates per-icon re-exports so `lumen-icons/<name>` continues to work
 - Full build: `pnpm run build`
 
 ## Icon Packaging Strategy
 
-- Main export: `@lumen/icons`
-- Barrel export: `@lumen/icons/icons`
-- Per-icon export: `@lumen/icons/<name>`
+- Main export: `lumen-icons`
+- Barrel export: `lumen-icons/icons`
+- Per-icon export: `lumen-icons/<name>`
 - `pnpm run sync:icons` keeps the barrel exports and website catalog aligned with source files
 - `src/app/data/icon-metadata.ts` enriches the generated catalog with categories and aliases for website search/filtering
 
