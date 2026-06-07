@@ -46,6 +46,12 @@ writeFileSync(join(iconsDirDist, 'index.d.ts'), barrelDts);
 const pkgPath = join(distDir, 'package.json');
 const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
 
+delete pkg.files;
+pkg.publishConfig = {
+  ...(pkg.publishConfig ?? {}),
+  access: 'public',
+};
+
 pkg.exports = {
   './package.json': {
     default: './package.json',
