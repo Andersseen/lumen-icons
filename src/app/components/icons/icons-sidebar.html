@@ -1,4 +1,4 @@
-      <aside class="hidden w-64 shrink-0 lg:block" aria-label="Icon controls">
+      <aside class="hidden w-72 shrink-0 lg:block" aria-label="Icon controls">
         <div class="sticky top-20 space-y-6">
 
           <!-- Search -->
@@ -68,24 +68,128 @@
             <app-animation-picker [(animate)]="animate" />
           </div>
 
-          <!-- Color -->
+          <!-- Variant -->
           <div>
-            <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Color</p>
-            <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Preview color">
-              @for (item of previewColors(); track item.value) {
+            <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Variant</p>
+            <div class="grid grid-cols-2 gap-1.5" role="radiogroup" aria-label="Icon variant">
+              @for (item of variantOptions(); track item.value) {
                 <button
                   type="button"
                   role="radio"
-                  [attr.aria-checked]="previewColor() === item.value"
-                  class="h-8 w-8 rounded-md border transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  [class]="previewColor() === item.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'"
-                  [style.background]="item.swatch"
-                  [attr.aria-label]="item.label"
-                  (click)="previewColor.set(item.value)"
-                ></button>
+                  [attr.aria-checked]="variant() === item.value"
+                  class="min-h-8 rounded-md border px-2 text-left text-xs font-medium transition-colors"
+                  [class]="variant() === item.value
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+                  (click)="variant.set(item.value)"
+                >
+                  {{ item.label }}
+                </button>
               }
             </div>
           </div>
+
+          @if (background() !== 'solid') {
+            <!-- Tone -->
+            <div>
+              <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tone</p>
+              <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Icon tone">
+                @for (item of toneOptions(); track item.value) {
+                  <button
+                    type="button"
+                    role="radio"
+                    [attr.aria-checked]="tone() === item.value"
+                    class="h-8 w-8 rounded-md border transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    [class]="tone() === item.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'"
+                    [style.background]="item.swatch"
+                    [attr.aria-label]="item.label"
+                    [title]="item.label"
+                    (click)="tone.set(item.value)"
+                  ></button>
+                }
+              </div>
+            </div>
+          } @else {
+            <p class="rounded-lg border border-border bg-secondary px-3 py-2 text-xs text-secondary-foreground">
+              Solid background uses the theme foreground automatically.
+            </p>
+          }
+
+          <!-- Background -->
+          <div>
+            <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Background</p>
+            <div class="grid grid-cols-3 gap-1.5" role="radiogroup" aria-label="Icon background">
+              @for (item of backgroundOptions(); track item.value) {
+                <button
+                  type="button"
+                  role="radio"
+                  [attr.aria-checked]="background() === item.value"
+                  class="min-h-8 rounded-md border px-2 text-left text-xs font-medium transition-colors"
+                  [class]="background() === item.value
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+                  (click)="background.set(item.value)"
+                >
+                  {{ item.label }}
+                </button>
+              }
+            </div>
+          </div>
+
+          @if (background() !== 'none') {
+            <div>
+              <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bg tone</p>
+              <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Background tone">
+                @for (item of backgroundToneOptions(); track item.value) {
+                  <button
+                    type="button"
+                    role="radio"
+                    [attr.aria-checked]="backgroundTone() === item.value"
+                    class="h-8 w-8 rounded-md border transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    [class]="backgroundTone() === item.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'"
+                    [style.background]="item.swatch"
+                    [attr.aria-label]="item.label"
+                    [title]="item.label"
+                    (click)="backgroundTone.set(item.value)"
+                  ></button>
+                }
+              </div>
+            </div>
+
+            <div>
+              <div class="mb-1.5 flex items-center justify-between">
+                <label for="padding-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Padding
+                </label>
+                <span class="tabular-nums text-sm font-medium text-foreground">{{ padding() }}px</span>
+              </div>
+              <volt-slider
+                id="padding-slider"
+                [value]="padding()"
+                (valueChange)="padding.set($event)"
+                [min]="0"
+                [max]="16"
+                [step]="1"
+              />
+            </div>
+
+            <div>
+              <div class="mb-1.5 flex items-center justify-between">
+                <label for="radius-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Radius
+                </label>
+                <span class="tabular-nums text-sm font-medium text-foreground">{{ radius() }}px</span>
+              </div>
+              <volt-slider
+                id="radius-slider"
+                [value]="radius()"
+                (valueChange)="radius.set($event)"
+                [min]="0"
+                [max]="24"
+                [step]="1"
+              />
+            </div>
+          }
 
           <button
             type="button"

@@ -5,7 +5,7 @@ Single repository for:
 - Angular app (demo + official website)
 - Publishable icon library package (`@lumen/icons`)
 - Optional per-icon animations powered by `angular-movement`
-- Interactive catalog demo with search aliases, categories, size, stroke, animation, and color preview controls
+- Interactive catalog demo with search aliases, categories, size, stroke, animation, variant, color, background, padding and radius controls
 
 This is not a monorepo with multiple apps/packages managed by separate tooling; it is one repository with a clear internal package boundary for the icon library.
 
@@ -46,3 +46,4 @@ This is not a monorepo with multiple apps/packages managed by separate tooling; 
 - One icon component per file inside `packages/icons/src/icons/`
 - Named exports through package root and per-icon subpath exports
 - Icons must render visibly when `animate` is false; animation styles should be opt-in only
+- Icons default to outline/currentColor, with optional filled and framed background modes for app UI

@@ -30,7 +30,7 @@ test("category filter narrows icons", async ({ page }) => {
   await expect(page.getByText("calendar")).not.toBeVisible();
 });
 
-test("demo controls include color preview and reset", async ({ page }) => {
+test("demo controls include theme tone and reset", async ({ page }) => {
   await page.goto("/icons");
 
   await page.getByRole("radio", { name: "Primary" }).click();
@@ -38,7 +38,17 @@ test("demo controls include color preview and reset", async ({ page }) => {
   await page.getByRole("button", { name: /reset demo/i }).click();
 
   await expect(page.getByText(/76 of 76 icons/i)).toBeVisible();
-  await expect(page.getByRole("radio", { name: "Default" })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("radio", { name: "Inherit" })).toHaveAttribute("aria-checked", "true");
+});
+
+test("copied snippets include active visual configuration", async ({ page }) => {
+  await page.goto("/icons");
+
+  await page.getByRole("radio", { name: "Filled" }).click();
+  await page.getByRole("radio", { name: "Solid" }).click();
+  await page.getByRole("button", { name: "Copy selector for check", exact: true }).click();
+
+  await expect(page.getByText("Copied", { exact: true })).toBeVisible();
 });
 
 test("clicking icon card copies import", async ({ page }) => {

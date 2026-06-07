@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import type { LmnIconSize } from '@lumen/icons';
+import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from '@lumen/icons';
 import { VoltInput, VoltSlider } from '@voltui/components';
 
 import { AnimationPickerComponent } from '../shared/animation-picker';
@@ -13,10 +13,15 @@ interface CategoryFilterOption {
   readonly label: string;
 }
 
-interface PreviewColorOption {
-  readonly value: string;
+interface ToneOption {
+  readonly value: LmnIconTone;
   readonly label: string;
   readonly swatch: string;
+}
+
+interface ControlOption<T extends string> {
+  readonly value: T;
+  readonly label: string;
 }
 
 @Component({
@@ -31,9 +36,17 @@ export class IconsSidebarComponent {
   readonly size = model<LmnIconSize>(24);
   readonly strokeWidth = model(2);
   readonly animate = model<boolean>(false);
-  readonly previewColor = model('inherit');
+  readonly tone = model<LmnIconTone>('inherit');
+  readonly variant = model<LmnIconVariant>('outline');
+  readonly background = model<LmnIconBackground>('none');
+  readonly backgroundTone = model<LmnIconTone>('primary');
+  readonly padding = model(8);
+  readonly radius = model(10);
   readonly categories = input<readonly CategoryFilterOption[]>([]);
-  readonly previewColors = input<readonly PreviewColorOption[]>([]);
+  readonly toneOptions = input<readonly ToneOption[]>([]);
+  readonly variantOptions = input<readonly ControlOption<LmnIconVariant>[]>([]);
+  readonly backgroundOptions = input<readonly ControlOption<LmnIconBackground>[]>([]);
+  readonly backgroundToneOptions = input<readonly ToneOption[]>([]);
   readonly resultCount = input(0);
   readonly totalCount = input(0);
 
@@ -43,6 +56,11 @@ export class IconsSidebarComponent {
     this.size.set(24);
     this.strokeWidth.set(2);
     this.animate.set(false);
-    this.previewColor.set('inherit');
+    this.tone.set('inherit');
+    this.variant.set('outline');
+    this.background.set('none');
+    this.backgroundTone.set('primary');
+    this.padding.set(8);
+    this.radius.set(10);
   }
 }

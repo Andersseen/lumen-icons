@@ -27,7 +27,17 @@ describe("IconCardComponent", () => {
           category: "status",
           aliases: ["success"],
         },
-        iconInputs: { size: 24, strokeWidth: 2, animate: false },
+        iconInputs: {
+          size: 20,
+          strokeWidth: 1.5,
+          animate: true,
+          tone: "primary",
+          variant: "filled",
+          background: "soft",
+          backgroundTone: "accent",
+          padding: 8,
+          radius: 10,
+        },
         categoryLabel: "Status",
       },
       providers: [{ provide: ClipboardService, useValue: clipboardMock }],
@@ -65,7 +75,17 @@ describe("IconCardComponent", () => {
           category: "status",
           aliases: ["success"],
         },
-        iconInputs: { size: 24, strokeWidth: 2, animate: false },
+        iconInputs: {
+          size: 20,
+          strokeWidth: 1.5,
+          animate: true,
+          tone: "primary",
+          variant: "filled",
+          background: "soft",
+          backgroundTone: "accent",
+          padding: 8,
+          radius: 10,
+        },
         categoryLabel: "Status",
       },
       providers: [{ provide: ClipboardService, useValue: clipboardMock }],
@@ -74,7 +94,13 @@ describe("IconCardComponent", () => {
     await user.click(screen.getByRole("button", { name: /copy selector for check/i }));
     await user.click(screen.getByRole("button", { name: /copy angular example for check/i }));
 
-    expect(copyMock).toHaveBeenCalledWith('<lmn-check ariaLabel="check" />', "check:selector");
-    expect(copyMock).toHaveBeenCalledWith("example code", "check:example");
+    expect(copyMock).toHaveBeenCalledWith(
+      '<lmn-check ariaLabel="check" [size]="20" [strokeWidth]="1.5" [animate]="true" tone="primary" variant="filled" background="soft" backgroundTone="accent" [padding]="8" [radius]="10" />',
+      "check:selector"
+    );
+    expect(copyMock).toHaveBeenCalledWith(
+      expect.stringContaining('template: `<lmn-check ariaLabel="check" [size]="20"'),
+      "check:example"
+    );
   });
 });
