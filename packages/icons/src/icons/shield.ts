@@ -20,6 +20,14 @@ import { LmnIconBase } from '../lib/icon-base';
         0%, 100% { scale: 1; translate: 0 0px; opacity: 1; }
         50% { scale: 1.03; translate: 0 -0.42px; opacity: 0.937; }
       }
+  
+
+    @media (prefers-reduced-motion: reduce) {
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) .lmn-animate-el {
+        animation: none !important;
+      }
+    }
   `],
   template: `
     <svg

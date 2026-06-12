@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 import { DocsAccessibilityComponent } from "../components/docs/docs-accessibility";
 import { DocsApiTableComponent } from "../components/docs/docs-api-table";
+import { DocsAnimationsComponent } from "../components/docs/docs-animations";
 import { DocsIconTableComponent } from "../components/docs/docs-icon-table";
 import { DocsInstallationComponent } from "../components/docs/docs-installation";
 import { DocsTocComponent } from "../components/docs/docs-toc";
@@ -14,6 +15,7 @@ import { DocsUsageComponent } from "../components/docs/docs-usage";
     DocsTocComponent,
     DocsInstallationComponent,
     DocsUsageComponent,
+    DocsAnimationsComponent,
     DocsAccessibilityComponent,
     DocsApiTableComponent,
     DocsIconTableComponent,
@@ -30,6 +32,7 @@ import { DocsUsageComponent } from "../components/docs/docs-usage";
       <app-docs-toc [sections]="sections" />
       <app-docs-installation />
       <app-docs-usage />
+      <app-docs-animations />
       <app-docs-accessibility />
       <app-docs-api-table />
       <app-docs-icon-table />
@@ -44,6 +47,7 @@ export default class DocsPageComponent {
   readonly sections = [
     { id: "installation", label: "Installation" },
     { id: "usage", label: "Usage" },
+    { id: "animations", label: "Animations" },
     { id: "accessibility", label: "Accessibility" },
     { id: "api", label: "API Reference" },
     { id: "icons", label: "Available Icons" },

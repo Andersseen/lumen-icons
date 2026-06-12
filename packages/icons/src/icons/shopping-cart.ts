@@ -13,7 +13,15 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-@keyframes lmn-shopping-cart { 0%, 100% { translate: 0 0; } 50% { translate: 1px 0; } }`],
+@keyframes lmn-shopping-cart { 0%, 100% { translate: 0 0; } 50% { translate: 1px 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) .lmn-animate-el {
+        animation: none !important;
+      }
+    }
+  `],
   template: `
     <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()" [style.animation]="animate() ? 'lmn-shopping-cart 560ms ease both' : null" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <circle cx="8" cy="21" r="1"/>

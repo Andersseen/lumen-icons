@@ -14,19 +14,36 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
 
-    .lmn-animate-el { display: inline-block; }
+    .lmn-animate-el {
+      display: inline-block;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
     
-      @keyframes lmn-lock {
-        0%, 100% { translate: 0 0px; scale: 1; }
-        50% { translate: 0 -0.42px; scale: 1.015; }
+    @keyframes lmn-lock-body {
+      0%, 100% { translate: 0 0; scale: 1; }
+      45% { translate: 0 0.5px; scale: 1.01; }
+    }
+
+    @keyframes lmn-lock-shackle {
+      0%, 100% { translate: 0 0; rotate: 0deg; }
+      45% { translate: 0 -1px; rotate: -4deg; }
+    }
+  
+
+    @media (prefers-reduced-motion: reduce) {
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) .lmn-animate-el {
+        animation: none !important;
       }
+    }
   `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      class="lmn-animate-el" [style.animation]="animate() ? 'lmn-lock 560ms ease 0ms both' : null" viewBox="0 0 24 24"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -34,10 +51,12 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+      <rect
+        width="18" height="11" x="3" y="11" rx="2" ry="2"
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-lock-body 560ms ease 0ms both' : null"/>
       <path
         d="M7 11V7a5 5 0 0 1 10 0v4"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-lock 560ms ease 50ms both' : null"/>
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-lock-shackle 560ms ease 70ms both' : null"/>
     </svg>
   `,
 })

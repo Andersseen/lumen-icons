@@ -91,9 +91,14 @@ export class IconCardComponent {
   readonly copiedAction = signal<string | null>(null);
   readonly popped = signal(false);
 
-  readonly cardInputs = (): IconCardInputs => ({
+  readonly idleCardInputs = (): IconCardInputs => ({
     ...this.iconInputs(),
-    animate: this.isHovered() && this.iconInputs().animate,
+    animate: false,
+  });
+
+  readonly animatedCardInputs = (): IconCardInputs => ({
+    ...this.iconInputs(),
+    animate: true,
   });
 
   handlePreviewClick() {

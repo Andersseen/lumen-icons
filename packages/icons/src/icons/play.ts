@@ -13,7 +13,15 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-@keyframes lmn-play { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0.8px 0; scale: 1.03; } }`],
+@keyframes lmn-play { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0.8px 0; scale: 1.03; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) .lmn-animate-el {
+        animation: none !important;
+      }
+    }
+  `],
   template: `
     <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()" [style.animation]="animate() ? 'lmn-play 560ms ease both' : null" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
       <polygon points="6 3 20 12 6 21 6 3"/>

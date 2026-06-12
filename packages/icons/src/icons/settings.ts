@@ -14,19 +14,31 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
 
-    .lmn-animate-el { display: inline-block; }
+    .lmn-animate-el {
+      display: inline-block;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
     
-      @keyframes lmn-settings {
-        0%, 100% { rotate: 0deg; scale: 1; }
-        50% { rotate: 14deg; scale: 1.019; }
+    @keyframes lmn-settings {
+      0%, 100% { rotate: 0deg; scale: 1; }
+      55% { rotate: 24deg; scale: 1.02; }
+    }
+  
+
+    @media (prefers-reduced-motion: reduce) {
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) .lmn-animate-el {
+        animation: none !important;
       }
+    }
   `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-settings 560ms ease both' : null" viewBox="0 0 24 24"
+      class="lmn-animate-el" [style.animation]="animate() ? 'lmn-settings 700ms cubic-bezier(0.22, 1, 0.36, 1) both' : null" viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
