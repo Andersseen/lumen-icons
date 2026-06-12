@@ -4,17 +4,17 @@ import { VoltInput, VoltSlider } from '@voltui/components';
 
 import { AnimationPickerComponent } from '../shared/animation-picker';
 import { SizePickerComponent } from '../shared/size-picker';
-import type { CategoryFilter, CategoryFilterOption, ControlOption, ToneOption } from './icon-control-options';
+import type { CategoryFilterOption, ControlOption, ToneOption } from './icon-control-options';
 
 @Component({
-  selector: 'app-icons-sidebar',
+  selector: 'app-icons-mobile-controls',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [VoltInput, VoltSlider, SizePickerComponent, AnimationPickerComponent],
-  templateUrl: './icons-sidebar.html',
+  templateUrl: './icons-mobile-controls.html',
 })
-export class IconsSidebarComponent {
+export class IconsMobileControlsComponent {
   readonly search = model('');
-  readonly category = model<CategoryFilter>('all');
+  readonly category = model<CategoryFilterOption['value']>('all');
   readonly size = model<LmnIconSize>(24);
   readonly strokeWidth = model(2);
   readonly animate = model<boolean>(false);
@@ -24,25 +24,10 @@ export class IconsSidebarComponent {
   readonly backgroundTone = model<LmnIconTone>('primary');
   readonly padding = model(8);
   readonly radius = model(10);
+
   readonly categories = input<readonly CategoryFilterOption[]>([]);
   readonly toneOptions = input<readonly ToneOption[]>([]);
   readonly variantOptions = input<readonly ControlOption<LmnIconVariant>[]>([]);
   readonly backgroundOptions = input<readonly ControlOption<LmnIconBackground>[]>([]);
   readonly backgroundToneOptions = input<readonly ToneOption[]>([]);
-  readonly resultCount = input(0);
-  readonly totalCount = input(0);
-
-  resetDemo(): void {
-    this.search.set('');
-    this.category.set('all');
-    this.size.set(24);
-    this.strokeWidth.set(2);
-    this.animate.set(false);
-    this.tone.set('inherit');
-    this.variant.set('outline');
-    this.background.set('none');
-    this.backgroundTone.set('primary');
-    this.padding.set(8);
-    this.radius.set(10);
-  }
 }

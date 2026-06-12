@@ -64,10 +64,6 @@ pkg.exports = {
     types: './icons/index.d.ts',
     default: './icons/index.mjs',
   },
-  './icons/*': {
-    types: './icons/*.d.ts',
-    default: './icons/*.mjs',
-  },
 };
 
 // Add per-icon exports
@@ -77,12 +73,6 @@ for (const icon of icons) {
     default: `./${icon.name}.mjs`,
   };
 }
-
-// Wildcard fallback for any future icon
-pkg.exports['./*'] = {
-  types: './*.d.ts',
-  default: './*.mjs',
-};
 
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
 

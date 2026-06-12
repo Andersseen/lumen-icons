@@ -8,15 +8,9 @@ importers:
 
   .:
     dependencies:
-      '@analogjs/content':
-        specifier: ^2.4.10
-        version: 2.4.10(00dfa559302d3916d4bfef28e422b335)
       '@analogjs/router':
         specifier: ^2.4.10
         version: 2.4.10(@analogjs/content@2.4.10(00dfa559302d3916d4bfef28e422b335))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/router@21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(rxjs@7.8.2))
-      '@angular/animations':
-        specifier: ^21.0.0
-        version: 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
       '@angular/common':
         specifier: ^21.0.0
         version: 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
@@ -26,9 +20,6 @@ importers:
       '@angular/core':
         specifier: ^21.0.0
         version: 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
-      '@angular/forms':
-        specifier: ^21.0.0
-        version: 21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(rxjs@7.8.2)
       '@angular/platform-browser':
         specifier: ^21.0.0
         version: 21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
@@ -47,30 +38,12 @@ importers:
       angular-movement:
         specifier: ^0.1.0
         version: 0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
-      front-matter:
-        specifier: ^4.0.2
-        version: 4.0.2
       h3:
-        specifier: ^1.13.0
+        specifier: 1.15.11
         version: 1.15.11
-      marked:
-        specifier: ^15.0.7
-        version: 15.0.12
-      marked-gfm-heading-id:
-        specifier: ^4.1.1
-        version: 4.1.4(marked@15.0.12)
-      marked-highlight:
-        specifier: ^2.2.1
-        version: 2.2.4(marked@15.0.12)
-      marked-mangle:
-        specifier: ^1.1.10
-        version: 1.1.13(marked@15.0.12)
       postcss:
         specifier: ^8.5.3
         version: 8.5.10
-      prismjs:
-        specifier: ^1.29.0
-        version: 1.30.0
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -390,6 +363,7 @@ packages:
   '@angular/animations@21.2.10':
     resolution: {integrity: sha512-sIzAcxwtRCJ/fu0tK4mo1ooiEaDxJ+Nl6s9nK1D1NP1em12VX03Jx8CMixp/kVtgh4mZnm1x6psBB0FUz3U3Ug==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+    deprecated: '@angular/animations is deprecated. Use `animate.enter` and `animate.leave` instead. For more information see: https://v22.angular.dev/guide/animations.'
     peerDependencies:
       '@angular/core': 21.2.10
 
@@ -5802,6 +5776,7 @@ snapshots:
     dependencies:
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
       tslib: 2.8.1
+    optional: true
 
   '@angular/build@21.2.8(6b7d63855e5acfb68095272954252ffc)':
     dependencies:

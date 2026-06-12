@@ -66,7 +66,7 @@ export class HomeFeaturesComponent {
       iconColor: "text-secondary-foreground",
       title: "Copy-paste ready",
       description:
-        "No npm needed. Click any icon to copy its standalone component source directly.",
+        "Click any icon to copy its import, selector or a complete standalone Angular example.",
     },
   ] as const;
 }
