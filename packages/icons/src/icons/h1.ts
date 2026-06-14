@@ -17,12 +17,7 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-h1 500ms ease both;
     }
-
-    .lmn-filled svg,
-    .lmn-filled path {
-      fill: currentColor;
-      stroke: none;
-    }
+    
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +26,21 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M2.243 3.743a.75.75 0 0 1 .75.75v6.75h9v-6.75a.75.75 0 1 1 1.5 0v15.002a.75.75 0 1 1-1.5 0v-6.751h-9v6.75a.75.75 0 1 1-1.5 0v-15a.75.75 0 0 1 .75-.75Zm17.605 4.964a.75.75 0 0 1 .396.661v9.376h1.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5h1.5V10.77l-1.084.722a.75.75 0 1 1-.832-1.248l2.25-1.5a.75.75 0 0 1 .77-.037Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +54,8 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="M2.243 4.493v7.5m0 0v7.502m0-7.501h10.5m0-7.5v7.5m0 0v7.501m4.501-8.627 2.25-1.5v10.126m0 0h-2.25m2.25 0h2.25"/>
-    </svg>`,
+    </svg>
+    }
+  `,
 })
 export class LmnH1Icon extends LmnIconBase {}

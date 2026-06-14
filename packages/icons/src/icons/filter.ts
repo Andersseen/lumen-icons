@@ -17,12 +17,13 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-filter 500ms ease both;
     }
-
+    
     .lmn-filled svg,
     .lmn-filled path {
       fill: currentColor;
       stroke: none;
     }
+  
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +32,8 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +47,7 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="M22 3H2l8 9.46V19l4 2v-8.54z"/>
-    </svg>`,
+    </svg>
+  `,
 })
 export class LmnFilterIcon extends LmnIconBase {}

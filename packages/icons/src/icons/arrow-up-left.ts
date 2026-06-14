@@ -17,12 +17,7 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-arrow-up-left 400ms ease both;
     }
-
-    .lmn-filled svg,
-    .lmn-filled path {
-      fill: currentColor;
-      stroke: none;
-    }
+    
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +26,21 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M5.25 6.31v9.44a.75.75 0 0 1-1.5 0V4.5a.75.75 0 0 1 .75-.75h11.25a.75.75 0 0 1 0 1.5H6.31l13.72 13.72a.75.75 0 1 1-1.06 1.06L5.25 6.31Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +54,8 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="m19.5 19.5-15-15m0 0v11.25m0-11.25h11.25"/>
-    </svg>`,
+    </svg>
+    }
+  `,
 })
 export class LmnArrowUpLeftIcon extends LmnIconBase {}

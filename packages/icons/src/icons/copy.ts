@@ -17,12 +17,13 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-copy 500ms ease both;
     }
-
+    
     .lmn-filled svg,
     .lmn-filled path {
       fill: currentColor;
       stroke: none;
     }
+  
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +32,8 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +47,7 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" class="lmn-animate-el" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" class="lmn-animate-el" />
-    </svg>`,
+    </svg>
+  `,
 })
 export class LmnCopyIcon extends LmnIconBase {}

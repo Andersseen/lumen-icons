@@ -17,12 +17,7 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-equals 500ms ease both;
     }
-
-    .lmn-filled svg,
-    .lmn-filled path {
-      fill: currentColor;
-      stroke: none;
-    }
+    
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +26,21 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M3.748 8.248a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75ZM3.748 15.75a.75.75 0 0 1 .75-.751h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +54,8 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="M4.499 8.248h15m-15 7.501h15"/>
-    </svg>`,
+    </svg>
+    }
+  `,
 })
 export class LmnEqualsIcon extends LmnIconBase {}

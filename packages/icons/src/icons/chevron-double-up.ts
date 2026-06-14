@@ -17,12 +17,7 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-chevron-double-up 500ms ease both;
     }
-
-    .lmn-filled svg,
-    .lmn-filled path {
-      fill: currentColor;
-      stroke: none;
-    }
+    
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +26,21 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M11.47 10.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 12.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M11.47 4.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 6.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +54,8 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="m4.5 18.75 7.5-7.5 7.5 7.5"/><path d="m4.5 12.75 7.5-7.5 7.5 7.5"/>
-    </svg>`,
+    </svg>
+    }
+  `,
 })
 export class LmnChevronDoubleUpIcon extends LmnIconBase {}

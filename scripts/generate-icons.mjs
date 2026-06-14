@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const outlineDir = join(root, 'node_modules/heroicons/24/outline');
+const solidDir = join(root, 'node_modules/heroicons/24/solid');
 const iconsDir = join(root, 'packages/icons/src/icons');
 const indexPath = join(iconsDir, 'index.ts');
 const catalogPath = join(root, 'src/app/data/icon-catalog.ts');
@@ -214,7 +215,7 @@ function resolveAnimation(name) {
   return SEMANTIC_ANIMATIONS[SEMANTIC_ANIMATIONS.length - 1];
 }
 
-function generateSvg(name, innerSvg) {
+function generateOutlineSvg(name, innerSvg) {
   return `<svg
       [attr.width]="size()"
       [attr.height]="size()"
@@ -232,7 +233,44 @@ function generateSvg(name, innerSvg) {
     </svg>`;
 }
 
-function generateComponent(name, className, innerSvg, keyframes, duration) {
+function generateFilledSvg(name, innerSvg) {
+  return `<svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      ${innerSvg}
+    </svg>`;
+}
+
+function generateComponent(name, className, outlineSvg, filledSvg, keyframes, duration) {
+  const hasFilled = filledSvg !== null;
+  const filledFallback = !hasFilled
+    ? `
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+  `
+    : '';
+
+  const template = hasFilled
+    ? `
+    @if (variant() === 'filled') {
+      ${generateFilledSvg(name, filledSvg)}
+    } @else {
+      ${generateOutlineSvg(name, outlineSvg)}
+    }
+  `
+    : `
+    ${generateOutlineSvg(name, outlineSvg)}
+  `;
+
   return `import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LmnIconBase } from '../lib/icon-base';
 
@@ -252,12 +290,7 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-${name} ${duration} ease both;
     }
-
-    .lmn-filled svg,
-    .lmn-filled path {
-      fill: currentColor;
-      stroke: none;
-    }
+    ${filledFallback}
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -266,7 +299,7 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   \`],
-  template: \`${generateSvg(name, innerSvg)}\`,
+  template: \`${template}\`,
 })
 export class ${className} extends LmnIconBase {}
 `;
@@ -435,12 +468,20 @@ function generateIconFiles(svgFiles) {
     }
 
     const rawSvg = readFileSync(join(outlineDir, file), 'utf8');
-    const innerSvg = cleanSvg(rawSvg, name);
+    const outlineSvg = cleanSvg(rawSvg, name);
+
+    let filledSvg = null;
+    const solidPath = join(solidDir, file);
+    if (existsSync(solidPath)) {
+      const rawSolid = readFileSync(solidPath, 'utf8');
+      filledSvg = cleanSvg(rawSolid, name);
+    }
+
     const animation = resolveAnimation(name);
     const keyframes = animation.keyframes(name);
     const duration = animation.duration;
 
-    const componentSource = generateComponent(name, className, innerSvg, keyframes, duration);
+    const componentSource = generateComponent(name, className, outlineSvg, filledSvg, keyframes, duration);
     const specSource = generateSpec(name, className);
 
     writeFileSync(componentPath, componentSource);
@@ -472,7 +513,7 @@ function regenerateCustomIcons(outlineNames) {
     const keyframes = animation.keyframes(name);
     const duration = animation.duration;
 
-    const componentSource = generateComponent(name, className, innerSvg, keyframes, duration);
+    const componentSource = generateComponent(name, className, innerSvg, null, keyframes, duration);
     const specSource = generateSpec(name, className);
 
     writeFileSync(componentPath, componentSource);

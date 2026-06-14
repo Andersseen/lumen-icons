@@ -17,12 +17,13 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-globe 500ms ease both;
     }
-
+    
     .lmn-filled svg,
     .lmn-filled path {
       fill: currentColor;
       stroke: none;
     }
+  
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +32,8 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +47,7 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 0 20"/><path d="M12 2a15.3 15.3 0 0 0 0 20"/>
-    </svg>`,
+    </svg>
+  `,
 })
 export class LmnGlobeIcon extends LmnIconBase {}

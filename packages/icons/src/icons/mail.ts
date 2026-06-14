@@ -17,12 +17,13 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-mail 550ms ease both;
     }
-
+    
     .lmn-filled svg,
     .lmn-filled path {
       fill: currentColor;
       stroke: none;
     }
+  
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +32,8 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +47,7 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <rect width="20" height="16" x="2" y="4" rx="2" class="lmn-animate-el" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" class="lmn-animate-el" />
-    </svg>`,
+    </svg>
+  `,
 })
 export class LmnMailIcon extends LmnIconBase {}

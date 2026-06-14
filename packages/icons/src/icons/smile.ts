@@ -17,12 +17,13 @@ import { LmnIconBase } from '../lib/icon-base';
     .lmn-animate {
       animation: lmn-smile 500ms ease both;
     }
-
+    
     .lmn-filled svg,
     .lmn-filled path {
       fill: currentColor;
       stroke: none;
     }
+  
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -31,7 +32,8 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `<svg
+  template: `
+    <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -45,6 +47,7 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <circle cx="12" cy="12" r="10" class="lmn-animate-el" /><path d="M8 14s1.5 2 4 2 4-2 4-2" class="lmn-animate-el" /><line x1="9" y1="9" x2="9.01" y2="9" class="lmn-animate-el" /><line x1="15" y1="9" x2="15.01" y2="9" class="lmn-animate-el" />
-    </svg>`,
+    </svg>
+  `,
 })
 export class LmnSmileIcon extends LmnIconBase {}
