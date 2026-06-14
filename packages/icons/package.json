@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Lumen icon components for Angular",
+  "keywords": [
+    "angular",
+    "icons",
+    "svg",
+    "ui",
+    "components",
+    "lumen"
+  ],
   "license": "MIT",
   "sideEffects": false,
   "files": [

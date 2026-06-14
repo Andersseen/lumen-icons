@@ -52,8 +52,31 @@ Create a single-repo foundation with:
 
 - Each icon defines its own `@keyframes` inside the component's `styles` array.
 - The `animate` input toggles the animation via `[class.lmn-animate]` and `[style.animation]`.
+- All animations respect `prefers-reduced-motion` via a shared media query block.
 - No peer dependency on animation libraries — animations are pure CSS.
 - The demo app may use `angular-movement` for layout/UI animations, but the icon library itself does not depend on it.
+
+## Icon Generation Pipeline
+
+Source SVGs live in `node_modules/heroicons/24/outline` and are processed by
+`scripts/generate-icons.mjs`:
+
+1. Reads every `.svg` from the source folder.
+2. Normalizes the SVG (removes hardcoded sizes, forces `currentColor`, etc.).
+3. Generates a standalone Angular component per icon.
+4. Generates a matching unit test.
+5. Infers `category` and `aliases` for the website catalog.
+6. Updates `packages/icons/src/icons/index.ts` and `src/app/data/icon-catalog.ts`.
+
+To regenerate icons after updating the source set:
+
+```sh
+pnpm run generate:icons
+```
+
+The generated files are committed so the library can be consumed without running
+the generator. The post-build script (`scripts/build-lib.mjs`) then creates
+per-icon re-exports for the published package.
 
 ## Visual Configuration Strategy
 

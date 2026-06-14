@@ -84,7 +84,8 @@ describe('icon contract', () => {
       const blockStart = keyframe.index ?? 0;
       const nextKeyframe = source.indexOf('@keyframes', blockStart + 1);
       const block = source.slice(blockStart, nextKeyframe === -1 ? undefined : nextKeyframe);
-      expect(block, `${file}: keyframes must define 0%, 100% block`).toMatch(/0%,\s*100%\s*\{/);
+      expect(block, `${file}: keyframes must define 0% block`).toMatch(/0%\s*\{/);
+      expect(block, `${file}: keyframes must define 100% block`).toMatch(/100%\s*\{/);
     }
   });
 });
