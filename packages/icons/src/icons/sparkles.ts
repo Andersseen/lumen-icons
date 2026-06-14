@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-sparkles {
-        0%, 100% { scale: 1; opacity: 1; }
-        50% { scale: 1.04; opacity: 1; }
-      }
-  
+    @keyframes lmn-sparkles { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 0.5; scale: 1.12; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,6 +26,8 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-sparkles 600ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -42,14 +36,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M12 2v4"     class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 0ms both' : null"/>
-      <path d="m5 5 2.8 2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 35ms both' : null"/>
-      <path d="m19 5-2.8 2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 70ms both' : null"/>
-      <path d="M12 12v8"     class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 105ms both' : null"/>
-      <path d="m5 19 2.8-2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 140ms both' : null"/>
-      <path d="m19 19-2.8-2.8" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 175ms both' : null"/>
-      <circle cx="12" cy="12" r="3"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sparkles 560ms ease 90ms both' : null"/>
+      <path d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"/>
     </svg>
   `,
 })

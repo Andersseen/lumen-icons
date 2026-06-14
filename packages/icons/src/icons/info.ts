@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-info {
-        0%, 100% { translate: 0 0px; scale: 1 1; opacity: 1; }
-        50% { translate: 0 0px; scale: 1 1.038; opacity: 1; }
-      }
-  
+    @keyframes lmn-info { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,7 +26,9 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-info 560ms ease both' : null" viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-info 500ms ease both' : null"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -42,9 +36,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M12 16v-4"/>
-      <path d="M12 8h.01"/>
+      <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
     </svg>
   `,
 })

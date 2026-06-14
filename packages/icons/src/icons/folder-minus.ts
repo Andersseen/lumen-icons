@@ -12,7 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-folder-minus { 0%, 100% { scale: 1; } 50% { scale: 1.12; } }
+    @keyframes lmn-folder-minus { 0%, 100% { scaleX: 1; } 50% { scaleX: 1.35; } }
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-folder-minus 560ms ease both' : null"
+      [style.animation]="animate() ? 'lmn-folder-minus 400ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

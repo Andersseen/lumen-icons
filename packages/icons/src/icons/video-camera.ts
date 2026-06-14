@@ -12,7 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-video-camera { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }
+    @keyframes lmn-video-camera { 0%, 100% { scale: 1; } 25% { scale: 1.1; } 50% { scale: 1; } 75% { scale: 1.05; } }
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-video-camera 560ms ease both' : null"
+      [style.animation]="animate() ? 'lmn-video-camera 550ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

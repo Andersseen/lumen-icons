@@ -12,7 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-bell-alert { 0%, 100% { rotate: 0deg; } 25% { rotate: 3deg; } 75% { rotate: -3deg; } }
+    @keyframes lmn-bell-alert { 0%, 100% { rotate: 0deg; } 10% { rotate: 20deg; } 30% { rotate: -16deg; } 50% { rotate: 12deg; } 70% { rotate: -8deg; } 90% { rotate: 4deg; } }
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-bell-alert 560ms ease both' : null"
+      [style.animation]="animate() ? 'lmn-bell-alert 700ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

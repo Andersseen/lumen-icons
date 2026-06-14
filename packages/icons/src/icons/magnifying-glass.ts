@@ -12,7 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-magnifying-glass { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }
+    @keyframes lmn-magnifying-glass { 0%, 100% { scale: 1; rotate: 0deg; } 25% { scale: 1.12; rotate: -12deg; } 50% { scale: 1; rotate: 0deg; } 75% { scale: 1.06; rotate: 8deg; } }
 
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-magnifying-glass 560ms ease both' : null"
+      [style.animation]="animate() ? 'lmn-magnifying-glass 650ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

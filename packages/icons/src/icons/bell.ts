@@ -12,25 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el {
-      display: inline-block;
-      transform-box: fill-box;
-      transform-origin: top center;
-    }
-    
-    @keyframes lmn-bell {
-      0%, 100% { rotate: 0deg; }
-      25% { rotate: -5deg; }
-      55% { rotate: 4deg; }
-      75% { rotate: -2deg; }
-    }
-  
+    @keyframes lmn-bell { 0%, 100% { rotate: 0deg; } 10% { rotate: 20deg; } 30% { rotate: -16deg; } 50% { rotate: 12deg; } 70% { rotate: -8deg; } 90% { rotate: 4deg; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -40,7 +26,9 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      class="lmn-animate-el" [style.animation]="animate() ? 'lmn-bell 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both' : null" viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-bell 700ms ease both' : null"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -48,8 +36,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+      <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
     </svg>
   `,
 })

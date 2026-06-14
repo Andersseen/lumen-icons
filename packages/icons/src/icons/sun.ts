@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-sun {
-        0%, 100% { scale: 1; }
-        50% { scale: 1.019; }
-      }
-  
+    @keyframes lmn-sun { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 0.5; scale: 1.12; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,6 +26,8 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-sun 600ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -42,16 +36,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="12" cy="12" r="4"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 800ms ease 0ms both' : null"/>
-      <path d="M12 2v2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both' : null"/>
-      <path d="M12 20v2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both' : null"/>
-      <path d="M4.93 4.93l1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both' : null"/>
-      <path d="M17.66 17.66l1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 240ms both' : null"/>
-      <path d="M2 12h2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both' : null"/>
-      <path d="M20 12h2"         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 360ms both' : null"/>
-      <path d="M6.34 17.66l-1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 420ms both' : null"/>
-      <path d="M19.07 4.93l-1.41 1.41" class="lmn-animate-el" [style.animation]="animate() ? 'lmn-sun 560ms cubic-bezier(0.22, 1, 0.36, 1) 480ms both' : null"/>
+      <path d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
     </svg>
   `,
 })

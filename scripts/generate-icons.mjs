@@ -9,18 +9,7 @@ const indexPath = join(iconsDir, 'index.ts');
 const catalogPath = join(root, 'src/app/data/icon-catalog.ts');
 const metadataPath = join(root, 'src/app/data/icon-metadata.ts');
 
-const CATEGORIES = [
-  'actions',
-  'communication',
-  'content',
-  'editor',
-  'feedback',
-  'media',
-  'navigation',
-  'security',
-  'status',
-  'system',
-];
+const overwrite = process.argv.includes('--overwrite');
 
 const toPascalCase = (str) =>
   str
@@ -29,6 +18,174 @@ const toPascalCase = (str) =>
     .join('');
 
 const toClassName = (name) => `Lmn${toPascalCase(name)}Icon`;
+
+const SEMANTIC_ANIMATIONS = [
+  // Exact matches first
+  {
+    match: n => n === 'check',
+    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.5; opacity: 0; } 60% { scale: 1.2; } 100% { scale: 1; opacity: 1; } }`,
+    duration: '420ms',
+  },
+  {
+    match: n => n === 'heart',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 15% { scale: 1.3; } 30% { scale: 0.9; } 45% { scale: 1.15; } 60% { scale: 1; } }`,
+    duration: '800ms',
+  },
+  {
+    match: n => n === 'star',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; rotate: 0deg; } 50% { scale: 1.25; rotate: 72deg; } }`,
+    duration: '600ms',
+  },
+  {
+    match: n => n === 'bell',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 10% { rotate: 20deg; } 30% { rotate: -16deg; } 50% { rotate: 12deg; } 70% { rotate: -8deg; } 90% { rotate: 4deg; } }`,
+    duration: '700ms',
+  },
+  {
+    match: n => n === 'trash',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; translate: 0 0; } 20% { rotate: 10deg; translate: 2px 0; } 40% { rotate: -10deg; translate: -2px 0; } 60% { rotate: 6deg; } 80% { rotate: -6deg; } }`,
+    duration: '500ms',
+  },
+  {
+    match: n => n === 'plus',
+    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.7; rotate: -90deg; } 60% { scale: 1.15; rotate: 10deg; } 100% { scale: 1; rotate: 0deg; } }`,
+    duration: '450ms',
+  },
+  {
+    match: n => n === 'x' || n === 'x-mark',
+    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.7; rotate: 90deg; } 60% { scale: 1.15; rotate: -10deg; } 100% { scale: 1; rotate: 0deg; } }`,
+    duration: '450ms',
+  },
+  {
+    match: n => n === 'home',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }`,
+    duration: '450ms',
+  },
+  {
+    match: n => n === 'search' || n === 'magnifying-glass',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; rotate: 0deg; } 25% { scale: 1.12; rotate: -12deg; } 50% { scale: 1; rotate: 0deg; } 75% { scale: 1.06; rotate: 8deg; } }`,
+    duration: '650ms',
+  },
+  {
+    match: n => n === 'send' || n === 'paper-airplane',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 5px -5px; opacity: 0.7; } }`,
+    duration: '500ms',
+  },
+
+  // Pattern matches
+  {
+    match: n => n.includes('arrow-right') || n.includes('arrow-long-right') || n === 'chevron-right',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 5px 0; } }`,
+    duration: '400ms',
+  },
+  {
+    match: n => n.includes('arrow-left') || n.includes('arrow-long-left') || n === 'chevron-left',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: -5px 0; } }`,
+    duration: '400ms',
+  },
+  {
+    match: n => n.includes('arrow-up') || n.includes('arrow-long-up') || n === 'chevron-up',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }`,
+    duration: '400ms',
+  },
+  {
+    match: n => n.includes('arrow-down') || n.includes('arrow-long-down') || n === 'chevron-down',
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 5px; } }`,
+    duration: '400ms',
+  },
+  {
+    match: n => n.includes('arrow-top-right') || n.includes('arrow-up-right') || n.includes('external-link') || n.includes('arrow-top-left'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 4px -4px; } }`,
+    duration: '450ms',
+  },
+  {
+    match: n => n.includes('arrow-turn') || n.includes('arrow-uturn') || n.includes('arrow-path') || n.includes('refresh') || n.includes('reload') || n.includes('sync') || n.includes('rotate'),
+    keyframes: name => `@keyframes lmn-${name} { 0% { rotate: 0deg; } 100% { rotate: 360deg; } }`,
+    duration: '900ms',
+  },
+  {
+    match: n => n.includes('download'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 0 5px; opacity: 0.6; } }`,
+    duration: '550ms',
+  },
+  {
+    match: n => n.includes('upload'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 0 -5px; opacity: 0.6; } }`,
+    duration: '550ms',
+  },
+  {
+    match: n => n.includes('cog') || n.includes('settings'),
+    keyframes: name => `@keyframes lmn-${name} { 0% { rotate: 0deg; } 100% { rotate: 360deg; } }`,
+    duration: '1000ms',
+  },
+  {
+    match: n => n.includes('heart') || n.includes('like') || n.includes('thumb'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 15% { scale: 1.3; } 30% { scale: 0.9; } 45% { scale: 1.15; } 60% { scale: 1; } }`,
+    duration: '800ms',
+  },
+  {
+    match: n => n.includes('bell') || n.includes('alert') || n.includes('warning') || n.includes('exclamation') || n.includes('question'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 10% { rotate: 20deg; } 30% { rotate: -16deg; } 50% { rotate: 12deg; } 70% { rotate: -8deg; } 90% { rotate: 4deg; } }`,
+    duration: '700ms',
+  },
+  {
+    match: n => n.includes('sun') || n.includes('moon') || n.includes('sparkle') || n.includes('bolt') || n.includes('fire') || n.includes('zap'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 0.5; scale: 1.12; } }`,
+    duration: '600ms',
+  },
+  {
+    match: n => n.includes('check') || n.includes('tick'),
+    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.5; opacity: 0; } 60% { scale: 1.2; } 100% { scale: 1; opacity: 1; } }`,
+    duration: '420ms',
+  },
+  {
+    match: n => n.includes('minus') || n.includes('dash') || n.includes('remove'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scaleX: 1; } 50% { scaleX: 1.35; } }`,
+    duration: '400ms',
+  },
+  {
+    match: n => n.includes('trash') || n.includes('delete') || n.includes('bin'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 20% { rotate: 10deg; } 40% { rotate: -10deg; } 60% { rotate: 6deg; } 80% { rotate: -6deg; } }`,
+    duration: '500ms',
+  },
+  {
+    match: n => n.includes('lock') || n.includes('key') || n.includes('shield'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }`,
+    duration: '500ms',
+  },
+  {
+    match: n => n.includes('mail') || n.includes('message') || n.includes('chat') || n.includes('envelope'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 25% { translate: 0 -3px; } 75% { translate: 0 3px; } }`,
+    duration: '550ms',
+  },
+  {
+    match: n => n.includes('user') || n.includes('person') || n.includes('profile') || n.includes('avatar'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }`,
+    duration: '500ms',
+  },
+  {
+    match: n => n.includes('folder') || n.includes('file') || n.includes('document') || n.includes('archive'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -2px; } }`,
+    duration: '450ms',
+  },
+  {
+    match: n => n.includes('camera') || n.includes('video') || n.includes('photo') || n.includes('image') || n.includes('picture'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 25% { scale: 1.1; } 50% { scale: 1; } 75% { scale: 1.05; } }`,
+    duration: '550ms',
+  },
+  {
+    match: n => n.includes('play') || n.includes('pause') || n.includes('stop') || n.includes('media'),
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; opacity: 1; } 50% { scale: 1.15; opacity: 0.8; } }`,
+    duration: '450ms',
+  },
+
+  // Default
+  {
+    match: n => true,
+    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }`,
+    duration: '500ms',
+  },
+];
 
 function cleanSvg(svg, name) {
   const openMatch = svg.match(/<svg\b([^>]*)>/);
@@ -51,30 +208,15 @@ function cleanSvg(svg, name) {
   return inner;
 }
 
-function detectAnimation(name) {
+function resolveAnimation(name) {
   const n = name.toLowerCase();
-  if (n.includes('arrow') || n.includes('chevron') || n.includes('long')) return 'bounce';
-  if (n.includes('heart') || n.includes('star') || n.includes('like') || n.includes('thumb')) return 'pulse';
-  if (n.includes('bell') || n.includes('alert') || n.includes('warning') || n.includes('exclamation') || n.includes('question')) return 'shake';
-  if (n.includes('refresh') || n.includes('reload') || n.includes('sync') || n.includes('cog') || n.includes('setting')) return 'spin';
-  if (n.includes('sun') || n.includes('moon') || n.includes('sparkle') || n.includes('bolt') || n.includes('fire')) return 'fade';
-  if (n.includes('check') || n.includes('plus') || n.includes('minus')) return 'pop';
-  return 'pulse';
+  for (const anim of SEMANTIC_ANIMATIONS) {
+    if (anim.match(n)) return anim;
+  }
+  return SEMANTIC_ANIMATIONS[SEMANTIC_ANIMATIONS.length - 1];
 }
 
-function generateKeyframes(name, type) {
-  const map = {
-    pulse: `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }`,
-    bounce: `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -2px; } }`,
-    shake: `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 25% { rotate: 3deg; } 75% { rotate: -3deg; } }`,
-    spin: `@keyframes lmn-${name} { 0% { rotate: 0deg; } 100% { rotate: 360deg; } }`,
-    fade: `@keyframes lmn-${name} { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 0.8; scale: 0.95; } }`,
-    pop: `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.12; } }`,
-  };
-  return map[type] || map.pulse;
-}
-
-function generateComponent(name, className, innerSvg, keyframes) {
+function generateComponent(name, className, innerSvg, keyframes, duration) {
   return `import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LmnIconBase } from '../lib/icon-base';
 
@@ -90,6 +232,7 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [\`
     ${keyframes}
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -103,7 +246,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-${name} 560ms ease both' : null"
+      [style.animation]="animate() ? 'lmn-${name} ${duration} ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -149,14 +292,14 @@ describe('${className}', () => {
 function inferCategory(name) {
   const n = name.toLowerCase();
   if (n.includes('arrow') || n.includes('chevron') || n.includes('home') || n.includes('menu') || n.includes('link') || n.includes('external')) return 'navigation';
-  if (n.includes('mail') || n.includes('message') || n.includes('chat') || n.includes('phone') || n.includes('share') || n.includes('send')) return 'communication';
+  if (n.includes('mail') || n.includes('message') || n.includes('chat') || n.includes('phone') || n.includes('share') || n.includes('send') || n.includes('envelope')) return 'communication';
   if (n.includes('heart') || n.includes('star') || n.includes('like') || n.includes('bell') || n.includes('alert') || n.includes('warning') || n.includes('info') || n.includes('check') || n.includes('smile') || n.includes('zap') || n.includes('sparkle') || n.includes('flag')) return 'feedback';
-  if (n.includes('play') || n.includes('pause') || n.includes('video') || n.includes('camera') || n.includes('photo') || n.includes('image') || n.includes('music') || n.includes('microphone')) return 'media';
-  if (n.includes('lock') || n.includes('key') || n.includes('shield') || n.includes('eye') || n.includes('password') || n.includes('finger')) return 'security';
-  if (n.includes('bold') || n.includes('italic') || n.includes('underline') || n.includes('align') || n.includes('list') || n.includes('text')) return 'editor';
+  if (n.includes('play') || n.includes('pause') || n.includes('video') || n.includes('camera') || n.includes('photo') || n.includes('image') || n.includes('music') || n.includes('microphone') || n.includes('film')) return 'media';
+  if (n.includes('lock') || n.includes('key') || n.includes('shield') || n.includes('eye') || n.includes('password') || n.includes('finger') || n.includes('security')) return 'security';
+  if (n.includes('bold') || n.includes('italic') || n.includes('underline') || n.includes('align') || n.includes('list') || n.includes('text') || n.includes('font')) return 'editor';
   if (n.includes('file') || n.includes('folder') || n.includes('document') || n.includes('archive') || n.includes('calendar') || n.includes('clock') || n.includes('bookmark')) return 'content';
-  if (n.includes('trash') || n.includes('plus') || n.includes('minus') || n.includes('edit') || n.includes('copy') || n.includes('download') || n.includes('upload') || n.includes('save') || n.includes('delete') || n.includes('refresh') || n.includes('cog') || n.includes('filter')) return 'actions';
-  if (n.includes('user') || n.includes('person') || n.includes('profile') || n.includes('sun') || n.includes('moon') || n.includes('globe') || n.includes('settings') || n.includes('wifi') || n.includes('battery') || n.includes('command') || n.includes('hashtag')) return 'system';
+  if (n.includes('trash') || n.includes('plus') || n.includes('minus') || n.includes('edit') || n.includes('copy') || n.includes('download') || n.includes('upload') || n.includes('save') || n.includes('delete') || n.includes('refresh') || n.includes('cog') || n.includes('filter') || n.includes('cog')) return 'actions';
+  if (n.includes('user') || n.includes('person') || n.includes('profile') || n.includes('sun') || n.includes('moon') || n.includes('globe') || n.includes('settings') || n.includes('wifi') || n.includes('battery') || n.includes('command') || n.includes('hashtag') || n.includes('cpu') || n.includes('chip')) return 'system';
   return 'system';
 }
 
@@ -241,6 +384,7 @@ ${entries},
 function generateIconFiles(svgFiles) {
   const generated = [];
   const skipped = [];
+  const overwritten = [];
 
   for (const file of svgFiles) {
     const name = file.replace(/\.svg$/, '');
@@ -249,25 +393,29 @@ function generateIconFiles(svgFiles) {
     const specPath = join(iconsDir, `${name}.spec.ts`);
 
     if (existsSync(componentPath)) {
-      skipped.push(name);
-      continue;
+      if (!overwrite) {
+        skipped.push(name);
+        continue;
+      }
+      overwritten.push(name);
+    } else {
+      generated.push(name);
     }
 
     const rawSvg = readFileSync(join(sourceDir, file), 'utf8');
     const innerSvg = cleanSvg(rawSvg, name);
-    const animType = detectAnimation(name);
-    const keyframes = generateKeyframes(name, animType);
+    const animation = resolveAnimation(name);
+    const keyframes = animation.keyframes(name);
+    const duration = animation.duration;
 
-    const componentSource = generateComponent(name, className, innerSvg, keyframes);
+    const componentSource = generateComponent(name, className, innerSvg, keyframes, duration);
     const specSource = generateSpec(name, className);
 
     writeFileSync(componentPath, componentSource);
     writeFileSync(specPath, specSource);
-
-    generated.push({ name, className });
   }
 
-  return { generated, skipped };
+  return { generated, skipped, overwritten };
 }
 
 function updateBarrel(icons) {
@@ -315,8 +463,11 @@ const svgFiles = readdirSync(sourceDir)
   .sort();
 
 console.log(`Found ${svgFiles.length} SVGs in Heroicons outline.`);
+if (overwrite) {
+  console.log('Overwrite mode enabled: all existing icons will be regenerated.');
+}
 
-const { generated, skipped } = generateIconFiles(svgFiles);
+const { generated, skipped, overwritten } = generateIconFiles(svgFiles);
 
 const allIcons = readdirSync(iconsDir)
   .filter(f => f.endsWith('.ts') && !f.endsWith('.spec.ts') && f !== 'index.ts')
@@ -331,7 +482,6 @@ const allIcons = readdirSync(iconsDir)
 
 const metadata = readIconMetadata();
 
-// Ensure metadata exists for all icons (existing + new)
 for (const icon of allIcons) {
   if (!metadata[icon.name]) {
     metadata[icon.name] = { category: inferCategory(icon.name), aliases: inferAliases(icon.name) };
@@ -343,5 +493,6 @@ updateBarrel(allIcons);
 updateCatalog(allIcons, metadata);
 
 console.log(`Generated ${generated.length} new icons.`);
+console.log(`Overwritten ${overwritten.length} existing icons.`);
 console.log(`Skipped ${skipped.length} existing icons.`);
 console.log(`Total icons: ${allIcons.length}`);

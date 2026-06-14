@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-external-link {
-        0%, 100% { scale: 1; }
-        50% { scale: 1.015; }
-      }
-  
+    @keyframes lmn-external-link { 0%, 100% { translate: 0 0; } 50% { translate: 4px -4px; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,7 +26,9 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 0ms both' : null" viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-external-link 450ms ease both' : null"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -44,11 +38,9 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <path
         d="M15 3h6v6"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 60ms both' : null"/>
-      <path
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 60ms both' : null"/><path
         d="M10 14 21 3"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 60ms both' : null"/>
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-external-link 560ms ease 60ms both' : null"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
     </svg>
   `,
 })

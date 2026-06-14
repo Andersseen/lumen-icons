@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-more-vertical {
-        0%, 100% { scale: 1; }
-        50% { scale: 1.11; }
-      }
-  
+    @keyframes lmn-more-vertical { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,6 +26,8 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-more-vertical 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -44,11 +38,9 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <circle
         cx="12" cy="12" r="1"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 0ms both' : null"/>
-      <circle
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 0ms both' : null"/><circle
         cx="12" cy="5" r="1"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 100ms both' : null"/>
-      <circle
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 100ms both' : null"/><circle
         cx="12" cy="19" r="1"
         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-more-vertical 560ms ease 200ms both' : null"/>
     </svg>

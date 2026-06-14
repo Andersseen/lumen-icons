@@ -12,20 +12,31 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-@keyframes lmn-arrow-up { 0%, 100% { translate: 0 0; } 50% { translate: 0 -1px; } }
+    @keyframes lmn-arrow-up { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
   `],
   template: `
-    <svg [attr.width]="size()" [attr.height]="size()" [attr.stroke-width]="strokeWidth()" [style.animation]="animate() ? 'lmn-arrow-up 560ms ease both' : null" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M12 19V5"/>
-      <path d="m5 12 7-7 7 7"/>
+    <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-arrow-up 400ms ease both' : null"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"/>
     </svg>
   `,
 })

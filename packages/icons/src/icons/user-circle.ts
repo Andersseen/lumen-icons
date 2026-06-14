@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-user-circle 560ms ease both' : null"
+      [style.animation]="animate() ? 'lmn-user-circle 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

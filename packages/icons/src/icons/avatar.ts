@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-avatar {
-        0%, 100% { scale: 1; }
-        50% { scale: 1.038; }
-      }
-  
+    @keyframes lmn-avatar { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,6 +26,8 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-avatar 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -44,8 +38,7 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <circle
         cx="12" cy="8" r="5"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-avatar 560ms ease 0ms both' : null"/>
-      <path
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-avatar 560ms ease 0ms both' : null"/><path
         d="M20 21a8 8 0 1 0-16 0"
         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-avatar 560ms ease 60ms both' : null"/>
     </svg>

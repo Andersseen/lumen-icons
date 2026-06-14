@@ -12,19 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
-
-    .lmn-animate-el { display: inline-block; }
-    
-      @keyframes lmn-menu {
-        0%, 100% { scale: 1 1; }
-        50% { scale: 0.932 1; }
-      }
-  
+    @keyframes lmn-menu { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
     @media (prefers-reduced-motion: reduce) {
-      :host(.lmn-animate) svg,
-      :host(.lmn-animate) .lmn-animate-el {
+      .lmn-animate,
+      .lmn-animate-el {
         animation: none !important;
       }
     }
@@ -34,6 +26,8 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      [style.animation]="animate() ? 'lmn-menu 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -44,11 +38,9 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <line
         x1="4" x2="20" y1="6" y2="6"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 0ms both' : null"/>
-      <line
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 0ms both' : null"/><line
         x1="4" x2="20" y1="12" y2="12"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 80ms both' : null"/>
-      <line
+        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 80ms both' : null"/><line
         x1="4" x2="20" y1="18" y2="18"
         class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 160ms both' : null"/>
     </svg>
