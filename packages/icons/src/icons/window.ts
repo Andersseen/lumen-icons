@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-window { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
+    .lmn-animate {
+      animation: lmn-window 500ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-window 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -37,7 +45,6 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="M3 8.25V18a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 18V8.25m-18 0V6a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 6v2.25m-18 0h18M5.25 6h.008v.008H5.25V6ZM7.5 6h.008v.008H7.5V6Zm2.25 0h.008v.008H9.75V6Z"/>
-    </svg>
-  `,
+    </svg>`,
 })
 export class LmnWindowIcon extends LmnIconBase {}

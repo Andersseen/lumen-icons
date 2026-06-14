@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-image { 0%, 100% { scale: 1; } 25% { scale: 1.1; } 50% { scale: 1; } 75% { scale: 1.05; } }
 
+    .lmn-animate {
+      animation: lmn-image 550ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-image 550ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -37,7 +45,6 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-    </svg>
-  `,
+    </svg>`,
 })
 export class LmnImageIcon extends LmnIconBase {}

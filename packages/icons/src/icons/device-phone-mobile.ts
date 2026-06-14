@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-device-phone-mobile { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
+    .lmn-animate {
+      animation: lmn-device-phone-mobile 500ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-device-phone-mobile 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -37,7 +45,6 @@ import { LmnIconBase } from '../lib/icon-base';
       focusable="false"
     >
       <path d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
-    </svg>
-  `,
+    </svg>`,
 })
 export class LmnDevicePhoneMobileIcon extends LmnIconBase {}

@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
-const sourceDir = join(root, 'node_modules/heroicons/24/outline');
+const outlineDir = join(root, 'node_modules/heroicons/24/outline');
 const iconsDir = join(root, 'packages/icons/src/icons');
 const indexPath = join(iconsDir, 'index.ts');
 const catalogPath = join(root, 'src/app/data/icon-catalog.ts');
@@ -199,9 +199,7 @@ function cleanSvg(svg, name) {
   inner = inner
     .replace(/\s+stroke-linecap="round"/g, '')
     .replace(/\s+stroke-linejoin="round"/g, '')
-    .replace(/\s+stroke-width="[^"]*"/g, '')
-    .replace(/\s+fill="[^"]*"/g, '')
-    .replace(/\s+stroke="[^"]*"/g, '');
+    .replace(/\s+stroke-width="[^"]*"/g, '');
 
   inner = inner.replace(/^\s+|[\r\n]+/g, '').replace(/>\s+</g, '><');
 
@@ -214,6 +212,24 @@ function resolveAnimation(name) {
     if (anim.match(n)) return anim;
   }
   return SEMANTIC_ANIMATIONS[SEMANTIC_ANIMATIONS.length - 1];
+}
+
+function generateSvg(name, innerSvg) {
+  return `<svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      ${innerSvg}
+    </svg>`;
 }
 
 function generateComponent(name, className, innerSvg, keyframes, duration) {
@@ -233,6 +249,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [\`
     ${keyframes}
 
+    .lmn-animate {
+      animation: lmn-${name} ${duration} ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -240,24 +266,7 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   \`],
-  template: \`
-    <svg
-      [attr.width]="size()"
-      [attr.height]="size()"
-      [attr.stroke-width]="strokeWidth()"
-      [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-${name} ${duration} ease both' : null"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      ${innerSvg}
-    </svg>
-  \`,
+  template: \`${generateSvg(name, innerSvg)}\`,
 })
 export class ${className} extends LmnIconBase {}
 `;
@@ -381,6 +390,29 @@ ${entries},
   writeFileSync(metadataPath, source);
 }
 
+function extractInnerSvgFromComponent(source, name) {
+  const svgMatch = source.match(/<svg[\s\S]*?<\/svg>/);
+  if (!svgMatch) return null;
+  const svg = svgMatch[0];
+  let inner = svg.slice(svg.indexOf('>') + 1).replace(/<\/svg>\s*$/, '');
+  inner = inner
+    .replace(/\[attr\.width\]="size\(\)"/g, '')
+    .replace(/\[attr\.height\]="size\(\)"/g, '')
+    .replace(/\[attr\.stroke-width\]="strokeWidth\(\)"/g, '')
+    .replace(/\[class\.lmn-animate\]="animate\(\)"/g, '')
+    .replace(/\[style\.animation\]="[^"]*"/g, '')
+    .replace(/aria-hidden="true"/g, '')
+    .replace(/focusable="false"/g, '')
+    .replace(/viewBox="[^"]*"/g, '')
+    .replace(/fill="none"/g, '')
+    .replace(/stroke="currentColor"/g, '')
+    .replace(/stroke-linecap="round"/g, '')
+    .replace(/stroke-linejoin="round"/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return inner;
+}
+
 function generateIconFiles(svgFiles) {
   const generated = [];
   const skipped = [];
@@ -402,7 +434,7 @@ function generateIconFiles(svgFiles) {
       generated.push(name);
     }
 
-    const rawSvg = readFileSync(join(sourceDir, file), 'utf8');
+    const rawSvg = readFileSync(join(outlineDir, file), 'utf8');
     const innerSvg = cleanSvg(rawSvg, name);
     const animation = resolveAnimation(name);
     const keyframes = animation.keyframes(name);
@@ -416,6 +448,39 @@ function generateIconFiles(svgFiles) {
   }
 
   return { generated, skipped, overwritten };
+}
+
+function regenerateCustomIcons(outlineNames) {
+  if (!overwrite) return { regenerated: 0 };
+
+  let regenerated = 0;
+  const existing = readdirSync(iconsDir)
+    .filter(f => f.endsWith('.ts') && !f.endsWith('.spec.ts') && f !== 'index.ts');
+
+  for (const file of existing) {
+    const name = file.replace(/\.ts$/, '');
+    if (outlineNames.has(name)) continue;
+
+    const componentPath = join(iconsDir, file);
+    const specPath = join(iconsDir, `${name}.spec.ts`);
+    const source = readFileSync(componentPath, 'utf8');
+    const innerSvg = extractInnerSvgFromComponent(source, name);
+    if (!innerSvg) continue;
+
+    const className = toClassName(name);
+    const animation = resolveAnimation(name);
+    const keyframes = animation.keyframes(name);
+    const duration = animation.duration;
+
+    const componentSource = generateComponent(name, className, innerSvg, keyframes, duration);
+    const specSource = generateSpec(name, className);
+
+    writeFileSync(componentPath, componentSource);
+    writeFileSync(specPath, specSource);
+    regenerated++;
+  }
+
+  return { regenerated };
 }
 
 function updateBarrel(icons) {
@@ -458,7 +523,7 @@ ${icons.map(i => {
 }
 
 // Main
-const svgFiles = readdirSync(sourceDir)
+const svgFiles = readdirSync(outlineDir)
   .filter(f => f.endsWith('.svg'))
   .sort();
 
@@ -468,6 +533,7 @@ if (overwrite) {
 }
 
 const { generated, skipped, overwritten } = generateIconFiles(svgFiles);
+const { regenerated } = regenerateCustomIcons(new Set(svgFiles.map(f => f.replace(/\.svg$/, ''))));
 
 const allIcons = readdirSync(iconsDir)
   .filter(f => f.endsWith('.ts') && !f.endsWith('.spec.ts') && f !== 'index.ts')
@@ -493,6 +559,7 @@ updateBarrel(allIcons);
 updateCatalog(allIcons, metadata);
 
 console.log(`Generated ${generated.length} new icons.`);
-console.log(`Overwritten ${overwritten.length} existing icons.`);
+console.log(`Overwritten ${overwritten.length} existing Heroicons.`);
+console.log(`Regenerated ${regenerated} custom icons.`);
 console.log(`Skipped ${skipped.length} existing icons.`);
 console.log(`Total icons: ${allIcons.length}`);

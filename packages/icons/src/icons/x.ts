@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-x { 0% { scale: 0.7; rotate: 90deg; } 60% { scale: 1.15; rotate: -10deg; } 100% { scale: 1; rotate: 0deg; } }
 
+    .lmn-animate {
+      animation: lmn-x 450ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-x 450ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -36,12 +44,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path
-        d="M18 6 6 18"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-x 560ms ease 0ms both' : null"/><path
-        d="m6 6 12 12"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-x 560ms ease 60ms both' : null"/>
-    </svg>
-  `,
+      <path d="M18 6 6 18" class="lmn-animate-el" /><path d="m6 6 12 12" class="lmn-animate-el" />
+    </svg>`,
 })
 export class LmnXIcon extends LmnIconBase {}

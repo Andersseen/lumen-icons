@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-smile { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
+    .lmn-animate {
+      animation: lmn-smile 500ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-smile 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -36,16 +44,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle
-        cx="12" cy="12" r="10"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-smile 650ms ease-in-out 0ms both' : null"/><path
-        d="M8 14s1.5 2 4 2 4-2 4-2"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-smile 560ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both' : null"/><line
-        x1="9" y1="9" x2="9.01" y2="9"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-smile 560ms cubic-bezier(0.22, 1, 0.36, 1) 150ms both' : null"/><line
-        x1="15" y1="9" x2="15.01" y2="9"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-smile 560ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both' : null"/>
-    </svg>
-  `,
+      <circle cx="12" cy="12" r="10" class="lmn-animate-el" /><path d="M8 14s1.5 2 4 2 4-2 4-2" class="lmn-animate-el" /><line x1="9" y1="9" x2="9.01" y2="9" class="lmn-animate-el" /><line x1="15" y1="9" x2="15.01" y2="9" class="lmn-animate-el" />
+    </svg>`,
 })
 export class LmnSmileIcon extends LmnIconBase {}

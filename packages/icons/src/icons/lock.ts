@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-lock { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
+    .lmn-animate {
+      animation: lmn-lock 500ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-lock 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -36,12 +44,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect
-        width="18" height="11" x="3" y="11" rx="2" ry="2"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-lock-body 560ms ease 0ms both' : null"/><path
-        d="M7 11V7a5 5 0 0 1 10 0v4"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-lock-shackle 560ms ease 70ms both' : null"/>
-    </svg>
-  `,
+      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" class="lmn-animate-el" /><path d="M7 11V7a5 5 0 0 1 10 0v4" class="lmn-animate-el" />
+    </svg>`,
 })
 export class LmnLockIcon extends LmnIconBase {}

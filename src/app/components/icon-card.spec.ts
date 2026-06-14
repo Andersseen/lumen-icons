@@ -134,16 +134,19 @@ describe("IconCardComponent", () => {
     });
 
     const button = screen.getByRole("button", { name: /copy import for check/i });
-    expect((fixture.nativeElement.querySelector("svg") as SVGElement).style.animation).toBe("");
+    let svg = fixture.nativeElement.querySelector("svg") as SVGElement;
+    expect(svg.classList.contains("lmn-animate")).toBe(false);
 
     await user.hover(button);
     fixture.detectChanges();
 
-    expect((fixture.nativeElement.querySelector("svg") as SVGElement).style.animation).toContain("lmn-check");
+    svg = fixture.nativeElement.querySelector("svg") as SVGElement;
+    expect(svg.classList.contains("lmn-animate")).toBe(true);
 
     await user.unhover(button);
     fixture.detectChanges();
 
-    expect((fixture.nativeElement.querySelector("svg") as SVGElement).style.animation).toBe("");
+    svg = fixture.nativeElement.querySelector("svg") as SVGElement;
+    expect(svg.classList.contains("lmn-animate")).toBe(false);
   });
 });

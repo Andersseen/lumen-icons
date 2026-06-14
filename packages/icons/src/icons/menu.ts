@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-menu { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
+    .lmn-animate {
+      animation: lmn-menu 500ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-menu 500ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -36,14 +44,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <line
-        x1="4" x2="20" y1="6" y2="6"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 0ms both' : null"/><line
-        x1="4" x2="20" y1="12" y2="12"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 80ms both' : null"/><line
-        x1="4" x2="20" y1="18" y2="18"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-menu 560ms ease-in-out 160ms both' : null"/>
-    </svg>
-  `,
+      <line x1="4" x2="20" y1="6" y2="6" class="lmn-animate-el" /><line x1="4" x2="20" y1="12" y2="12" class="lmn-animate-el" /><line x1="4" x2="20" y1="18" y2="18" class="lmn-animate-el" />
+    </svg>`,
 })
 export class LmnMenuIcon extends LmnIconBase {}

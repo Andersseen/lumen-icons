@@ -14,6 +14,16 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-search { 0%, 100% { scale: 1; rotate: 0deg; } 25% { scale: 1.12; rotate: -12deg; } 50% { scale: 1; rotate: 0deg; } 75% { scale: 1.06; rotate: 8deg; } }
 
+    .lmn-animate {
+      animation: lmn-search 650ms ease both;
+    }
+
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lmn-animate,
       .lmn-animate-el {
@@ -21,13 +31,11 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
   `],
-  template: `
-    <svg
+  template: `<svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
       [class.lmn-animate]="animate()"
-      [style.animation]="animate() ? 'lmn-search 650ms ease both' : null"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -36,12 +44,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle
-        cx="11" cy="11" r="8"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-search-lens 700ms ease-in-out 0ms both' : null"/><path
-        d="m21 21-4.3-4.3"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-search-handle 700ms ease-in-out 60ms both' : null"/>
-    </svg>
-  `,
+      <circle cx="11" cy="11" r="8" class="lmn-animate-el" /><path d="m21 21-4.3-4.3" class="lmn-animate-el" />
+    </svg>`,
 })
 export class LmnSearchIcon extends LmnIconBase {}
