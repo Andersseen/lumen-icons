@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Sidebar unit tests** updated to handle the additional radius slider (`getAllByRole("slider")`).
+- **Slider visibility in the demo app** fixed by adding a Tailwind `@source` directive for `@voltui/components`, ensuring the `h-2` utility used by `volt-slider` is generated.
 - **Package build** now produces APF-compliant output and passes `publint` without warnings.
 
 ## [0.1.0] - 2026-05-22
