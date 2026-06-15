@@ -1,0 +1,42 @@
+<section id="animations" class="mt-16">
+  <h2 class="text-2xl font-bold tracking-tight text-foreground">Semantic Animations</h2>
+  <p class="mt-3 text-secondary-foreground">
+    Every icon ships with a small CSS-only motion preset. Animations are disabled by default and only run when
+    <code class="rounded bg-secondary px-1 py-0.5 text-sm">[animate]="true"</code>
+    is set.
+  </p>
+
+  <div class="mt-5 grid gap-3 sm:grid-cols-4">
+    <div class="flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-muted text-foreground dark:bg-card">
+      <lmn-search [size]="32" [strokeWidth]="1.75" [animate]="true" ariaLabel="Search" />
+      <span class="text-xs font-medium text-secondary-foreground">Search</span>
+    </div>
+    <div class="flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-muted text-foreground dark:bg-card">
+      <lmn-copy [size]="32" [strokeWidth]="1.75" [animate]="true" ariaLabel="Copy" />
+      <span class="text-xs font-medium text-secondary-foreground">Copy</span>
+    </div>
+    <div class="flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-muted text-foreground dark:bg-card">
+      <lmn-send [size]="32" [strokeWidth]="1.75" [animate]="true" ariaLabel="Send" />
+      <span class="text-xs font-medium text-secondary-foreground">Send</span>
+    </div>
+    <div class="flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-muted text-foreground dark:bg-card">
+      <lmn-bell [size]="32" [strokeWidth]="1.75" [animate]="true" ariaLabel="Notifications" />
+      <span class="text-xs font-medium text-secondary-foreground">Notify</span>
+    </div>
+  </div>
+
+  <app-docs-code-block
+    class="mt-4 block"
+    [code]="animationSnippet"
+    label="template"
+    copyKey="animations"
+  />
+
+  <p class="mt-3 text-sm leading-relaxed text-secondary-foreground">
+    Lumen also respects
+    <code class="rounded bg-secondary px-1 py-0.5 text-xs">prefers-reduced-motion</code>.
+    When reduced motion is enabled, icon animations are suppressed even if
+    <code class="rounded bg-secondary px-1 py-0.5 text-xs">animate</code>
+    is true.
+  </p>
+</section>

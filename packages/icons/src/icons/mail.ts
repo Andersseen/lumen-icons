@@ -12,20 +12,32 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
+    @keyframes lmn-mail { 0%, 100% { translate: 0 0; } 25% { translate: 0 -3px; } 75% { translate: 0 3px; } }
 
-    .lmn-animate-el { display: inline-block; }
+    .lmn-animate {
+      animation: lmn-mail 550ms ease both;
+    }
     
-      @keyframes lmn-mail {
-        0%, 100% { scale: 1; }
-        50% { scale: 1.023; }
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+  
+
+    @media (prefers-reduced-motion: reduce) {
+      .lmn-animate,
+      .lmn-animate-el {
+        animation: none !important;
       }
+    }
   `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -34,12 +46,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect
-        width="20" height="16" x="2" y="4" rx="2"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-mail 560ms ease-in-out 0ms both' : null"/>
-      <path
-        d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-mail 560ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both' : null"/>
+      <rect width="20" height="16" x="2" y="4" rx="2" class="lmn-animate-el" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" class="lmn-animate-el" />
     </svg>
   `,
 })

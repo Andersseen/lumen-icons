@@ -1,28 +1,10 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from 'lumen-icons';
 import { VoltInput, VoltSlider } from '@voltui/components';
 
 import { AnimationPickerComponent } from '../shared/animation-picker';
 import { SizePickerComponent } from '../shared/size-picker';
-import type { IconCategory } from '../../data/icon-metadata';
-
-type CategoryFilter = IconCategory | 'all';
-
-interface CategoryFilterOption {
-  readonly value: CategoryFilter;
-  readonly label: string;
-}
-
-interface ToneOption {
-  readonly value: LmnIconTone;
-  readonly label: string;
-  readonly swatch: string;
-}
-
-interface ControlOption<T extends string> {
-  readonly value: T;
-  readonly label: string;
-}
+import type { CategoryFilter, CategoryFilterOption, ControlOption, ToneOption } from './icon-control-options';
 
 @Component({
   selector: 'app-icons-sidebar',
@@ -41,7 +23,15 @@ export class IconsSidebarComponent {
   readonly background = model<LmnIconBackground>('none');
   readonly backgroundTone = model<LmnIconTone>('primary');
   readonly padding = model(8);
-  readonly radius = model(10);
+  readonly radius = model<number | string>(10);
+
+  readonly radiusSliderValue = computed(() => {
+    const r = this.radius();
+    if (r === '50%') return 24;
+    if (typeof r === 'string') return 10;
+    return r;
+  });
+
   readonly categories = input<readonly CategoryFilterOption[]>([]);
   readonly toneOptions = input<readonly ToneOption[]>([]);
   readonly variantOptions = input<readonly ControlOption<LmnIconVariant>[]>([]);

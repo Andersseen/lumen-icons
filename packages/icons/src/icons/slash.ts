@@ -1,0 +1,61 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LmnIconBase } from '../lib/icon-base';
+
+@Component({
+  selector: 'lmn-slash',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    @keyframes lmn-slash { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
+
+    .lmn-animate {
+      animation: lmn-slash 500ms ease both;
+    }
+    
+
+    @media (prefers-reduced-motion: reduce) {
+      .lmn-animate,
+      .lmn-animate-el {
+        animation: none !important;
+      }
+    }
+  `],
+  template: `
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M15.256 3.042a.75.75 0 0 1 .449.962l-6 16.5a.75.75 0 1 1-1.41-.513l6-16.5a.75.75 0 0 1 .961-.449Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="m9 20.247 6-16.5"/>
+    </svg>
+    }
+  `,
+})
+export class LmnSlashIcon extends LmnIconBase {}

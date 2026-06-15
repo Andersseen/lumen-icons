@@ -37,6 +37,15 @@ describe('icon contract', () => {
     expect(fixture.nativeElement).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it.each(iconEntries)('%s keeps animation disabled by default', async (_name, Icon) => {
+    const { fixture } = await render(Icon);
+    const animatedElements = fixture.nativeElement.querySelectorAll('svg, .lmn-animate-el');
+
+    for (const element of Array.from(animatedElements)) {
+      expect((element as HTMLElement).style.animation).toBe('');
+    }
+  });
+
   it.each(iconSources)('%s does not import angular-movement', file => {
     const source = readFileSync(join(iconsDir, file), 'utf8');
     expect(source, file).not.toContain('angular-movement');
@@ -52,15 +61,31 @@ describe('icon contract', () => {
     expect(source, file).toContain("'[attr.aria-hidden]'");
   });
 
+  it.each(iconSources)('%s respects reduced motion preferences', file => {
+    const source = readFileSync(join(iconsDir, file), 'utf8');
+    expect(source, file).toContain('@media (prefers-reduced-motion: reduce)');
+    expect(source, file).toContain('animation: none !important');
+  });
+
+  it.each(iconSources)('%s only uses infinite motion for loading semantics', file => {
+    const source = readFileSync(join(iconsDir, file), 'utf8');
+    if (!source.includes('infinite')) return;
+    expect(file).toBe('loader.ts');
+  });
+
   it.each(iconSources)('%s keyframes start and end at rest state if present', file => {
     const source = readFileSync(join(iconsDir, file), 'utf8');
     if (!source.includes('@keyframes')) return;
 
-    const keyframeMatch = source.match(/@keyframes\s+\w+\s*\{([\s\S]*?)\}/);
-    if (!keyframeMatch) return;
+    const keyframes = Array.from(source.matchAll(/@keyframes\s+[\w-]+\s*\{/g));
+    expect(keyframes.length, `${file}: keyframes must be parseable`).toBeGreaterThan(0);
 
-    const body = keyframeMatch[1];
-    const startEndMatch = body.match(/0%,\s*100%\s*\{([^}]*)\}/);
-    expect(startEndMatch, `${file}: keyframes must define 0%, 100% block`).toBeTruthy();
+    for (const keyframe of keyframes) {
+      const blockStart = keyframe.index ?? 0;
+      const nextKeyframe = source.indexOf('@keyframes', blockStart + 1);
+      const block = source.slice(blockStart, nextKeyframe === -1 ? undefined : nextKeyframe);
+      expect(block, `${file}: keyframes must define 0% block`).toMatch(/0%\s*\{/);
+      expect(block, `${file}: keyframes must define 100% block`).toMatch(/100%\s*\{/);
+    }
   });
 });

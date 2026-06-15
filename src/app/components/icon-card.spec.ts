@@ -103,4 +103,50 @@ describe("IconCardComponent", () => {
       "check:example"
     );
   });
+
+  it("restarts the icon animation on hover when animation preview is enabled", async () => {
+    const clipboardMock = {
+      copiedKey: signal<string | null>(null),
+      copy: vi.fn(),
+    };
+
+    const user = userEvent.setup();
+    const { fixture } = await render(IconCardComponent, {
+      componentInputs: {
+        icon: {
+          name: "check",
+          selector: "lmn-check",
+          component: LmnCheckIcon,
+          importStr: "import { LmnCheckIcon } from 'lumen-icons/check';",
+          selectorStr: '<lmn-check ariaLabel="check" />',
+          exampleStr: "example code",
+          category: "status",
+          aliases: ["success"],
+        },
+        iconInputs: {
+          size: 20,
+          strokeWidth: 1.5,
+          animate: true,
+        },
+        categoryLabel: "Status",
+      },
+      providers: [{ provide: ClipboardService, useValue: clipboardMock }],
+    });
+
+    const button = screen.getByRole("button", { name: /copy import for check/i });
+    let svg = fixture.nativeElement.querySelector("svg") as SVGElement;
+    expect(svg.classList.contains("lmn-animate")).toBe(false);
+
+    await user.hover(button);
+    fixture.detectChanges();
+
+    svg = fixture.nativeElement.querySelector("svg") as SVGElement;
+    expect(svg.classList.contains("lmn-animate")).toBe(true);
+
+    await user.unhover(button);
+    fixture.detectChanges();
+
+    svg = fixture.nativeElement.querySelector("svg") as SVGElement;
+    expect(svg.classList.contains("lmn-animate")).toBe(false);
+  });
 });

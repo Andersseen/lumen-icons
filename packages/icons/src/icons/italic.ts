@@ -12,21 +12,40 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
+    @keyframes lmn-italic { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
-    .lmn-animate-el { display: inline-block; }
+    .lmn-animate {
+      animation: lmn-italic 500ms ease both;
+    }
     
-      @keyframes lmn-italic {
-        0%, 100% { rotate: 0deg; translate: 0px 0; scale: 1 1; }
-        50% { rotate: -1.9deg; translate: -0.84px 0; scale: 1 1.019; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lmn-animate,
+      .lmn-animate-el {
+        animation: none !important;
       }
+    }
   `],
   template: `
-    <svg
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M10.497 3.744a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-3.275l-5.357 15.002h2.632a.75.75 0 1 1 0 1.5h-7.5a.75.75 0 1 1 0-1.5h3.275l5.357-15.002h-2.632a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
-      [class.lmn-animate]="animate()" [style.animation]="animate() ? 'lmn-italic 560ms ease both' : null" viewBox="0 0 24 24"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       stroke-linecap="round"
@@ -34,10 +53,9 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M19 4h-9"/>
-      <path d="M14 20H5"/>
-      <path d="M15 4 9 20"/>
+      <path d="M5.248 20.246H9.05m0 0h3.696m-3.696 0 5.893-16.502m0 0h-3.697m3.697 0h3.803"/>
     </svg>
+    }
   `,
 })
 export class LmnItalicIcon extends LmnIconBase {}

@@ -1,6 +1,7 @@
 @import "@voltui/components/themes/presets/volt-soft.css";
 @import "@voltui/components/themes.css";
 @import "tailwindcss";
+@source "../node_modules/@voltui/components/fesm2022/voltui-components.mjs";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

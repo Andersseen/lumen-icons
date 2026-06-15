@@ -91,9 +91,14 @@ export class IconCardComponent {
   readonly copiedAction = signal<string | null>(null);
   readonly popped = signal(false);
 
-  readonly cardInputs = (): IconCardInputs => ({
+  readonly idleCardInputs = (): IconCardInputs => ({
     ...this.iconInputs(),
-    animate: this.isHovered() && this.iconInputs().animate,
+    animate: false,
+  });
+
+  readonly animatedCardInputs = (): IconCardInputs => ({
+    ...this.iconInputs(),
+    animate: true,
   });
 
   handlePreviewClick() {
@@ -161,7 +166,12 @@ export class ExampleComponent {}`;
     if (inputs.backgroundTone && inputs.backgroundTone !== "primary") attrs.push(`backgroundTone="${inputs.backgroundTone}"`);
     if (inputs.backgroundColor) attrs.push(`backgroundColor="${inputs.backgroundColor}"`);
     if (inputs.padding && inputs.padding > 0) attrs.push(`[padding]="${inputs.padding}"`);
-    if (inputs.radius !== undefined && inputs.radius !== "0.5rem") attrs.push(`[radius]="${inputs.radius}"`);
+    if (inputs.radius !== undefined && inputs.radius !== "0.5rem") {
+      const radiusAttr = typeof inputs.radius === 'number'
+        ? `[radius]="${inputs.radius}"`
+        : `radius="${inputs.radius}"`;
+      attrs.push(radiusAttr);
+    }
 
     return attrs;
   }

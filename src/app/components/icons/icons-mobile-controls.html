@@ -1,0 +1,169 @@
+<div class="mb-5 space-y-4 lg:hidden">
+  <volt-input
+    aria-label="Search icons"
+    placeholder="Search icons..."
+    [value]="search()"
+    (valueChange)="search.set($event)"
+    class="max-w-80"
+  />
+
+  <div class="flex gap-2 overflow-x-auto pb-1" role="radiogroup" aria-label="Icon category">
+    @for (item of categories(); track item.value) {
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="category() === item.value"
+        class="shrink-0 rounded-md border px-3 py-1.5 text-sm font-medium transition-colors"
+        [class]="category() === item.value
+          ? 'border-primary bg-primary text-primary-foreground'
+          : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+        (click)="category.set(item.value)"
+      >
+        {{ item.label }}
+      </button>
+    }
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <app-size-picker [(size)]="size" ariaLabel="Icon size" />
+    <app-animation-picker [(animate)]="animate" ariaLabel="Animation" />
+  </div>
+
+  <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Icon variant">
+    @for (item of variantOptions(); track item.value) {
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="variant() === item.value"
+        class="rounded-md border px-3 py-1.5 text-sm font-medium transition-colors"
+        [class]="variant() === item.value
+          ? 'border-primary bg-primary text-primary-foreground'
+          : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+        (click)="variant.set(item.value)"
+      >
+        {{ item.label }}
+      </button>
+    }
+  </div>
+
+  <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Icon background">
+    @for (item of backgroundOptions(); track item.value) {
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="background() === item.value"
+        class="rounded-md border px-3 py-1.5 text-sm font-medium transition-colors"
+        [class]="background() === item.value
+          ? 'border-primary bg-primary text-primary-foreground'
+          : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+        (click)="background.set(item.value)"
+      >
+        {{ item.label }}
+      </button>
+    }
+  </div>
+
+  @if (background() !== 'solid') {
+    <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Icon tone">
+      @for (item of toneOptions(); track item.value) {
+        <button
+          type="button"
+          role="radio"
+          [attr.aria-checked]="tone() === item.value"
+          class="h-8 w-8 rounded-md border transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          [class]="tone() === item.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'"
+          [style.background]="item.swatch"
+          [attr.aria-label]="item.label"
+          [title]="item.label"
+          (click)="tone.set(item.value)"
+        ></button>
+      }
+    </div>
+  } @else {
+    <p class="rounded-md border border-border bg-secondary px-3 py-2 text-xs text-secondary-foreground">
+      Solid background uses the theme foreground automatically.
+    </p>
+  }
+
+  @if (background() !== 'none') {
+    <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Background tone">
+      @for (item of backgroundToneOptions(); track item.value) {
+        <button
+          type="button"
+          role="radio"
+          [attr.aria-checked]="backgroundTone() === item.value"
+          class="h-8 w-8 rounded-md border transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          [class]="backgroundTone() === item.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'"
+          [style.background]="item.swatch"
+          [attr.aria-label]="item.label"
+          [title]="item.label"
+          (click)="backgroundTone.set(item.value)"
+        ></button>
+      }
+    </div>
+  }
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <div class="mb-1.5 flex items-center justify-between">
+        <label for="mobile-padding-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Padding
+        </label>
+        <span class="tabular-nums text-sm font-medium text-foreground">{{ padding() }}px</span>
+      </div>
+      <volt-slider
+        id="mobile-padding-slider"
+        [value]="padding()"
+        (valueChange)="padding.set($event)"
+        [min]="0"
+        [max]="16"
+        [step]="1"
+      />
+    </div>
+
+    <div>
+      <div class="mb-1.5 flex items-center justify-between">
+        <label for="mobile-radius-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Radius
+        </label>
+        <span class="tabular-nums text-sm font-medium text-foreground">
+          {{ typeof radius() === 'number' ? radius() + 'px' : radius() }}
+        </span>
+      </div>
+      <volt-slider
+        id="mobile-radius-slider"
+        [value]="radiusSliderValue()"
+        (valueChange)="radius.set($event)"
+        [min]="0"
+        [max]="24"
+        [step]="1"
+      />
+      <div class="mt-2 flex gap-1.5">
+        <button
+          type="button"
+          class="flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors"
+          [class]="radius() === '50%' ? 'border-primary bg-primary text-primary-foreground' : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+          (click)="radius.set('50%')"
+        >
+          Circle
+        </button>
+        <button
+          type="button"
+          class="flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors"
+          [class]="radius() === '0.5rem' ? 'border-primary bg-primary text-primary-foreground' : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+          (click)="radius.set('0.5rem')"
+        >
+          Rounded
+        </button>
+        <button
+          type="button"
+          class="flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors"
+          [class]="radius() === 0 || radius() === '0' ? 'border-primary bg-primary text-primary-foreground' : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+          (click)="radius.set(0)"
+        >
+          Square
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

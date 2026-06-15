@@ -4,7 +4,7 @@ Single repository for:
 
 - Angular app (demo + official website)
 - Publishable icon library package (`lumen-icons`)
-- Optional per-icon animations powered by `angular-movement`
+- Optional per-icon CSS animations (no external animation dependency)
 - Interactive catalog demo with search aliases, categories, size, stroke, animation, variant, color, background, padding and radius controls
 
 This is not a monorepo with multiple apps/packages managed by separate tooling; it is one repository with a clear internal package boundary for the icon library.
@@ -24,7 +24,7 @@ This is not a monorepo with multiple apps/packages managed by separate tooling; 
 - Playwright (e2e)
 - ESLint (TypeScript + Angular templates)
 - TypeScript strict mode
-- tsup (library bundle + declaration output)
+- ng-packagr (Angular Package Format library build)
 
 ## Commands
 
@@ -32,6 +32,7 @@ This is not a monorepo with multiple apps/packages managed by separate tooling; 
 - `pnpm run build:app`: build app
 - `pnpm run build:lib`: build `lumen-icons`
 - `pnpm run sync:icons`: regenerate icon exports and the website catalog from icon source files
+- `pnpm run generate:icons`: regenerate icons from Heroicons SVG source and update the catalog
 - `pnpm run check:package`: build and validate the publishable package
 - `pnpm run build`: build lib + app
 - `pnpm run lint`: lint all files

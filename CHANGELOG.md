@@ -7,33 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-29
+
 ### Added
 
-- **Icon contract tests** covering every exported icon component plus a guard against default hidden stroke-draw styles.
-- **`pnpm run sync:icons`** to regenerate icon exports and the website catalog from source icon files.
-- **20 new basic icons**: `bell`, `calendar`, `camera`, `clock`, `download`, `edit`, `eye`, `file`, `folder`, `image`, `link`, `lock`, `map-pin`, `phone`, `share`, `shield`, `trash`, `upload`, `user`, `zap` — clean SVG, accessible defaults, tree-shakable entry points.
-- **Animations on all 20 new icons** via `MoveTargetDirective` from `angular-movement` (spring configs with unique stiffness/damping per icon).
-- **Smooth reset transitions** on all CSS-animated icons: `transition` added to animated elements so deactivating `animate()` returns to base state gracefully instead of snapping.
+- **Filled variant support** for every Heroicons-based icon. Each component now embeds the official `heroicons/24/solid` SVG and renders it when `variant="filled"` is set.
+- **Catalog radius presets** — quick-select Circle (`50%`), Rounded (`0.5rem`) and Square (`0`) buttons in the icon sidebar and mobile controls.
+- **Per-icon re-exports** via `lumen-icons/<name>` subpaths, generated automatically by the build script for full Angular Package Format (APF) compatibility.
+- **Custom icon preservation pipeline**: the generator extracts existing SVG paths from current icon components, so the 38 custom icons stay in sync without duplicate source files.
 
 ### Changed
 
-- **Migrated `angular-movement` to `0.1.0`** introducing `MoveTargetDirective` for direct, animation-engine-backed transforms.
-- **Aligned the publishable package peer dependency** to `angular-movement@^0.1.0`.
-- **Refactored ~41 icons** from `MoveVariantsDirective` to `MoveTargetDirective` (pure or hybrid with CSS `@keyframes` for stroke-draw effects):
-  - Pure `MoveTargetDirective`: `avatar`, `bell`, `camera`, `calendar`, `chevron-down`, `chevron-right`, `clock`, `copy`, `download`, `edit`, `eye`, `file`, `folder`, `heart`, `home`, `image`, `info`, `italic`, `link`, `lock`, `mail`, `map-pin`, `menu`, `moon`, `more-vertical`, `paperclip`, `phone`, `radio`, `search`, `share`, `shield`, `smile`, `sparkles`, `star`, `sun`, `trash`, `upload`, `user`, `x`, `zap`
-  - Hybrid (`MoveTargetDirective` + CSS `@keyframes` for `strokeDashoffset`): `arrow-left`, `arrow-right`, `bold`, `check`, `checkbox`, `external-link`, `plus`
-  - Still on `MoveVariantsDirective` (pending future refactor): `alert-circle`, `badge`, `github`, `settings`
-- **Diversified animation personalities**: replaced generic `cubic-bezier(0.34, 1.56, 0.64, 1)` bounce with unique spring configs or custom easings:
-  - `badge`, `bold`, `checkbox`, `external-link`, `plus` → spring `{ stiffness: 280-340, damping: 12-15 }`
-  - `heart` → soft spring `{ stiffness: 180, damping: 8 }`
-  - `sparkles` → bouncy spring `{ stiffness: 260, damping: 11 }`
-  - `moon` → eased rotate + scale (unchanged easing, no bounce)
-  - `alert-circle` → snappy spring `{ stiffness: 350, damping: 16 }`
-  - `arrow-left`, `arrow-right` → spring `{ stiffness: 300, damping: 15 }`
-  - `sun` → slow spring `{ stiffness: 200, damping: 10 }`
-  - `home`, `menu`, `search` → varied spring configs
-  - `chevron-down`, `chevron-right`, `github`, `info`, `italic`, `settings`, `star` → unique spring stiffness/damping combos
-- **Cleaned inline styles**: moved `style="transform-origin: center; transform-box: fill-box;"` from SVG templates into `styles: []` arrays on all icon components.
+- **Pure-CSS icon animations**: removed the runtime animation dependency from every icon component. Each icon now ships its own scoped `@keyframes` and `.lmn-animate` class, with `prefers-reduced-motion` support baked in.
+- **Animation visibility fix**: animations are applied through a scoped CSS class instead of an inline `style.animation` binding, so Angular’s ViewEncapsulation correctly resolves the keyframe reference.
+- **`radius` input now accepts `number | string`**, enabling both pixel values and CSS units such as `50%` or `0.5rem`.
+- **Catalog sidebar layout**: the Padding and Radius sliders are now always visible instead of being hidden when `background="none"`.
+
+### Fixed
+
+- **Sidebar unit tests** updated to handle the additional radius slider (`getAllByRole("slider")`).
+- **Slider visibility in the demo app** fixed by adding a Tailwind `@source` directive for `@voltui/components`, ensuring the `h-2` utility used by `volt-slider` is generated.
+- **Package build** now produces APF-compliant output and passes `publint` without warnings.
+
+## [0.1.0] - 2026-05-22
 
 ## [0.1.0] - 2026-05-22
 

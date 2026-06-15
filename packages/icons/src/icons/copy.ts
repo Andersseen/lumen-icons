@@ -12,20 +12,32 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    :host(.lmn-filled) svg { fill: color-mix(in oklab, currentColor 24%, transparent); }
+    @keyframes lmn-copy { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
 
-    .lmn-animate-el { display: inline-block; }
+    .lmn-animate {
+      animation: lmn-copy 500ms ease both;
+    }
     
-      @keyframes lmn-copy {
-        0%, 100% { translate: 0px 0; translate: 0 0px; opacity: 1; }
-        50% { translate: 0.84px 0; translate: 0 0.84px; opacity: 0.874; }
+    .lmn-filled svg,
+    .lmn-filled path {
+      fill: currentColor;
+      stroke: none;
+    }
+  
+
+    @media (prefers-reduced-motion: reduce) {
+      .lmn-animate,
+      .lmn-animate-el {
+        animation: none !important;
       }
+    }
   `],
   template: `
     <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -34,12 +46,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect
-        width="14" height="14" x="8" y="8" rx="2" ry="2"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-copy 560ms ease-in-out 0ms both' : null"/>
-      <path
-        d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-        class="lmn-animate-el" [style.animation]="animate() ? 'lmn-copy 560ms ease-in-out 60ms both' : null"/>
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" class="lmn-animate-el" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" class="lmn-animate-el" />
     </svg>
   `,
 })

@@ -155,41 +155,69 @@
                 }
               </div>
             </div>
-
-            <div>
-              <div class="mb-1.5 flex items-center justify-between">
-                <label for="padding-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Padding
-                </label>
-                <span class="tabular-nums text-sm font-medium text-foreground">{{ padding() }}px</span>
-              </div>
-              <volt-slider
-                id="padding-slider"
-                [value]="padding()"
-                (valueChange)="padding.set($event)"
-                [min]="0"
-                [max]="16"
-                [step]="1"
-              />
-            </div>
-
-            <div>
-              <div class="mb-1.5 flex items-center justify-between">
-                <label for="radius-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Radius
-                </label>
-                <span class="tabular-nums text-sm font-medium text-foreground">{{ radius() }}px</span>
-              </div>
-              <volt-slider
-                id="radius-slider"
-                [value]="radius()"
-                (valueChange)="radius.set($event)"
-                [min]="0"
-                [max]="24"
-                [step]="1"
-              />
-            </div>
           }
+
+          <div>
+            <div class="mb-1.5 flex items-center justify-between">
+              <label for="padding-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Padding
+              </label>
+              <span class="tabular-nums text-sm font-medium text-foreground">{{ padding() }}px</span>
+            </div>
+            <volt-slider
+              id="padding-slider"
+              [value]="padding()"
+              (valueChange)="padding.set($event)"
+              [min]="0"
+              [max]="16"
+              [step]="1"
+            />
+          </div>
+
+          <div>
+            <div class="mb-1.5 flex items-center justify-between">
+              <label for="radius-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Radius
+              </label>
+              <span class="tabular-nums text-sm font-medium text-foreground">
+                {{ typeof radius() === 'number' ? radius() + 'px' : radius() }}
+              </span>
+            </div>
+            <volt-slider
+              id="radius-slider"
+              [value]="radiusSliderValue()"
+              (valueChange)="radius.set($event)"
+              [min]="0"
+              [max]="24"
+              [step]="1"
+            />
+            <div class="mt-2 flex gap-1.5">
+              <button
+                type="button"
+                class="flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors"
+                [class]="radius() === '50%' ? 'border-primary bg-primary text-primary-foreground' : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+                (click)="radius.set('50%')"
+              >
+                Circle
+              </button>
+              <button
+                type="button"
+                class="flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors"
+                [class]="radius() === '0.5rem' ? 'border-primary bg-primary text-primary-foreground' : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+                (click)="radius.set('0.5rem')"
+              >
+                Rounded
+              </button>
+              <button
+                type="button"
+                class="flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors"
+                [class]="radius() === 0 || radius() === '0' ? 'border-primary bg-primary text-primary-foreground' : 'border-border text-secondary-foreground hover:border-primary hover:text-foreground'"
+                (click)="radius.set(0)"
+              >
+                Square
+              </button>
+            </div>
+          </div>
 
           <button
             type="button"
@@ -201,7 +229,7 @@
 
           @if (animate()) {
             <p class="rounded-lg border border-primary bg-primary px-3 py-2.5 text-xs text-primary-foreground dark:border-primary dark:bg-primary/40 dark:text-primary">
-              Previewing semantic animation on all icons. Click any to copy.
+              Hover an icon to preview its semantic animation. Click any icon to copy.
             </p>
           }
 

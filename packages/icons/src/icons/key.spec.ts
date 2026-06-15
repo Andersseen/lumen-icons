@@ -1,0 +1,22 @@
+import { render } from '@testing-library/angular';
+import { describe, expect, it } from 'vitest';
+import { LmnKeyIcon } from './key';
+
+describe('LmnKeyIcon', () => {
+  it('renders an svg', async () => {
+    const { fixture } = await render(LmnKeyIcon);
+    expect(fixture.nativeElement.querySelector('svg')).toBeInTheDocument();
+  });
+
+  it('is aria-hidden by default', async () => {
+    const { fixture } = await render(LmnKeyIcon);
+    expect(fixture.nativeElement.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('accepts animate input as boolean', async () => {
+    const { fixture } = await render(LmnKeyIcon, {
+      componentInputs: { animate: true },
+    });
+    expect(fixture.componentInstance.animate()).toBe(true);
+  });
+});

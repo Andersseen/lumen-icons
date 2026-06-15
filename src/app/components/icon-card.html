@@ -13,10 +13,17 @@
       class="icon-inner transition-colors"
       [class.popped]="popped()"
     >
-      <ng-container
-        [ngComponentOutlet]="icon().component"
-        [ngComponentOutletInputs]="cardInputs()"
-      />
+      @if (isHovered() && iconInputs().animate) {
+        <ng-container
+          [ngComponentOutlet]="icon().component"
+          [ngComponentOutletInputs]="animatedCardInputs()"
+        />
+      } @else {
+        <ng-container
+          [ngComponentOutlet]="icon().component"
+          [ngComponentOutletInputs]="idleCardInputs()"
+        />
+      }
     </div>
 
     <span class="max-w-full truncate text-sm font-medium text-foreground">

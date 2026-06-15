@@ -4,8 +4,10 @@ Accessible, tree-shakable Angular icon components with consistent `lmn-*`
 selectors, optional per-icon CSS animations, filled mode and framed icon
 backgrounds for app UI.
 
-The package currently includes 76 UI icons covering navigation, actions,
-feedback, media, content, communication, security, and system surfaces.
+The package currently includes 362 UI icons covering navigation, actions,
+feedback, media, content, communication, security, editor, and system surfaces.
+Icons are generated from a curated Heroicons outline source set and converted to
+standalone Angular components.
 
 ## Installation
 
