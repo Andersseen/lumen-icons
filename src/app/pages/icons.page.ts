@@ -39,7 +39,7 @@ export default class IconsPageComponent {
   readonly background = signal<LmnIconBackground>('none');
   readonly backgroundTone = signal<LmnIconTone>('primary');
   readonly padding = signal(8);
-  readonly radius = signal(10);
+  readonly radius = signal<number | string>(10);
 
   readonly totalIcons = ICON_CATALOG.length;
   readonly categoryFilters = CATEGORY_FILTERS;

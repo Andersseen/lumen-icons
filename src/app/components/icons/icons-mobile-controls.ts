@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from 'lumen-icons';
 import { VoltInput, VoltSlider } from '@voltui/components';
 
@@ -23,7 +23,14 @@ export class IconsMobileControlsComponent {
   readonly background = model<LmnIconBackground>('none');
   readonly backgroundTone = model<LmnIconTone>('primary');
   readonly padding = model(8);
-  readonly radius = model(10);
+  readonly radius = model<number | string>(10);
+
+  readonly radiusSliderValue = computed(() => {
+    const r = this.radius();
+    if (r === '50%') return 24;
+    if (typeof r === 'string') return 10;
+    return r;
+  });
 
   readonly categories = input<readonly CategoryFilterOption[]>([]);
   readonly toneOptions = input<readonly ToneOption[]>([]);

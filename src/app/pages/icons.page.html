@@ -28,6 +28,14 @@
         <span class="rounded-md border border-border px-2.5 py-1">
           {{ selectedBackground().label }} bg
         </span>
+        @if (padding() > 0) {
+          <span class="rounded-md border border-border px-2.5 py-1">
+            {{ padding() }}px pad
+          </span>
+        }
+        <span class="rounded-md border border-border px-2.5 py-1">
+          {{ typeof radius() === 'number' ? radius() + 'px' : radius() }} radius
+        </span>
       </div>
     </div>
   </div>
