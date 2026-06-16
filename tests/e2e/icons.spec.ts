@@ -6,8 +6,8 @@ test("search filters icons", async ({ page }) => {
   const searchInput = page.getByRole("textbox", { name: "Search" });
   await searchInput.fill("star");
 
-  await expect(page.getByText("star")).toBeVisible();
-  await expect(page.getByText("heart")).not.toBeVisible();
+  await expect(page.getByText("star", { exact: true })).toBeVisible();
+  await expect(page.getByText("heart", { exact: true })).not.toBeVisible();
 });
 
 test("search finds aliases", async ({ page }) => {
@@ -16,8 +16,8 @@ test("search finds aliases", async ({ page }) => {
   const searchInput = page.getByRole("textbox", { name: "Search" });
   await searchInput.fill("profile");
 
-  await expect(page.getByText("avatar")).toBeVisible();
-  await expect(page.getByText("user")).toBeVisible();
+  await expect(page.getByText("avatar", { exact: true })).toBeVisible();
+  await expect(page.getByText("user", { exact: true })).toBeVisible();
 });
 
 test("category filter narrows icons", async ({ page }) => {
@@ -25,9 +25,9 @@ test("category filter narrows icons", async ({ page }) => {
 
   await page.getByRole("radio", { name: "Communication" }).click();
 
-  await expect(page.getByText("mail")).toBeVisible();
-  await expect(page.getByText("phone")).toBeVisible();
-  await expect(page.getByText("calendar")).not.toBeVisible();
+  await expect(page.getByText("mail", { exact: true })).toBeVisible();
+  await expect(page.getByText("phone", { exact: true })).toBeVisible();
+  await expect(page.getByText("calendar", { exact: true })).not.toBeVisible();
 });
 
 test("demo controls include theme tone and reset", async ({ page }) => {
@@ -37,7 +37,7 @@ test("demo controls include theme tone and reset", async ({ page }) => {
   await page.getByRole("radio", { name: "Communication" }).click();
   await page.getByRole("button", { name: /reset demo/i }).click();
 
-  await expect(page.getByText(/76 of 76 icons/i)).toBeVisible();
+  await expect(page.getByText(/362 of 362 icons/i)).toBeVisible();
   await expect(page.getByRole("radio", { name: "Inherit" })).toHaveAttribute("aria-checked", "true");
 });
 

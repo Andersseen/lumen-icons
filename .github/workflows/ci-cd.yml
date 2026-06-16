@@ -144,11 +144,29 @@ jobs:
     steps:
       - name: Check all jobs passed
         run: |
-          result="${{ needs.lint.result }}${{ needs.typecheck.result }}${{ needs.build-lib.result }}${{ needs.check-package.result }}${{ needs.unit-test.result }}${{ needs.e2e-test.result }}"
-          if echo "$result" | grep -q "failure\|cancelled\|skipped"; then
+          results=(
+            "lint=${{ needs.lint.result }}"
+            "typecheck=${{ needs.typecheck.result }}"
+            "build-lib=${{ needs.build-lib.result }}"
+            "check-package=${{ needs.check-package.result }}"
+            "unit-test=${{ needs.unit-test.result }}"
+            "e2e-test=${{ needs.e2e-test.result }}"
+          )
+
+          failed=0
+          for r in "${results[@]}"; do
+            echo "$r"
+            value="${r#*=}"
+            if [ "$value" != "success" ]; then
+              failed=1
+            fi
+          done
+
+          if [ "$failed" -ne 0 ]; then
             echo "One or more required jobs failed."
             exit 1
           fi
+
           echo "All quality gates passed. Ready to merge."
 
   deploy-preview:

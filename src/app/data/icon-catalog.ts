@@ -869,7 +869,7 @@ export const ICON_CATALOG: IconEntry[] = [
     component: LmnAvatarIcon as Type<LmnIconInstance>,
     importStr: "import { LmnAvatarIcon } from 'lumen-icons/avatar';",
     category: 'system',
-    aliases: ['avatar'],
+    aliases: ['avatar', 'profile'],
   },
   {
     name: 'backspace',
@@ -3117,7 +3117,7 @@ export const ICON_CATALOG: IconEntry[] = [
     component: LmnUserIcon as Type<LmnIconInstance>,
     importStr: "import { LmnUserIcon } from 'lumen-icons/user';",
     category: 'system',
-    aliases: ['user'],
+    aliases: ['user', 'profile'],
   },
   {
     name: 'user-circle',
