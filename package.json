@@ -65,7 +65,7 @@
     "deploy:prod": "pnpm run build && wrangler pages deploy --branch=main"
   },
   "dependencies": {
-    "@analogjs/router": "^2.4.10",
+    "@analogjs/router": "^2.6.1",
     "@angular/common": "^21.0.0",
     "@angular/compiler": "^21.0.0",
     "@angular/core": "^21.0.0",
@@ -83,9 +83,9 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@analogjs/platform": "^2.4.10",
-    "@analogjs/vite-plugin-angular": "^2.4.10",
-    "@analogjs/vitest-angular": "^2.4.10",
+    "@analogjs/platform": "^2.6.1",
+    "@analogjs/vite-plugin-angular": "^2.6.1",
+    "@analogjs/vitest-angular": "^2.6.1",
     "@angular/build": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
