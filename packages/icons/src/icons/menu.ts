@@ -78,7 +78,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <line x1="4" x2="20" y1="6" y2="6" class="lmn-animate-el lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1" /><line x1="4" x2="20" y1="12" y2="12" class="lmn-animate-el lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2" /><line x1="4" x2="20" y1="18" y2="18" class="lmn-animate-el lmn-path-3 lmn-path-3 lmn-path-3 lmn-path-3 lmn-path-3" />
+      <line x1="4" x2="20" y1="6" y2="6" class="lmn-animate-el lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1" /><line x1="4" x2="20" y1="12" y2="12" class="lmn-animate-el lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2" /><line x1="4" x2="20" y1="18" y2="18" class="lmn-animate-el lmn-path-3 lmn-path-3 lmn-path-3 lmn-path-3 lmn-path-3 lmn-path-3" />
     </svg>
   `,
 })

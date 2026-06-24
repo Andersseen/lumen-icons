@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-map-pin {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0% { transform: translateY(-10px) scale(0.8); opacity: 0; }
+          50% { transform: translateY(2px) scale(1.05); opacity: 1; }
+          100% { transform: translateY(0) scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

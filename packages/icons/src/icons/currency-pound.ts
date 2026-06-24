@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-currency-pound {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: rotateY(0deg) rotate(0deg); }
+          25% { transform: rotateY(25deg) rotate(-2deg); }
+          75% { transform: rotateY(-25deg) rotate(2deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-currency-pound 500ms ease both;
+          animation: lmn-currency-pound 600ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

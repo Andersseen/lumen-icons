@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-bookmark-square {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(0.85) skewX(-3deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -25,6 +25,10 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-box: fill-box;
       transform-origin: center;
     }
+
+    :host(.lmn-animate) svg {
+          transform-origin: top center;
+        }
 
     :host(.lmn-animate) svg {
           animation: lmn-bookmark-square 450ms ease both;

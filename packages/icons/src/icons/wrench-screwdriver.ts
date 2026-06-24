@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-wrench-screwdriver {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(180deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-wrench-screwdriver 500ms ease both;
+          animation: lmn-wrench-screwdriver 500ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

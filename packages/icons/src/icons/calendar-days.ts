@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-calendar-days {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+          0%, 100% { transform: rotateX(0deg); }
+          50% { transform: rotateX(-25deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,11 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-calendar-days 450ms ease both;
+          transform-origin: top center;
+        }
+
+    :host(.lmn-animate) svg {
+          animation: lmn-calendar-days 500ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

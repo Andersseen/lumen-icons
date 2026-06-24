@@ -12,12 +12,13 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-clock {
-          0%, 100% { transform: rotate(0deg) translateX(0); }
-          20% { transform: rotate(8deg) translateX(2px); }
-          40% { transform: rotate(-8deg) translateX(-2px); }
-          60% { transform: rotate(5deg) translateX(1px); }
-          80% { transform: rotate(-5deg) translateX(-1px); }
+    @keyframes lmn-clock-hour {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(25deg); }
+        }
+        @keyframes lmn-clock-minute {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(90deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -29,9 +30,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-clock 500ms ease-in-out both;
+    :host(.lmn-animate) svg .lmn-path-1,
+        :host(.lmn-animate) svg .lmn-path-2 {
+          transform-origin: center;
         }
+
+    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-clock-hour 600ms ease both; }
+        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-clock-minute 600ms ease both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -58,7 +63,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd"/>
+      <path class="lmn-path-1" fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd"/>
     </svg>
     } @else {
       <svg
@@ -74,7 +79,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+      <path class="lmn-path-1" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
     </svg>
     }
   `,

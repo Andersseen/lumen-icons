@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-arrow-top-right-on-square {
-          0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(5px); }
+          0%, 100% { transform: translate(0, 0); }
+          35% { transform: translate(5px); }
+          65% { transform: translate(calc(5px * -0.25)); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-arrow-top-right-on-square 450ms ease both;
+          animation: lmn-arrow-top-right-on-square 500ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

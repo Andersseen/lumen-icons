@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-paper-airplane {
-          0%, 100% { transform: translate(0, 0); opacity: 1; }
-          50% { transform: translate(5px, -5px); opacity: 0.65; }
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          40% { transform: translate(10px, -10px) rotate(-8deg); opacity: 0.75; }
+          100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-paper-airplane 500ms ease both;
+          animation: lmn-paper-airplane 550ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

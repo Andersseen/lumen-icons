@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-stop-circle {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.85); }
+          100% { transform: scale(1); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-stop-circle 450ms ease both;
+          animation: lmn-stop-circle 400ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-edit {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0% { stroke-dashoffset: 1; opacity: 0; transform: rotate(-8deg); }
+          100% { stroke-dashoffset: 0; opacity: 1; transform: rotate(0deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,7 +26,9 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
+    :host(.lmn-animate) svg path {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
           animation: lmn-edit 500ms ease both;
         }
 
@@ -64,7 +66,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" pathLength="1"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" pathLength="1"/>
     </svg>
   `,
 })

@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-credit-card {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: translateX(0); }
+          40% { transform: translateX(-6px) rotate(-3deg); }
+          60% { transform: translateX(6px) rotate(3deg); }
         }
 
     :host(.lmn-animate) svg path,

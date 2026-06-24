@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-radio 500ms ease both;
+          animation: lmn-radio 450ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

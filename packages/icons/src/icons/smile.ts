@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-smile 500ms ease both;
+          animation: lmn-smile 450ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

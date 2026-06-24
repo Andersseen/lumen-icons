@@ -14,7 +14,8 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-trophy {
           0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          40% { transform: scale(1.1); opacity: 0.9; }
+          60% { transform: scale(1.05); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-trophy 500ms ease both;
+          animation: lmn-trophy 600ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

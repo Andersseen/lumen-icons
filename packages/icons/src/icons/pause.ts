@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-pause {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.85); }
+          100% { transform: scale(1); }
         }
 
     :host(.lmn-animate) svg path,

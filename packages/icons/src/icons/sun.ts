@@ -12,13 +12,11 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-sun-core {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.1); }
-        }
-        @keyframes lmn-sun-ray {
-          0% { opacity: 0; transform: scale(0.5); }
-          100% { opacity: 1; transform: scale(1); }
+    @keyframes lmn-sun {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          25% { transform: scale(1.12); opacity: 0.9; }
+          50% { transform: scale(1.05); opacity: 1; }
+          75% { transform: scale(1.1); opacity: 0.95; }
         }
 
     :host(.lmn-animate) svg path,
@@ -30,22 +28,9 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg :first-child {
-          animation: lmn-sun-core 600ms ease both;
+    :host(.lmn-animate) svg {
+          animation: lmn-sun 700ms ease-in-out both;
         }
-        :host(.lmn-animate) svg path:nth-child(n+2) {
-          opacity: 1;
-          animation: lmn-sun-ray 600ms ease both;
-          animation-delay: calc(var(--lmn-ray-index, 0) * 40ms);
-        }
-        :host(.lmn-animate) svg path:nth-child(2) { --lmn-ray-index: 0; }
-        :host(.lmn-animate) svg path:nth-child(3) { --lmn-ray-index: 1; }
-        :host(.lmn-animate) svg path:nth-child(4) { --lmn-ray-index: 2; }
-        :host(.lmn-animate) svg path:nth-child(5) { --lmn-ray-index: 3; }
-        :host(.lmn-animate) svg path:nth-child(6) { --lmn-ray-index: 4; }
-        :host(.lmn-animate) svg path:nth-child(7) { --lmn-ray-index: 5; }
-        :host(.lmn-animate) svg path:nth-child(8) { --lmn-ray-index: 6; }
-        :host(.lmn-animate) svg path:nth-child(9) { --lmn-ray-index: 7; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),

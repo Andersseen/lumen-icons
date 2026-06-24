@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-folder {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+          0%, 100% { transform: translateY(0) scale(1); }
+          40% { transform: translateY(-6px) scale(1.05); }
+          70% { transform: translateY(2px) scale(0.98); }
         }
 
     :host(.lmn-animate) svg path,

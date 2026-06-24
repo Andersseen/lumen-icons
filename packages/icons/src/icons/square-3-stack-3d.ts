@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-square-3-stack-3d 500ms ease both;
+          animation: lmn-square-3-stack-3d 450ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

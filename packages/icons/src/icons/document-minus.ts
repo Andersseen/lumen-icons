@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-document-minus {
-          0%, 100% { transform: scaleX(1); }
-          50% { transform: scaleX(1.25); }
+          0% { opacity: 0; transform: translateY(6px) scale(0.96); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-document-minus 400ms ease both;
+          animation: lmn-document-minus 500ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

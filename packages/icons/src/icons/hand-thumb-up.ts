@@ -13,11 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-hand-thumb-up {
-          0%, 100% { transform: scale(1); }
-          15% { transform: scale(1.25); }
-          30% { transform: scale(0.92); }
-          45% { transform: scale(1.12); }
-          60% { transform: scale(1); }
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-16deg); }
+          50% { transform: rotate(8deg); }
+          75% { transform: rotate(-4deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -30,7 +29,11 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-hand-thumb-up 600ms ease-in-out both;
+          transform-origin: bottom left;
+        }
+
+    :host(.lmn-animate) svg {
+          animation: lmn-hand-thumb-up 500ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-chat-bubble-bottom-center-text {
-          0%, 100% { transform: translate(0, 0); opacity: 1; }
-          50% { transform: translate(5px, -5px); opacity: 0.65; }
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.18); opacity: 0.85; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-chat-bubble-bottom-center-text 500ms ease both;
+          animation: lmn-chat-bubble-bottom-center-text 450ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

@@ -13,8 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-musical-note {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: scale(1); }
+          25% { transform: scale(1.12); }
+          50% { transform: scale(0.96); }
+          75% { transform: scale(1.06); }
         }
 
     :host(.lmn-animate) svg path,

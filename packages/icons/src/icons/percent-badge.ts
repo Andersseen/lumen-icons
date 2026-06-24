@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-percent-badge 500ms ease both;
+          animation: lmn-percent-badge 450ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

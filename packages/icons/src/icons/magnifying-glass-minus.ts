@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-magnifying-glass-minus {
-          0%, 100% { transform: scaleX(1); }
-          50% { transform: scaleX(1.25); }
+          0%, 100% { transform: scale(1) rotate(0deg); }
+          40% { transform: scale(1.15) rotate(-8deg); }
+          70% { transform: scale(1.08) rotate(4deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-magnifying-glass-minus 400ms ease both;
+          animation: lmn-magnifying-glass-minus 500ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

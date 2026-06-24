@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-camera {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.35; }
+          0% { transform: scale(1); opacity: 1; }
+          40% { transform: scale(0.82); opacity: 0.6; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

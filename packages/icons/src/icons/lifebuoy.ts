@@ -13,8 +13,13 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-lifebuoy {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: rotate(0deg); }
+          10% { transform: rotate(18deg); }
+          25% { transform: rotate(-16deg); }
+          40% { transform: rotate(14deg); }
+          55% { transform: rotate(-10deg); }
+          70% { transform: rotate(6deg); }
+          85% { transform: rotate(-3deg); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +32,11 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-lifebuoy 500ms ease both;
+          transform-origin: top center;
+        }
+
+    :host(.lmn-animate) svg {
+          animation: lmn-lifebuoy 500ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

@@ -13,8 +13,12 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-question-mark-circle {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: rotate(0deg) translateX(0); }
+          15% { transform: rotate(8deg) translateX(2px); }
+          30% { transform: rotate(-8deg) translateX(-2px); }
+          45% { transform: rotate(5deg) translateX(1px); }
+          60% { transform: rotate(-5deg) translateX(-1px); }
+          75% { transform: rotate(2deg) translateX(0); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +31,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-question-mark-circle 450ms ease both;
+          animation: lmn-question-mark-circle 450ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

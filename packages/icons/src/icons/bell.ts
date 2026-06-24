@@ -14,11 +14,12 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-bell {
           0%, 100% { transform: rotate(0deg); }
-          15% { transform: rotate(18deg); }
-          30% { transform: rotate(-14deg); }
-          50% { transform: rotate(10deg); }
-          70% { transform: rotate(-6deg); }
-          85% { transform: rotate(3deg); }
+          10% { transform: rotate(18deg); }
+          25% { transform: rotate(-16deg); }
+          40% { transform: rotate(14deg); }
+          55% { transform: rotate(-10deg); }
+          70% { transform: rotate(6deg); }
+          85% { transform: rotate(-3deg); }
         }
 
     :host(.lmn-animate) svg path,
