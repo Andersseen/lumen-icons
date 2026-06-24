@@ -54,7 +54,7 @@
     "test:e2e:ui": "playwright test --ui",
     "playwright:install": "playwright install",
     "check": "pnpm run lint && pnpm run typecheck && pnpm run test:unit && pnpm run check:package",
-    "check:package": "pnpm run build:lib && publint packages/icons",
+    "check:package": "pnpm run build:lib && publint packages/icons/dist",
     "npm:login": "npm login --auth-type=web",
     "publish:icons": "node scripts/publish-icons.mjs",
     "publish:icons:dry-run": "node scripts/publish-icons.mjs --dry-run",

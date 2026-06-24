@@ -61,8 +61,8 @@ describe("LmnIconBase host bindings", () => {
     const host = fixture.nativeElement as HTMLElement;
     expect(host).toHaveClass("lmn-filled");
     expect(host).toHaveClass("lmn-has-background");
-    expect(fixture.componentInstance.hostColor).toBe("var(--primary, currentColor)");
-    expect(fixture.componentInstance.hostBackground).toBe("color-mix(in oklab, var(--primary, currentColor) 18%, transparent)");
+    expect(fixture.componentInstance.hostColorStyle()).toBe("var(--primary, currentColor)");
+    expect(fixture.componentInstance.hostBackgroundStyle()).toBe("color-mix(in oklab, var(--primary, currentColor) 18%, transparent)");
     expect(host.style.padding).toBe("8px");
     expect(host.style.borderRadius).toBe("10px");
   });

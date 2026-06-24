@@ -26,9 +26,11 @@ lumen-icons/
 │   ├── src/
 │   │   ├── index.ts         ← public API surface (re-exports types + icons)
 │   │   ├── icons/           ← one .ts file per icon, barelled by index.ts
+│   │   ├── lib/
+│   │   │   └── icon-base.ts ← shared base class + host bindings
 │   │   └── types/
 │   │       └── icon.types.ts
-│   ├── tsup.config.ts
+│   ├── ng-package.json      ← ng-packagr APF build config
 │   ├── tsconfig.lib.json
 │   └── package.json
 ├── src/                     ← demo + docs app (AnalogJS)
@@ -38,6 +40,10 @@ lumen-icons/
 │       └── pages/           ← file-system routes (AnalogJS convention)
 ├── tests/
 │   └── e2e/                 ← Playwright tests
+├── scripts/                 ← build/sync/generate helpers
+│   ├── build-lib.mjs
+│   ├── generate-icons.mjs
+│   └── sync-icons.mjs
 ├── vite.config.ts           ← app build (AnalogJS + Tailwind)
 ├── vitest.config.ts         ← unit tests (jsdom)
 ├── vitest.setup.ts          ← @analogjs/vitest-angular/setup-zone + jest-dom
@@ -58,7 +64,7 @@ pnpm run preview             # preview production build locally
 
 # Building
 pnpm run build               # build lib then app (full pipeline)
-pnpm run build:lib           # bundle lumen-icons via tsup → packages/icons/dist/
+pnpm run build:lib           # bundle lumen-icons via ng-packagr → packages/icons/dist/
 pnpm run build:app           # build AnalogJS app → dist/
 
 # Quality gates
@@ -92,7 +98,7 @@ pnpm vitest run packages/icons/src/icons/check.spec.ts
 
 **Path alias** — `tsconfig.json` maps `lumen-icons → packages/icons/src/index.ts` so the app imports the same source during development without building the lib first.
 
-**Building** — tsup produces ESM-only output with `.d.ts` declarations, sourcemaps, and `treeshake: true`. Target is `es2022`.
+**Building** — `ng-packagr` produces Angular Package Format (APF) output (FESM2022 bundles, Ivy metadata, and unified `.d.ts` declarations). A post-build step in `scripts/build-lib.mjs` generates per-icon re-exports and the final `package.json#exports` map.
 
 ### App (`src/`)
 
@@ -126,36 +132,62 @@ Each icon is a standalone Angular component wrapping an inline SVG:
 
 ```typescript
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MoveVariantsDirective } from 'angular-movement';
-import { LmnIconBase, LM_ICON_HOST } from '../lib/icon-base';
+import { LmnIconBase } from '../lib/icon-base';
 
 @Component({
   selector: 'lmn-check',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MoveVariantsDirective],
-  host: LM_ICON_HOST,
+  host: {
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'ariaLabel() ? null : "true"',
+    '[class.lmn-animate]': 'animate()',
+  },
+  styles: [`
+    @keyframes lmn-check { 0% { scale: 0.5; opacity: 0; } 60% { scale: 1.2; } 100% { scale: 1; opacity: 1; } }
+
+    .lmn-animate {
+      animation: lmn-check 420ms ease both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lmn-animate,
+      .lmn-animate-el {
+        animation: none !important;
+      }
+    }
+  `],
   template: `
-    <svg
-      [attr.width]="size()"
-      [attr.height]="size()"
-      [attr.stroke-width]="strokeWidth()"
-      [class.is-animated]="animate()"
-      [moveVariants]="{ active: { scale: [1, 1.06, 1] } }"
-      [moveAnimate]="animate() ? 'active' : undefined"
-      [moveDuration]="400"
-      moveEasing="ease-out"
-      style="transform-origin: center; transform-box: fill-box;"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <!-- SVG path(s) here -->
-    </svg>
+    @if (variant() === 'filled') {
+      <svg
+        [attr.width]="size()"
+        [attr.height]="size()"
+        [class.lmn-animate]="animate()"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <!-- filled path(s) here -->
+      </svg>
+    } @else {
+      <svg
+        [attr.width]="size()"
+        [attr.height]="size()"
+        [attr.stroke-width]="strokeWidth()"
+        [class.lmn-animate]="animate()"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <!-- outline path(s) here -->
+      </svg>
+    }
   `,
 })
 export class LmnCheckIcon extends LmnIconBase {}
@@ -167,7 +199,7 @@ export class LmnCheckIcon extends LmnIconBase {}
 - Default `size`: 24. Default `strokeWidth`: 2.
 - `ariaLabel` present → `role="img"` + `aria-label` on host, SVG gets `aria-hidden="true"`. Absent → host gets `aria-hidden="true"`.
 - SVGs use `stroke="currentColor"` — color is always inherited from CSS.
-- No classes, no Tailwind, no inline styles beyond `display`, dimensions, and `transform-origin` / `transform-box` when animating.
+- No Tailwind, no inline styles beyond `display`, dimensions, and `transform-origin` / `transform-box` when animating.
 - `sideEffects: false` is declared in `packages/icons/package.json` — do not add module-level side effects.
 
 ### Optional animations
@@ -178,16 +210,30 @@ Animations are opt-in via an `animate` input. When `false` (the default), no ani
 readonly animate = input<boolean>(false);
 ```
 
-Use `MoveVariantsDirective` from `angular-movement` for declarative transform animations (`scale`, `rotate`, `x`, `y`, `opacity`). For stroke-draw effects or complex multi-element sequences, use CSS `@keyframes` scoped to the component's `styles` and gated behind the `.is-animated` class. `angular-movement` is the project's official animation engine; do not introduce other third-party animation packages in the library.
+Icon animations are pure CSS and driven by a semantic recipe catalog in `scripts/animations.mjs`. Each icon is mapped to a recipe (e.g. `draw-scale`, `slide-right`, `beat`, `spin`) via `ICON_ANIMATIONS` and `FALLBACK_ANIMATIONS`. The generator (`scripts/generate-icons.mjs`) applies the recipe to each icon, producing per-icon scoped `@keyframes`, optional `pathLength="1"` for stroke-drawing effects, and optional per-path classes (`.lmn-path-1`, `.lmn-path-2`, etc.) for multi-part animations.
+
+When `animate` is `true`, the host and the SVG receive the `.lmn-animate` class and the scoped animation runs. Respect `prefers-reduced-motion` via the shared media-query block shown in the template above. Do not introduce runtime animation dependencies in the library.
+
+**Adding or changing an animation recipe:**
+1. Open `scripts/animations.mjs` and add a builder to `RECIPES` if it does not exist.
+2. Map icon names to the recipe in `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern-based fallback).
+3. Regenerate all icons with `pnpm exec node scripts/generate-icons.mjs --overwrite`.
+4. Run `pnpm run check` to verify lint, typecheck, tests, and package output.
+
+**Rules for recipes:**
+- Only `loader.ts` may use `infinite` animation; all other icons must run once (`both` fill mode).
+- Recipes must define both `0%` and `100%` keyframe blocks so the icon ends at rest state.
+- Keep recipes CSS-only; no JavaScript animation libraries.
 
 ### Exporting a new icon
 
 1. Add `packages/icons/src/icons/my-icon.ts` with the component.
 2. Add a line in `packages/icons/src/icons/index.ts`:
    ```typescript
-   export { LmnMyIcon } from './my-icon';
+   export { LmnMyIconIcon } from './my-icon';
    ```
-3. Add `packages/icons/src/icons/my-icon.spec.ts` (at minimum a render test).
+3. Add `packages/icons/src/icons/my-icon.spec.ts` (at minimum a render + accessibility test).
+4. Run `pnpm run sync:icons` to regenerate the website catalog and ensure the barrel is consistent.
 
 ---
 
@@ -287,7 +333,7 @@ describe('LmnCheckIcon', () => {
 
 - `sideEffects: false` must remain in `packages/icons/package.json` — it enables tree-shaking in consumer bundlers.
 - The `files` field in `packages/icons/package.json` must list only `dist/` — never ship source.
-- Keep peer dependencies minimal and exact (`@angular/core`, `@angular/common`, and `angular-movement`).
+- Keep peer dependencies minimal and exact (`@angular/core` and `@angular/common`).
 - Run `publint` before every release: `pnpm publint packages/icons` to catch export map issues.
 
 ### Versioning and changelog

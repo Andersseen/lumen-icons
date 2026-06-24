@@ -12,19 +12,40 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-clock { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
+    @keyframes lmn-clock {
+          0%, 100% { transform: rotate(0deg) translateX(0); }
+          20% { transform: rotate(8deg) translateX(2px); }
+          40% { transform: rotate(-8deg) translateX(-2px); }
+          60% { transform: rotate(5deg) translateX(1px); }
+          80% { transform: rotate(-5deg) translateX(-1px); }
+        }
 
-    .lmn-animate {
-      animation: lmn-clock 500ms ease both;
+    :host(.lmn-animate) svg path,
+    :host(.lmn-animate) svg line,
+    :host(.lmn-animate) svg circle,
+    :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg g {
+      transform-box: fill-box;
+      transform-origin: center;
     }
-    
+
+    :host(.lmn-animate) svg {
+          animation: lmn-clock 500ms ease-in-out both;
+        }
 
     @media (prefers-reduced-motion: reduce) {
-      .lmn-animate,
-      .lmn-animate-el {
+      :host(.lmn-animate),
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) path,
+      :host(.lmn-animate) line,
+      :host(.lmn-animate) circle,
+      :host(.lmn-animate) rect,
+      :host(.lmn-animate) g,
+      :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;
       }
     }
+    
   `],
   template: `
     @if (variant() === 'filled') {

@@ -12,19 +12,40 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-heart { 0%, 100% { scale: 1; } 15% { scale: 1.3; } 30% { scale: 0.9; } 45% { scale: 1.15; } 60% { scale: 1; } }
+    @keyframes lmn-heart {
+          0%, 100% { transform: scale(1); }
+          15% { transform: scale(1.25); }
+          30% { transform: scale(0.92); }
+          45% { transform: scale(1.12); }
+          60% { transform: scale(1); }
+        }
 
-    .lmn-animate {
-      animation: lmn-heart 800ms ease both;
+    :host(.lmn-animate) svg path,
+    :host(.lmn-animate) svg line,
+    :host(.lmn-animate) svg circle,
+    :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg g {
+      transform-box: fill-box;
+      transform-origin: center;
     }
-    
+
+    :host(.lmn-animate) svg {
+          animation: lmn-heart 600ms ease-in-out both;
+        }
 
     @media (prefers-reduced-motion: reduce) {
-      .lmn-animate,
-      .lmn-animate-el {
+      :host(.lmn-animate),
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) path,
+      :host(.lmn-animate) line,
+      :host(.lmn-animate) circle,
+      :host(.lmn-animate) rect,
+      :host(.lmn-animate) g,
+      :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;
       }
     }
+    
   `],
   template: `
     @if (variant() === 'filled') {

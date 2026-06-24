@@ -12,10 +12,38 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-copy { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
+    @keyframes lmn-copy-front {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-3px, -3px); }
+        }
+        @keyframes lmn-copy-back {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(3px, 3px); }
+        }
 
-    .lmn-animate {
-      animation: lmn-copy 500ms ease both;
+    :host(.lmn-animate) svg path,
+    :host(.lmn-animate) svg line,
+    :host(.lmn-animate) svg circle,
+    :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg g {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-copy-front 450ms ease both; }
+        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-copy-back 450ms ease both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host(.lmn-animate),
+      :host(.lmn-animate) svg,
+      :host(.lmn-animate) path,
+      :host(.lmn-animate) line,
+      :host(.lmn-animate) circle,
+      :host(.lmn-animate) rect,
+      :host(.lmn-animate) g,
+      :host(.lmn-animate) .lmn-animate-el {
+        animation: none !important;
+      }
     }
     
     .lmn-filled svg,
@@ -24,13 +52,6 @@ import { LmnIconBase } from '../lib/icon-base';
       stroke: none;
     }
   
-
-    @media (prefers-reduced-motion: reduce) {
-      .lmn-animate,
-      .lmn-animate-el {
-        animation: none !important;
-      }
-    }
   `],
   template: `
     <svg
@@ -46,7 +67,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" class="lmn-animate-el" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" class="lmn-animate-el" />
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" class="lmn-animate-el lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1 lmn-path-1" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" class="lmn-animate-el lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2 lmn-path-2" />
     </svg>
   `,
 })

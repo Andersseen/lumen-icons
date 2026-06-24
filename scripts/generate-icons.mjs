@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applyPathClasses, applyPathLength, buildAnimation, composeStyles } from './animations.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const outlineDir = join(root, 'node_modules/heroicons/24/outline');
@@ -20,174 +21,6 @@ const toPascalCase = (str) =>
 
 const toClassName = (name) => `Lmn${toPascalCase(name)}Icon`;
 
-const SEMANTIC_ANIMATIONS = [
-  // Exact matches first
-  {
-    match: n => n === 'check',
-    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.5; opacity: 0; } 60% { scale: 1.2; } 100% { scale: 1; opacity: 1; } }`,
-    duration: '420ms',
-  },
-  {
-    match: n => n === 'heart',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 15% { scale: 1.3; } 30% { scale: 0.9; } 45% { scale: 1.15; } 60% { scale: 1; } }`,
-    duration: '800ms',
-  },
-  {
-    match: n => n === 'star',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; rotate: 0deg; } 50% { scale: 1.25; rotate: 72deg; } }`,
-    duration: '600ms',
-  },
-  {
-    match: n => n === 'bell',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 10% { rotate: 20deg; } 30% { rotate: -16deg; } 50% { rotate: 12deg; } 70% { rotate: -8deg; } 90% { rotate: 4deg; } }`,
-    duration: '700ms',
-  },
-  {
-    match: n => n === 'trash',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; translate: 0 0; } 20% { rotate: 10deg; translate: 2px 0; } 40% { rotate: -10deg; translate: -2px 0; } 60% { rotate: 6deg; } 80% { rotate: -6deg; } }`,
-    duration: '500ms',
-  },
-  {
-    match: n => n === 'plus',
-    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.7; rotate: -90deg; } 60% { scale: 1.15; rotate: 10deg; } 100% { scale: 1; rotate: 0deg; } }`,
-    duration: '450ms',
-  },
-  {
-    match: n => n === 'x' || n === 'x-mark',
-    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.7; rotate: 90deg; } 60% { scale: 1.15; rotate: -10deg; } 100% { scale: 1; rotate: 0deg; } }`,
-    duration: '450ms',
-  },
-  {
-    match: n => n === 'home',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }`,
-    duration: '450ms',
-  },
-  {
-    match: n => n === 'search' || n === 'magnifying-glass',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; rotate: 0deg; } 25% { scale: 1.12; rotate: -12deg; } 50% { scale: 1; rotate: 0deg; } 75% { scale: 1.06; rotate: 8deg; } }`,
-    duration: '650ms',
-  },
-  {
-    match: n => n === 'send' || n === 'paper-airplane',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 5px -5px; opacity: 0.7; } }`,
-    duration: '500ms',
-  },
-
-  // Pattern matches
-  {
-    match: n => n.includes('arrow-right') || n.includes('arrow-long-right') || n === 'chevron-right',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 5px 0; } }`,
-    duration: '400ms',
-  },
-  {
-    match: n => n.includes('arrow-left') || n.includes('arrow-long-left') || n === 'chevron-left',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: -5px 0; } }`,
-    duration: '400ms',
-  },
-  {
-    match: n => n.includes('arrow-up') || n.includes('arrow-long-up') || n === 'chevron-up',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }`,
-    duration: '400ms',
-  },
-  {
-    match: n => n.includes('arrow-down') || n.includes('arrow-long-down') || n === 'chevron-down',
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 5px; } }`,
-    duration: '400ms',
-  },
-  {
-    match: n => n.includes('arrow-top-right') || n.includes('arrow-up-right') || n.includes('external-link') || n.includes('arrow-top-left'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 4px -4px; } }`,
-    duration: '450ms',
-  },
-  {
-    match: n => n.includes('arrow-turn') || n.includes('arrow-uturn') || n.includes('arrow-path') || n.includes('refresh') || n.includes('reload') || n.includes('sync') || n.includes('rotate'),
-    keyframes: name => `@keyframes lmn-${name} { 0% { rotate: 0deg; } 100% { rotate: 360deg; } }`,
-    duration: '900ms',
-  },
-  {
-    match: n => n.includes('download'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 0 5px; opacity: 0.6; } }`,
-    duration: '550ms',
-  },
-  {
-    match: n => n.includes('upload'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; opacity: 1; } 50% { translate: 0 -5px; opacity: 0.6; } }`,
-    duration: '550ms',
-  },
-  {
-    match: n => n.includes('cog') || n.includes('settings'),
-    keyframes: name => `@keyframes lmn-${name} { 0% { rotate: 0deg; } 100% { rotate: 360deg; } }`,
-    duration: '1000ms',
-  },
-  {
-    match: n => n.includes('heart') || n.includes('like') || n.includes('thumb'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 15% { scale: 1.3; } 30% { scale: 0.9; } 45% { scale: 1.15; } 60% { scale: 1; } }`,
-    duration: '800ms',
-  },
-  {
-    match: n => n.includes('bell') || n.includes('alert') || n.includes('warning') || n.includes('exclamation') || n.includes('question'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 10% { rotate: 20deg; } 30% { rotate: -16deg; } 50% { rotate: 12deg; } 70% { rotate: -8deg; } 90% { rotate: 4deg; } }`,
-    duration: '700ms',
-  },
-  {
-    match: n => n.includes('sun') || n.includes('moon') || n.includes('sparkle') || n.includes('bolt') || n.includes('fire') || n.includes('zap'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 0.5; scale: 1.12; } }`,
-    duration: '600ms',
-  },
-  {
-    match: n => n.includes('check') || n.includes('tick'),
-    keyframes: name => `@keyframes lmn-${name} { 0% { scale: 0.5; opacity: 0; } 60% { scale: 1.2; } 100% { scale: 1; opacity: 1; } }`,
-    duration: '420ms',
-  },
-  {
-    match: n => n.includes('minus') || n.includes('dash') || n.includes('remove'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scaleX: 1; } 50% { scaleX: 1.35; } }`,
-    duration: '400ms',
-  },
-  {
-    match: n => n.includes('trash') || n.includes('delete') || n.includes('bin'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { rotate: 0deg; } 20% { rotate: 10deg; } 40% { rotate: -10deg; } 60% { rotate: 6deg; } 80% { rotate: -6deg; } }`,
-    duration: '500ms',
-  },
-  {
-    match: n => n.includes('lock') || n.includes('key') || n.includes('shield'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }`,
-    duration: '500ms',
-  },
-  {
-    match: n => n.includes('mail') || n.includes('message') || n.includes('chat') || n.includes('envelope'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 25% { translate: 0 -3px; } 75% { translate: 0 3px; } }`,
-    duration: '550ms',
-  },
-  {
-    match: n => n.includes('user') || n.includes('person') || n.includes('profile') || n.includes('avatar'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }`,
-    duration: '500ms',
-  },
-  {
-    match: n => n.includes('folder') || n.includes('file') || n.includes('document') || n.includes('archive'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { translate: 0 0; } 50% { translate: 0 -2px; } }`,
-    duration: '450ms',
-  },
-  {
-    match: n => n.includes('camera') || n.includes('video') || n.includes('photo') || n.includes('image') || n.includes('picture'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 25% { scale: 1.1; } 50% { scale: 1; } 75% { scale: 1.05; } }`,
-    duration: '550ms',
-  },
-  {
-    match: n => n.includes('play') || n.includes('pause') || n.includes('stop') || n.includes('media'),
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; opacity: 1; } 50% { scale: 1.15; opacity: 0.8; } }`,
-    duration: '450ms',
-  },
-
-  // Default
-  {
-    match: n => true,
-    keyframes: name => `@keyframes lmn-${name} { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }`,
-    duration: '500ms',
-  },
-];
-
 function cleanSvg(svg, name) {
   const openMatch = svg.match(/<svg\b([^>]*)>/);
   const closeMatch = svg.match(/<\/svg\s*>/);
@@ -205,14 +38,6 @@ function cleanSvg(svg, name) {
   inner = inner.replace(/^\s+|[\r\n]+/g, '').replace(/>\s+</g, '><');
 
   return inner;
-}
-
-function resolveAnimation(name) {
-  const n = name.toLowerCase();
-  for (const anim of SEMANTIC_ANIMATIONS) {
-    if (anim.match(n)) return anim;
-  }
-  return SEMANTIC_ANIMATIONS[SEMANTIC_ANIMATIONS.length - 1];
 }
 
 function generateOutlineSvg(name, innerSvg) {
@@ -247,7 +72,7 @@ function generateFilledSvg(name, innerSvg) {
     </svg>`;
 }
 
-function generateComponent(name, className, outlineSvg, filledSvg, keyframes, duration) {
+function generateComponent(name, className, outlineSvg, filledSvg, animation) {
   const hasFilled = filledSvg !== null;
   const filledFallback = !hasFilled
     ? `
@@ -271,6 +96,8 @@ function generateComponent(name, className, outlineSvg, filledSvg, keyframes, du
     ${generateOutlineSvg(name, outlineSvg)}
   `;
 
+  const styles = composeStyles(name, animation);
+
   return `import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LmnIconBase } from '../lib/icon-base';
 
@@ -285,19 +112,8 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [\`
-    ${keyframes}
-
-    .lmn-animate {
-      animation: lmn-${name} ${duration} ease both;
-    }
+    ${styles}
     ${filledFallback}
-
-    @media (prefers-reduced-motion: reduce) {
-      .lmn-animate,
-      .lmn-animate-el {
-        animation: none !important;
-      }
-    }
   \`],
   template: \`${template}\`,
 })
@@ -468,7 +284,7 @@ function generateIconFiles(svgFiles) {
     }
 
     const rawSvg = readFileSync(join(outlineDir, file), 'utf8');
-    const outlineSvg = cleanSvg(rawSvg, name);
+    let outlineSvg = cleanSvg(rawSvg, name);
 
     let filledSvg = null;
     const solidPath = join(solidDir, file);
@@ -477,11 +293,17 @@ function generateIconFiles(svgFiles) {
       filledSvg = cleanSvg(rawSolid, name);
     }
 
-    const animation = resolveAnimation(name);
-    const keyframes = animation.keyframes(name);
-    const duration = animation.duration;
+    const animation = buildAnimation(name);
+    if (animation.pathClasses.length > 0) {
+      outlineSvg = applyPathClasses(outlineSvg, animation.pathClasses);
+      if (filledSvg) filledSvg = applyPathClasses(filledSvg, animation.pathClasses);
+    }
+    if (animation.pathLength) {
+      outlineSvg = applyPathLength(outlineSvg);
+      if (filledSvg) filledSvg = applyPathLength(filledSvg);
+    }
 
-    const componentSource = generateComponent(name, className, outlineSvg, filledSvg, keyframes, duration);
+    const componentSource = generateComponent(name, className, outlineSvg, filledSvg, animation);
     const specSource = generateSpec(name, className);
 
     writeFileSync(componentPath, componentSource);
@@ -505,15 +327,19 @@ function regenerateCustomIcons(outlineNames) {
     const componentPath = join(iconsDir, file);
     const specPath = join(iconsDir, `${name}.spec.ts`);
     const source = readFileSync(componentPath, 'utf8');
-    const innerSvg = extractInnerSvgFromComponent(source, name);
+    let innerSvg = extractInnerSvgFromComponent(source, name);
     if (!innerSvg) continue;
 
     const className = toClassName(name);
-    const animation = resolveAnimation(name);
-    const keyframes = animation.keyframes(name);
-    const duration = animation.duration;
+    const animation = buildAnimation(name);
+    if (animation.pathClasses.length > 0) {
+      innerSvg = applyPathClasses(innerSvg, animation.pathClasses);
+    }
+    if (animation.pathLength) {
+      innerSvg = applyPathLength(innerSvg);
+    }
 
-    const componentSource = generateComponent(name, className, innerSvg, null, keyframes, duration);
+    const componentSource = generateComponent(name, className, innerSvg, null, animation);
     const specSource = generateSpec(name, className);
 
     writeFileSync(componentPath, componentSource);

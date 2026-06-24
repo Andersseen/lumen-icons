@@ -1,4 +1,4 @@
-import { Directive, HostBinding, input } from '@angular/core';
+import { computed, Directive, input } from '@angular/core';
 import type {
   LmnIconBackground,
   LmnIconInstance,
@@ -46,7 +46,20 @@ const TONE_BACKGROUNDS: Record<LmnIconTone, string | null> = {
   destructive: 'var(--destructive, currentColor)',
 };
 
-@Directive()
+@Directive({
+  host: {
+    '[class.lmn-filled]': 'filledClass()',
+    '[class.lmn-has-background]': 'hasBackgroundClass()',
+    '[style.color]': 'hostColorStyle()',
+    '[style.display]': '"inline-flex"',
+    '[style.align-items]': '"center"',
+    '[style.justify-content]': '"center"',
+    '[style.vertical-align]': '"middle"',
+    '[style.padding.px]': 'hostPaddingStyle()',
+    '[style.border-radius]': 'hostRadiusStyle()',
+    '[style.background]': 'hostBackgroundStyle()',
+  },
+})
 export abstract class LmnIconBase implements LmnIconInstance {
   readonly size = input<LmnIconSize>(24);
   readonly strokeWidth = input<number>(2);
@@ -61,52 +74,29 @@ export abstract class LmnIconBase implements LmnIconInstance {
   readonly padding = input<number>(0);
   readonly radius = input<number | string>('0.5rem');
 
-  @HostBinding('class.lmn-filled')
-  get filledClass(): boolean {
-    return this.variant() === 'filled';
-  }
+  readonly filledClass = computed(() => this.variant() === 'filled');
+  readonly hasBackgroundClass = computed(() => this.background() !== 'none');
 
-  @HostBinding('class.lmn-has-background')
-  get backgroundClass(): boolean {
-    return this.background() !== 'none';
-  }
-
-  @HostBinding('style.color')
-  get hostColor(): string | null {
+  readonly hostColorStyle = computed(() => {
     if (this.color()) return this.color() ?? null;
     if (this.background() === 'solid') {
       return TONE_FOREGROUNDS[this.backgroundTone()] ?? null;
     }
-    if (this.tone() !== 'inherit') return TONE_COLORS[this.tone()];
+    if (this.tone() !== 'inherit') return TONE_COLORS[this.tone()] ?? null;
     return null;
-  }
+  });
 
-  @HostBinding('style.display')
-  readonly hostDisplay = 'inline-flex';
-
-  @HostBinding('style.align-items')
-  readonly hostAlignItems = 'center';
-
-  @HostBinding('style.justify-content')
-  readonly hostJustifyContent = 'center';
-
-  @HostBinding('style.vertical-align')
-  readonly hostVerticalAlign = 'middle';
-
-  @HostBinding('style.padding.px')
-  get hostPadding(): number | null {
+  readonly hostPaddingStyle = computed(() => {
     return this.background() === 'none' && this.padding() === 0 ? null : this.padding();
-  }
+  });
 
-  @HostBinding('style.border-radius')
-  get hostRadius(): string | null {
+  readonly hostRadiusStyle = computed(() => {
     if (this.background() === 'none') return null;
     const radius = this.radius();
     return typeof radius === 'number' ? `${radius}px` : radius;
-  }
+  });
 
-  @HostBinding('style.background')
-  get hostBackground(): string | null {
+  readonly hostBackgroundStyle = computed(() => {
     switch (this.background()) {
       case 'soft':
         return this.backgroundColor() ?? `color-mix(in oklab, ${TONE_BACKGROUNDS[this.backgroundTone()] ?? 'currentColor'} 18%, transparent)`;
@@ -115,5 +105,5 @@ export abstract class LmnIconBase implements LmnIconInstance {
       case 'none':
         return null;
     }
-  }
+  });
 }

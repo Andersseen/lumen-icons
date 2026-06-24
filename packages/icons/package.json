@@ -18,6 +18,8 @@
     "README.md",
     "LICENSE"
   ],
+  "module": "dist/fesm2022/lumen-icons.mjs",
+  "typings": "dist/types/lumen-icons.d.ts",
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0"
