@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Agent docs:** before starting a task, also read `docs/ai/STATE.md` (current status — update it when you finish meaningful work) and use the playbooks in `docs/ai/WORKFLOWS.md`. Full pack: `AGENTS.md`, `docs/ai/` (context, architecture, conventions), `docs/specs/` (spec-driven process for non-trivial tasks). If these docs and the code disagree, the code wins — fix the docs.
+
 ---
 
 ## Project vision

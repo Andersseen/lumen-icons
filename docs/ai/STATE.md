@@ -1,0 +1,47 @@
+# STATE — Current project status
+
+> **This is a living file.** Any agent that makes a meaningful change MUST update
+> "Recent changes" and (if applicable) "In progress" before ending the session.
+> Keep entries short; prune anything older than ~10 entries into git history.
+
+**Last updated:** 2026-07-06
+**Library version:** `lumen-icons` 0.2.0 (published to npm) · repo app `lumen` 0.0.1 (private)
+
+## Snapshot
+
+- **362 icons** in `packages/icons/src/icons/`, each with a matching `.spec.ts` (363 specs incl. types spec).
+- Sources: Heroicons 24/outline (outline variant) + 24/solid (filled variant), plus ~38 custom icons preserved by the generator's extraction pipeline.
+- **Icon API** (all optional inputs on every icon, defined in `LmnIconBase`):
+  `size` (12|14|16|20|24|32, default 24) · `strokeWidth` (default 2) · `ariaLabel` · `animate` (default false) · `tone` · `color` · `variant` (outline|filled) · `background` (none|soft|solid) · `backgroundTone` · `backgroundColor` · `padding` · `radius` (number|string, default `0.5rem`).
+- **Animations:** ~70 pure-CSS recipes in `scripts/animations.mjs`; every icon is mapped to one via `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern). Only `loader` loops infinitely.
+- **Demo app pages:** `index` (landing), `icons` (catalog with full prop playground, search, copy-to-clipboard), `docs`. Theme toggle (light/dark) via `ThemeService`.
+- **Tooling:** Angular 21 · AnalogJS 2.4 (SSR off, static SPA) · Vite 8 · Vitest 4 + Testing Library · Playwright · Tailwind v4 (app only) · @voltui/components (app chrome) · pnpm 10 · husky + commitlint (conventional commits).
+- **CI/CD:** `.github/workflows/ci-cd.yml`; site deploys to Cloudflare Pages via wrangler (`deploy:prod` / `deploy:preview`).
+- **Quality gate:** `pnpm run check` = lint + typecheck (app & lib) + unit tests + `build:lib` + publint.
+
+## Recent changes (newest first)
+
+- **2026-07-06** — Added AI-agent documentation pack: `AGENTS.md`, `docs/ai/*` (context, state, architecture, conventions, workflows), `docs/specs/` (SDD process + template).
+- **~2026-06/07** — Animation system iterations (`feat: update animations` ×2): recipe catalog refinements in `scripts/animations.mjs`, regenerated icons.
+- **2026-05-29 (v0.2.0)** — Filled variant for all Heroicons-based icons; per-icon `lumen-icons/<name>` subpath exports; pure-CSS animations replacing the runtime animation dependency; `radius` accepts `number | string`; catalog radius presets; custom-icon preservation pipeline; APF-compliant build passing publint.
+- **2026-05-22 (v0.1.0)** — Initial 31 icons, unit + e2e test suites, demo site.
+
+## In progress / known gaps
+
+*(nothing actively in flight — pick from "Next milestones")*
+
+- `CLAUDE.md` drifts slightly from code in places (e.g. it omits `tone`/`backgroundTone` inputs and the `check:package` step in `check`). Code is the source of truth.
+- E2E suite exists (`tests/e2e/`: smoke, navigation, icons, docs, theme) but only runs against Chromium.
+
+## Next milestones (from docs/architecture-plan.md)
+
+1. Validate the published package inside a fresh external Angular app.
+2. Add an SVG → component generator path for brand-new icons (not just syncing existing sets).
+3. Release flow with Changesets or semantic-release.
+4. Visual regression checks for the icon grid in light and dark themes.
+
+## Versioning reminders
+
+- New icons / new optional inputs → **minor**. Bug fixes → **patch**.
+- Renaming/removing inputs or selectors, or changing default `size`/`strokeWidth` → **major** (see CONVENTIONS.md).
+- Update `CHANGELOG.md` (keep-a-changelog format) with every user-visible change.
