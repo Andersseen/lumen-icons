@@ -40,4 +40,4 @@ draft → approved → in-progress → done   (or: rejected)
 
 *(add new specs to the top)*
 
-- —
+- [2026-07-06-v0.3.0-plan.md](2026-07-06-v0.3.0-plan.md) — umbrella release plan for 0.3.0 + demo refresh (draft)

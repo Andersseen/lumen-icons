@@ -28,14 +28,18 @@
 
 ## In progress / known gaps
 
-*(nothing actively in flight — pick from "Next milestones")*
-
-- `CLAUDE.md` drifts slightly from code in places (e.g. it omits `tone`/`backgroundTone` inputs and the `check:package` step in `check`). Code is the source of truth.
+- **Active plan: [docs/specs/2026-07-06-v0.3.0-plan.md](../specs/2026-07-06-v0.3.0-plan.md)** — 0.3.0 release (free-form `size`, `animateOnHover`) + demo refresh (prerender/SEO, playground parity). Status: draft, awaiting maintainer approval. Start with its P0 items.
+- No root `LICENSE` file (only `packages/icons/LICENSE`) — GitHub shows the repo as unlicensed. (P0.1 of the plan.)
+- `CLAUDE.md` drifts slightly from code in places (e.g. it omits `tone`/`backgroundTone` inputs and the `check:package` step in `check`). Code is the source of truth. (P0.3.)
+- All 324 Heroicons outline icons are already generated (362 = 324 + 38 custom) — icon growth needs a new source decision.
 - E2E suite exists (`tests/e2e/`: smoke, navigation, icons, docs, theme) but only runs against Chromium.
+- `vite.config.ts` prerenders no routes (`prerender.routes: []`) — the site ships as an empty-shell SPA. (P2.1.)
 
-## Next milestones (from docs/architecture-plan.md)
+## Next milestones
 
-1. Validate the published package inside a fresh external Angular app.
+See the active 0.3.0 plan above; longer-horizon items (from docs/architecture-plan.md):
+
+1. ~~Validate the published package inside a fresh external Angular app~~ → folded into the 0.3.0 plan (P0.2).
 2. Add an SVG → component generator path for brand-new icons (not just syncing existing sets).
 3. Release flow with Changesets or semantic-release.
 4. Visual regression checks for the icon grid in light and dark themes.
