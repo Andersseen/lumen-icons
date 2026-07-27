@@ -33,11 +33,11 @@ importers:
         specifier: ^4.1.4
         version: 4.2.4(vite@8.0.10(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass@1.97.3)(terser@5.46.2)(yaml@2.9.0))
       '@voltui/components':
-        specifier: ^0.1.0
-        version: 0.1.0(95872548e2fc444457fa11d459033224)
+        specifier: ^0.6.0
+        version: 0.6.0(95872548e2fc444457fa11d459033224)
       angular-movement:
-        specifier: ^0.1.0
-        version: 0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+        specifier: ^0.5.0
+        version: 0.5.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
       front-matter:
         specifier: ^4.0.2
         version: 4.0.2
@@ -2355,11 +2355,12 @@ packages:
   '@vitest/utils@4.1.5':
     resolution: {integrity: sha512-76wdkrmfXfqGjueGgnb45ITPyUi1ycZ4IHgC2bhPDUfWHklY/q3MdLOAB+TF1e6xfl8NxNY0ZYaPCFNWSsw3Ug==}
 
-  '@voltui/components@0.1.0':
-    resolution: {integrity: sha512-G6cTnDqUVP5Y8g4U3RiZSw2tegjZ6rL8XCNTeA/UhikskdeMUPfVTbN61+PLHKI7OOHrpm0Cla5AcrgOEuYeEA==}
+  '@voltui/components@0.6.0':
+    resolution: {integrity: sha512-Wb8fljYT5uau1rca2HsatiKeyTvjrdIeQp8pSCo/LdeBrXYi2UAsC+y4hmY5FoAb4oa7Yk/YMW3tSN80+YTqLg==}
     peerDependencies:
       '@angular/common': ^21.2.0
       '@angular/core': ^21.2.0
+      '@angular/forms': ^21.2.0
 
   '@yarnpkg/lockfile@1.1.0':
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
@@ -2433,8 +2434,8 @@ packages:
       typescript: '*'
       typescript-eslint: ^8.0.0
 
-  angular-movement@0.1.0:
-    resolution: {integrity: sha512-A2se3E07otNR6PbTSSZjSqs7xgbc84bMQT5WrO9/pMBNWcjm6U0JzZJDd+7/mUjVP7+OOKh3+4oFpF0bNvq84w==}
+  angular-movement@0.5.0:
+    resolution: {integrity: sha512-Fzwi4WNPiw31awjBh7H346gwtesxjdW13I/BnX/K9GLvR2WzOaBs0tQx6p++P6Dse1JdaeHEvolcpy8XoFX12w==}
     peerDependencies:
       '@angular/common': ^21.2.0
       '@angular/core': ^21.2.0
@@ -7532,10 +7533,11 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@voltui/components@0.1.0(95872548e2fc444457fa11d459033224)':
+  '@voltui/components@0.6.0(95872548e2fc444457fa11d459033224)':
     dependencies:
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/forms': 21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(rxjs@7.8.2)
       '@floating-ui/dom': 1.7.6
       class-variance-authority: 0.7.1
       clsx: 2.1.1
@@ -7544,7 +7546,6 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@angular/cdk'
-      - '@angular/forms'
       - luxon
       - rxjs
       - typescript
@@ -7638,7 +7639,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  angular-movement@0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
+  angular-movement@0.5.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
     dependencies:
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
