@@ -17,6 +17,7 @@ import { VoltBadge, VoltButton } from "@voltui/components";
 
 import { HomeAnimationShowcaseComponent } from "./home-animation-showcase";
 import { HomeIconStripComponent } from "./home-icon-strip";
+import { LIBRARY_VERSION } from "../../data/site-meta";
 
 @Component({
   selector: "app-home-hero",
@@ -37,6 +38,7 @@ import { HomeIconStripComponent } from "./home-icon-strip";
 export class HomeHeroComponent {
   private readonly destroyRef = inject(DestroyRef);
 
+  readonly version = LIBRARY_VERSION;
   readonly installCopied = signal(false);
 
   copyInstall() {

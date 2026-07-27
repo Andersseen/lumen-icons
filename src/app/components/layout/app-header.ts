@@ -4,6 +4,7 @@ import { LmnExternalLinkIcon } from "lumen-icons/external-link";
 import { VoltBadge } from "@voltui/components";
 import { ThemeToggleComponent } from "../theme-toggle";
 import { AppLogoComponent } from "./app-logo";
+import { LIBRARY_VERSION } from "../../data/site-meta";
 
 @Component({
   selector: "app-header",
@@ -18,4 +19,6 @@ import { AppLogoComponent } from "./app-logo";
   ],
   templateUrl:'./app-header.html'
 })
-export class AppHeaderComponent {}
+export class AppHeaderComponent {
+  readonly version = LIBRARY_VERSION;
+}

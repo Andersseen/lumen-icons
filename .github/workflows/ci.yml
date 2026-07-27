@@ -1,0 +1,199 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "LICENSE"
+      - "docs/**"
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "LICENSE"
+      - "docs/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CLOUDFLARE_PROJECT: lumen-icons
+  SITE_DIR: dist/analog/public
+
+jobs:
+  # ── 1. Static quality gates ────────────────────────────────────────────────
+  quality:
+    name: Lint · Typecheck · Unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - run: pnpm run lint
+      - run: pnpm run typecheck
+      - run: pnpm run test:unit
+
+  # ── 2. The single build — every later job consumes this artifact ───────────
+  build:
+    name: Build library + site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Build library (ng-packagr) and validate the package
+        run: pnpm run check:package
+
+      - name: Build site
+        run: pnpm run build:app
+
+      - name: Upload site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: ${{ env.SITE_DIR }}
+          retention-days: 7
+          if-no-files-found: error
+
+  # ── 3. E2E against the exact artifact that will be deployed ────────────────
+  e2e:
+    name: E2E (Playwright)
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Download site
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ${{ env.SITE_DIR }}
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      # E2E_SKIP_BUILD makes playwright.config.ts serve the downloaded artifact
+      # instead of rebuilding the site a second time.
+      - name: Run E2E
+        env:
+          E2E_SKIP_BUILD: "1"
+        run: pnpm run test:e2e
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  # ── 4. One required check to protect `main` with ───────────────────────────
+  gate:
+    name: Merge gate
+    needs: [quality, build, e2e]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verify every gate passed
+        run: |
+          echo "quality=${{ needs.quality.result }}"
+          echo "build=${{ needs.build.result }}"
+          echo "e2e=${{ needs.e2e.result }}"
+          [ "${{ needs.quality.result }}" = "success" ] \
+            && [ "${{ needs.build.result }}" = "success" ] \
+            && [ "${{ needs.e2e.result }}" = "success" ] \
+            || { echo "::error::One or more quality gates failed."; exit 1; }
+          echo "All quality gates passed."
+
+  # ── 5. The only deployment path: Cloudflare Pages ─────────────────────────
+  #      PR  → preview deployment on the branch alias
+  #      main → production (https://lumen-icons.andersseen.dev)
+  deploy:
+    name: Deploy to Cloudflare Pages
+    needs: [gate]
+    if: ${{ github.event.pull_request.head.repo.fork != true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    environment:
+      name: ${{ github.event_name == 'pull_request' && 'preview' || 'production' }}
+      url: ${{ github.event_name == 'pull_request' && steps.deploy.outputs.deployment-url || 'https://lumen-icons.andersseen.dev' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download site
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ${{ env.SITE_DIR }}
+
+      - name: Resolve target branch
+        id: target
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "branch=${{ github.head_ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "branch=main" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy ${{ env.SITE_DIR }}
+            --project-name=${{ env.CLOUDFLARE_PROJECT }}
+            --branch=${{ steps.target.outputs.branch }}
+            --commit-dirty=true
+
+      - name: Comment the preview URL
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: preview-url
+          message: |
+            ### 🚀 Preview deployment ready
+
+            | | |
+            |---|---|
+            | **Preview** | ${{ steps.deploy.outputs.deployment-url }} |
+            | **Branch** | `${{ github.head_ref }}` |
+            | **Commit** | ${{ github.event.pull_request.head.sha }} |
+
+      - name: Summary
+        run: |
+          {
+            echo "### ☁️ Cloudflare Pages"
+            echo ""
+            echo "- **Environment:** ${{ github.event_name == 'pull_request' && 'preview' || 'production' }}"
+            echo "- **Branch:** \`${{ steps.target.outputs.branch }}\`"
+            echo "- **URL:** ${{ steps.deploy.outputs.deployment-url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

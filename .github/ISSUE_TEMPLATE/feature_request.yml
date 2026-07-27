@@ -1,0 +1,30 @@
+name: ✨ Feature request
+description: Suggest a change to the icon API, the tooling or the demo site.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation you hit, not just the solution you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: If it changes the icon API, show the template or TypeScript you would like to write.
+      render: html
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Would this be a breaking change?
+      description: Renaming or removing an input, or changing a selector or a default, is breaking.
+      options:
+        - "No — additive only"
+        - "Yes"
+        - "Not sure"
+    validations:
+      required: true
