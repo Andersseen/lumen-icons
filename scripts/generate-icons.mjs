@@ -202,7 +202,6 @@ function writeIconMetadata(metadata, allIcons) {
   | 'media'
   | 'navigation'
   | 'security'
-  | 'status'
   | 'system';
 
 export interface IconMetadata {
@@ -224,7 +223,6 @@ export const ICON_CATEGORIES: readonly IconCategoryOption[] = [
   { value: 'media', label: 'Media' },
   { value: 'navigation', label: 'Navigation' },
   { value: 'security', label: 'Security' },
-  { value: 'status', label: 'Status' },
   { value: 'system', label: 'System' },
 ] as const;
 

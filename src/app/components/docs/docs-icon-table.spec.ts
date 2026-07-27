@@ -12,7 +12,9 @@ describe("DocsIconTableComponent", () => {
     expect(screen.getByRole("heading", { name: /available icons/i })).toBeInTheDocument();
     expect(screen.getByText("check")).toBeInTheDocument();
     expect(screen.getByText("star")).toBeInTheDocument();
-  });
+    // Renders the whole 362-icon catalog, so it needs more than the 5s default
+    // on a cold Vite cache (i.e. every CI run).
+  }, 30_000);
 
   it("copies import on row button click", async () => {
     const copyMock = vi.fn();
@@ -33,5 +35,5 @@ describe("DocsIconTableComponent", () => {
       "import { LmnCheckIcon } from 'lumen-icons/check';",
       "check"
     );
-  });
+  }, 30_000);
 });

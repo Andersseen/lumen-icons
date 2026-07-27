@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
+- **`SECURITY.md`** and structured issue templates (bug report, icon request, feature request).
+- **Screenshots** of the demo site in `docs/assets/`, used by the rewritten README.
+
+### Changed
+
+- **README rewritten** as a visual project landing page: badges, comparison table, quick start, full icon API, real category counts, pipeline diagram and docs index. The npm-facing `packages/icons/README.md` got the same treatment.
+- **CI/CD consolidated into a single pipeline** (`.github/workflows/ci.yml`, replacing `ci-cd.yml`). The site is now built **once** and the same artifact is what E2E runs against and what gets deployed — down from 6 dependency installs and 3 builds to 3 installs and 1 build. Cloudflare Pages is the only deployment path; the manual `deploy:preview` / `deploy:prod` scripts were removed so no deploy can bypass the quality gates.
+- **Demo site version is no longer hardcoded** in two places — the header badge and hero badge both read `LIBRARY_VERSION` from `src/app/data/site-meta.ts` (they were still showing `v0.1` at 0.2.0).
+
+### Fixed
+
+- **Invisible selected states** in the catalog: the size picker rendered white-on-white when selected in light mode, and the animate toggle rendered purple-on-purple. Both now follow the repo's `border-primary bg-primary text-primary-foreground` convention.
+- **Overlapping action buttons** on icon cards — the `Import` / `HTML` / `Code` row now shrinks correctly instead of spilling out of its grid cells.
+- **Low-contrast animation hint** in the sidebar (purple text on a purple background in dark mode).
+- **Dead "Status" category filter** removed — no icon was ever assigned to it, so the chip always showed "no icons". Removed from the generator too, so it does not come back on regeneration.
+- **Flaky docs icon-table spec** — rendering all 362 icons exceeded the 5s default timeout on a cold Vite cache (i.e. every CI run).
+
 ## [0.2.0] - 2026-05-29
 
 ### Added

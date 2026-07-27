@@ -60,9 +60,7 @@
     "publish:icons:dry-run": "node scripts/publish-icons.mjs --dry-run",
     "publish:icons:quick": "node scripts/publish-icons.mjs --skip-checks",
     "preview": "vite preview",
-    "deploy:local": "pnpm run build && wrangler pages dev",
-    "deploy:preview": "pnpm run build && wrangler pages deploy --branch=preview",
-    "deploy:prod": "pnpm run build && wrangler pages deploy --branch=main"
+    "preview:cf": "pnpm run build:app && wrangler pages dev"
   },
   "dependencies": {
     "@analogjs/router": "^2.4.10",

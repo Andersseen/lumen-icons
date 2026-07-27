@@ -1,0 +1,54 @@
+name: 🐛 Bug report
+description: Something in the library or the demo site is broken.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to file this. A minimal reproduction gets a fix much faster.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you get instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A StackBlitz link, a repo, or the smallest template + TypeScript snippet that shows the problem.
+      render: html
+    validations:
+      required: true
+
+  - type: input
+    id: icon
+    attributes:
+      label: Affected icon(s)
+      placeholder: "lmn-check, lmn-arrow-right — or 'all'"
+
+  - type: input
+    id: version
+    attributes:
+      label: lumen-icons version
+      placeholder: "0.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: angular-version
+    attributes:
+      label: Angular version
+      placeholder: "21.0.0"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true

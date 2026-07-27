@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🎨 Browse the icon catalog
+    url: https://lumen-icons.andersseen.dev/icons
+    about: Search all 362 icons before requesting a new one — it may already exist under a different name.
+  - name: 📖 Documentation
+    url: https://lumen-icons.andersseen.dev/docs
+    about: Installation, usage and the full icon API.
+  - name: 🤝 Contributing guide
+    url: https://github.com/Andersseen/lumen-icons/blob/main/CONTRIBUTING.md
+    about: How to add an icon, run the checks and open a pull request.

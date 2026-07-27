@@ -1,0 +1,39 @@
+name: 🎨 Icon request
+description: Request a new icon for the set.
+labels: ["icon request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please [search the catalog](https://lumen-icons.andersseen.dev/icons) first — icons are searchable by name, alias, selector and category.
+
+  - type: input
+    id: name
+    attributes:
+      label: Proposed icon name
+      description: kebab-case, matching the rest of the set.
+      placeholder: "shopping-cart"
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What would you use it for?
+      description: A concrete UI use case helps decide whether it belongs in a general-purpose set.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: Visual reference
+      description: A link or an attached SVG. Outline geometry on a 24×24 grid fits the set best.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the catalog and this icon does not exist under another name or alias.
+          required: true

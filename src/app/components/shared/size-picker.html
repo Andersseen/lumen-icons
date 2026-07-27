@@ -10,8 +10,8 @@
     [attr.aria-checked]="s === size()"
     class="rounded-md px-2.5 py-1 text-sm font-medium transition-colors"
     [class]="s === size()
-            ? 'bg-card text-primary-foreground dark:bg-background dark:text-foreground'
-            : 'border border-border text-secondary-foreground hover:border-border dark:border-border dark:text-muted-foreground dark:hover:border-border'"
+            ? 'border border-primary bg-primary text-primary-foreground'
+            : 'border border-border text-secondary-foreground hover:border-primary hover:text-foreground dark:border-border dark:text-muted-foreground'"
     (click)="size.set(s)"
   >
     {{ s }}
