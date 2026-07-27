@@ -147,6 +147,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # wrangler-action installs Wrangler with this repo's package manager
+      # (pnpm, from package.json#packageManager), so pnpm has to be on PATH —
+      # but this job deploys a prebuilt artifact and needs no dependencies.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Download site
         uses: actions/download-artifact@v4
         with:
