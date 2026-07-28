@@ -23,8 +23,8 @@
 ## Pipeline 1 — Icon generation
 
 ```
-node_modules/heroicons/24/outline/*.svg   (outline paths)
-node_modules/heroicons/24/solid/*.svg     (filled paths)
+packages/icons/svg/outline/*.svg   (outline paths, vendored Heroicons v2.2.0)
+packages/icons/svg/solid/*.svg     (filled paths, vendored Heroicons v2.2.0)
 existing committed custom icons           (extracted paths)
         │
         ▼

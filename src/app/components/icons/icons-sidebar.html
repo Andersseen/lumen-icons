@@ -4,13 +4,13 @@
           <!-- Search -->
           <div>
             <div class="mb-1.5 flex items-center justify-between">
-              <label for="icon-search" class="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Search
-              </label>
+              </p>
               <span class="text-xs tabular-nums text-muted-foreground">{{ resultCount() }}/{{ totalCount() }}</span>
             </div>
             <volt-input
-              id="icon-search"
+              aria-label="Search"
               placeholder="Search icons..."
               [value]="search()"
               (valueChange)="search.set($event)"

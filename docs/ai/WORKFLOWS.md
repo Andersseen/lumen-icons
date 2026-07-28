@@ -7,9 +7,9 @@
 
 ## W1 — Add a new icon (from the Heroicons set)
 
-Use when the icon exists in `node_modules/heroicons/24/outline` (and ideally `24/solid`) but isn't generated yet.
+Use when the icon exists in `packages/icons/svg/outline` (and ideally `packages/icons/svg/solid`) but isn't generated yet.
 
-1. Confirm the SVG exists: check `node_modules/heroicons/24/outline/<name>.svg`.
+1. Confirm the SVG exists: check `packages/icons/svg/outline/<name>.svg`.
 2. Decide its animation: add an entry to `ICON_ANIMATIONS` in `scripts/animations.mjs` (pick an existing recipe that matches the icon's *meaning*), or verify a `FALLBACK_ANIMATIONS` pattern already covers it sensibly.
 3. Run `pnpm run generate:icons` — this emits the component + spec and updates barrel/catalog.
 4. Add a metadata entry (category + aliases) in `src/app/data/icon-metadata.ts`.

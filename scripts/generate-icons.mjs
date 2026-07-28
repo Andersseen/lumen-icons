@@ -13,8 +13,8 @@ import {
 } from './icon-catalog-writer.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
-const outlineDir = join(root, 'node_modules/heroicons/24/outline');
-const solidDir = join(root, 'node_modules/heroicons/24/solid');
+const outlineDir = join(root, 'packages/icons/svg/outline');
+const solidDir = join(root, 'packages/icons/svg/solid');
 
 const overwrite = process.argv.includes('--overwrite');
 
