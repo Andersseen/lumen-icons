@@ -22,9 +22,7 @@ describe("IconCardComponent", () => {
           selector: "lmn-check",
           component: LmnCheckIcon,
           importStr: "import { LmnCheckIcon } from 'lumen-icons/check';",
-          selectorStr: '<lmn-check ariaLabel="check" />',
-          exampleStr: "example code",
-          category: "status",
+          category: "feedback",
           aliases: ["success"],
         },
         iconInputs: {
@@ -70,9 +68,7 @@ describe("IconCardComponent", () => {
           selector: "lmn-check",
           component: LmnCheckIcon,
           importStr: "import { LmnCheckIcon } from 'lumen-icons/check';",
-          selectorStr: '<lmn-check ariaLabel="check" />',
-          exampleStr: "example code",
-          category: "status",
+          category: "feedback",
           aliases: ["success"],
         },
         iconInputs: {
@@ -118,9 +114,7 @@ describe("IconCardComponent", () => {
           selector: "lmn-check",
           component: LmnCheckIcon,
           importStr: "import { LmnCheckIcon } from 'lumen-icons/check';",
-          selectorStr: '<lmn-check ariaLabel="check" />',
-          exampleStr: "example code",
-          category: "status",
+          category: "feedback",
           aliases: ["success"],
         },
         iconInputs: {

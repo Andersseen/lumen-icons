@@ -9,12 +9,12 @@
 |---|---|---|---|
 | `packages/icons/src/icons/*.ts` (components) | 🤖 **GENERATED** (committed) | `scripts/generate-icons.mjs` | the generator or `scripts/animations.mjs`, then regenerate |
 | `packages/icons/src/icons/*.spec.ts` | 🤖 GENERATED (committed) | `scripts/generate-icons.mjs` | the generator's test template |
-| `packages/icons/src/icons/index.ts` (barrel) | 🤖 GENERATED | `scripts/sync-icons.mjs` | nothing — always re-run `pnpm run sync:icons` |
-| `src/app/data/icon-catalog.ts` | 🤖 GENERATED | `scripts/sync-icons.mjs` | nothing — re-run sync |
+| `packages/icons/src/icons/index.ts` (barrel) | 🤖 GENERATED | `scripts/icon-catalog-writer.mjs` (via generate/sync) | nothing — always re-run `pnpm run sync:icons` |
+| `src/app/data/icon-catalog.ts` | 🤖 GENERATED | `scripts/icon-catalog-writer.mjs` (via generate/sync) | nothing — re-run sync |
 | `packages/icons/dist/**` | 🤖 build output, not committed | `scripts/build-lib.mjs` | build config (`ng-package.json`, the script) |
 | `packages/icons/src/lib/icon-base.ts` | ✍️ hand-written | — | directly (this is the shared API — see breaking-change policy) |
 | `packages/icons/src/types/icon.types.ts` | ✍️ hand-written | — | directly (public types) |
-| `src/app/data/icon-metadata.ts` | ✍️ hand-written | — | directly (categories + search aliases) |
+| `src/app/data/icon-metadata.ts` | ✍️ hand-curated, machine-reformatted | `scripts/icon-catalog-writer.mjs` | edit entries directly; the writer preserves them and infers missing ones |
 | `scripts/*.mjs` | ✍️ hand-written | — | directly |
 | everything in `src/app/` except `data/icon-catalog.ts` | ✍️ hand-written | — | directly |
 
@@ -23,8 +23,8 @@
 ## Pipeline 1 — Icon generation
 
 ```
-node_modules/heroicons/24/outline/*.svg   (outline paths)
-node_modules/heroicons/24/solid/*.svg     (filled paths)
+packages/icons/svg/outline/*.svg   (outline paths, vendored Heroicons v2.2.0)
+packages/icons/svg/solid/*.svg     (filled paths, vendored Heroicons v2.2.0)
 existing committed custom icons           (extracted paths)
         │
         ▼
@@ -36,7 +36,7 @@ scripts/generate-icons.mjs
   │    RECIPES (~70 builders: keyframes + optional pathLength/pathClasses)
   ├─ emits packages/icons/src/icons/<name>.ts   (component, scoped @keyframes)
   ├─ emits packages/icons/src/icons/<name>.spec.ts
-  └─ updates barrel + website catalog
+  └─ updates barrel + website catalog + metadata (via scripts/icon-catalog-writer.mjs)
 ```
 
 - Run with `pnpm run generate:icons` (add `--overwrite` to force-regenerate all).
@@ -45,11 +45,12 @@ scripts/generate-icons.mjs
 
 ## Pipeline 2 — Catalog sync
 
-`pnpm run sync:icons` (`scripts/sync-icons.mjs`) scans `packages/icons/src/icons/*.ts`, extracts class name + selector via regex, and rewrites:
+`pnpm run sync:icons` (`scripts/sync-icons.mjs`) scans `packages/icons/src/icons/*.ts`, extracts each class name via regex, and rewrites — through the shared writers in `scripts/icon-catalog-writer.mjs`, also used by `generate-icons.mjs` (single source of truth for these templates):
 - `packages/icons/src/icons/index.ts` — the barrel.
-- `src/app/data/icon-catalog.ts` — imports every icon via its `lumen-icons/<name>` subpath and exports the catalog array the website renders.
+- `src/app/data/icon-catalog.ts` — imports every icon via its `lumen-icons/<name>` subpath and exports the catalog array the website renders, with category/aliases inlined from the metadata.
+- `src/app/data/icon-metadata.ts` — existing entries are preserved verbatim; icons missing one get an inferred category + aliases.
 
-The website then joins the catalog with `src/app/data/icon-metadata.ts` (hand-written categories + aliases) for search/filtering. **A new icon without a metadata entry still appears, but won't have a category/aliases** — always add metadata for new icons.
+The website reads category/aliases straight from the catalog. **Review inferred metadata for new icons** — inference is name-pattern based, so hand-tune category/aliases in `icon-metadata.ts` when the guess is wrong.
 
 ## Pipeline 3 — Library build & publish
 

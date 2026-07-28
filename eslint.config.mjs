@@ -91,4 +91,12 @@ export default tseslint.config(
       "no-console": "off",
     },
   },
+  {
+    // Duplicate keys in the animation recipe maps would silently win/lose —
+    // JS object literals keep the last one without any error.
+    files: ["scripts/**/*.mjs"],
+    rules: {
+      "no-dupe-keys": "error",
+    },
+  },
 );

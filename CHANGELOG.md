@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Heroicons SVG sources are now vendored** in `packages/icons/svg/` (v2.2.0, MIT) instead of being read from `node_modules/heroicons` at generation time. The `heroicons` npm dependency is gone — the generator runs fully offline and upstream upgrades can no longer silently mutate the icon set.
+- **The demo app is now explicitly zoneless** (`provideZonelessChangeDetection`) and so is the unit-test environment — the `zone.js` dependency was removed entirely.
 - **README rewritten** as a visual project landing page: badges, comparison table, quick start, full icon API, real category counts, pipeline diagram and docs index. The npm-facing `packages/icons/README.md` got the same treatment.
 - **CI/CD consolidated into a single pipeline** (`.github/workflows/ci.yml`, replacing `ci-cd.yml`). The site is now built **once** and the same artifact is what E2E runs against and what gets deployed — down from 6 dependency installs and 3 builds to 3 installs and 1 build. Cloudflare Pages is the only deployment path; the manual `deploy:preview` / `deploy:prod` scripts were removed so no deploy can bypass the quality gates.
 - **Demo site version is no longer hardcoded** in two places — the header badge and hero badge both read `LIBRARY_VERSION` from `src/app/data/site-meta.ts` (they were still showing `v0.1` at 0.2.0).

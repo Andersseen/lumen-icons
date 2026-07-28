@@ -1792,9 +1792,9 @@ export const ICON_ANIMATIONS = {
   'cpu-chip': { recipe: 'pulse-scale', duration: '450ms' },
 
   // Cloud / weather
+  // cloud-arrow-down / cloud-arrow-up are mapped under "Transfer arrows"
+  // (download-arrow / upload-arrow) — do not re-add them here.
   cloud: { recipe: 'float', duration: '2000ms' },
-  'cloud-arrow-down': { recipe: 'float', duration: '2000ms' },
-  'cloud-arrow-up': { recipe: 'float', duration: '2000ms' },
 
   // Content / files
   folder: { recipe: 'folder-pop', duration: '450ms' },
@@ -1814,8 +1814,8 @@ export const ICON_ANIMATIONS = {
   'document-arrow-up': { recipe: 'file-appear', duration: '500ms' },
   'document-arrow-down': { recipe: 'file-appear', duration: '500ms' },
   'document-chart-bar': { recipe: 'file-appear', duration: '500ms' },
-  'document-magnifying-glass': { recipe: 'file-appear', duration: '500ms' },
-  'document-duplicate': { recipe: 'copy-offset', duration: '450ms' },
+  // document-magnifying-glass uses 'zoom' (Search section);
+  // document-duplicate uses 'copy-offset' (Copy section) — do not re-add them here.
   'archive-box': { recipe: 'file-appear', duration: '500ms' },
   'archive-box-arrow-down': { recipe: 'file-appear', duration: '500ms' },
   'archive-box-x-mark': { recipe: 'file-appear', duration: '500ms' },
@@ -1904,7 +1904,7 @@ export const ICON_ANIMATIONS = {
   'cursor-arrow-rays': { recipe: 'tap', duration: '400ms' },
   'cursor-arrow-ripple': { recipe: 'tap', duration: '400ms' },
   'hand-raised': { recipe: 'tap', duration: '400ms' },
-  'finger-print': { recipe: 'tap', duration: '400ms' },
+  // finger-print is mapped in the Security section — do not re-add it here.
 
   // Misc
   ellipsis: { recipe: 'ellipsis-pulse', duration: '600ms' },
@@ -2096,7 +2096,14 @@ export function applyPathClasses(innerSvg, pathClasses) {
     const selfClosing = /\/\s*$/.test(attrs);
     const cleanAttrs = attrs.replace(/\/\s*$/, '');
     if (classMatch) {
-      const newAttrs = cleanAttrs.replace(classMatch[0], `class="${classMatch[1]} ${cls}"`);
+      // Idempotent: dedupe existing tokens and append only the ones not
+      // already present, so regenerating custom icons never accumulates
+      // repeated classes (menu.ts had 6 copies of lmn-path-1).
+      const tokens = [...new Set(classMatch[1].split(/\s+/).filter(Boolean))];
+      for (const token of cls.split(/\s+/).filter(Boolean)) {
+        if (!tokens.includes(token)) tokens.push(token);
+      }
+      const newAttrs = cleanAttrs.replace(classMatch[0], `class="${tokens.join(' ')}"`);
       return selfClosing ? `<${tag}${newAttrs}/>` : `<${tag}${newAttrs}>`;
     }
     return selfClosing

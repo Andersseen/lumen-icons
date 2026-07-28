@@ -41,7 +41,7 @@ Rules differ per half: the app may use Tailwind and volt-ui freely; the library 
 ## Key design decisions (and why)
 
 - **One component per icon file** — enables per-icon entry points and copy-paste distribution. The barrel (`lumen-icons/icons`) exists but is discouraged in docs.
-- **Icons are generated, not hand-written** — ~360 components are produced by `scripts/generate-icons.mjs` from Heroicons SVG sources (outline + solid) plus a recipe catalog in `scripts/animations.mjs`. This keeps 360 files consistent and lets one recipe change update dozens of icons. Generated output **is committed** so consumers and contributors don't need to run the generator.
+- **Icons are generated, not hand-written** — ~360 components are produced by `scripts/generate-icons.mjs` from Heroicons SVG sources (outline + solid, vendored in `packages/icons/svg/` — zero third-party runtime/build dependencies) plus a recipe catalog in `scripts/animations.mjs`. This keeps 360 files consistent and lets one recipe change update dozens of icons. Generated output **is committed** so consumers and contributors don't need to run the generator.
 - **Animations as "recipes"** — a recipe (e.g. `draw-scale`, `ring`, `trash-lid`) is a keyframes builder function. Icons map to recipes by name (`ICON_ANIMATIONS`) or pattern (`FALLBACK_ANIMATIONS`). This gives semantic motion at scale without per-icon CSS authoring.
 - **`LmnIconBase` abstract directive** — all shared inputs (size, tone, variant, background, …) and host bindings live in one place; icon components only carry their SVG and scoped animation styles.
 - **APF via ng-packagr + post-build exports map** — standard Angular packaging, with `scripts/build-lib.mjs` generating per-icon re-exports so `lumen-icons/<name>` resolves.
