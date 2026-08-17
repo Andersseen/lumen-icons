@@ -40,4 +40,5 @@ draft → approved → in-progress → done   (or: rejected)
 
 *(add new specs to the top)*
 
+- [2026-08-17-semantic-animation-remap.md](2026-08-17-semantic-animation-remap.md) — Phase 0/1: dedupe ICON_ANIMATIONS + semantic remap of the 75 `pulse-scale` icons (draft)
 - [2026-07-06-v0.3.0-plan.md](2026-07-06-v0.3.0-plan.md) — umbrella release plan for 0.3.0 + demo refresh (draft)

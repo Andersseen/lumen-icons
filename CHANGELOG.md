@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **34 new semantic animation recipes** in `scripts/animations.mjs` (e.g. `blink`, `chevron-cascade`, `trend-draw`, `door-enter`/`door-exit`, `stack-rise`, `cell-pop`, `screen-on`, `bubble-pop`, `cap-toss`, `tag-swing`, `receipt-print`, `grin`, `crawl`), all pure CSS, single-run with `both` fill and reduced-motion safe. See `docs/specs/2026-08-17-semantic-animation-remap.md`.
+- **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
+
+### Changed
+
+- **~90 icons remapped to semantic animations** (spec `2026-08-17-semantic-animation-remap`): the generic `pulse-scale` went from 75 icons to just 1 (`github`, brand logo). Eyes blink, double chevrons cascade, trending arrows draw themselves, login/logout icons enter/exit, stacks rise, grids pop cell by cell, screens power on, chat bubbles pop from their tail. No SVG or public API changes.
+
+### Fixed
+
+- **Shadowed duplicate keys in `ICON_ANIMATIONS`**: `cloud-arrow-down`/`cloud-arrow-up` now animate as download/upload (they silently floated); `document-magnifying-glass` zooms instead of fading in. Dead duplicate entries (`document-duplicate`, `finger-print`, nonexistent `ellipsis`) removed.
+- **Animation class accumulation on regeneration** — `applyPathClasses` now strips previously applied `lmn-path-N` classes before re-adding them, so custom icons no longer pile up duplicate classes on every `--overwrite` regen (e.g. `menu` had six copies of each).
 - **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
 - **`SECURITY.md`** and structured issue templates (bug report, icon request, feature request).
 - **Screenshots** of the demo site in `docs/assets/`, used by the rewritten README.

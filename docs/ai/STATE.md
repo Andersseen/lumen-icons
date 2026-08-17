@@ -21,6 +21,7 @@
 
 ## Recent changes (newest first)
 
+- **2026-08-17** — Semantic animation remap implemented (branch `feature/semantic-animations`, spec `2026-08-17-semantic-animation-remap`, status in-progress pending the manual visual pass). Phase 0: fixed 5 duplicate/dead keys in `ICON_ANIMATIONS` (`cloud-arrow-down/up` now download/upload, `document-magnifying-glass` zooms). Phase 1: 34 new recipes + ~90 icons remapped — `pulse-scale` dropped from 75 icons to 1 (`github`). Also fixed `applyPathClasses` class accumulation on regen (menu had 6× duplicate classes). `pnpm run check` green (3648 tests + publint). ~93 icon files regenerated. Left to do: manual visual pass in the dev app (both variants × reduced-motion), then merge.
 - **2026-07-27** — Repository presentation + deployment consolidation. README rewritten as a visual landing page (badges, comparison table, API reference, pipeline diagram) with real screenshots in `docs/assets/`; same treatment for the npm README. GitHub About now has a description and 19 topics. Added root `LICENSE`, `SECURITY.md` and issue templates. **CI/CD collapsed into one workflow** (`.github/workflows/ci.yml`, replacing `ci-cd.yml`) that builds the site once and deploys that same artifact to Cloudflare Pages — preview on PRs, production on `main`; manual deploy scripts removed. Fixed demo-site visual bugs found while screenshotting (hardcoded `v0.1`, invisible selected states in the size picker and animate toggle, overlapping icon-card actions, dead "Status" category filter).
 - **2026-07-06** — Added AI-agent documentation pack: `AGENTS.md`, `docs/ai/*` (context, state, architecture, conventions, workflows), `docs/specs/` (SDD process + template).
 - **~2026-06/07** — Animation system iterations (`feat: update animations` ×2): recipe catalog refinements in `scripts/animations.mjs`, regenerated icons.
@@ -29,6 +30,7 @@
 
 ## In progress / known gaps
 
+- **Spec in review: [docs/specs/2026-08-17-semantic-animation-remap.md](../specs/2026-08-17-semantic-animation-remap.md)** — semantic animation remap (branch `feature/semantic-animations`). Phase 0 + Phase 1 **implemented and `pnpm run check` green**; spec stays `in-progress` only for the manual visual pass in the dev app (representative icons × both variants × reduced-motion). Phases 2–3 (`file-appear`, `typewriter`, `rotate-once`, `spin` groups) get their own specs.
 - **Active plan: [docs/specs/2026-07-06-v0.3.0-plan.md](../specs/2026-07-06-v0.3.0-plan.md)** — 0.3.0 release (free-form `size`, `animateOnHover`) + demo refresh (prerender/SEO, playground parity). Status: draft, awaiting maintainer approval. Start with its P0 items.
 - ~~No root `LICENSE` file~~ — added 2026-07-27 (P0.1 done).
 - The demo site's advertised version lives in `src/app/data/site-meta.ts` — **bump it when releasing**, it is not derived from `packages/icons/package.json`.

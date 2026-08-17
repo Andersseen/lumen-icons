@@ -1584,6 +1584,751 @@ const RECIPES = {
       `,
     };
   },
+
+  // --- Semantic recipes (Phase 1: pulse-scale purge) ---
+
+  'blink'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(0.1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'drip'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translateY(0); opacity: 1; }
+          40% { transform: translateY(3px); opacity: 0.55; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'sound-waves'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.12); opacity: 0.7; }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: left center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'mute-fade'(name, duration = '400ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'slider-nudge'(name, duration = '500ms', axis = 'x') {
+    const t = (v) => (axis === 'y' ? `translateY(${v})` : `translateX(${v})`);
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: ${t('0')}; }
+          30% { transform: ${t('3px')}; }
+          70% { transform: ${t('-3px')}; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'swap-x'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(3px); }
+          75% { transform: translateX(-3px); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'swap-y'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translateY(0); }
+          25% { transform: translateY(3px); }
+          75% { transform: translateY(-3px); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'converge'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(0.8); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'diverge'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.2); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'chevron-cascade'(name, duration = '450ms', axis = 'y', distance = '-3px') {
+    const t = (v) => (axis === 'x' ? `translateX(${v})` : `translateY(${v})`);
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2'],
+      keyframes: `
+        @keyframes lmn-${name}-slide {
+          0%, 100% { transform: ${t('0')}; }
+          50% { transform: ${t(distance)}; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg .lmn-path-1 { animation: lmn-${name}-slide ${duration} ease both; }
+        .lmn-animate svg .lmn-path-2 { animation: lmn-${name}-slide ${duration} ease both 90ms; }
+      `,
+    };
+  },
+
+  'trend-draw'(name, duration = '600ms') {
+    return {
+      pathLength: true,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { stroke-dashoffset: 1; opacity: 0.4; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg path {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name} ${duration} ease-out both;
+        }
+      `,
+    };
+  },
+
+  'door-enter'(name, duration = '450ms', offset = '-4px') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: translateX(${offset}); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-out both;
+        }
+      `,
+    };
+  },
+
+  'door-exit'(name, duration = '450ms', offset = '4px') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translateX(0); opacity: 1; }
+          50% { transform: translateX(${offset}); opacity: 0.4; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'stack-rise'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: scaleY(0); opacity: 0; }
+          100% { transform: scaleY(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: bottom center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-out both;
+        }
+      `,
+    };
+  },
+
+  'cell-pop'(name, duration = '400ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4'],
+      keyframes: `
+        @keyframes lmn-${name}-cell {
+          0% { transform: scale(0.5); opacity: 0; }
+          70% { transform: scale(1.08); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg .lmn-path-1 { animation: lmn-${name}-cell ${duration} ease both; }
+        .lmn-animate svg .lmn-path-2 { animation: lmn-${name}-cell ${duration} ease both 60ms; }
+        .lmn-animate svg .lmn-path-3 { animation: lmn-${name}-cell ${duration} ease both 120ms; }
+        .lmn-animate svg .lmn-path-4 { animation: lmn-${name}-cell ${duration} ease both 180ms; }
+      `,
+    };
+  },
+
+  'screen-on'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: scaleY(0.2); opacity: 0; }
+          60% { transform: scaleY(1.02); opacity: 1; }
+          100% { transform: scaleY(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-out both;
+        }
+      `,
+    };
+  },
+
+  'core-pulse'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); }
+          20% { transform: scale(1.08); }
+          40% { transform: scale(0.97); }
+          60% { transform: scale(1.05); }
+          80% { transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'bubble-pop'(name, duration = '450ms', origin = 'bottom left') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: scale(0.6); opacity: 0; }
+          70% { transform: scale(1.08); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: ${origin};
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'shout'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: rotate(0deg) scale(1); }
+          30% { transform: rotate(-4deg) scale(1.1); }
+          60% { transform: rotate(2deg) scale(1.05); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: left center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'emit'(name, duration = '600ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.06); opacity: 0.6; }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: bottom center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'cap-toss'(name, duration = '550ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          40% { transform: translateY(-5px) rotate(-8deg); }
+          70% { transform: translateY(1px) rotate(2deg); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'shine'(name, duration = '550ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          25% { transform: scale(1.05); opacity: 0.75; }
+          50% { transform: scale(1.1); opacity: 1; }
+          75% { transform: scale(1.05); opacity: 0.85; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'fan'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: rotate(0deg); }
+          50% { transform: rotate(10deg); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: bottom left;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'funnel-drain'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translateY(0) scaleY(1); }
+          50% { transform: translateY(2px) scaleY(0.92); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: top center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'package-pop'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: translateY(-4px); opacity: 0.7; }
+          60% { transform: translateY(1px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: bottom center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'grin'(name, duration = '450ms', energy = 1) {
+    const peak = 1 + 0.12 * energy;
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(${peak.toFixed(3)}); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'frame-flip'(name, duration = '600ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 24% { opacity: 1; }
+          25%, 49% { opacity: 0.5; }
+          50%, 74% { opacity: 1; }
+          75%, 99% { opacity: 0.5; }
+          100% { opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'translate-flip'(name, duration = '600ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: rotateY(0deg); }
+          100% { transform: rotateY(360deg); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'tag-swing'(name, duration = '550ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-10deg); }
+          60% { transform: rotate(6deg); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: 75% 25%;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
+
+  'receipt-print'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: translateY(-3px); opacity: 0.5; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-out both;
+        }
+      `,
+    };
+  },
+
+  'percent-pop'(name, duration = '400ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); }
+          30% { transform: scale(1.12); }
+          55% { transform: scale(0.95); }
+          80% { transform: scale(1.05); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'share-cast'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translate(0, 0); opacity: 1; }
+          50% { transform: translate(2px, -2px); opacity: 0.75; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease both;
+        }
+      `,
+    };
+  },
+
+  'focus-lock'(name, duration = '450ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: scale(1); }
+          40% { transform: scale(1.1); }
+          70% { transform: scale(0.98); }
+        }
+      `,
+      base: `
+        .lmn-animate svg {
+          transform-origin: center;
+        }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-out both;
+        }
+      `,
+    };
+  },
+
+  'crawl'(name, duration = '500ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0%, 100% { transform: translate(0, 0); }
+          20% { transform: translate(1px, -1px); }
+          40% { transform: translate(-1px, 1px); }
+          60% { transform: translate(1px, 1px); }
+          80% { transform: translate(-1px, -1px); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} ease-in-out both;
+        }
+      `,
+    };
+  },
 };
 
 /**
@@ -1718,15 +2463,15 @@ export const ICON_ANIMATIONS = {
   'envelope-open': { recipe: 'open-envelope', duration: '500ms' },
   send: { recipe: 'send-plane', duration: '550ms' },
   'paper-airplane': { recipe: 'send-plane', duration: '550ms' },
-  'chat-bubble-bottom-center': { recipe: 'pulse-scale', duration: '450ms' },
-  'chat-bubble-bottom-center-text': { recipe: 'pulse-scale', duration: '450ms' },
-  'chat-bubble-left': { recipe: 'pulse-scale', duration: '450ms' },
-  'chat-bubble-left-ellipsis': { recipe: 'pulse-scale', duration: '450ms' },
-  'chat-bubble-left-right': { recipe: 'pulse-scale', duration: '450ms' },
-  'chat-bubble-oval-left': { recipe: 'pulse-scale', duration: '450ms' },
-  'chat-bubble-oval-left-ellipsis': { recipe: 'pulse-scale', duration: '450ms' },
-  'message-circle': { recipe: 'pulse-scale', duration: '450ms' },
-  megaphone: { recipe: 'pulse-scale', duration: '450ms' },
+  'chat-bubble-bottom-center': { recipe: 'bubble-pop', duration: '450ms', args: ['bottom center'] },
+  'chat-bubble-bottom-center-text': { recipe: 'bubble-pop', duration: '450ms', args: ['bottom center'] },
+  'chat-bubble-left': { recipe: 'bubble-pop', duration: '450ms' },
+  'chat-bubble-left-ellipsis': { recipe: 'bubble-pop', duration: '450ms' },
+  'chat-bubble-left-right': { recipe: 'bubble-pop', duration: '450ms', args: ['bottom center'] },
+  'chat-bubble-oval-left': { recipe: 'bubble-pop', duration: '450ms' },
+  'chat-bubble-oval-left-ellipsis': { recipe: 'bubble-pop', duration: '450ms' },
+  'message-circle': { recipe: 'bubble-pop', duration: '450ms' },
+  megaphone: { recipe: 'shout', duration: '500ms' },
   phone: { recipe: 'phone-vibrate', duration: '450ms' },
   'phone-arrow-down-left': { recipe: 'phone-vibrate', duration: '450ms' },
   'phone-arrow-up-right': { recipe: 'phone-vibrate', duration: '450ms' },
@@ -1789,12 +2534,10 @@ export const ICON_ANIMATIONS = {
   variable: { recipe: 'typewriter', duration: '500ms' },
   calculator: { recipe: 'typewriter', duration: '500ms' },
   'at-symbol': { recipe: 'typewriter', duration: '500ms' },
-  'cpu-chip': { recipe: 'pulse-scale', duration: '450ms' },
+  'cpu-chip': { recipe: 'core-pulse', duration: '500ms' },
 
   // Cloud / weather
   cloud: { recipe: 'float', duration: '2000ms' },
-  'cloud-arrow-down': { recipe: 'float', duration: '2000ms' },
-  'cloud-arrow-up': { recipe: 'float', duration: '2000ms' },
 
   // Content / files
   folder: { recipe: 'folder-pop', duration: '450ms' },
@@ -1814,8 +2557,6 @@ export const ICON_ANIMATIONS = {
   'document-arrow-up': { recipe: 'file-appear', duration: '500ms' },
   'document-arrow-down': { recipe: 'file-appear', duration: '500ms' },
   'document-chart-bar': { recipe: 'file-appear', duration: '500ms' },
-  'document-magnifying-glass': { recipe: 'file-appear', duration: '500ms' },
-  'document-duplicate': { recipe: 'copy-offset', duration: '450ms' },
   'archive-box': { recipe: 'file-appear', duration: '500ms' },
   'archive-box-arrow-down': { recipe: 'file-appear', duration: '500ms' },
   'archive-box-x-mark': { recipe: 'file-appear', duration: '500ms' },
@@ -1843,7 +2584,7 @@ export const ICON_ANIMATIONS = {
   'lock-closed': { recipe: 'lock-click', duration: '400ms' },
   'lock-open': { recipe: 'unlock', duration: '500ms' },
   key: { recipe: 'rotate-once', duration: '500ms', args: [90] },
-  shield: { recipe: 'pulse-scale', duration: '450ms' },
+  shield: { recipe: 'core-pulse', duration: '450ms' },
   'shield-check': { recipe: 'draw-scale', duration: '500ms' },
   'shield-exclamation': { recipe: 'wiggle', duration: '450ms' },
   'finger-print': { recipe: 'tap', duration: '400ms' },
@@ -1869,11 +2610,11 @@ export const ICON_ANIMATIONS = {
   'currency-rupee': { recipe: 'banknote-flutter', duration: '600ms' },
   'currency-bangladeshi': { recipe: 'banknote-flutter', duration: '600ms' },
   truck: { recipe: 'truck-move', duration: '600ms' },
-  wallet: { recipe: 'pulse-scale', duration: '450ms' },
-  tag: { recipe: 'pulse-scale', duration: '450ms' },
-  'percent-badge': { recipe: 'pulse-scale', duration: '450ms' },
-  'receipt-percent': { recipe: 'pulse-scale', duration: '450ms' },
-  'receipt-refund': { recipe: 'pulse-scale', duration: '450ms' },
+  wallet: { recipe: 'calendar-flip', duration: '500ms' },
+  tag: { recipe: 'tag-swing', duration: '550ms' },
+  'percent-badge': { recipe: 'percent-pop', duration: '400ms' },
+  'receipt-percent': { recipe: 'receipt-print', duration: '500ms' },
+  'receipt-refund': { recipe: 'receipt-print', duration: '500ms' },
   scale: { recipe: 'rotate-once', duration: '500ms', args: [180] },
 
   // Charts
@@ -1895,28 +2636,91 @@ export const ICON_ANIMATIONS = {
   map: { recipe: 'globe-spin', duration: '900ms' },
   trophy: { recipe: 'trophy-shine', duration: '600ms' },
   beaker: { recipe: 'wiggle', duration: '450ms' },
-  'device-tablet': { recipe: 'pulse-scale', duration: '450ms' },
-  'computer-desktop': { recipe: 'pulse-scale', duration: '450ms' },
-  tv: { recipe: 'pulse-scale', duration: '450ms' },
-  window: { recipe: 'pulse-scale', duration: '450ms' },
+  'device-tablet': { recipe: 'screen-on', duration: '450ms' },
+  'computer-desktop': { recipe: 'screen-on', duration: '500ms' },
+  tv: { recipe: 'screen-on', duration: '450ms' },
+  window: { recipe: 'screen-on', duration: '400ms' },
 
   // Interaction
   'cursor-arrow-rays': { recipe: 'tap', duration: '400ms' },
   'cursor-arrow-ripple': { recipe: 'tap', duration: '400ms' },
   'hand-raised': { recipe: 'tap', duration: '400ms' },
-  'finger-print': { recipe: 'tap', duration: '400ms' },
+
+  // Semantic remap — Phase 1 (docs/specs/2026-08-17-semantic-animation-remap.md)
+  'arrow-trending-up': { recipe: 'trend-draw', duration: '600ms' },
+  'arrow-trending-down': { recipe: 'trend-draw', duration: '600ms' },
+  'arrows-pointing-in': { recipe: 'converge', duration: '450ms' },
+  'arrows-pointing-out': { recipe: 'diverge', duration: '450ms' },
+  'arrows-right-left': { recipe: 'swap-x', duration: '450ms' },
+  'arrows-up-down': { recipe: 'swap-y', duration: '450ms' },
+  'chevron-up-down': { recipe: 'swap-y', duration: '400ms' },
+  'chevron-double-up': { recipe: 'chevron-cascade', duration: '450ms', args: ['y', '-3px'] },
+  'chevron-double-down': { recipe: 'chevron-cascade', duration: '450ms', args: ['y', '3px'] },
+  'chevron-double-left': { recipe: 'chevron-cascade', duration: '450ms', args: ['x', '-3px'] },
+  'chevron-double-right': { recipe: 'chevron-cascade', duration: '450ms', args: ['x', '3px'] },
+  'log-in': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
+  'log-out': { recipe: 'door-exit', duration: '450ms', args: ['4px'] },
+  'arrow-right-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
+  'arrow-left-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['4px'] },
+  'arrow-right-start-on-rectangle': { recipe: 'door-exit', duration: '450ms', args: ['4px'] },
+  'arrow-left-start-on-rectangle': { recipe: 'door-exit', duration: '450ms', args: ['-4px'] },
+  'arrow-right-end-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
+  'arrow-left-end-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['4px'] },
+  'arrow-down-on-square': { recipe: 'download-arrow', duration: '550ms' },
+  'arrow-down-on-square-stack': { recipe: 'download-arrow', duration: '550ms' },
+  'arrow-up-on-square': { recipe: 'upload-arrow', duration: '550ms' },
+  'arrow-up-on-square-stack': { recipe: 'upload-arrow', duration: '550ms' },
+  'speaker-wave': { recipe: 'sound-waves', duration: '500ms' },
+  'speaker-x-mark': { recipe: 'mute-fade', duration: '400ms' },
+  radio: { recipe: 'emit', duration: '600ms' },
+  gif: { recipe: 'frame-flip', duration: '600ms' },
+  database: { recipe: 'stack-rise', duration: '500ms' },
+  server: { recipe: 'stack-rise', duration: '500ms' },
+  'server-stack': { recipe: 'stack-rise', duration: '550ms' },
+  'circle-stack': { recipe: 'stack-rise', duration: '500ms' },
+  'rectangle-stack': { recipe: 'stack-rise', duration: '500ms' },
+  'square-2-stack': { recipe: 'stack-rise', duration: '500ms' },
+  'square-3-stack-3d': { recipe: 'stack-rise', duration: '550ms' },
+  grid: { recipe: 'cell-pop', duration: '450ms' },
+  'squares-2x2': { recipe: 'cell-pop', duration: '450ms' },
+  'squares-plus': { recipe: 'cell-pop', duration: '450ms' },
+  'table-cells': { recipe: 'cell-pop', duration: '450ms' },
+  'view-columns': { recipe: 'cell-pop', duration: '450ms' },
+  'rectangle-group': { recipe: 'cell-pop', duration: '450ms' },
+  'queue-list': { recipe: 'cell-pop', duration: '450ms' },
+  'building-library': { recipe: 'stack-rise', duration: '550ms' },
+  'building-office': { recipe: 'stack-rise', duration: '500ms' },
+  'building-office-2': { recipe: 'stack-rise', duration: '500ms' },
+  'building-storefront': { recipe: 'stack-rise', duration: '550ms' },
+  'academic-cap': { recipe: 'cap-toss', duration: '550ms' },
+  briefcase: { recipe: 'lock-click', duration: '400ms' },
+  badge: { recipe: 'shine', duration: '550ms' },
+  swatch: { recipe: 'fan', duration: '500ms' },
+  filter: { recipe: 'funnel-drain', duration: '500ms' },
+  funnel: { recipe: 'funnel-drain', duration: '500ms' },
+  package: { recipe: 'package-pop', duration: '500ms' },
+  'face-smile': { recipe: 'grin', duration: '450ms', args: [1] },
+  smile: { recipe: 'grin', duration: '450ms', args: [1.1] },
+  'face-frown': { recipe: 'grin', duration: '600ms', args: [0.5] },
+  language: { recipe: 'translate-flip', duration: '600ms' },
+  share: { recipe: 'share-cast', duration: '450ms' },
+  'viewfinder-circle': { recipe: 'focus-lock', duration: '450ms' },
+  'bug-ant': { recipe: 'crawl', duration: '500ms' },
+  lifebuoy: { recipe: 'float', duration: '1200ms' },
+  'adjustments-horizontal': { recipe: 'slider-nudge', duration: '500ms', args: ['x'] },
+  'adjustments-vertical': { recipe: 'slider-nudge', duration: '500ms', args: ['y'] },
 
   // Misc
-  ellipsis: { recipe: 'ellipsis-pulse', duration: '600ms' },
   'ellipsis-horizontal': { recipe: 'ellipsis-pulse', duration: '600ms' },
   'ellipsis-vertical': { recipe: 'ellipsis-pulse', duration: '600ms' },
   'ellipsis-horizontal-circle': { recipe: 'ellipsis-pulse', duration: '600ms' },
+  'more-vertical': { recipe: 'ellipsis-pulse', duration: '600ms' },
   'qr-code': { recipe: 'scan', duration: '700ms' },
-  eye: { recipe: 'pulse-scale', duration: '450ms' },
-  'eye-slash': { recipe: 'pulse-scale', duration: '450ms' },
-  'eye-dropper': { recipe: 'pulse-scale', duration: '450ms' },
-  link: { recipe: 'pulse-scale', duration: '450ms' },
-  'link-slash': { recipe: 'pulse-scale', duration: '450ms' },
+  eye: { recipe: 'blink', duration: '450ms' },
+  'eye-slash': { recipe: 'blink', duration: '500ms' },
+  'eye-dropper': { recipe: 'drip', duration: '500ms' },
+  link: { recipe: 'draw-underline', duration: '500ms' },
+  'link-slash': { recipe: 'draw-strikethrough', duration: '500ms' },
 };
 
 /**
@@ -1951,19 +2755,19 @@ export const FALLBACK_ANIMATIONS = [
   // Communication
   { match: n => n.includes('mail') || n.includes('envelope'), recipe: 'open-envelope', duration: '500ms' },
   { match: n => n === 'send' || n.includes('paper-airplane'), recipe: 'send-plane', duration: '550ms' },
-  { match: n => n.includes('chat') || n.includes('message') || n === 'chat-bubble-oval-left' || n === 'chat-bubble-oval-left-ellipsis', recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n.includes('chat') || n.includes('message') || n === 'chat-bubble-oval-left' || n === 'chat-bubble-oval-left-ellipsis', recipe: 'bubble-pop', duration: '450ms' },
   { match: n => n.includes('phone') || n === 'device-phone-mobile', recipe: 'phone-vibrate', duration: '450ms' },
-  { match: n => n === 'megaphone', recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n === 'megaphone', recipe: 'shout', duration: '500ms' },
   { match: n => n === 'rss', recipe: 'wave', duration: '600ms' },
 
   // Feedback / social
   { match: n => n.includes('heart') || n.includes('like') || n.includes('star') || n.includes('fav'), recipe: 'beat' },
   { match: n => n === 'hand-thumb-up', recipe: 'thumbs-up', duration: '500ms' },
   { match: n => n === 'hand-thumb-down', recipe: 'thumbs-down', duration: '500ms' },
-  { match: n => n.includes('bell') || n === 'lifebuoy', recipe: 'ring', duration: '500ms' },
+  { match: n => n.includes('bell'), recipe: 'ring', duration: '500ms' },
   { match: n => n.includes('exclamation') || n.includes('warning') || n.includes('question') || n === 'alert-circle' || n === 'info' || n === 'information-circle', recipe: 'wiggle', duration: '450ms' },
   { match: n => n === 'no-symbol' || n === 'hand-raised' || n === 'bug-ant', recipe: 'no-shake', duration: '450ms' },
-  { match: n => n.includes('smile') || n.includes('frown'), recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n.includes('smile') || n.includes('frown'), recipe: 'grin', duration: '450ms' },
 
   // Media
   { match: n => n.includes('play') || n.includes('pause') || n === 'stop' || n === 'stop-circle', recipe: 'play-morph', duration: '400ms' },
@@ -1976,8 +2780,8 @@ export const FALLBACK_ANIMATIONS = [
   { match: n => n === 'sun' || n === 'fire' || n === 'zap' || n === 'bolt' || n === 'bolt-slash' || n === 'sparkles' || n === 'light-bulb' || n === 'cake' || n === 'power', recipe: 'glow', duration: '700ms' },
   { match: n => n === 'moon', recipe: 'moon-wobble', duration: '800ms' },
   { match: n => n.includes('wifi') || n.includes('signal') || n.includes('battery'), recipe: 'wave', duration: '600ms' },
-  { match: n => n === 'cpu-chip' || n === 'command-line' || n.includes('chip'), recipe: 'pulse-scale', duration: '450ms' },
-  { match: n => n === 'radio', recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n === 'cpu-chip' || n === 'command-line' || n.includes('chip'), recipe: 'core-pulse', duration: '500ms' },
+  { match: n => n === 'radio', recipe: 'emit', duration: '600ms' },
   { match: n => n === 'qr-code', recipe: 'scan', duration: '700ms' },
 
   // Content / files
@@ -1995,7 +2799,7 @@ export const FALLBACK_ANIMATIONS = [
   { match: n => n === 'lock-closed' || n === 'lock', recipe: 'lock-click', duration: '400ms' },
   { match: n => n === 'lock-open', recipe: 'unlock', duration: '500ms' },
   { match: n => n === 'key', recipe: 'rotate-once', duration: '500ms', args: [90] },
-  { match: n => n.includes('shield'), recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n.includes('shield'), recipe: 'core-pulse', duration: '450ms' },
   { match: n => n === 'finger-print', recipe: 'tap', duration: '400ms' },
 
   // Users
@@ -2025,17 +2829,17 @@ export const FALLBACK_ANIMATIONS = [
   { match: n => n === 'beaker', recipe: 'wiggle', duration: '450ms' },
   { match: n => n === 'cube' || n === 'cube-transparent' || n === 'puzzle-piece' || n === 'wrench' || n === 'wrench-screwdriver' || n === 'paper-clip' || n === 'paperclip', recipe: 'rotate-once', args: [180] },
   { match: n => n === 'printer', recipe: 'file-appear', duration: '500ms' },
-  { match: n => n === 'device-tablet' || n === 'computer-desktop' || n === 'tv' || n === 'window', recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n === 'device-tablet' || n === 'computer-desktop' || n === 'tv' || n === 'window', recipe: 'screen-on', duration: '450ms' },
 
   // Navigation / layout
   { match: n => n === 'home' || n === 'home-modern', recipe: 'home-bounce', duration: '500ms' },
   { match: n => n.includes('menu') || n.includes('bars'), recipe: 'menu-morph', duration: '400ms' },
   { match: n => n.includes('search') || n.includes('magnifying'), recipe: 'zoom', duration: '500ms' },
   { match: n => n.includes('ellipsis'), recipe: 'ellipsis-pulse', duration: '600ms' },
-  { match: n => n.includes('grid') || n.includes('squares') || n === 'view-columns' || n === 'rectangle-group' || n === 'rectangle-stack' || n === 'square-2-stack' || n === 'square-3-stack-3d', recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n.includes('grid') || n.includes('squares') || n === 'view-columns' || n === 'rectangle-group' || n === 'rectangle-stack' || n === 'square-2-stack' || n === 'square-3-stack-3d', recipe: 'cell-pop', duration: '450ms' },
   { match: n => n.includes('cursor') || n.includes('hand') || n.includes('finger') || n.includes('tap'), recipe: 'tap', duration: '400ms' },
-  { match: n => n === 'eye' || n === 'eye-slash' || n === 'eye-dropper', recipe: 'pulse-scale', duration: '450ms' },
-  { match: n => n === 'link' || n === 'link-slash', recipe: 'pulse-scale', duration: '450ms' },
+  { match: n => n === 'eye' || n === 'eye-slash' || n === 'eye-dropper', recipe: 'blink', duration: '450ms' },
+  { match: n => n === 'link' || n === 'link-slash', recipe: 'draw-underline', duration: '500ms' },
 
   // Cloud / weather
   { match: n => n.includes('cloud'), recipe: 'float', duration: '2000ms' },
@@ -2086,10 +2890,18 @@ export function buildAnimation(name) {
 export function applyPathClasses(innerSvg, pathClasses) {
   if (!pathClasses || pathClasses.length === 0) return innerSvg;
 
+  // Strip previously applied path classes first: custom icons are re-emitted
+  // from their committed (already-classed) markup, so without this every
+  // regeneration would append another duplicate set of lmn-path-N classes.
+  const stripped = innerSvg.replace(/class="([^"]*)"/g, (match, classes) => {
+    const kept = classes.split(/\s+/).filter(c => !/^lmn-path-\d+$/.test(c));
+    return kept.length ? `class="${kept.join(' ')}"` : '';
+  });
+
   const tagPattern = /<(path|line|circle|rect|polyline|polygon|g)\b([^>]*)>/gi;
   let index = 0;
 
-  return innerSvg.replace(tagPattern, (match, tag, attrs) => {
+  return stripped.replace(tagPattern, (match, tag, attrs) => {
     if (index >= pathClasses.length) return match;
     const cls = pathClasses[index++];
     const classMatch = attrs.match(/class="([^"]*)"/);
