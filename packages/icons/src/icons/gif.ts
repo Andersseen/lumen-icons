@@ -13,8 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-gif {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 24% { opacity: 1; }
+          25%, 49% { opacity: 0.5; }
+          50%, 74% { opacity: 1; }
+          75%, 99% { opacity: 0.5; }
+          100% { opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +30,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-gif 500ms ease both;
+          animation: lmn-gif 600ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

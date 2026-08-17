@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-smile {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.132); }
         }
 
     :host(.lmn-animate) svg path,
@@ -25,6 +25,10 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-box: fill-box;
       transform-origin: center;
     }
+
+    :host(.lmn-animate) svg {
+          transform-origin: center;
+        }
 
     :host(.lmn-animate) svg {
           animation: lmn-smile 450ms ease both;

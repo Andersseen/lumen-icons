@@ -14,7 +14,7 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-radio {
           0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          50% { transform: scale(1.06); opacity: 0.6; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,11 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-radio 450ms ease both;
+          transform-origin: bottom center;
+        }
+
+    :host(.lmn-animate) svg {
+          animation: lmn-radio 600ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

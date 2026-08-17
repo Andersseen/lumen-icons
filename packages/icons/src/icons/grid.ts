@@ -12,9 +12,10 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-grid {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+    @keyframes lmn-grid-cell {
+          0% { transform: scale(0.5); opacity: 0; }
+          70% { transform: scale(1.08); }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,9 +27,10 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-grid 450ms ease both;
-        }
+    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-grid-cell 450ms ease both; }
+        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-grid-cell 450ms ease both 60ms; }
+        :host(.lmn-animate) svg .lmn-path-3 { animation: lmn-grid-cell 450ms ease both 120ms; }
+        :host(.lmn-animate) svg .lmn-path-4 { animation: lmn-grid-cell 450ms ease both 180ms; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -64,7 +66,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
+      <rect class="lmn-path-1" width="7" height="7" x="3" y="3" rx="1"/><rect class="lmn-path-2" width="7" height="7" x="14" y="3" rx="1"/><rect class="lmn-path-3" width="7" height="7" x="14" y="14" rx="1"/><rect class="lmn-path-4" width="7" height="7" x="3" y="14" rx="1"/>
     </svg>
   `,
 })

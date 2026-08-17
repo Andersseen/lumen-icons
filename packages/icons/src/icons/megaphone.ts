@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-megaphone {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: rotate(0deg) scale(1); }
+          30% { transform: rotate(-4deg) scale(1.1); }
+          60% { transform: rotate(2deg) scale(1.05); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +28,11 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-megaphone 450ms ease both;
+          transform-origin: left center;
+        }
+
+    :host(.lmn-animate) svg {
+          animation: lmn-megaphone 500ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

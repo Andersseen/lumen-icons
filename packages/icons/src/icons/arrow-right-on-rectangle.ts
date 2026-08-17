@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-arrow-right-on-rectangle {
-          0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(5px); }
+          0% { transform: translateX(-4px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-arrow-right-on-rectangle 400ms ease both;
+          animation: lmn-arrow-right-on-rectangle 450ms ease-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

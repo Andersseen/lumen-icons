@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-funnel {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          0%, 100% { transform: translateY(0) scaleY(1); }
+          50% { transform: translateY(2px) scaleY(0.92); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,11 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-funnel 500ms ease both;
+          transform-origin: top center;
+        }
+
+    :host(.lmn-animate) svg {
+          animation: lmn-funnel 500ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {

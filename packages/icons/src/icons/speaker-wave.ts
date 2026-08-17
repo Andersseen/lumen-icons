@@ -14,7 +14,7 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-speaker-wave {
           0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          50% { transform: scale(1.12); opacity: 0.7; }
         }
 
     :host(.lmn-animate) svg path,
@@ -25,6 +25,10 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-box: fill-box;
       transform-origin: center;
     }
+
+    :host(.lmn-animate) svg {
+          transform-origin: left center;
+        }
 
     :host(.lmn-animate) svg {
           animation: lmn-speaker-wave 500ms ease both;
