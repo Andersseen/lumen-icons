@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **34 new semantic animation recipes** in `scripts/animations.mjs` (e.g. `blink`, `chevron-cascade`, `trend-draw`, `door-enter`/`door-exit`, `stack-rise`, `cell-pop`, `screen-on`, `bubble-pop`, `cap-toss`, `tag-swing`, `receipt-print`, `grin`, `crawl`), all pure CSS, single-run with `both` fill and reduced-motion safe. See `docs/specs/2026-08-17-semantic-animation-remap.md`.
+- **Per-part animation machinery**: recipes can now declare `splitPaths` (the generator splits compound `<path>` d's into one element per subpath, converting relative `m` starts to absolute) and variant-scoped CSS markers `.lmn-animate--outline` / `.lmn-animate--filled`, so animations can move *parts* of an icon (slider pins, box lids, a lone arrow) without touching SVG sources.
+- **Directed animations for the first 15 catalog icons** (spec addendum 2026-08-18): `academic-cap` tosses and fades back; `adjustments-*` move only their pins; the three `archive-box` variants open the lid with a distinct action each (peek / arrow drops in / X pops out); plain arrows draw themselves drifting toward their direction; download arrows draw only the arrow, never the container.
+- **34 new semantic animation recipes** in `scripts/animations.mjs` (e.g. `blink`, `chevron-cascade`, `trend-draw`, `door-enter`/`door-exit`, `stack-rise`, `cell-pop`, `screen-on`, `bubble-pop`, `cap-toss-fade`, `tag-swing`, `receipt-print`, `grin`, `crawl`), all pure CSS, single-run with `both` fill and reduced-motion safe. See `docs/specs/2026-08-17-semantic-animation-remap.md`.
 - **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
 
 ### Changed
@@ -18,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Broken split-path icon geometry** — implicit relative line segments following a converted `m` command now remain relative, preventing malformed arrow strokes in the new per-part archive/download animations.
+- **Arrow draw direction and pacing** — the shaft now draws from its tail to the tip before the arrowhead resolves, using a longer eased motion instead of starting at the point.
 - **Shadowed duplicate keys in `ICON_ANIMATIONS`**: `cloud-arrow-down`/`cloud-arrow-up` now animate as download/upload (they silently floated); `document-magnifying-glass` zooms instead of fading in. Dead duplicate entries (`document-duplicate`, `finger-print`, nonexistent `ellipsis`) removed.
 - **Animation class accumulation on regeneration** — `applyPathClasses` now strips previously applied `lmn-path-N` classes before re-adding them, so custom icons no longer pile up duplicate classes on every `--overwrite` regen (e.g. `menu` had six copies of each).
 - **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.

@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyPathClasses, applyPathLength, buildAnimation, composeStyles } from './animations.mjs';
+import { applyPathClasses, applyPathLength, buildAnimation, composeStyles, reverseStraightPaths, splitSubpaths } from './animations.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const outlineDir = join(root, 'node_modules/heroicons/24/outline');
@@ -292,9 +292,16 @@ function generateIconFiles(svgFiles) {
     }
 
     const animation = buildAnimation(name);
+    if (animation.splitPaths) {
+      outlineSvg = splitSubpaths(outlineSvg);
+      if (animation.splitPaths === 'both' && filledSvg) filledSvg = splitSubpaths(filledSvg);
+    }
     if (animation.pathClasses.length > 0) {
       outlineSvg = applyPathClasses(outlineSvg, animation.pathClasses);
       if (filledSvg) filledSvg = applyPathClasses(filledSvg, animation.pathClasses);
+    }
+    if (animation.reversePaths?.length) {
+      outlineSvg = reverseStraightPaths(outlineSvg, animation.reversePaths);
     }
     if (animation.pathLength) {
       outlineSvg = applyPathLength(outlineSvg);
@@ -330,6 +337,9 @@ function regenerateCustomIcons(outlineNames) {
 
     const className = toClassName(name);
     const animation = buildAnimation(name);
+    if (animation.splitPaths) {
+      innerSvg = splitSubpaths(innerSvg);
+    }
     if (animation.pathClasses.length > 0) {
       innerSvg = applyPathClasses(innerSvg, animation.pathClasses);
     }

@@ -12,7 +12,15 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-adjustments-vertical {
+    @keyframes lmn-adjustments-vertical-pin-a {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(2px); }
+        }
+        @keyframes lmn-adjustments-vertical-pin-b {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-2px); }
+        }
+        @keyframes lmn-adjustments-vertical-nudge {
           0%, 100% { transform: translateY(0); }
           30% { transform: translateY(3px); }
           70% { transform: translateY(-3px); }
@@ -27,9 +35,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-adjustments-vertical 500ms ease-in-out both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation: lmn-adjustments-vertical-pin-a 600ms ease-in-out both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-7 { animation: lmn-adjustments-vertical-pin-b 600ms ease-in-out both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-10,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-11 { animation: lmn-adjustments-vertical-pin-a 600ms ease-in-out both 80ms; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-adjustments-vertical-nudge 600ms ease-in-out both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -56,7 +68,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M6 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 1 1 1.5 0v7.5A.75.75 0 0 1 6 12ZM18 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 18 12ZM6.75 20.25v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0ZM18.75 18.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 1.5 0ZM12.75 5.25v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0ZM12 21a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 12 21ZM3.75 15a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0ZM12 11.25a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5ZM15.75 15a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0Z"/>
+      <path class="lmn-path-1" d="M6 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 1 1 1.5 0v7.5A.75.75 0 0 1 6 12ZM18 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 18 12ZM6.75 20.25v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0ZM18.75 18.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 1.5 0ZM12.75 5.25v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0ZM12 21a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 12 21ZM3.75 15a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0ZM12 11.25a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5ZM15.75 15a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0Z"/>
     </svg>
     } @else {
       <svg
@@ -72,7 +84,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5"/>
+      <path class="lmn-path-1" d="M6 13.5 V3.75"/><path class="lmn-path-2" d="M6 13.5 a1.5 1.5 0 0 1 0 3"/><path class="lmn-path-3" d="M6 13.5 a1.5 1.5 0 0 0 0 3"/><path class="lmn-path-4" d="M6 20.25 V16.5"/><path class="lmn-path-5" d="M18 13.5 V3.75"/><path class="lmn-path-6" d="M18 13.5 a1.5 1.5 0 0 1 0 3"/><path class="lmn-path-7" d="M18 13.5 a1.5 1.5 0 0 0 0 3"/><path class="lmn-path-8" d="M18 20.25 V16.5"/><path class="lmn-path-9" d="M12 7.5 V3.75"/><path class="lmn-path-10" d="M12 7.5 a1.5 1.5 0 0 1 0 3"/><path class="lmn-path-11" d="M12 7.5 a1.5 1.5 0 0 0 0 3"/><path class="lmn-path-12" d="M12 20.25 V10.5"/>
     </svg>
     }
   `,

@@ -40,6 +40,12 @@ const animateBase = `
  * @property {string} animate
  * @property {string[]} pathClasses
  * @property {boolean} pathLength
+ * @property {boolean|'outline'|'both'} splitPaths — split compound <path> d's into
+ * one element per subpath so recipes can animate parts ('outline' = outline variant
+ * only, the default for true; 'both' = outline and filled). Never split filled
+ * compound paths whose subpaths punch holes (winding) — check before opting in.
+ * @property {number[]} [reversePaths] — indices of split, straight outline paths
+ * whose drawing direction should be reversed before assigning path length.
  */
 
 /** @type {Record<string, (name: string, duration?: string) => AnimationRecipeResult>} */
@@ -1671,13 +1677,28 @@ const RECIPES = {
     };
   },
 
-  'slider-nudge'(name, duration = '500ms', axis = 'x') {
+  'slider-pins'(name, duration = '600ms', axis = 'x') {
     const t = (v) => (axis === 'y' ? `translateY(${v})` : `translateX(${v})`);
+    // Outline variant is split into 12 subpaths (3 rows × line/knob/knob/line);
+    // only the knob subpaths move. Filled stays whole: subtle nudge fallback.
     return {
       pathLength: false,
-      pathClasses: [],
+      pathClasses: [
+        'lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4',
+        'lmn-path-5', 'lmn-path-6', 'lmn-path-7', 'lmn-path-8',
+        'lmn-path-9', 'lmn-path-10', 'lmn-path-11', 'lmn-path-12',
+      ],
+      splitPaths: true,
       keyframes: `
-        @keyframes lmn-${name} {
+        @keyframes lmn-${name}-pin-a {
+          0%, 100% { transform: ${t('0')}; }
+          50% { transform: ${t('2px')}; }
+        }
+        @keyframes lmn-${name}-pin-b {
+          0%, 100% { transform: ${t('0')}; }
+          50% { transform: ${t('-2px')}; }
+        }
+        @keyframes lmn-${name}-nudge {
           0%, 100% { transform: ${t('0')}; }
           30% { transform: ${t('3px')}; }
           70% { transform: ${t('-3px')}; }
@@ -1685,9 +1706,13 @@ const RECIPES = {
       `,
       base: '',
       animate: `
-        .lmn-animate svg {
-          animation: lmn-${name} ${duration} ease-in-out both;
-        }
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3 { animation: lmn-${name}-pin-a ${duration} ease-in-out both; }
+        .lmn-animate--outline svg .lmn-path-6,
+        .lmn-animate--outline svg .lmn-path-7 { animation: lmn-${name}-pin-b ${duration} ease-in-out both; }
+        .lmn-animate--outline svg .lmn-path-10,
+        .lmn-animate--outline svg .lmn-path-11 { animation: lmn-${name}-pin-a ${duration} ease-in-out both 80ms; }
+        .lmn-animate--filled svg { animation: lmn-${name}-nudge ${duration} ease-in-out both; }
       `,
     };
   },
@@ -2021,21 +2046,22 @@ const RECIPES = {
     };
   },
 
-  'cap-toss'(name, duration = '550ms') {
+  'cap-toss-fade'(name, duration = '700ms') {
     return {
       pathLength: false,
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          40% { transform: translateY(-5px) rotate(-8deg); }
-          70% { transform: translateY(1px) rotate(2deg); }
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          35% { transform: translateY(-8px) rotate(-16deg); opacity: 0; }
+          60% { transform: translateY(0) rotate(0deg); opacity: 0; }
+          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
         }
       `,
       base: '',
       animate: `
         .lmn-animate svg {
-          animation: lmn-${name} ${duration} ease both;
+          animation: lmn-${name} ${duration} ease-in-out both;
         }
       `,
     };
@@ -2329,6 +2355,213 @@ const RECIPES = {
       `,
     };
   },
+
+  // --- Directed per-icon recipes (batch of 2026-08-18, first 15 catalog icons) ---
+
+  'archive-peek'(name, duration = '650ms') {
+    // Outline split: [1]=body [2]=handle [3]=lid. Filled: [1]=lid [2]=box.
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-lid {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          25%, 55% { transform: translateY(-2.5px) rotate(-7deg); }
+        }
+      `,
+      base: `
+        .lmn-animate--outline svg .lmn-path-3,
+        .lmn-animate--filled svg .lmn-path-1 {
+          transform-origin: left center;
+        }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-3 { animation: lmn-${name}-lid ${duration} ease-in-out both; }
+        .lmn-animate--filled svg .lmn-path-1 { animation: lmn-${name}-lid ${duration} ease-in-out both; }
+      `,
+    };
+  },
+
+  'archive-drop'(name, duration = '750ms') {
+    // Outline split: [1]=body [2..4]=arrow [5]=lid. Filled: [1]=lid [2]=box+arrow.
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4', 'lmn-path-5'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-lid {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          15%, 70% { transform: translateY(-2.5px) rotate(-7deg); }
+        }
+        @keyframes lmn-${name}-drop {
+          0%, 25% { transform: translateY(-3px); opacity: 0; }
+          50% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate--outline svg .lmn-path-5,
+        .lmn-animate--filled svg .lmn-path-1 {
+          transform-origin: left center;
+        }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-5 { animation: lmn-${name}-lid ${duration} ease-in-out both; }
+        .lmn-animate--filled svg .lmn-path-1 { animation: lmn-${name}-lid ${duration} ease-in-out both; }
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3,
+        .lmn-animate--outline svg .lmn-path-4 { animation: lmn-${name}-drop ${duration} ease-in-out both; }
+      `,
+    };
+  },
+
+  'archive-reject'(name, duration = '700ms') {
+    // Outline split: [1]=body [2..5]=x-mark [6]=lid. Filled: [1]=lid [2]=box+x.
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4', 'lmn-path-5', 'lmn-path-6'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-lid {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          15%, 70% { transform: translateY(-2.5px) rotate(-7deg); }
+        }
+        @keyframes lmn-${name}-xpop {
+          0%, 30% { transform: scale(0.4); opacity: 0; }
+          50% { transform: scale(1.15); opacity: 1; }
+          65% { transform: scale(0.96); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate--outline svg .lmn-path-6,
+        .lmn-animate--filled svg .lmn-path-1 {
+          transform-origin: left center;
+        }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-6 { animation: lmn-${name}-lid ${duration} ease-in-out both; }
+        .lmn-animate--filled svg .lmn-path-1 { animation: lmn-${name}-lid ${duration} ease-in-out both; }
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3,
+        .lmn-animate--outline svg .lmn-path-4,
+        .lmn-animate--outline svg .lmn-path-5 { animation: lmn-${name}-xpop ${duration} ease-in-out both; }
+      `,
+    };
+  },
+
+  'draw-drift'(name, duration = '700ms', dx = '0', dy = '3px', shaftIndices = [3], headIndices = [1, 2], total = 3, reverseShafts = true) {
+    // Heroicons often starts a compound arrow path at its point. Split it so
+    // the shaft can draw from tail to tip before the arrowhead resolves.
+    const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
+    const shaftSelectors = shaftIndices
+      .map((i) => `.lmn-animate--outline svg .lmn-path-${i}`)
+      .join(',\n        ');
+    const headSelectors = headIndices
+      .map((i) => `.lmn-animate--outline svg .lmn-path-${i}`)
+      .join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses,
+      splitPaths: true,
+      reversePaths: reverseShafts ? shaftIndices : [],
+      keyframes: `
+        @keyframes lmn-${name}-draw-shaft {
+          0% { stroke-dashoffset: 1; }
+          62% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-draw-head {
+          0%, 42% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-drift {
+          0%, 100% { transform: translate(0, 0); }
+          72% { transform: translate(${dx}, ${dy}); }
+        }
+      `,
+      base: '',
+      animate: `
+        ${shaftSelectors} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-draw-shaft ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${headSelectors} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-draw-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate svg {
+          animation: lmn-${name}-drift ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
+  'draw-part'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, filledArrowIndices = null) {
+    // Outline is split into `total` subpaths. Draw the shaft from tail to tip,
+    // then resolve the head; the container remains at rest.
+    // Filled is not split: whole-icon lunge, plus an opacity dip on the arrow's
+    // filled paths when `filledArrowIndices` is given (per solid-SVG tag order).
+    const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
+    const headSelectors = headIndices
+      .map((i) => `.lmn-animate--outline svg .lmn-path-${i}`)
+      .join(',\n        ');
+    const shaftSelectors = shaftIndices
+      .map((i) => `.lmn-animate--outline svg .lmn-path-${i}`)
+      .join(',\n        ');
+    const filledArrowSelectors = (filledArrowIndices ?? [])
+      .map((i) => `.lmn-animate--filled svg .lmn-path-${i}`)
+      .join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses,
+      splitPaths: true,
+      reversePaths: shaftIndices,
+      keyframes: `
+        @keyframes lmn-${name}-draw-shaft {
+          0% { stroke-dashoffset: 1; }
+          62% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-draw-head {
+          0%, 42% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-lunge {
+          0%, 100% { transform: translateY(0); }
+          40% { transform: translateY(3px); }
+          60% { transform: translateY(-1px); }
+        }
+        @keyframes lmn-${name}-fade {
+          0%, 100% { opacity: 1; }
+          30% { opacity: 0.25; }
+          70% { opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${shaftSelectors} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-draw-shaft ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${headSelectors} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-draw-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--filled svg {
+          animation: lmn-${name}-lunge ${duration} ease both;
+        }
+        ${filledArrowSelectors ? `${filledArrowSelectors} {
+          animation: lmn-${name}-fade ${duration} ease-in-out both;
+        }` : ''}
+      `,
+    };
+  },
 };
 
 /**
@@ -2426,7 +2659,7 @@ export const ICON_ANIMATIONS = {
   'arrow-long-right': { recipe: 'slide-right', duration: '400ms' },
   'arrow-small-right': { recipe: 'slide-right', duration: '350ms', args: ['4px'] },
   'chevron-right': { recipe: 'slide-right', duration: '350ms', args: ['4px'] },
-  'arrow-left': { recipe: 'slide-left', duration: '400ms' },
+  'arrow-left': { recipe: 'draw-drift', duration: '700ms', args: ['-3px', '0', [3], [1, 2], 3] },
   'arrow-long-left': { recipe: 'slide-left', duration: '400ms' },
   'arrow-small-left': { recipe: 'slide-left', duration: '350ms', args: ['4px'] },
   'chevron-left': { recipe: 'slide-left', duration: '350ms', args: ['4px'] },
@@ -2434,7 +2667,7 @@ export const ICON_ANIMATIONS = {
   'arrow-long-up': { recipe: 'slide-up', duration: '400ms' },
   'arrow-small-up': { recipe: 'slide-up', duration: '350ms', args: ['4px'] },
   'chevron-up': { recipe: 'slide-up', duration: '350ms', args: ['4px'] },
-  'arrow-down': { recipe: 'slide-down', duration: '400ms' },
+  'arrow-down': { recipe: 'draw-drift', duration: '700ms', args: ['0', '3px', [3], [1, 2], 3] },
   'arrow-long-down': { recipe: 'slide-down', duration: '400ms' },
   'arrow-small-down': { recipe: 'slide-down', duration: '350ms', args: ['4px'] },
   'chevron-down': { recipe: 'slide-down', duration: '350ms', args: ['4px'] },
@@ -2557,9 +2790,9 @@ export const ICON_ANIMATIONS = {
   'document-arrow-up': { recipe: 'file-appear', duration: '500ms' },
   'document-arrow-down': { recipe: 'file-appear', duration: '500ms' },
   'document-chart-bar': { recipe: 'file-appear', duration: '500ms' },
-  'archive-box': { recipe: 'file-appear', duration: '500ms' },
-  'archive-box-arrow-down': { recipe: 'file-appear', duration: '500ms' },
-  'archive-box-x-mark': { recipe: 'file-appear', duration: '500ms' },
+  'archive-box': { recipe: 'archive-peek', duration: '650ms' },
+  'archive-box-arrow-down': { recipe: 'archive-drop', duration: '750ms' },
+  'archive-box-x-mark': { recipe: 'archive-reject', duration: '700ms' },
   newspaper: { recipe: 'file-appear', duration: '500ms' },
   identification: { recipe: 'file-appear', duration: '500ms' },
   clipboard: { recipe: 'file-appear', duration: '500ms' },
@@ -2666,8 +2899,8 @@ export const ICON_ANIMATIONS = {
   'arrow-left-start-on-rectangle': { recipe: 'door-exit', duration: '450ms', args: ['-4px'] },
   'arrow-right-end-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
   'arrow-left-end-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['4px'] },
-  'arrow-down-on-square': { recipe: 'download-arrow', duration: '550ms' },
-  'arrow-down-on-square-stack': { recipe: 'download-arrow', duration: '550ms' },
+  'arrow-down-on-square': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1]] },
+  'arrow-down-on-square-stack': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 5, [1]] },
   'arrow-up-on-square': { recipe: 'upload-arrow', duration: '550ms' },
   'arrow-up-on-square-stack': { recipe: 'upload-arrow', duration: '550ms' },
   'speaker-wave': { recipe: 'sound-waves', duration: '500ms' },
@@ -2692,7 +2925,7 @@ export const ICON_ANIMATIONS = {
   'building-office': { recipe: 'stack-rise', duration: '500ms' },
   'building-office-2': { recipe: 'stack-rise', duration: '500ms' },
   'building-storefront': { recipe: 'stack-rise', duration: '550ms' },
-  'academic-cap': { recipe: 'cap-toss', duration: '550ms' },
+  'academic-cap': { recipe: 'cap-toss-fade', duration: '700ms' },
   briefcase: { recipe: 'lock-click', duration: '400ms' },
   badge: { recipe: 'shine', duration: '550ms' },
   swatch: { recipe: 'fan', duration: '500ms' },
@@ -2707,8 +2940,14 @@ export const ICON_ANIMATIONS = {
   'viewfinder-circle': { recipe: 'focus-lock', duration: '450ms' },
   'bug-ant': { recipe: 'crawl', duration: '500ms' },
   lifebuoy: { recipe: 'float', duration: '1200ms' },
-  'adjustments-horizontal': { recipe: 'slider-nudge', duration: '500ms', args: ['x'] },
-  'adjustments-vertical': { recipe: 'slider-nudge', duration: '500ms', args: ['y'] },
+  'adjustments-horizontal': { recipe: 'slider-pins', duration: '600ms', args: ['x'] },
+  'adjustments-vertical': { recipe: 'slider-pins', duration: '600ms', args: ['y'] },
+
+  // Directed batch 2026-08-18 (first 15 catalog icons)
+  'arrow-down-left': { recipe: 'draw-drift', duration: '700ms', args: ['-2.5px', '2.5px', [1], [2, 3], 3, false] },
+  'arrow-down-right': { recipe: 'draw-drift', duration: '700ms', args: ['2.5px', '2.5px', [1], [2, 3], 3, false] },
+  'arrow-down-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1]] },
+  'arrow-down-tray': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1]] },
 
   // Misc
   'ellipsis-horizontal': { recipe: 'ellipsis-pulse', duration: '600ms' },
@@ -2893,10 +3132,12 @@ export function applyPathClasses(innerSvg, pathClasses) {
   // Strip previously applied path classes first: custom icons are re-emitted
   // from their committed (already-classed) markup, so without this every
   // regeneration would append another duplicate set of lmn-path-N classes.
-  const stripped = innerSvg.replace(/class="([^"]*)"/g, (match, classes) => {
-    const kept = classes.split(/\s+/).filter(c => !/^lmn-path-\d+$/.test(c));
-    return kept.length ? `class="${kept.join(' ')}"` : '';
-  });
+  const stripped = innerSvg
+    .replace(/class="([^"]*)"/g, (match, classes) => {
+      const kept = classes.split(/\s+/).filter(c => !/^lmn-path-\d+$/.test(c));
+      return kept.length ? `class="${kept.join(' ')}"` : '';
+    })
+    .replace(/ {2,}/g, ' ');
 
   const tagPattern = /<(path|line|circle|rect|polyline|polygon|g)\b([^>]*)>/gi;
   let index = 0;
@@ -2935,6 +3176,161 @@ export function applyPathLength(innerSvg) {
 }
 
 /**
+ * Split a path `d` into its subpaths (one per M/m command group). Non-initial
+ * subpaths starting with a relative `m` are converted to absolute `M` so each
+ * piece renders identically on its own. A current-point tracker computes the
+ * absolute start from the preceding commands' endpoints.
+ * @param {string} d
+ * @returns {string[]}
+ */
+function splitPathData(d) {
+  const tokens = [];
+  const re = /([a-zA-Z])([^a-zA-Z]*)/g;
+  let m;
+  while ((m = re.exec(d)) !== null) {
+    const nums = (m[2].match(/-?(?:\d*\.\d+|\d+)(?:[eE][+-]?\d+)?/g) || []).map(Number);
+    tokens.push({ cmd: m[1], nums });
+  }
+  if (tokens.length === 0) return [d];
+
+  const pieces = [];
+  let current = [];
+  let cx = 0, cy = 0, sx = 0, sy = 0;
+  const flush = () => {
+    if (current.length > 0) {
+      pieces.push(current);
+      current = [];
+    }
+  };
+
+  for (let token of tokens) {
+    const { cmd } = token;
+    let { nums } = token;
+    let implicitLineNums = null;
+    if ((cmd === 'M' || cmd === 'm') && current.length > 0) {
+      flush();
+      if (cmd === 'm') {
+        // The first pair of a relative moveto becomes an absolute M for the
+        // new standalone path. Subsequent pairs are implicit relative lineto
+        // commands, so they must remain relative; retaining them on M would
+        // reinterpret them as absolute coordinates and distort the SVG.
+        implicitLineNums = nums.slice(2);
+        token = { cmd: 'M', nums: [cx + nums[0], cy + nums[1]] };
+        nums = token.nums;
+      }
+    }
+    current.push(token);
+
+    // Advance the current point through this token's endpoint. Note: `rel` must
+    // be derived from the (possibly converted) token, not the original command —
+    // a converted `m` already carries absolute coordinates.
+    const upper = token.cmd.toUpperCase();
+    const rel = token.cmd !== upper;
+    if (upper === 'M') {
+      cx = rel ? cx + nums[0] : nums[0];
+      cy = rel ? cy + nums[1] : nums[1];
+      sx = cx;
+      sy = cy;
+      for (let i = 2; i + 1 < nums.length; i += 2) {
+        cx = rel ? cx + nums[i] : nums[i];
+        cy = rel ? cy + nums[i + 1] : nums[i + 1];
+      }
+    } else if (upper === 'Z') {
+      cx = sx;
+      cy = sy;
+    } else if (upper === 'H') {
+      cx = rel ? cx + nums[nums.length - 1] : nums[nums.length - 1];
+    } else if (upper === 'V') {
+      cy = rel ? cy + nums[nums.length - 1] : nums[nums.length - 1];
+    } else if (nums.length >= 2) {
+      // L/l, C/c, S/s, Q/q, T/t, A/a — endpoint is the last coordinate pair.
+      cx = rel ? cx + nums[nums.length - 2] : nums[nums.length - 2];
+      cy = rel ? cy + nums[nums.length - 1] : nums[nums.length - 1];
+    }
+
+    // Additional moveto coordinate pairs are implicit lineto commands. Keep
+    // them as a relative `l` in split output when this was a converted `m`.
+    if (implicitLineNums?.length) {
+      const line = { cmd: 'l', nums: implicitLineNums };
+      current.push(line);
+      for (let i = 0; i + 1 < line.nums.length; i += 2) {
+        cx += line.nums[i];
+        cy += line.nums[i + 1];
+      }
+    }
+  }
+  flush();
+
+  return pieces.map(piece =>
+    piece.map(t => t.cmd + (t.nums.length ? t.nums.join(' ') : '')).join(' '),
+  );
+}
+
+/**
+ * Split every compound <path> in the SVG markup into one element per subpath.
+ * Idempotent: paths with a single subpath are left untouched.
+ * @param {string} innerSvg
+ * @returns {string}
+ */
+export function splitSubpaths(innerSvg) {
+  return innerSvg.replace(/<path\b([^>]*?)\/?>/g, (match, attrs) => {
+    const dMatch = attrs.match(/\sd="([^"]*)"/);
+    if (!dMatch) return match;
+    const pieces = splitPathData(dMatch[1]);
+    if (pieces.length < 2) return match;
+    const otherAttrs = attrs.replace(dMatch[0], '').replace(/\/\s*$/, '');
+    return pieces.map(piece => `<path${otherAttrs} d="${piece}"/>`).join('');
+  });
+}
+
+/**
+ * Reverse one straight SVG path, returning null for paths outside the narrow
+ * forms generated for arrow shafts. Output uses absolute moveto/lineto values.
+ * @param {string} d
+ * @returns {string | null}
+ */
+function reverseStraightPathData(d) {
+  const number = '(-?(?:\\d*\\.\\d+|\\d+))';
+  const moveLine = new RegExp(`^([Mm])${number} ${number} ${number} ${number}$`);
+  const axisLine = new RegExp(`^([Mm])${number} ${number} ([HhVv])${number}$`);
+  const lineMatch = d.match(moveLine);
+  if (lineMatch) {
+    const [, command, startX, startY, nextX, nextY] = lineMatch;
+    const sx = Number(startX);
+    const sy = Number(startY);
+    const ex = command === 'm' ? sx + Number(nextX) : Number(nextX);
+    const ey = command === 'm' ? sy + Number(nextY) : Number(nextY);
+    return `M${ex} ${ey} L${sx} ${sy}`;
+  }
+
+  const axisMatch = d.match(axisLine);
+  if (!axisMatch) return null;
+  const [, command, startX, startY, axis, value] = axisMatch;
+  const sx = Number(startX);
+  const sy = Number(startY);
+  const relative = axis === axis.toLowerCase();
+  const endX = axis.toLowerCase() === 'h' ? (relative ? sx + Number(value) : Number(value)) : sx;
+  const endY = axis.toLowerCase() === 'v' ? (relative ? sy + Number(value) : Number(value)) : sy;
+  return `M${endX} ${endY} L${sx} ${sy}`;
+}
+
+/**
+ * Reverse selected split straight paths, identified by their generated class.
+ * @param {string} innerSvg
+ * @param {number[]} pathIndices
+ * @returns {string}
+ */
+export function reverseStraightPaths(innerSvg, pathIndices) {
+  const targetClasses = new Set(pathIndices.map((index) => `lmn-path-${index}`));
+  return innerSvg.replace(/<path\b([^>]*?)\sd="([^"]*)"([^>]*)\/?>(?:<\/path>)?/g, (match, before, d, after) => {
+    const classMatch = before.match(/\bclass="([^"]*)"/);
+    if (!classMatch || !classMatch[1].split(/\s+/).some((name) => targetClasses.has(name))) return match;
+    const reversed = reverseStraightPathData(d);
+    return reversed ? match.replace(`d="${d}"`, `d="${reversed}"`) : match;
+  });
+}
+
+/**
  * Compose the final styles block for an icon component.
  * @param {string} name
  * @param {ReturnType<buildAnimation>} animation
@@ -2953,10 +3349,17 @@ export function composeStyles(name, animation) {
 
   // Angular component styles are view-encapsulated. The .lmn-animate class is
   // applied to the host element, so selectors must use :host(.lmn-animate)
-  // to target the icon when animation is enabled.
-  const placeholder = '__LMN_ANIMATE_EL__';
+  // to target the icon when animation is enabled. Variant markers let recipes
+  // scope CSS to one variant: .lmn-animate--outline / .lmn-animate--filled.
+  const placeholderEl = '__LMN_ANIMATE_EL__';
+  const placeholderFilled = '__LMN_ANIMATE_FILLED__';
+  const placeholderOutline = '__LMN_ANIMATE_OUTLINE__';
   return raw
-    .replace(/\.lmn-animate-el/g, placeholder)
+    .replace(/\.lmn-animate-el/g, placeholderEl)
+    .replace(/\.lmn-animate--filled/g, placeholderFilled)
+    .replace(/\.lmn-animate--outline/g, placeholderOutline)
     .replace(/\.lmn-animate/g, ':host(.lmn-animate)')
-    .replace(new RegExp(placeholder, 'g'), ':host(.lmn-animate) .lmn-animate-el');
+    .replace(new RegExp(placeholderEl, 'g'), ':host(.lmn-animate) .lmn-animate-el')
+    .replace(new RegExp(placeholderFilled, 'g'), ':host(.lmn-animate.lmn-filled)')
+    .replace(new RegExp(placeholderOutline, 'g'), ':host(.lmn-animate:not(.lmn-filled))');
 }

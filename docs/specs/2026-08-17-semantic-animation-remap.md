@@ -167,9 +167,32 @@ New recipes (working names; each is a small builder, many share keyframe shapes 
 
 ## Implementation notes (deviations recorded during implementation)
 
-Per the SDD lifecycle, deviations from the Design section are recorded here before coding:
+### Addendum 2026-08-18 — directed batch: first 15 catalog icons
 
-- **Recipe reuse instead of new recipes** (same semantic motion already exists): `arrow-down-on-square(-stack)` → existing `download-arrow`, `arrow-up-on-square(-stack)` → existing `upload-arrow` (drops `slot-in`/`slot-out`); `briefcase` → existing `lock-click` (drops `case-click`); `wallet` → existing `calendar-flip` (drops `wallet-open`); `link` → existing `draw-underline`, `link-slash` → existing `draw-strikethrough` (drops `link-connect`/`link-break`).
+Maintainer-directed per-icon refinements on top of Phase 1. New generator capabilities (all inside `scripts/animations.mjs` + 2 call sites in `generate-icons.mjs`):
+
+- **`splitPaths` recipe flag** — the generator splits compound `<path>` d's into one element per subpath (utility `splitSubpaths`, with a current-point tracker that converts non-initial relative `m` subpath starts to absolute `M` while preserving any following implicit relative `l` segments). The related `reversePaths` flag reverses selected straight shafts when source geometry begins at an arrow tip, so stroke drawing runs tail → tip. Enables true per-part motion (slider pins, box lids, arrow-only draws) without touching SVG sources. Outline-only by default; `'both'` possible after checking filled winding.
+- **Variant markers in `composeStyles`** — recipes may write `.lmn-animate--outline` / `.lmn-animate--filled`, composed to `:host(.lmn-animate:not(.lmn-filled))` / `:host(.lmn-animate.lmn-filled)`, so variants can animate differently.
+- **Whitespace fix**: `applyPathClasses` collapses double spaces left when a stripped class attribute is removed.
+
+Per-icon results:
+
+| Icon | Recipe | Motion |
+|---|---|---|
+| `academic-cap` | `cap-toss-fade` (replaces Phase-1 `cap-toss`) | cap flies up rotating, fades out, fades back in place |
+| `adjustments-horizontal` / `-vertical` | `slider-pins` (replaces `slider-nudge`) | outline split in 12 subpaths; only the 3 knobs slide along their track (filled: whole-icon nudge) |
+| `alert-circle` | `wiggle` (unchanged, approved as-is) | — |
+| `archive-box` | `archive-peek` | lid lifts and closes (lid animates in both variants) |
+| `archive-box-arrow-down` | `archive-drop` | lid opens → arrow drops in → lid closes |
+| `archive-box-x-mark` | `archive-reject` | lid opens → X pops out → lid closes |
+| `arrow-down`, `arrow-left`, `arrow-down-left`, `arrow-down-right` | `draw-drift` | shaft draws from tail to tip, then the arrowhead resolves with a subtle directional drift |
+| `arrow-down-circle`, `arrow-down-tray`, `arrow-down-on-square(-stack)` | `draw-part` | outline shaft draws from tail to tip before its head (container stays); filled: whole lunge + arrow-path opacity dip |
+
+`cap-toss` and `slider-nudge` recipes were removed (single-use, superseded). All other Phase-1 mappings unchanged.
+
+### Original Phase-0/1 notes
+
+- **Recipe reuse instead of new recipes** (same semantic motion already exists): `arrow-down-on-square(-stack)` → existing `download-arrow`, `arrow-up-on-square(-stack)` → existing `upload-arrow` (drops `slot-in`/`slot-out`); `briefcase` → existing `lock-click` (drops `case-click`); `wallet` → existing `calendar-flip` (drops `wallet-open`); `link` → existing `draw-underline`, `link-slash` → existing `draw-strikethrough` (drops `link-connect`/`link-break`). *(Note: `arrow-down-on-square(-stack)` were later re-directed to `draw-part` in the 2026-08-18 batch above.)*
 - **Generator fix included** (`applyPathClasses` in `scripts/animations.mjs`): existing `lmn-path-N` classes are stripped before re-applying. Pre-existing bug: every `--overwrite` regen appended duplicate classes to custom icons (e.g. `menu.ts` had `lmn-path-1` ×6). The regen in this spec also cleans those files.
 - **Dead entry removed**: `ellipsis` key in `ICON_ANIMATIONS` (no such icon exists; only `ellipsis-horizontal`/`ellipsis-vertical`/`ellipsis-horizontal-circle`).
 - `cell-pop` declares 4 `pathClasses` with stagger delays; single-path icons only receive `lmn-path-1` (delay 0), so one recipe covers both multi-cell customs (e.g. `grid`, 4 tags) and single-path Heroicons.
