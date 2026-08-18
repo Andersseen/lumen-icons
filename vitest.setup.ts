@@ -1,10 +1,9 @@
 import "@angular/compiler";
-import "@analogjs/vitest-angular/setup-zone";
 import "@testing-library/jest-dom/vitest";
 import { setupTestBed } from "@analogjs/vitest-angular/setup-testbed";
 import { vi } from "vitest";
 
-setupTestBed({ zoneless: false });
+setupTestBed({ zoneless: true });
 
 Element.prototype.animate = vi.fn().mockReturnValue({
   cancel: vi.fn(),

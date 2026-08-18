@@ -33,11 +33,11 @@ importers:
         specifier: ^4.1.4
         version: 4.2.4(vite@8.0.10(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass@1.97.3)(terser@5.46.2)(yaml@2.9.0))
       '@voltui/components':
-        specifier: ^0.1.0
-        version: 0.1.0(95872548e2fc444457fa11d459033224)
+        specifier: ^1.0.1
+        version: 1.0.1(95872548e2fc444457fa11d459033224)
       angular-movement:
-        specifier: ^0.1.0
-        version: 0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+        specifier: ^0.8.0
+        version: 0.8.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
       front-matter:
         specifier: ^4.0.2
         version: 4.0.2
@@ -111,9 +111,6 @@ importers:
       eslint-plugin-unused-imports:
         specifier: ^4.4.1
         version: 4.4.1(@typescript-eslint/eslint-plugin@8.59.0(@typescript-eslint/parser@8.59.0(eslint@10.2.1(jiti@2.6.1))(typescript@5.9.3))(eslint@10.2.1(jiti@2.6.1))(typescript@5.9.3))(eslint@10.2.1(jiti@2.6.1))
-      heroicons:
-        specifier: ^2.2.0
-        version: 2.2.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -144,9 +141,6 @@ importers:
       vitest:
         specifier: ^4.1.0
         version: 4.1.5(@types/node@25.8.0)(jsdom@22.1.0)(vite@8.0.10(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass@1.97.3)(terser@5.46.2)(yaml@2.9.0))
-      zone.js:
-        specifier: ^0.16.1
-        version: 0.16.1
 
 packages:
 
@@ -519,6 +513,10 @@ packages:
     resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/code-frame@7.29.7':
+    resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/compat-data@7.29.0':
     resolution: {integrity: sha512-T1NCJqT/j9+cn8fvkt7jtwbLBfLC/1y1c7NtCeXFRgzGTsafi68MRv8yzkYSapBnFA6L3U2VSc02ciDzoAJhJg==}
     engines: {node: '>=6.9.0'}
@@ -565,6 +563,10 @@ packages:
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-validator-identifier@7.29.7':
+    resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-option@7.27.1':
     resolution: {integrity: sha512-YvjJow9FxbhFFKDSuFnVCe2WxXk1zWc22fFePVNEaWJEu8IrZVlda6N0uHwzZrUM1il7NC9Mlp4MaJYbYd9JSg==}
     engines: {node: '>=6.9.0'}
@@ -578,8 +580,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  '@babel/runtime@7.29.2':
-    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.28.6':
@@ -1039,14 +1041,14 @@ packages:
     resolution: {integrity: sha512-rZAP3aVgB9ds9KOeUSL+zZ21hPmo8dh6fnIFwRQj5EAZl9gzR7wxYbYXYysAM8CTqGmUGyp2S4kUdV17MnGuWQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@floating-ui/core@1.7.5':
-    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
+  '@floating-ui/core@1.8.0':
+    resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
 
-  '@floating-ui/dom@1.7.6':
-    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
+  '@floating-ui/dom@1.8.0':
+    resolution: {integrity: sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==}
 
-  '@floating-ui/utils@0.2.11':
-    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+  '@floating-ui/utils@0.2.12':
+    resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
   '@gar/promise-retry@1.0.3':
     resolution: {integrity: sha512-GmzA9ckNokPypTg10pgpeHNQe7ph+iIKKmhKu3Ob9ANkswreCx7R3cKmY781K8QK3AqVL3xVh9A42JvIAbkkSA==}
@@ -2247,6 +2249,9 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
+  '@types/estree@1.0.9':
+    resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
+
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -2355,11 +2360,12 @@ packages:
   '@vitest/utils@4.1.5':
     resolution: {integrity: sha512-76wdkrmfXfqGjueGgnb45ITPyUi1ycZ4IHgC2bhPDUfWHklY/q3MdLOAB+TF1e6xfl8NxNY0ZYaPCFNWSsw3Ug==}
 
-  '@voltui/components@0.1.0':
-    resolution: {integrity: sha512-G6cTnDqUVP5Y8g4U3RiZSw2tegjZ6rL8XCNTeA/UhikskdeMUPfVTbN61+PLHKI7OOHrpm0Cla5AcrgOEuYeEA==}
+  '@voltui/components@1.0.1':
+    resolution: {integrity: sha512-/yTCyqLF+C9Wtj93Nae3p4f6glayaJs0BBvNDKtso06NoyyvowYP5owkRfcCT+j3TaJAesHTqxEcaPp5XRx9hw==}
     peerDependencies:
       '@angular/common': ^21.2.0
       '@angular/core': ^21.2.0
+      '@angular/forms': ^21.2.0
 
   '@yarnpkg/lockfile@1.1.0':
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
@@ -2433,11 +2439,11 @@ packages:
       typescript: '*'
       typescript-eslint: ^8.0.0
 
-  angular-movement@0.1.0:
-    resolution: {integrity: sha512-A2se3E07otNR6PbTSSZjSqs7xgbc84bMQT5WrO9/pMBNWcjm6U0JzZJDd+7/mUjVP7+OOKh3+4oFpF0bNvq84w==}
+  angular-movement@0.8.0:
+    resolution: {integrity: sha512-32WjXoJ7PkFjC2cqp8cOJBjPYwBU+p4onRH6uiBpp7TMXg2YSq/ytUelkoWmIA8d+4V7lf6LLo16lOQVtdUBBA==}
     peerDependencies:
-      '@angular/common': ^21.2.0
-      '@angular/core': ^21.2.0
+      '@angular/common': ^21.2.0 || ^22.0.0
+      '@angular/core': ^21.2.0 || ^22.0.0
 
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -3429,9 +3435,6 @@ packages:
   hasown@2.0.3:
     resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
     engines: {node: '>= 0.4'}
-
-  heroicons@2.2.0:
-    resolution: {integrity: sha512-yOwvztmNiBWqR946t+JdgZmyzEmnRMC2nxvHFC90bF1SUttwB6yJKYeme1JeEcBfobdOs827nCyiWBS2z/brog==}
 
   hono@4.12.15:
     resolution: {integrity: sha512-qM0jDhFEaCBb4TxoW7f53Qrpv9RBiayUHo0S52JudprkhvpjIrGoU1mnnr29Fvd1U335ZFPZQY1wlkqgfGXyLg==}
@@ -4866,8 +4869,8 @@ packages:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
 
-  tailwind-merge@3.5.0:
-    resolution: {integrity: sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==}
+  tailwind-merge@3.6.0:
+    resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
   tailwindcss@4.2.4:
     resolution: {integrity: sha512-HhKppgO81FQof5m6TEnuBWCZGgfRAWbaeOaGT00KOy/Pf/j6oUihdvBpA7ltCeAvZpFhW3j0PTclkxsd4IXYDA==}
@@ -5963,6 +5966,12 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
+  '@babel/code-frame@7.29.7':
+    dependencies:
+      '@babel/helper-validator-identifier': 7.29.7
+      js-tokens: 4.0.0
+      picocolors: 1.1.1
+
   '@babel/compat-data@7.29.0': {}
 
   '@babel/core@7.29.0':
@@ -6031,6 +6040,8 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
+  '@babel/helper-validator-identifier@7.29.7': {}
+
   '@babel/helper-validator-option@7.27.1': {}
 
   '@babel/helpers@7.29.2':
@@ -6042,7 +6053,7 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.0
 
-  '@babel/runtime@7.29.2': {}
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.28.6':
     dependencies:
@@ -6391,16 +6402,16 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@floating-ui/core@1.7.5':
+  '@floating-ui/core@1.8.0':
     dependencies:
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/utils': 0.2.12
 
-  '@floating-ui/dom@1.7.6':
+  '@floating-ui/dom@1.8.0':
     dependencies:
-      '@floating-ui/core': 1.7.5
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/core': 1.8.0
+      '@floating-ui/utils': 0.2.12
 
-  '@floating-ui/utils@0.2.11': {}
+  '@floating-ui/utils@0.2.12': {}
 
   '@gar/promise-retry@1.0.3': {}
 
@@ -7309,8 +7320,8 @@ snapshots:
 
   '@testing-library/dom@10.4.1':
     dependencies:
-      '@babel/code-frame': 7.29.0
-      '@babel/runtime': 7.29.2
+      '@babel/code-frame': 7.29.7
+      '@babel/runtime': 7.29.7
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
       dom-accessibility-api: 0.5.16
@@ -7363,11 +7374,13 @@ snapshots:
 
   '@types/esquery@1.5.4':
     dependencies:
-      '@types/estree': 1.0.8
+      '@types/estree': 1.0.9
 
   '@types/esrecurse@4.3.1': {}
 
   '@types/estree@1.0.8': {}
+
+  '@types/estree@1.0.9': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -7532,19 +7545,19 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@voltui/components@0.1.0(95872548e2fc444457fa11d459033224)':
+  '@voltui/components@1.0.1(95872548e2fc444457fa11d459033224)':
     dependencies:
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
-      '@floating-ui/dom': 1.7.6
+      '@angular/forms': 21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(rxjs@7.8.2)
+      '@floating-ui/dom': 1.8.0
       class-variance-authority: 0.7.1
       clsx: 2.1.1
-      ng-primitives: 0.110.2(670973d119dc426e56af77c511e787e3)
-      tailwind-merge: 3.5.0
+      ng-primitives: 0.110.2(a4adc8f0bd01de13ce7f9af36397eb9c)
+      tailwind-merge: 3.6.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@angular/cdk'
-      - '@angular/forms'
       - luxon
       - rxjs
       - typescript
@@ -7638,7 +7651,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  angular-movement@0.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
+  angular-movement@0.8.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
     dependencies:
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
@@ -8637,8 +8650,6 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  heroicons@2.2.0: {}
-
   hono@4.12.15: {}
 
   hookable@5.5.3: {}
@@ -9317,13 +9328,13 @@ snapshots:
       rollup: 4.60.2
       tailwindcss: 4.2.4
 
-  ng-primitives@0.110.2(670973d119dc426e56af77c511e787e3):
+  ng-primitives@0.110.2(a4adc8f0bd01de13ce7f9af36397eb9c):
     dependencies:
       '@angular/cdk': 21.2.8(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(rxjs@7.8.2)
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
       '@angular/forms': 21.2.10(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/animations@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(rxjs@7.8.2)
-      '@floating-ui/dom': 1.7.6
+      '@floating-ui/dom': 1.8.0
       '@phenomnomnominal/tsquery': 6.1.3(typescript@5.9.3)
       rxjs: 7.8.2
       tslib: 2.8.1
@@ -10257,7 +10268,7 @@ snapshots:
 
   tagged-tag@1.0.0: {}
 
-  tailwind-merge@3.5.0: {}
+  tailwind-merge@3.6.0: {}
 
   tailwindcss@4.2.4: {}
 
@@ -10774,4 +10785,5 @@ snapshots:
 
   zod@4.3.6: {}
 
-  zone.js@0.16.1: {}
+  zone.js@0.16.1:
+    optional: true

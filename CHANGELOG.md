@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Official app platform refresh**: upgraded VoltUI to 1.0.1 and Angular Movement to 0.8.0; the demo now uses Angular's zoneless change detection. Its controls use VoltUI's native ARIA labels after the upgrade.
+- **Self-contained icon generation**: the generator now takes outline and filled geometry from committed Lumen components instead of requiring the Heroicons package; direct `heroicons` and `zone.js` dependencies were removed.
+
 - **Verified rest-state motion and sidebar scrolling**: `bold` now pulses its real configured outline stroke width instead of a generic scale; `rocket-launch` anticipates and departs diagonally up-right before returning to its exact default state; the sticky desktop controls now scroll within their own viewport region. Playwright covers the bold weight peak, rocket rest state, and independent sidebar scrolling.
 
 - **~90 icons remapped to semantic animations** (spec `2026-08-17-semantic-animation-remap`): the generic `pulse-scale` went from 75 icons to just 1 (`github`, brand logo). Eyes blink, double chevrons cascade, trending arrows draw themselves, login/logout icons enter/exit, stacks rise, grids pop cell by cell, screens power on, chat bubbles pop from their tail. No SVG or public API changes.

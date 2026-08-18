@@ -23,9 +23,7 @@
 ## Pipeline 1 — Icon generation
 
 ```
-node_modules/heroicons/24/outline/*.svg   (outline paths)
-node_modules/heroicons/24/solid/*.svg     (filled paths)
-existing committed custom icons           (extracted paths)
+existing committed Lumen icon components  (outline + optional filled paths)
         │
         ▼
 scripts/generate-icons.mjs
@@ -39,7 +37,7 @@ scripts/generate-icons.mjs
   └─ updates barrel + website catalog
 ```
 
-- Run with `pnpm run generate:icons` (add `--overwrite` to force-regenerate all).
+- Run with `pnpm run generate:icons` (add `--overwrite` to force-regenerate all). The generator reads the component's committed SVG branch(es), strips prior generated path metadata, then reapplies the recipe. It has no external icon-package dependency.
 - A recipe returns: `keyframes` (scoped as `lmn-<icon-name>`), optional `pathLength: true` (enables stroke-draw via `pathLength="1"`), optional `pathClasses` (`.lmn-path-1`… for staggered multi-part motion), `base` and `animate` CSS blocks.
 - Every generated component embeds the shared `prefers-reduced-motion` block.
 

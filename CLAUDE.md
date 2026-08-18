@@ -13,7 +13,7 @@ An open-source Angular icon library inspired by projects like Lucide and Radix I
 - **Tree-shakable by default** — each icon is its own entry point (`lumen-icons/icons/check`).
 - **Accessible by default** — correct ARIA defaults, configurable `ariaLabel`.
 - **Zero framework styling** — no Tailwind in the library; consumers control appearance.
-- **Optionally animated** — animations via `angular-movement` (`MoveVariantsDirective`) + CSS `@keyframes` (opt-in per icon use).
+- **Optionally animated** — pure CSS `@keyframes`, opt-in per icon use. The demo app may use `angular-movement`; the library never does.
 - **Installable as a package** OR copy-pasteable as single files into any Angular project.
 
 The companion `src/` application is the official demo + docs site, built with AnalogJS and styled with Tailwind CSS. The demo uses `@voltui/components` for its own UI chrome so development stays fast.
@@ -48,7 +48,7 @@ lumen-icons/
 │   └── sync-icons.mjs
 ├── vite.config.ts           ← app build (AnalogJS + Tailwind)
 ├── vitest.config.ts         ← unit tests (jsdom)
-├── vitest.setup.ts          ← @analogjs/vitest-angular/setup-zone + jest-dom
+├── vitest.setup.ts          ← zoneless Analog test setup + jest-dom
 ├── playwright.config.ts
 └── package.json             ← single workspace (not a monorepo tool)
 ```
