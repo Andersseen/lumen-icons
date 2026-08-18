@@ -728,7 +728,7 @@ const RECIPES = {
     return {
       pathLength: false,
       pathClasses: [],
-      keyframes: `@keyframes lmn-${name}-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 70% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-${name}-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 70% { transform: scaleX(0.98); opacity: 1; } }`,
+      keyframes: `@keyframes lmn-${name}-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 80% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-${name}-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 80% { transform: scaleX(0.98); opacity: 1; } }`,
       base: `.lmn-animate svg path { transform-origin: center; }`,
       animate: `.lmn-animate--outline svg path { animation: lmn-${name}-weight ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; } .lmn-animate--filled svg { animation: lmn-${name}-filled ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }`,
     };
@@ -3504,8 +3504,6 @@ export const ICON_ANIMATIONS = {
   scale: { recipe: 'scale-settle', duration: '680ms' },
 
   // Charts
-  'chart-bar': { recipe: 'chart-grow', duration: '600ms' },
-  'chart-bar-square': { recipe: 'chart-grow', duration: '600ms' },
   'chart-bar': { recipe: 'chart-bars-stagger', duration: '720ms', args: [3] },
   'chart-bar-square': { recipe: 'chart-bars-stagger', duration: '800ms', args: [4] },
   'presentation-chart-bar': { recipe: 'chart-bars-stagger', duration: '800ms', args: [3] },
@@ -3583,11 +3581,6 @@ export const ICON_ANIMATIONS = {
   gif: { recipe: 'frame-flip', duration: '600ms' },
   database: { recipe: 'stack-rise', duration: '500ms' },
   server: { recipe: 'stack-rise', duration: '500ms' },
-  'server-stack': { recipe: 'stack-assemble', duration: '720ms' },
-  'circle-stack': { recipe: 'stack-assemble', duration: '680ms' },
-  'rectangle-stack': { recipe: 'stack-assemble', duration: '680ms' },
-  'square-2-stack': { recipe: 'stack-assemble', duration: '680ms' },
-  'square-3-stack-3d': { recipe: 'stack-assemble', duration: '760ms' },
   grid: { recipe: 'cell-pop', duration: '450ms' },
   'squares-2x2': { recipe: 'cell-pop', duration: '450ms' },
   'squares-plus': { recipe: 'cell-pop', duration: '450ms' },

@@ -47,8 +47,8 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
     
-    .lmn-filled svg,
-    .lmn-filled path {
+    :host(.lmn-filled) svg,
+    :host(.lmn-filled) svg path {
       fill: currentColor;
       stroke: none;
     }

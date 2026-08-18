@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
-const sourceDir = join(root, 'node_modules/heroicons/24/outline');
+const sourceDir = join(root, 'packages/icons/svg/outline');
 const iconsDir = join(root, 'packages/icons/src/icons');
 
 const toPascalCase = (str) =>

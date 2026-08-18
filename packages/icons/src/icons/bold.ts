@@ -12,7 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-bold-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 70% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-bold-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 70% { transform: scaleX(0.98); opacity: 1; } }
+    @keyframes lmn-bold-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 80% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-bold-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 80% { transform: scaleX(0.98); opacity: 1; } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
