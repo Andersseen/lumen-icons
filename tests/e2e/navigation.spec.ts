@@ -18,5 +18,5 @@ test("navigate from docs to home via logo", async ({ page }) => {
   await page.goto("/docs");
   await page.getByRole("link", { name: /lumen icons home/i }).click();
   await expect(page).toHaveURL("/");
-  await expect(page.getByRole("heading", { name: /beautiful icons/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /icons with intent/i })).toBeVisible();
 });

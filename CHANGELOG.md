@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Official homepage refresh**: rebuilt the public landing page into a responsive product experience with a live Lumen icon canvas, clear library metrics, technical capability cards and a three-step quickstart. The page uses Lumen icons rather than stock image assets and has dedicated Playwright coverage for its main browse flow.
+
 - **Official app platform refresh**: upgraded VoltUI to 1.0.1 and Angular Movement to 0.8.0; the demo now uses Angular's zoneless change detection. Its controls use VoltUI's native ARIA labels after the upgrade.
 - **Self-contained icon generation**: the generator now takes outline and filled geometry from committed Lumen components instead of requiring the Heroicons package; direct `heroicons` and `zone.js` dependencies were removed.
 
