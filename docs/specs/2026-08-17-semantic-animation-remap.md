@@ -190,6 +190,21 @@ Per-icon results:
 
 `cap-toss` and `slider-nudge` recipes were removed (single-use, superseded). All other Phase-1 mappings unchanged.
 
+### Addendum 2026-08-18 — directed batch: next 15 catalog icons
+
+Second maintainer-directed catalog pass, committed separately from the first 15. It reuses the new `splitPaths` / `reversePaths` machinery instead of adding SVG edits.
+
+Per-icon results:
+
+| Icon | Recipe | Motion |
+|---|---|---|
+| `arrow-right`, `arrow-long-right`, `arrow-long-left`, `arrow-long-up`, `arrow-long-down` | `draw-drift` | shaft draws from tail to tip, then the head resolves with subtle directional drift |
+| `arrow-left-circle`, `arrow-right-circle` | `draw-part` | circle stays still; arrow shaft draws tail → tip before the head |
+| `arrow-left-end-on-rectangle`, `arrow-left-on-rectangle`, `arrow-left-start-on-rectangle`, `arrow-right-end-on-rectangle`, `arrow-right-on-rectangle`, `arrow-right-start-on-rectangle` | `draw-part` | rectangle stays still; arrow shaft draws tail → tip before the head; filled variants lunge horizontally |
+| `arrow-path`, `arrow-path-rounded-square` | `spin` | one-shot rotation kept, slowed from 900 ms to 1000 ms for a smoother pass |
+
+`draw-part` now accepts optional filled-variant `x/y` lunge tuning while preserving the existing vertical default output for the first directed batch.
+
 ### Original Phase-0/1 notes
 
 - **Recipe reuse instead of new recipes** (same semantic motion already exists): `arrow-down-on-square(-stack)` → existing `download-arrow`, `arrow-up-on-square(-stack)` → existing `upload-arrow` (drops `slot-in`/`slot-out`); `briefcase` → existing `lock-click` (drops `case-click`); `wallet` → existing `calendar-flip` (drops `wallet-open`); `link` → existing `draw-underline`, `link-slash` → existing `draw-strikethrough` (drops `link-connect`/`link-break`). *(Note: `arrow-down-on-square(-stack)` were later re-directed to `draw-part` in the 2026-08-18 batch above.)*

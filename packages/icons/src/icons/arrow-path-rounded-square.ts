@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-arrow-path-rounded-square 900ms ease both;
+          animation: lmn-arrow-path-rounded-square 1000ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

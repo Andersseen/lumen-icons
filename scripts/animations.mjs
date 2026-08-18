@@ -2500,7 +2500,7 @@ const RECIPES = {
     };
   },
 
-  'draw-part'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, filledArrowIndices = null) {
+  'draw-part'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, filledArrowIndices = null, filledDx = '0', filledDy = '3px') {
     // Outline is split into `total` subpaths. Draw the shaft from tail to tip,
     // then resolve the head; the container remains at rest.
     // Filled is not split: whole-icon lunge, plus an opacity dip on the arrow's
@@ -2515,6 +2515,17 @@ const RECIPES = {
     const filledArrowSelectors = (filledArrowIndices ?? [])
       .map((i) => `.lmn-animate--filled svg .lmn-path-${i}`)
       .join(',\n        ');
+    const lungeKeyframes = filledDx === '0' && filledDy === '3px'
+      ? `@keyframes lmn-${name}-lunge {
+          0%, 100% { transform: translateY(0); }
+          40% { transform: translateY(3px); }
+          60% { transform: translateY(-1px); }
+        }`
+      : `@keyframes lmn-${name}-lunge {
+          0%, 100% { transform: translate(0, 0); }
+          40% { transform: translate(${filledDx}, ${filledDy}); }
+          60% { transform: translate(calc(${filledDx} * -0.33), calc(${filledDy} * -0.33)); }
+        }`;
     return {
       pathLength: true,
       pathClasses,
@@ -2530,11 +2541,7 @@ const RECIPES = {
           0%, 42% { stroke-dashoffset: 1; }
           100% { stroke-dashoffset: 0; }
         }
-        @keyframes lmn-${name}-lunge {
-          0%, 100% { transform: translateY(0); }
-          40% { transform: translateY(3px); }
-          60% { transform: translateY(-1px); }
-        }
+        ${lungeKeyframes}
         @keyframes lmn-${name}-fade {
           0%, 100% { opacity: 1; }
           30% { opacity: 0.25; }
@@ -2617,8 +2624,8 @@ export const ICON_ANIMATIONS = {
   trash: { recipe: 'trash-lid', duration: '450ms' },
 
   // Refresh / rotate
-  'arrow-path': { recipe: 'spin', duration: '900ms' },
-  'arrow-path-rounded-square': { recipe: 'spin', duration: '900ms' },
+  'arrow-path': { recipe: 'spin', duration: '1000ms' },
+  'arrow-path-rounded-square': { recipe: 'spin', duration: '1000ms' },
   'refresh-cw': { recipe: 'spin', duration: '800ms' },
 
   // Settings / tools
@@ -2655,20 +2662,20 @@ export const ICON_ANIMATIONS = {
   'no-symbol': { recipe: 'no-shake', duration: '450ms' },
 
   // Arrows
-  'arrow-right': { recipe: 'slide-right', duration: '400ms' },
-  'arrow-long-right': { recipe: 'slide-right', duration: '400ms' },
+  'arrow-right': { recipe: 'draw-drift', duration: '700ms', args: ['3px', '0', [3], [1, 2], 3] },
+  'arrow-long-right': { recipe: 'draw-drift', duration: '700ms', args: ['3px', '0', [3], [1, 2], 3] },
   'arrow-small-right': { recipe: 'slide-right', duration: '350ms', args: ['4px'] },
   'chevron-right': { recipe: 'slide-right', duration: '350ms', args: ['4px'] },
   'arrow-left': { recipe: 'draw-drift', duration: '700ms', args: ['-3px', '0', [3], [1, 2], 3] },
-  'arrow-long-left': { recipe: 'slide-left', duration: '400ms' },
+  'arrow-long-left': { recipe: 'draw-drift', duration: '700ms', args: ['-3px', '0', [3], [1, 2], 3] },
   'arrow-small-left': { recipe: 'slide-left', duration: '350ms', args: ['4px'] },
   'chevron-left': { recipe: 'slide-left', duration: '350ms', args: ['4px'] },
   'arrow-up': { recipe: 'slide-up', duration: '400ms' },
-  'arrow-long-up': { recipe: 'slide-up', duration: '400ms' },
+  'arrow-long-up': { recipe: 'draw-drift', duration: '700ms', args: ['0', '-3px', [3], [1, 2], 3] },
   'arrow-small-up': { recipe: 'slide-up', duration: '350ms', args: ['4px'] },
   'chevron-up': { recipe: 'slide-up', duration: '350ms', args: ['4px'] },
   'arrow-down': { recipe: 'draw-drift', duration: '700ms', args: ['0', '3px', [3], [1, 2], 3] },
-  'arrow-long-down': { recipe: 'slide-down', duration: '400ms' },
+  'arrow-long-down': { recipe: 'draw-drift', duration: '700ms', args: ['0', '3px', [3], [1, 2], 3] },
   'arrow-small-down': { recipe: 'slide-down', duration: '350ms', args: ['4px'] },
   'chevron-down': { recipe: 'slide-down', duration: '350ms', args: ['4px'] },
 
@@ -2893,12 +2900,12 @@ export const ICON_ANIMATIONS = {
   'chevron-double-right': { recipe: 'chevron-cascade', duration: '450ms', args: ['x', '3px'] },
   'log-in': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
   'log-out': { recipe: 'door-exit', duration: '450ms', args: ['4px'] },
-  'arrow-right-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
-  'arrow-left-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['4px'] },
-  'arrow-right-start-on-rectangle': { recipe: 'door-exit', duration: '450ms', args: ['4px'] },
-  'arrow-left-start-on-rectangle': { recipe: 'door-exit', duration: '450ms', args: ['-4px'] },
-  'arrow-right-end-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
-  'arrow-left-end-on-rectangle': { recipe: 'door-enter', duration: '450ms', args: ['4px'] },
+  'arrow-right-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '3px', '0'] },
+  'arrow-left-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '-3px', '0'] },
+  'arrow-right-start-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '3px', '0'] },
+  'arrow-left-start-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '-3px', '0'] },
+  'arrow-right-end-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '3px', '0'] },
+  'arrow-left-end-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '-3px', '0'] },
   'arrow-down-on-square': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1]] },
   'arrow-down-on-square-stack': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 5, [1]] },
   'arrow-up-on-square': { recipe: 'upload-arrow', duration: '550ms' },
@@ -2947,6 +2954,8 @@ export const ICON_ANIMATIONS = {
   'arrow-down-left': { recipe: 'draw-drift', duration: '700ms', args: ['-2.5px', '2.5px', [1], [2, 3], 3, false] },
   'arrow-down-right': { recipe: 'draw-drift', duration: '700ms', args: ['2.5px', '2.5px', [1], [2, 3], 3, false] },
   'arrow-down-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1]] },
+  'arrow-left-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1], '-3px', '0'] },
+  'arrow-right-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1], '3px', '0'] },
   'arrow-down-tray': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1]] },
 
   // Misc

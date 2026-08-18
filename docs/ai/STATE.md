@@ -4,7 +4,7 @@
 > "Recent changes" and (if applicable) "In progress" before ending the session.
 > Keep entries short; prune anything older than ~10 entries into git history.
 
-**Last updated:** 2026-07-27
+**Last updated:** 2026-08-18
 **Library version:** `lumen-icons` 0.2.0 (published to npm) · repo app `lumen` 0.0.1 (private)
 
 ## Snapshot
@@ -21,6 +21,7 @@
 
 ## Recent changes (newest first)
 
+- **2026-08-18** — Directed batch: next 15 catalog icons. `arrow-right`, `arrow-long-*`, `arrow-left/right-circle`, and the `arrow-left/right-*-on-rectangle` variants now use the split-path draw sequence from tail → tip → head over 700 ms; horizontal filled rectangle/circle arrows use directional lunge tuning. `arrow-path` and `arrow-path-rounded-square` keep one-shot spin but slow to 1000 ms for a smoother pass. 15 icon files regenerated; awaiting the usual visual pass.
 - **2026-08-18** — Directed batch: first 15 catalog icons (spec addendum). New generator capabilities: `splitPaths` (split compound paths into subpaths with relative→absolute conversion) + variant CSS markers (`.lmn-animate--outline`/`.lmn-animate--filled`). New recipes: `cap-toss-fade` (academic-cap), `slider-pins` (adjustments move only their knobs), `archive-peek`/`archive-drop`/`archive-reject` (lid opens + per-variant action), `draw-drift` (plain arrows draw + drift), `draw-part` (download arrows: only the arrow draws). Fixed the splitter so implicit relative line segments following a converted `m` keep their coordinates instead of corrupting the icon geometry. Arrow drawing now follows tail → tip → head over 700 ms with eased pacing; the generator reverses only straight shafts defined backwards in source SVGs. 14 icon files regenerated; `pnpm run check` green (3648 tests + publint).
 - **2026-08-17** — Semantic animation remap implemented (branch `feature/semantic-animations`, spec `2026-08-17-semantic-animation-remap`, status in-progress pending the manual visual pass). Phase 0: fixed 5 duplicate/dead keys in `ICON_ANIMATIONS` (`cloud-arrow-down/up` now download/upload, `document-magnifying-glass` zooms). Phase 1: 34 new recipes + ~90 icons remapped — `pulse-scale` dropped from 75 icons to 1 (`github`). Also fixed `applyPathClasses` class accumulation on regen (menu had 6× duplicate classes). `pnpm run check` green (3648 tests + publint). ~93 icon files regenerated. Left to do: manual visual pass in the dev app (both variants × reduced-motion), then merge.
 - **2026-07-27** — Repository presentation + deployment consolidation. README rewritten as a visual landing page (badges, comparison table, API reference, pipeline diagram) with real screenshots in `docs/assets/`; same treatment for the npm README. GitHub About now has a description and 19 topics. Added root `LICENSE`, `SECURITY.md` and issue templates. **CI/CD collapsed into one workflow** (`.github/workflows/ci.yml`, replacing `ci-cd.yml`) that builds the site once and deploys that same artifact to Cloudflare Pages — preview on PRs, production on `main`; manual deploy scripts removed. Fixed demo-site visual bugs found while screenshotting (hardcoded `v0.1`, invisible selected states in the size picker and animate toggle, overlapping icon-card actions, dead "Status" category filter).
