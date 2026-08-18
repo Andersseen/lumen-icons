@@ -80,6 +80,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

@@ -12,10 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-wrench-screwdriver {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(180deg); }
-        }
+    @keyframes lmn-wrench-screwdriver { 0% { transform: rotate(0deg); } 42% { transform: rotate(10deg); } 70% { transform: rotate(-3deg); } 100% { transform: rotate(0deg); } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -26,9 +23,9 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-wrench-screwdriver 500ms ease-in-out both;
-        }
+    :host(.lmn-animate) svg { transform-origin: center; }
+
+    :host(.lmn-animate) svg { animation: lmn-wrench-screwdriver 560ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -62,6 +59,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

@@ -107,3 +107,41 @@ test("catalog keeps its desktop density and sticky controls", async ({ page }) =
   await expect(search).toBeVisible();
   expect((await search.boundingBox())!.y).toBeLessThan(120);
 });
+
+test("desktop controls scroll independently from the icon catalog", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 480 });
+  await page.goto("/icons");
+
+  const sidebar = page.getByLabel("Icon controls");
+  await expect(sidebar).toBeVisible();
+  expect(await sidebar.evaluate((element) => element.scrollHeight > element.clientHeight)).toBe(true);
+
+  await sidebar.evaluate((element) => { element.scrollTop = element.scrollHeight; });
+  expect(await sidebar.evaluate((element) => element.scrollTop > 0)).toBe(true);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+});
+
+test("bold gains weight and rocket returns to its idle position", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/icons");
+  await page.getByRole("switch", { name: "Animation" }).click();
+
+  const boldCard = page.getByRole("button", { name: "Copy import for bold", exact: true }).locator("..");
+  await boldCard.hover();
+  const boldPath = boldCard.locator("lmn-bold svg path");
+  await expect(boldPath).toBeVisible();
+  await page.waitForTimeout(250);
+  expect(Number.parseFloat(await boldPath.evaluate((path) => getComputedStyle(path).strokeWidth))).toBeGreaterThan(2);
+  await page.waitForTimeout(450);
+  expect(Number.parseFloat(await boldPath.evaluate((path) => getComputedStyle(path).strokeWidth))).toBe(2);
+
+  const search = page.getByRole("textbox", { name: "Search" });
+  await search.fill("rocket-launch");
+  const rocketCard = page.getByRole("button", { name: "Copy import for rocket-launch", exact: true }).locator("..");
+  await rocketCard.hover();
+  const rocket = rocketCard.locator("lmn-rocket-launch svg");
+  await expect(rocket).toBeVisible();
+  await page.waitForTimeout(850);
+  await expect(rocket).toHaveCSS("opacity", "1");
+  expect(await rocket.evaluate((svg) => getComputedStyle(svg).transform)).toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
+});

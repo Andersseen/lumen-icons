@@ -12,11 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-x-mark {
-          0% { stroke-dashoffset: 1; opacity: 0; transform: scale(0.6); }
-          60% { transform: scale(1.12); }
-          100% { stroke-dashoffset: 0; opacity: 1; transform: scale(1); }
-        }
+    @keyframes lmn-x-mark-left { 0% { stroke-dashoffset: 1; transform: rotate(-45deg); opacity: 0; } 28% { opacity: 1; } 76% { transform: rotate(3deg); } 100% { stroke-dashoffset: 0; transform: rotate(0); opacity: 1; } } @keyframes lmn-x-mark-right { 0% { stroke-dashoffset: 1; transform: rotate(45deg); opacity: 0; } 28% { opacity: 1; } 76% { transform: rotate(-3deg); } 100% { stroke-dashoffset: 0; transform: rotate(0); opacity: 1; } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -27,11 +23,7 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg path {
-          stroke-dasharray: 1;
-          stroke-dashoffset: 0;
-          animation: lmn-x-mark 420ms ease both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1, :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { stroke-dasharray: 1; stroke-dashoffset: 0; transform-origin: center; } :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-x-mark-left 560ms cubic-bezier(0.22, 0.8, 0.32, 1) both; } :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-x-mark-right 560ms cubic-bezier(0.22, 0.8, 0.32, 1) 70ms both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -58,13 +50,14 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" pathLength="1"/>
+      <path class="lmn-path-1" fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" pathLength="1"/>
     </svg>
     } @else {
       <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -74,7 +67,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M6 18 18 6M6 6l12 12" pathLength="1"/>
+      <path class="lmn-path-1" d="M6 18 18 6" pathLength="1"/><path class="lmn-path-2" d="M6 6 l12 12" pathLength="1"/>
     </svg>
     }
   `,

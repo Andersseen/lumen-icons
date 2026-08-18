@@ -12,10 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-bold {
-          0% { opacity: 0; transform: translateY(3px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
+    @keyframes lmn-bold-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 70% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-bold-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 70% { transform: scaleX(0.98); opacity: 1; } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -26,9 +23,9 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-bold 500ms ease both;
-        }
+    :host(.lmn-animate) svg path { transform-origin: center; }
+
+    :host(.lmn-animate:not(.lmn-filled)) svg path { animation: lmn-bold-weight 520ms cubic-bezier(0.22, 0.8, 0.32, 1) both; } :host(.lmn-animate.lmn-filled) svg { animation: lmn-bold-filled 520ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -62,6 +59,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

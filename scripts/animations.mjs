@@ -724,6 +724,16 @@ const RECIPES = {
     };
   },
 
+  'bold-thicken'(name, duration = '520ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `@keyframes lmn-${name}-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 70% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-${name}-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 70% { transform: scaleX(0.98); opacity: 1; } }`,
+      base: `.lmn-animate svg path { transform-origin: center; }`,
+      animate: `.lmn-animate--outline svg path { animation: lmn-${name}-weight ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; } .lmn-animate--filled svg { animation: lmn-${name}-filled ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }`,
+    };
+  },
+
   'draw-underline'(name, duration = '400ms') {
     return {
       pathLength: true,
@@ -790,6 +800,51 @@ const RECIPES = {
         .lmn-animate svg .lmn-path-4 { animation: lmn-${name}-bar ${duration} ease both 240ms; }
       `,
     };
+  },
+
+  'chart-bars-stagger'(name, duration = '720ms', barCount = 3) {
+    const bars = Array.from({ length: barCount }, (_, index) => index + 1);
+    return {
+      pathLength: false, pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4', 'lmn-path-5'], splitPaths: true,
+      keyframes: `@keyframes lmn-${name}-bar { 0% { transform: scaleY(0); opacity: 0; } 72% { transform: scaleY(1.04); opacity: 1; } 100% { transform: scaleY(1); opacity: 1; } }`,
+      base: `.lmn-animate svg path { transform-origin: bottom center; }`,
+      animate: bars.map((index) => `.lmn-animate--outline svg .lmn-path-${index} { animation: lmn-${name}-bar ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) ${index * 85}ms both; }`).join('\n        '),
+    };
+  },
+
+  'stack-assemble'(name, duration = '680ms') {
+    const paths = Array.from({ length: 8 }, (_, index) => index + 1);
+    return {
+      pathLength: false, pathClasses: paths.map(index => `lmn-path-${index}`), splitPaths: true,
+      keyframes: `@keyframes lmn-${name}-layer { 0% { transform: translateY(5px); opacity: 0; } 70% { transform: translateY(-0.7px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }`,
+      base: '',
+      animate: paths.map((index) => `.lmn-animate--outline svg .lmn-path-${index} { animation: lmn-${name}-layer ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) ${(8 - index) * 55}ms both; }`).join('\n        '),
+    };
+  },
+
+  'x-from-pause'(name, duration = '560ms') {
+    return {
+      pathLength: true, pathClasses: ['lmn-path-1', 'lmn-path-2'], splitPaths: true,
+      keyframes: `@keyframes lmn-${name}-left { 0% { stroke-dashoffset: 1; transform: rotate(-45deg); opacity: 0; } 28% { opacity: 1; } 76% { transform: rotate(3deg); } 100% { stroke-dashoffset: 0; transform: rotate(0); opacity: 1; } } @keyframes lmn-${name}-right { 0% { stroke-dashoffset: 1; transform: rotate(45deg); opacity: 0; } 28% { opacity: 1; } 76% { transform: rotate(-3deg); } 100% { stroke-dashoffset: 0; transform: rotate(0); opacity: 1; } }`,
+      base: '',
+      animate: `.lmn-animate--outline svg .lmn-path-1, .lmn-animate--outline svg .lmn-path-2 { stroke-dasharray: 1; stroke-dashoffset: 0; transform-origin: center; } .lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-left ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; } .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-right ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) 70ms both; }`,
+    };
+  },
+
+  'bolt-thicken'(name, duration = '540ms') {
+    return { pathLength: false, pathClasses: [], keyframes: `@keyframes lmn-${name} { 0% { transform: scaleX(1); opacity: 1; } 38% { transform: scaleX(1.32); opacity: 1; } 64% { transform: scaleX(0.94); opacity: 1; } 100% { transform: scaleX(1); opacity: 1; } }`, base: `.lmn-animate svg path { transform-origin: center; }`, animate: `.lmn-animate svg path { animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }` };
+  },
+
+  'tool-tighten'(name, duration = '520ms', angle = 12) {
+    return { pathLength: false, pathClasses: [], keyframes: `@keyframes lmn-${name} { 0% { transform: rotate(0deg); } 42% { transform: rotate(${angle}deg); } 70% { transform: rotate(-3deg); } 100% { transform: rotate(0deg); } }`, base: `.lmn-animate svg { transform-origin: center; }`, animate: `.lmn-animate svg { animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }` };
+  },
+
+  'key-turn-return'(name, duration = '520ms') {
+    return { pathLength: false, pathClasses: [], keyframes: `@keyframes lmn-${name} { 0% { transform: rotate(0deg); } 42% { transform: rotate(22deg); } 68% { transform: rotate(-4deg); } 100% { transform: rotate(0deg); } }`, base: `.lmn-animate svg { transform-origin: 62% 38%; }`, animate: `.lmn-animate svg { animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }` };
+  },
+
+  'signal-double-pulse'(name, duration = '880ms') {
+    return { pathLength: false, pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'], splitPaths: true, keyframes: `@keyframes lmn-${name}-arc { 0%, 100% { transform: scale(1); opacity: 1; } 12% { transform: scale(0.72); opacity: 0; } 28% { transform: scale(1.05); opacity: 1; } 46% { transform: scale(1); opacity: 1; } 58% { transform: scale(0.72); opacity: 0; } 76% { transform: scale(1.05); opacity: 1; } }`, base: '', animate: `.lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-arc ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) 0ms both; } .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-arc ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) 80ms both; } .lmn-animate--outline svg .lmn-path-3 { animation: lmn-${name}-arc ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) 160ms both; }` };
   },
 
   'chart-pie-slice'(name, duration = '600ms') {
@@ -1239,25 +1294,37 @@ const RECIPES = {
   'trash-lid'(name, duration = '450ms') {
     return {
       pathLength: false,
-      pathClasses: ['lmn-path-1', 'lmn-path-2'],
+      pathClasses: Array.from({ length: 8 }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
       keyframes: `
         @keyframes lmn-${name}-lid {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-5px) rotate(-12deg); }
+          0% { transform: translateY(0) rotate(0deg); }
+          30% { transform: translateY(-5px) rotate(-12deg); }
+          66% { transform: translateY(-5px) rotate(-12deg); }
+          100% { transform: translateY(0) rotate(0deg); }
         }
         @keyframes lmn-${name}-body {
           0%, 100% { transform: scaleY(1); }
-          50% { transform: scaleY(1.03); }
+          66% { transform: scaleY(1.025); }
+        }
+        @keyframes lmn-${name}-discard {
+          0%, 28% { transform: translate(-50%, -3px) scale(0.6); opacity: 0; }
+          42% { opacity: 1; }
+          66% { transform: translate(-50%, 7px) scale(1); opacity: 1; }
+          100% { transform: translate(-50%, 10px) scale(0.8); opacity: 0; }
         }
       `,
       base: `
-        .lmn-animate svg .lmn-path-1 {
+        .lmn-animate { position: relative; }
+        .lmn-animate::after { content: ''; position: absolute; left: 50%; top: 28%; width: 2px; height: 3px; border-radius: 1px; background: currentColor; opacity: 0; }
+        .lmn-animate--outline svg .lmn-path-8 {
           transform-origin: left center;
         }
       `,
       animate: `
-        .lmn-animate svg .lmn-path-1 { animation: lmn-${name}-lid ${duration} ease both; }
-        .lmn-animate svg .lmn-path-2 { animation: lmn-${name}-body ${duration} ease both; }
+        .lmn-animate--outline svg .lmn-path-8 { animation: lmn-${name}-lid ${duration} ease both; }
+        .lmn-animate--outline svg .lmn-path-1, .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-body ${duration} ease both; }
+        .lmn-animate::after { animation: lmn-${name}-discard ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
       `,
     };
   },
@@ -1314,10 +1381,11 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translateY(0) scale(1); }
-          30% { transform: translateY(-4px) scale(1.05); }
-          60% { transform: translateY(-10px) scale(0.95); opacity: 1; }
-          100% { transform: translateY(-16px) scale(0.85); opacity: 0.6; }
+          0% { transform: translate(0, 0) scale(1); opacity: 1; }
+          20% { transform: translate(-1px, 1px) scale(0.98); opacity: 1; }
+          58% { transform: translate(14px, -14px) scale(0.9); opacity: 0; }
+          66% { transform: translate(0, 0) scale(1); opacity: 0; }
+          100% { transform: translate(0, 0) scale(1); opacity: 1; }
         }
       `,
       base: '',
@@ -3158,9 +3226,9 @@ export const ICON_ANIMATIONS = {
   'check-circle': { recipe: 'draw-scale', duration: '500ms' },
   'check-badge': { recipe: 'draw-scale', duration: '500ms' },
   checkbox: { recipe: 'draw-scale', duration: '420ms' },
-  'x-mark': { recipe: 'draw-scale', duration: '420ms' },
-  x: { recipe: 'draw-scale', duration: '420ms' },
-  'x-circle': { recipe: 'draw-scale', duration: '500ms' },
+  'x-mark': { recipe: 'x-from-pause', duration: '560ms' },
+  x: { recipe: 'x-from-pause', duration: '560ms' },
+  'x-circle': { recipe: 'x-from-pause', duration: '620ms' },
 
   // Math / toggles
   plus: { recipe: 'plus-draw', duration: '440ms' },
@@ -3180,7 +3248,7 @@ export const ICON_ANIMATIONS = {
   underline: { recipe: 'draw-underline', duration: '400ms' },
   strikethrough: { recipe: 'draw-strikethrough', duration: '400ms' },
   slash: { recipe: 'draw-strikethrough', duration: '400ms' },
-  bold: { recipe: 'typewriter', duration: '500ms' },
+  bold: { recipe: 'bold-thicken', duration: '520ms' },
   italic: { recipe: 'typewriter', duration: '500ms' },
   h1: { recipe: 'typewriter', duration: '500ms' },
   h2: { recipe: 'typewriter', duration: '500ms' },
@@ -3208,8 +3276,8 @@ export const ICON_ANIMATIONS = {
   'cog-8-tooth': { recipe: 'rotate-once', duration: '700ms', args: [180] },
   settings: { recipe: 'rotate-once', duration: '700ms', args: [180] },
   scissors: { recipe: 'scissors-snip', duration: '560ms' },
-  wrench: { recipe: 'rotate-once', duration: '500ms', args: [180] },
-  'wrench-screwdriver': { recipe: 'rotate-once', duration: '500ms', args: [180] },
+  wrench: { recipe: 'tool-tighten', duration: '520ms', args: [12] },
+  'wrench-screwdriver': { recipe: 'tool-tighten', duration: '560ms', args: [10] },
   'paper-clip': { recipe: 'clip-flex', duration: '600ms' },
   paperclip: { recipe: 'clip-flex', duration: '600ms' },
   'puzzle-piece': { recipe: 'puzzle-seat', duration: '620ms' },
@@ -3295,7 +3363,7 @@ export const ICON_ANIMATIONS = {
   'phone-arrow-up-right': { recipe: 'phone-vibrate', duration: '450ms' },
   'phone-x-mark': { recipe: 'phone-vibrate', duration: '450ms' },
   'device-phone-mobile': { recipe: 'phone-vibrate', duration: '450ms' },
-  rss: { recipe: 'wave', duration: '600ms' },
+  rss: { recipe: 'signal-double-pulse', duration: '880ms' },
 
   // Search
   search: { recipe: 'zoom', duration: '500ms' },
@@ -3328,15 +3396,15 @@ export const ICON_ANIMATIONS = {
   moon: { recipe: 'moon-wobble', duration: '800ms' },
   fire: { recipe: 'glow', duration: '700ms' },
   zap: { recipe: 'glow', duration: '700ms' },
-  bolt: { recipe: 'glow', duration: '700ms' },
-  'bolt-slash': { recipe: 'glow', duration: '700ms' },
+  bolt: { recipe: 'bolt-thicken', duration: '540ms' },
+  'bolt-slash': { recipe: 'bolt-thicken', duration: '540ms' },
   sparkles: { recipe: 'glow', duration: '700ms' },
   'light-bulb': { recipe: 'glow', duration: '700ms' },
   power: { recipe: 'glow', duration: '700ms' },
   cake: { recipe: 'glow', duration: '700ms' },
 
   // Signals
-  wifi: { recipe: 'wave', duration: '600ms' },
+  wifi: { recipe: 'signal-double-pulse', duration: '880ms' },
   signal: { recipe: 'wave', duration: '600ms' },
   'signal-slash': { recipe: 'wave', duration: '600ms' },
   'battery-0': { recipe: 'battery-charge', duration: '640ms' },
@@ -3401,7 +3469,7 @@ export const ICON_ANIMATIONS = {
   lock: { recipe: 'lock-click', duration: '400ms' },
   'lock-closed': { recipe: 'lock-click', duration: '400ms' },
   'lock-open': { recipe: 'unlock', duration: '500ms' },
-  key: { recipe: 'rotate-once', duration: '500ms', args: [90] },
+  key: { recipe: 'key-turn-return', duration: '520ms' },
   shield: { recipe: 'core-pulse', duration: '450ms' },
   'shield-check': { recipe: 'draw-scale', duration: '500ms' },
   'shield-exclamation': { recipe: 'wiggle', duration: '450ms' },
@@ -3438,8 +3506,16 @@ export const ICON_ANIMATIONS = {
   // Charts
   'chart-bar': { recipe: 'chart-grow', duration: '600ms' },
   'chart-bar-square': { recipe: 'chart-grow', duration: '600ms' },
-  'presentation-chart-bar': { recipe: 'chart-grow', duration: '600ms' },
+  'chart-bar': { recipe: 'chart-bars-stagger', duration: '720ms', args: [3] },
+  'chart-bar-square': { recipe: 'chart-bars-stagger', duration: '800ms', args: [4] },
+  'presentation-chart-bar': { recipe: 'chart-bars-stagger', duration: '800ms', args: [3] },
   'presentation-chart-line': { recipe: 'chart-grow', duration: '600ms' },
+
+  'circle-stack': { recipe: 'stack-assemble', duration: '680ms' },
+  'rectangle-stack': { recipe: 'stack-assemble', duration: '680ms' },
+  'square-2-stack': { recipe: 'stack-assemble', duration: '680ms' },
+  'square-3-stack-3d': { recipe: 'stack-assemble', duration: '760ms' },
+  'server-stack': { recipe: 'stack-assemble', duration: '720ms' },
   'chart-pie': { recipe: 'chart-pie-slice', duration: '600ms' },
 
   // Objects / places
@@ -3507,11 +3583,11 @@ export const ICON_ANIMATIONS = {
   gif: { recipe: 'frame-flip', duration: '600ms' },
   database: { recipe: 'stack-rise', duration: '500ms' },
   server: { recipe: 'stack-rise', duration: '500ms' },
-  'server-stack': { recipe: 'stack-rise', duration: '550ms' },
-  'circle-stack': { recipe: 'stack-rise', duration: '500ms' },
-  'rectangle-stack': { recipe: 'stack-rise', duration: '500ms' },
-  'square-2-stack': { recipe: 'stack-rise', duration: '500ms' },
-  'square-3-stack-3d': { recipe: 'stack-rise', duration: '550ms' },
+  'server-stack': { recipe: 'stack-assemble', duration: '720ms' },
+  'circle-stack': { recipe: 'stack-assemble', duration: '680ms' },
+  'rectangle-stack': { recipe: 'stack-assemble', duration: '680ms' },
+  'square-2-stack': { recipe: 'stack-assemble', duration: '680ms' },
+  'square-3-stack-3d': { recipe: 'stack-assemble', duration: '760ms' },
   grid: { recipe: 'cell-pop', duration: '450ms' },
   'squares-2x2': { recipe: 'cell-pop', duration: '450ms' },
   'squares-plus': { recipe: 'cell-pop', duration: '450ms' },
@@ -3653,7 +3729,7 @@ export const FALLBACK_ANIMATIONS = [
   { match: n => n === 'wallet' || n === 'tag' || n === 'percent-badge' || n === 'receipt-percent' || n === 'receipt-refund' || n === 'scale', recipe: 'pulse-scale', duration: '450ms' },
 
   // Charts
-  { match: n => n.includes('chart-bar') || n.includes('presentation-chart') || n === 'chart-bar-square', recipe: 'chart-grow', duration: '600ms' },
+  { match: n => n.includes('chart-bar') || n === 'chart-bar-square', recipe: 'chart-bars-stagger', duration: '720ms', args: [3] },
   { match: n => n === 'chart-pie', recipe: 'chart-pie-slice', duration: '600ms' },
 
   // Objects / tools
@@ -3675,7 +3751,7 @@ export const FALLBACK_ANIMATIONS = [
   { match: n => n.includes('menu') || n.includes('bars'), recipe: 'menu-morph', duration: '400ms' },
   { match: n => n.includes('search') || n.includes('magnifying'), recipe: 'zoom', duration: '500ms' },
   { match: n => n.includes('ellipsis'), recipe: 'ellipsis-pulse', duration: '600ms' },
-  { match: n => n.includes('grid') || n.includes('squares') || n === 'view-columns' || n === 'rectangle-group' || n === 'rectangle-stack' || n === 'square-2-stack' || n === 'square-3-stack-3d', recipe: 'cell-pop', duration: '450ms' },
+  { match: n => n.includes('grid') || n.includes('squares') || n === 'view-columns' || n === 'rectangle-group', recipe: 'cell-pop', duration: '450ms' },
   { match: n => n.includes('cursor') || n.includes('hand') || n.includes('finger') || n.includes('tap'), recipe: 'tap', duration: '400ms' },
   { match: n => n === 'eye' || n === 'eye-slash' || n === 'eye-dropper', recipe: 'blink', duration: '450ms' },
   { match: n => n === 'link' || n === 'link-slash', recipe: 'draw-underline', duration: '500ms' },

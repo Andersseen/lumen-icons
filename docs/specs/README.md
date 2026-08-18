@@ -40,7 +40,8 @@ draft → approved → in-progress → done   (or: rejected)
 
 *(add new specs to the top)*
 
-- [2026-08-18-semantic-motion-audit-mechanisms.md](2026-08-18-semantic-motion-audit-mechanisms.md) — replace generic mechanism animation (in-progress)
+- [2026-08-18-semantic-motion-compositions.md](2026-08-18-semantic-motion-compositions.md) — authored multi-part motion, rest-state checks and catalog control scrolling (done)
+- [2026-08-18-semantic-motion-audit-mechanisms.md](2026-08-18-semantic-motion-audit-mechanisms.md) — replace generic mechanism animation (done)
 - [2026-08-18-responsive-catalog-and-animation-audit.md](2026-08-18-responsive-catalog-and-animation-audit.md) — responsive catalog + targeted animation audit (done)
 - [2026-08-18-navigation-motion-and-sticky-sidebar.md](2026-08-18-navigation-motion-and-sticky-sidebar.md) — sticky catalog controls + directional navigation motion (in-progress)
 - [2026-08-17-semantic-animation-remap.md](2026-08-17-semantic-animation-remap.md) — Phase 0/1: dedupe ICON_ANIMATIONS + semantic remap of the 75 `pulse-scale` icons (draft)

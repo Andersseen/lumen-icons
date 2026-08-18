@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Rest-state corrections**: tool and key motions now turn briefly and return to their original orientation; bolt thickness pulses on its path and settles at normal width; trash isolates its top rim while the discard artifact is transient.
+- **Composed semantic motion**: chart bars now grow independently; stacks assemble layer by layer; X symbols unfold from pause-like strokes; bolts pulse their width; rockets launch then return as a fade; and Wi‑Fi/RSS emit two staggered pulses.
 - **Mechanism-specific motion**: batteries now assemble a terminal, case and charge level; balance scales settle around their pivot; scissors snip; paper clips flex into position; and puzzle pieces seat with a controlled compression.
 - **Focused draw animations for document and add icons**: `document*` icons now trace their outlines rather than appearing as a generic fade, and `plus*` icons assemble their circle (where present), vertical stroke, then horizontal stroke instead of rotating.
 - **Per-part animation machinery**: recipes can now declare `splitPaths` (the generator splits compound `<path>` d's into one element per subpath, converting relative `m` starts to absolute) and variant-scoped CSS markers `.lmn-animate--outline` / `.lmn-animate--filled`, so animations can move *parts* of an icon (slider pins, box lids, a lone arrow) without touching SVG sources.
@@ -22,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
 
 ### Changed
+
+- **Verified rest-state motion and sidebar scrolling**: `bold` now pulses its real configured outline stroke width instead of a generic scale; `rocket-launch` anticipates and departs diagonally up-right before returning to its exact default state; the sticky desktop controls now scroll within their own viewport region. Playwright covers the bold weight peak, rocket rest state, and independent sidebar scrolling.
 
 - **~90 icons remapped to semantic animations** (spec `2026-08-17-semantic-animation-remap`): the generic `pulse-scale` went from 75 icons to just 1 (`github`, brand logo). Eyes blink, double chevrons cascade, trending arrows draw themselves, login/logout icons enter/exit, stacks rise, grids pop cell by cell, screens power on, chat bubbles pop from their tail. No SVG or public API changes.
 
