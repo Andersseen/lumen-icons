@@ -13,10 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-rocket-launch {
-          0% { transform: translateY(0) scale(1); }
-          30% { transform: translateY(-4px) scale(1.05); }
-          60% { transform: translateY(-10px) scale(0.95); opacity: 1; }
-          100% { transform: translateY(-16px) scale(0.85); opacity: 0.6; }
+          0% { transform: translate(0, 0) scale(1); opacity: 1; }
+          20% { transform: translate(-1px, 1px) scale(0.98); opacity: 1; }
+          58% { transform: translate(14px, -14px) scale(0.9); opacity: 0; }
+          66% { transform: translate(0, 0) scale(1); opacity: 0; }
+          100% { transform: translate(0, 0) scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -64,6 +65,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

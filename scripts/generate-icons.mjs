@@ -1,7 +1,14 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyPathClasses, applyPathLength, buildAnimation, composeStyles } from './animations.mjs';
+import {
+  applyPathClasses,
+  applyPathLength,
+  buildAnimation,
+  composeStyles,
+  reverseStraightPaths,
+  splitSubpaths,
+} from './animations.mjs';
 import {
   iconsDir,
   inferAliases,
@@ -50,6 +57,7 @@ function generateOutlineSvg(name, innerSvg) {
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -209,9 +217,18 @@ function generateIconFiles(svgFiles) {
     }
 
     const animation = buildAnimation(name);
+    if (animation.splitPaths) {
+      outlineSvg = splitSubpaths(outlineSvg);
+      if (animation.splitPaths === 'both' && filledSvg) {
+        filledSvg = splitSubpaths(filledSvg);
+      }
+    }
     if (animation.pathClasses.length > 0) {
       outlineSvg = applyPathClasses(outlineSvg, animation.pathClasses);
       if (filledSvg) filledSvg = applyPathClasses(filledSvg, animation.pathClasses);
+    }
+    if (animation.reversePaths?.length) {
+      outlineSvg = reverseStraightPaths(outlineSvg, animation.reversePaths);
     }
     if (animation.pathLength) {
       outlineSvg = applyPathLength(outlineSvg);
@@ -247,8 +264,14 @@ function regenerateCustomIcons(outlineNames) {
 
     const className = toClassName(name);
     const animation = buildAnimation(name);
+    if (animation.splitPaths) {
+      innerSvg = splitSubpaths(innerSvg);
+    }
     if (animation.pathClasses.length > 0) {
       innerSvg = applyPathClasses(innerSvg, animation.pathClasses);
+    }
+    if (animation.reversePaths?.length) {
+      innerSvg = reverseStraightPaths(innerSvg, animation.reversePaths);
     }
     if (animation.pathLength) {
       innerSvg = applyPathLength(innerSvg);
@@ -270,7 +293,7 @@ const svgFiles = readdirSync(outlineDir)
   .filter(f => f.endsWith('.svg'))
   .sort();
 
-console.log(`Found ${svgFiles.length} SVGs in Heroicons outline.`);
+console.log(`Found ${svgFiles.length} committed Lumen outline SVGs.`);
 if (overwrite) {
   console.log('Overwrite mode enabled: all existing icons will be regenerated.');
 }
@@ -302,7 +325,7 @@ updateBarrel(allIcons);
 updateCatalog(allIcons, metadata);
 
 console.log(`Generated ${generated.length} new icons.`);
-console.log(`Overwritten ${overwritten.length} existing Heroicons.`);
+console.log(`Overwritten ${overwritten.length} source icons.`);
 console.log(`Regenerated ${regenerated} custom icons.`);
 console.log(`Skipped ${skipped.length} existing icons.`);
 console.log(`Total icons: ${allIcons.length}`);

@@ -12,13 +12,15 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-alert-circle {
-          0%, 100% { transform: rotate(0deg) translateX(0); }
-          15% { transform: rotate(8deg) translateX(2px); }
-          30% { transform: rotate(-8deg) translateX(-2px); }
-          45% { transform: rotate(5deg) translateX(1px); }
-          60% { transform: rotate(-5deg) translateX(-1px); }
-          75% { transform: rotate(2deg) translateX(0); }
+    @keyframes lmn-alert-circle-ring {
+          0% { stroke-dashoffset: 1; opacity: 0.25; }
+          56% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-alert-circle-mark {
+          0%, 42% { transform: translateY(-1.5px); opacity: 0; }
+          68% { transform: translateY(0.5px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -30,9 +32,12 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-alert-circle 450ms ease-in-out both;
+    :host(.lmn-animate) svg circle {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-alert-circle-ring 560ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
+        :host(.lmn-animate) svg line { animation: lmn-alert-circle-mark 560ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -59,6 +64,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -68,7 +74,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+      <circle cx="12" cy="12" r="10" pathLength="1"/><line x1="12" x2="12" y1="8" y2="12" pathLength="1"/><line x1="12" x2="12.01" y1="16" y2="16" pathLength="1"/>
     </svg>
   `,
 })

@@ -11,8 +11,10 @@ import { MOVEMENT_DIRECTIVES } from "angular-movement";
 import { timer } from "rxjs";
 
 import { LmnArrowRightIcon } from "lumen-icons/arrow-right";
+import { LmnBoltIcon } from "lumen-icons/bolt";
 import { LmnCheckIcon } from "lumen-icons/check";
 import { LmnCopyIcon } from "lumen-icons/copy";
+import { LmnSparklesIcon } from "lumen-icons/sparkles";
 import { VoltBadge, VoltButton } from "@voltui/components";
 
 import { HomeAnimationShowcaseComponent } from "./home-animation-showcase";
@@ -25,8 +27,10 @@ import { LIBRARY_VERSION } from "../../data/site-meta";
   imports: [
     RouterLink,
     LmnArrowRightIcon,
+    LmnBoltIcon,
     LmnCheckIcon,
     LmnCopyIcon,
+    LmnSparklesIcon,
     MOVEMENT_DIRECTIVES,
     VoltBadge,
     VoltButton,

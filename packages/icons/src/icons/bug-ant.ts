@@ -13,11 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-bug-ant {
-          0%, 100% { transform: rotate(0deg); }
-          20% { transform: rotate(-8deg); }
-          40% { transform: rotate(8deg); }
-          60% { transform: rotate(-4deg); }
-          80% { transform: rotate(4deg); }
+          0%, 100% { transform: translate(0, 0); }
+          20% { transform: translate(1px, -1px); }
+          40% { transform: translate(-1px, 1px); }
+          60% { transform: translate(1px, 1px); }
+          80% { transform: translate(-1px, -1px); }
         }
 
     :host(.lmn-animate) svg path,
@@ -30,7 +30,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-bug-ant 450ms ease-in-out both;
+          animation: lmn-bug-ant 500ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {
@@ -65,6 +65,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

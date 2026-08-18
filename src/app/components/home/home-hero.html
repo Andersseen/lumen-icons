@@ -1,42 +1,42 @@
 <section
-  class="dark relative overflow-hidden bg-background py-20 sm:py-28"
+  class="dark relative isolate overflow-hidden bg-[#080c18] py-16 sm:py-24 lg:py-28"
   aria-labelledby="hero-heading"
 >
   <div
     class="pointer-events-none absolute inset-0 flex items-start justify-center pt-10"
     aria-hidden="true"
   >
-    <div class="h-80 w-[600px] rounded-full bg-primary/20 blur-3xl"></div>
+    <div class="h-[28rem] w-[44rem] rounded-full bg-primary/25 blur-3xl"></div>
   </div>
   <div
-    class="pointer-events-none absolute inset-0 opacity-[0.35]"
-    style="background-image: radial-gradient(circle, rgb(148 163 184 / 0.18) 1px, transparent 1px); background-size: 28px 28px;"
+    class="pointer-events-none absolute inset-0 opacity-[0.28]"
+    style="background-image: linear-gradient(rgb(148 163 184 / 0.11) 1px, transparent 1px), linear-gradient(90deg, rgb(148 163 184 / 0.11) 1px, transparent 1px); background-size: 42px 42px;"
     aria-hidden="true"
   ></div>
 
   <div class="relative mx-auto max-w-6xl px-4">
-    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <div>
-        <div class="mb-6 inline-flex items-center gap-2">
-          <volt-badge variant="outline" class="inline-flex items-center gap-2">
-            <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"></span>
-            <span class="text-xs font-medium">v{{ version }} &middot; Open source &middot; MIT</span>
+    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
+      <div class="max-w-2xl">
+        <div class="mb-7 inline-flex items-center gap-2">
+          <volt-badge variant="outline" class="inline-flex items-center gap-2 border-primary/35 bg-primary/10 px-3 py-1.5">
+            <span class="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_14px_var(--primary)]"></span>
+            <span class="text-xs font-semibold tracking-wide">Angular 21+ · v{{ version }} · MIT</span>
           </volt-badge>
         </div>
 
         <h1
           id="hero-heading"
-          class="text-4xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-5xl xl:text-6xl"
+          class="text-5xl font-bold leading-[0.98] tracking-[-0.055em] text-white sm:text-6xl xl:text-7xl"
         >
-          Beautiful icons,<br />
-          <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            built for Angular.
+          Icons with
+          <span class="bg-gradient-to-r from-violet-300 via-primary to-cyan-300 bg-clip-text text-transparent">
+            intent.
           </span>
         </h1>
 
-        <p class="mt-5 text-lg leading-relaxed text-muted-foreground">
-          Accessible, tree-shakable, Angular&#8209;native icon components.
-          Zero framework dependencies. Opt&#8209;in animations included.
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl">
+          362 beautifully consistent, individually importable icons for Angular —
+          accessible by default, with motion that means something.
         </p>
 
         <div class="mt-8 flex flex-wrap gap-3">
@@ -48,7 +48,7 @@
             [moveWhileTap]="{ scale: [1, 0.97] }"
             [moveDuration]="180"
           >
-            Browse icons
+            Explore 362 icons
             <span
               class="inline-flex"
               [moveWhileHover]="{ x: [0, 3] }"
@@ -65,47 +65,43 @@
             [moveWhileTap]="{ scale: [1, 0.98] }"
             [moveDuration]="180"
           >
-            Documentation
+            Read the docs
           </volt-button>
         </div>
 
-        <div class="mt-6 flex items-center gap-3 rounded-xl border border-border bg-card/60 px-4 py-3">
-          <lmn-arrow-right
-            [size]="14"
-            [strokeWidth]="2"
-            class="shrink-0 text-secondary-foreground"
-            [move]="{ opacity: [0, 1], x: [-4, 0] }"
-            [moveDuration]="260"
-          />
-          <code class="text-sm text-muted-foreground">
-            <span class="text-secondary-foreground select-none">$ </span>npm
-            install lumen-icons
-          </code>
-          <button
-            type="button"
-            (click)="copyInstall()"
-            class="ml-auto shrink-0 rounded-md p-1.5 text-secondary-foreground transition-colors hover:bg-secondary hover:text-muted-foreground"
-            [moveWhileHover]="{ scale: [1, 1.08], rotate: [0, -3] }"
-            [moveWhileTap]="{ scale: [1, 0.92] }"
-            [moveDuration]="160"
-            [attr.aria-label]="installCopied() ? 'Copied!' : 'Copy install command'"
-          >
-            @if (installCopied()) {
-            <lmn-check
-              [size]="14"
-              [strokeWidth]="2.5"
-              class="text-success"
-              [move]="{ opacity: [0, 1], scale: [0.7, 1.08, 1], rotate: [-8, 3, 0] }"
-              [moveDuration]="420"
-            />
-            } @else {
-            <lmn-copy [size]="14" [strokeWidth]="2" />
-            }
+        <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-400">
+          <span class="inline-flex items-center gap-2"><lmn-check [size]="16" [strokeWidth]="2.5" class="text-emerald-300" />Zero runtime dependencies</span>
+          <span class="inline-flex items-center gap-2"><lmn-check [size]="16" [strokeWidth]="2.5" class="text-emerald-300" />CSS-only motion</span>
+          <span class="inline-flex items-center gap-2"><lmn-check [size]="16" [strokeWidth]="2.5" class="text-emerald-300" />Tree-shake every import</span>
+        </div>
+
+        <div class="mt-7 flex max-w-md items-center gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-mono text-sm shadow-2xl shadow-black/10">
+          <span class="select-none text-violet-300">$</span>
+          <code class="min-w-0 flex-1 truncate text-slate-300">npm install lumen-icons</code>
+          <button type="button" (click)="copyInstall()" class="rounded-md p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-white" [attr.aria-label]="installCopied() ? 'Copied!' : 'Copy install command'">
+            @if (installCopied()) { <lmn-check [size]="14" [strokeWidth]="2.5" class="text-emerald-300" /> } @else { <lmn-copy [size]="14" [strokeWidth]="2" /> }
           </button>
         </div>
       </div>
 
-      <app-home-animation-showcase />
+      <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
+        <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-cyan-300/20 blur-2xl" aria-hidden="true"></div>
+        <app-home-animation-showcase />
+        <div class="relative mt-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 backdrop-blur">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary"><lmn-bolt [size]="20" [strokeWidth]="2.25" [animate]="true" /></span>
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-white">Made for production UIs</p>
+            <p class="text-xs text-slate-400">Typed inputs · OnPush · standalone components</p>
+          </div>
+          <lmn-sparkles [size]="24" [strokeWidth]="1.8" [animate]="true" class="ml-auto text-violet-300" />
+        </div>
+      </div>
+    </div>
+
+    <div class="relative mt-14 grid grid-cols-3 gap-3 border-t border-white/10 pt-7 sm:max-w-2xl sm:gap-8">
+      <div><p class="text-2xl font-bold tracking-tight text-white sm:text-3xl">362</p><p class="mt-1 text-xs text-slate-400 sm:text-sm">individually importable</p></div>
+      <div><p class="text-2xl font-bold tracking-tight text-white sm:text-3xl">0</p><p class="mt-1 text-xs text-slate-400 sm:text-sm">runtime dependencies</p></div>
+      <div><p class="text-2xl font-bold tracking-tight text-white sm:text-3xl">100%</p><p class="mt-1 text-xs text-slate-400 sm:text-sm">Angular native</p></div>
     </div>
   </div>
 </section>

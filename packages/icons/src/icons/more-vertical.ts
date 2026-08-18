@@ -12,9 +12,9 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-more-vertical {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+    @keyframes lmn-more-vertical-dot {
+          0%, 100% { opacity: 1; transform: translateY(0); }
+          50% { opacity: 0.5; transform: translateY(-3px); }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,9 +26,9 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-more-vertical 500ms ease both;
-        }
+    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-more-vertical-dot 600ms ease both; }
+        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-more-vertical-dot 600ms ease both 100ms; }
+        :host(.lmn-animate) svg .lmn-path-3 { animation: lmn-more-vertical-dot 600ms ease both 200ms; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -55,6 +55,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -64,7 +65,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="12" cy="12" r="1" class="lmn-animate-el" /><circle cx="12" cy="5" r="1" class="lmn-animate-el" /><circle cx="12" cy="19" r="1" class="lmn-animate-el" />
+      <circle cx="12" cy="12" r="1" class="lmn-animate-el lmn-path-1" /><circle cx="12" cy="5" r="1" class="lmn-animate-el lmn-path-2" /><circle cx="12" cy="19" r="1" class="lmn-animate-el lmn-path-3" />
     </svg>
   `,
 })

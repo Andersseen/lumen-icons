@@ -1,16 +1,17 @@
-      <aside class="hidden w-72 shrink-0 lg:block" aria-label="Icon controls">
-        <div class="sticky top-20 space-y-6">
+      <aside aria-label="Icon controls" class="lg:max-h-[calc(100dvh-5.5rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-2">
+        <div class="space-y-6">
 
           <!-- Search -->
           <div>
             <div class="mb-1.5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p class="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Search
               </p>
               <span class="text-xs tabular-nums text-muted-foreground">{{ resultCount() }}/{{ totalCount() }}</span>
             </div>
             <volt-input
-              aria-label="Search"
+              id="icon-search"
+              ariaLabel="Search icons"
               placeholder="Search icons..."
               [value]="search()"
               (valueChange)="search.set($event)"
@@ -47,13 +48,14 @@
           <!-- Stroke -->
           <div>
             <div class="mb-1.5 flex items-center justify-between">
-              <label for="stroke-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Stroke
-              </label>
+              </p>
               <span class="tabular-nums text-sm font-medium text-foreground">{{ strokeWidth() }}</span>
             </div>
             <volt-slider
               id="stroke-slider"
+              ariaLabel="Stroke width"
               [value]="strokeWidth()"
               (valueChange)="strokeWidth.set($event)"
               [min]="0.5"
@@ -159,13 +161,14 @@
 
           <div>
             <div class="mb-1.5 flex items-center justify-between">
-              <label for="padding-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Padding
-              </label>
+              </p>
               <span class="tabular-nums text-sm font-medium text-foreground">{{ padding() }}px</span>
             </div>
             <volt-slider
               id="padding-slider"
+              ariaLabel="Padding"
               [value]="padding()"
               (valueChange)="padding.set($event)"
               [min]="0"
@@ -176,15 +179,16 @@
 
           <div>
             <div class="mb-1.5 flex items-center justify-between">
-              <label for="radius-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Radius
-              </label>
+              </p>
               <span class="tabular-nums text-sm font-medium text-foreground">
                 {{ typeof radius() === 'number' ? radius() + 'px' : radius() }}
               </span>
             </div>
             <volt-slider
               id="radius-slider"
+              ariaLabel="Corner radius"
               [value]="radiusSliderValue()"
               (valueChange)="radius.set($event)"
               [min]="0"

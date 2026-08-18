@@ -14,7 +14,9 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-badge {
           0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.18); opacity: 0.85; }
+          25% { transform: scale(1.05); opacity: 0.75; }
+          50% { transform: scale(1.1); opacity: 1; }
+          75% { transform: scale(1.05); opacity: 0.85; }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +29,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-badge 500ms ease both;
+          animation: lmn-badge 550ms ease-in-out both;
         }
 
     @media (prefers-reduced-motion: reduce) {
@@ -55,6 +57,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

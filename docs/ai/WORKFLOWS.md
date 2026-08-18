@@ -5,11 +5,11 @@
 
 ---
 
-## W1 — Add a new icon (from the Heroicons set)
+## W1 — Add a new icon from an external SVG source
 
-Use when the icon exists in `packages/icons/svg/outline` (and ideally `packages/icons/svg/solid`) but isn't generated yet.
+Use when a reviewed outline SVG (and ideally a filled SVG) is available but is not yet a Lumen component.
 
-1. Confirm the SVG exists: check `packages/icons/svg/outline/<name>.svg`.
+1. Add the SVG geometry as a new Lumen component following W2; external source files are not a generator dependency.
 2. Decide its animation: add an entry to `ICON_ANIMATIONS` in `scripts/animations.mjs` (pick an existing recipe that matches the icon's *meaning*), or verify a `FALLBACK_ANIMATIONS` pattern already covers it sensibly.
 3. Run `pnpm run generate:icons` — this emits the component + spec and updates barrel/catalog.
 4. Add a metadata entry (category + aliases) in `src/app/data/icon-metadata.ts`.

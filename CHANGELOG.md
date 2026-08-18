@@ -9,6 +9,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Rest-state corrections**: tool and key motions now turn briefly and return to their original orientation; bolt thickness pulses on its path and settles at normal width; trash isolates its top rim while the discard artifact is transient.
+- **Composed semantic motion**: chart bars now grow independently; stacks assemble layer by layer; X symbols unfold from pause-like strokes; bolts pulse their width; rockets launch then return as a fade; and Wi‑Fi/RSS emit two staggered pulses.
+- **Mechanism-specific motion**: batteries now assemble a terminal, case and charge level; balance scales settle around their pivot; scissors snip; paper clips flex into position; and puzzle pieces seat with a controlled compression.
+- **Focused draw animations for document and add icons**: `document*` icons now trace their outlines rather than appearing as a generic fade, and `plus*` icons assemble their circle (where present), vertical stroke, then horizontal stroke instead of rotating.
+- **Per-part animation machinery**: recipes can now declare `splitPaths` (the generator splits compound `<path>` d's into one element per subpath, converting relative `m` starts to absolute) and variant-scoped CSS markers `.lmn-animate--outline` / `.lmn-animate--filled`, so animations can move *parts* of an icon (slider pins, box lids, a lone arrow) without touching SVG sources.
+- **Directed animations for the first 15 catalog icons** (spec addendum 2026-08-18): `academic-cap` tosses and fades back; `adjustments-*` move only their pins; the three `archive-box` variants open the lid with a distinct action each (peek / arrow drops in / X pops out); plain arrows draw themselves drifting toward their direction; download arrows draw only the arrow, never the container.
+- **Directed animations for the next 15 catalog icons**: long/right/left/up/down arrows now draw from tail to tip; circle and rectangle arrow variants draw only the arrow before resolving the head; `arrow-path` retains its one-shot rotation, while `arrow-path-rounded-square` draws its two return arrows in parallel.
+- **Per-icon arrow refinements**: circle arrows establish their ring before the arrow arrives; rectangle variants keep a fixed frame while the arrow crosses it; square variants receive the arrow; and the tray gives a small impact response. Filled SVGs use split parts whenever their geometry permits it.
+- **Turn-arrow path animation**: the eight `arrow-turn-*` icons now trace their route through the corner and resolve their arrowhead instead of using the generic 360° spin fallback.
+- **Navigation motion refinements**: `arrow-uturn-*` now traces its U route instead of spinning; `bars-*` keeps its line identity with staggered reveals; and `bars-arrow-*` reveals its list before the direction arrow arrives.
+- **Sticky desktop icon controls**: the `/icons` sidebar stays below the app header while the catalog grid scrolls; the mobile controls are unchanged.
+- **34 new semantic animation recipes** in `scripts/animations.mjs` (e.g. `blink`, `chevron-cascade`, `trend-draw`, `door-enter`/`door-exit`, `stack-rise`, `cell-pop`, `screen-on`, `bubble-pop`, `cap-toss-fade`, `tag-swing`, `receipt-print`, `grin`, `crawl`), all pure CSS, single-run with `both` fill and reduced-motion safe. See `docs/specs/2026-08-17-semantic-animation-remap.md`.
+- **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
+
+### Changed
+
+- **Official homepage refresh**: rebuilt the public landing page into a responsive product experience with a live Lumen icon canvas, clear library metrics, technical capability cards and a three-step quickstart. The page uses Lumen icons rather than stock image assets and has dedicated Playwright coverage for its main browse flow.
+
+- **Official app platform refresh**: upgraded VoltUI to 1.0.1 and Angular Movement to 0.8.0; the demo now uses Angular's zoneless change detection. Its controls use VoltUI's native ARIA labels after the upgrade.
+- **Self-contained icon generation**: the generator now takes outline and filled geometry from committed Lumen components instead of requiring the Heroicons package; direct `heroicons` and `zone.js` dependencies were removed.
+
+- **Verified rest-state motion and sidebar scrolling**: `bold` now pulses its real configured outline stroke width instead of a generic scale; `rocket-launch` anticipates and departs diagonally up-right before returning to its exact default state; the sticky desktop controls now scroll within their own viewport region. Playwright covers the bold weight peak, rocket rest state, and independent sidebar scrolling.
+
+- **~90 icons remapped to semantic animations** (spec `2026-08-17-semantic-animation-remap`): the generic `pulse-scale` went from 75 icons to just 1 (`github`, brand logo). Eyes blink, double chevrons cascade, trending arrows draw themselves, login/logout icons enter/exit, stacks rise, grids pop cell by cell, screens power on, chat bubbles pop from their tail. No SVG or public API changes.
+
+### Fixed
+
+- **Narrow catalog overflow** — `/icons` now starts with one column below 420 px, its flex/grid children can shrink, and the compact header hides non-essential chrome. All card copy actions remain reachable at 320 px; a Playwright regression test covers it.
+- **Broken split-path icon geometry** — implicit relative line segments following a converted `m` command now remain relative, preventing malformed arrow strokes in the new per-part archive/download animations.
+- **Arrow draw direction and pacing** — the shaft now draws from its tail to the tip before the arrowhead resolves, using a longer eased motion instead of starting at the point.
+- **Shadowed duplicate keys in `ICON_ANIMATIONS`**: `cloud-arrow-down`/`cloud-arrow-up` now animate as download/upload (they silently floated); `document-magnifying-glass` zooms instead of fading in. Dead duplicate entries (`document-duplicate`, `finger-print`, nonexistent `ellipsis`) removed.
+- **Animation class accumulation on regeneration** — `applyPathClasses` now strips previously applied `lmn-path-N` classes before re-adding them, so custom icons no longer pile up duplicate classes on every `--overwrite` regen (e.g. `menu` had six copies of each).
 - **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
 - **`SECURITY.md`** and structured issue templates (bug report, icon request, feature request).
 - **Screenshots** of the demo site in `docs/assets/`, used by the rewritten README.

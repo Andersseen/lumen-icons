@@ -106,13 +106,14 @@
   <div class="grid gap-4 sm:grid-cols-2">
     <div>
       <div class="mb-1.5 flex items-center justify-between">
-        <label for="mobile-padding-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Padding
-        </label>
+        </p>
         <span class="tabular-nums text-sm font-medium text-foreground">{{ padding() }}px</span>
       </div>
       <volt-slider
         id="mobile-padding-slider"
+        ariaLabel="Padding"
         [value]="padding()"
         (valueChange)="padding.set($event)"
         [min]="0"
@@ -123,15 +124,16 @@
 
     <div>
       <div class="mb-1.5 flex items-center justify-between">
-        <label for="mobile-radius-slider" class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Radius
-        </label>
+        </p>
         <span class="tabular-nums text-sm font-medium text-foreground">
           {{ typeof radius() === 'number' ? radius() + 'px' : radius() }}
         </span>
       </div>
       <volt-slider
         id="mobile-radius-slider"
+        ariaLabel="Corner radius"
         [value]="radiusSliderValue()"
         (valueChange)="radius.set($event)"
         [min]="0"

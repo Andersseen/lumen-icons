@@ -10,6 +10,9 @@ import type { CategoryFilter, CategoryFilterOption, ControlOption, ToneOption } 
   selector: 'app-icons-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [VoltInput, VoltSlider, SizePickerComponent, AnimationPickerComponent],
+  host: {
+    class: 'hidden w-72 shrink-0 self-start lg:sticky lg:top-20 lg:block',
+  },
   templateUrl: './icons-sidebar.html',
 })
 export class IconsSidebarComponent {

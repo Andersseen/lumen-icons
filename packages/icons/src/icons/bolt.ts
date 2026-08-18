@@ -12,12 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-bolt {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          25% { transform: scale(1.12); opacity: 0.9; }
-          50% { transform: scale(1.05); opacity: 1; }
-          75% { transform: scale(1.1); opacity: 0.95; }
-        }
+    @keyframes lmn-bolt { 0% { transform: scaleX(1); opacity: 1; } 38% { transform: scaleX(1.32); opacity: 1; } 64% { transform: scaleX(0.94); opacity: 1; } 100% { transform: scaleX(1); opacity: 1; } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -28,9 +23,9 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-bolt 700ms ease-in-out both;
-        }
+    :host(.lmn-animate) svg path { transform-origin: center; }
+
+    :host(.lmn-animate) svg path { animation: lmn-bolt 540ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -64,6 +59,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"

@@ -12,17 +12,13 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-menu-top {
-          0% { transform: translateY(0) rotate(0deg); }
-          100% { transform: translateY(6px) rotate(45deg); }
+    @keyframes lmn-menu-line {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
         }
-        @keyframes lmn-menu-mid {
-          0% { opacity: 1; }
-          100% { opacity: 0; }
-        }
-        @keyframes lmn-menu-bot {
-          0% { transform: translateY(0) rotate(0deg); }
-          100% { transform: translateY(-6px) rotate(-45deg); }
+        @keyframes lmn-menu-line-reverse {
+          0% { stroke-dashoffset: -1; opacity: 0; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -37,12 +33,13 @@ import { LmnIconBase } from '../lib/icon-base';
     :host(.lmn-animate) svg .lmn-path-1,
         :host(.lmn-animate) svg .lmn-path-2,
         :host(.lmn-animate) svg .lmn-path-3 {
-          transform-origin: center;
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-menu-line 440ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
-
-    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-menu-top 400ms ease both; }
-        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-menu-mid 400ms ease both; }
-        :host(.lmn-animate) svg .lmn-path-3 { animation: lmn-menu-bot 400ms ease both; }
+        :host(.lmn-animate) svg .lmn-path-1 { animation-delay: 0ms; }
+        :host(.lmn-animate) svg .lmn-path-2 { animation-delay: 70ms; }
+        :host(.lmn-animate) svg .lmn-path-3 { animation-delay: 140ms; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -69,6 +66,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -78,7 +76,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <line x1="4" x2="20" y1="6" y2="6" class="lmn-animate-el lmn-path-1" /><line x1="4" x2="20" y1="12" y2="12" class="lmn-animate-el lmn-path-2" /><line x1="4" x2="20" y1="18" y2="18" class="lmn-animate-el lmn-path-3" />
+      <line x1="4" x2="20" y1="6" y2="6" class="lmn-animate-el lmn-path-1" pathLength="1"/><line x1="4" x2="20" y1="12" y2="12" class="lmn-animate-el lmn-path-2" pathLength="1"/><line x1="4" x2="20" y1="18" y2="18" class="lmn-animate-el lmn-path-3" pathLength="1"/>
     </svg>
   `,
 })

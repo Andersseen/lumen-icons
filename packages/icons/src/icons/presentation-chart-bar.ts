@@ -12,10 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-presentation-chart-bar-bar {
-          0% { transform: scaleY(0); opacity: 0; }
-          100% { transform: scaleY(1); opacity: 1; }
-        }
+    @keyframes lmn-presentation-chart-bar-bar { 0% { transform: scaleY(0); opacity: 0; } 72% { transform: scaleY(1.04); opacity: 1; } 100% { transform: scaleY(1); opacity: 1; } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -26,16 +23,11 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg path,
-        :host(.lmn-animate) svg line,
-        :host(.lmn-animate) svg rect {
-          transform-origin: bottom center;
-        }
+    :host(.lmn-animate) svg path { transform-origin: bottom center; }
 
-    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-presentation-chart-bar-bar 600ms ease both; }
-        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-presentation-chart-bar-bar 600ms ease both 80ms; }
-        :host(.lmn-animate) svg .lmn-path-3 { animation: lmn-presentation-chart-bar-bar 600ms ease both 160ms; }
-        :host(.lmn-animate) svg .lmn-path-4 { animation: lmn-presentation-chart-bar-bar 600ms ease both 240ms; }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-presentation-chart-bar-bar 800ms cubic-bezier(0.22, 0.8, 0.32, 1) 85ms both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-presentation-chart-bar-bar 800ms cubic-bezier(0.22, 0.8, 0.32, 1) 170ms both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation: lmn-presentation-chart-bar-bar 800ms cubic-bezier(0.22, 0.8, 0.32, 1) 255ms both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -69,6 +61,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -78,7 +71,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/>
+      <path class="lmn-path-1" d="M3.75 3 v11.25 A2.25 2.25 0 0 0 6 16.5 h2.25"/><path class="lmn-path-2" d="M3.75 3 h-1.5"/><path class="lmn-path-3" d="M3.75 3 h16.5"/><path class="lmn-path-4" d="M20.25 3 h1.5"/><path class="lmn-path-5" d="M20.25 3 v11.25 A2.25 2.25 0 0 1 18 16.5 h-2.25"/><path d="M8.25 16.5 h7.5"/><path d="M8.25 16.5 l-1 3"/><path d="M15.75 16.5 l1 3"/><path d="M16.75 19.5 l0.5 1.5"/><path d="M16.75 19.5 h-9.5"/><path d="M7.25 19.5 l-0.5 1.5"/><path d="M9 11.25 v1.5"/><path d="M12 9 v3.75"/><path d="M15 6.75 v6"/>
     </svg>
     }
   `,

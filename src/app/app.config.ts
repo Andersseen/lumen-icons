@@ -1,16 +1,12 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import {
-  type ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-  provideZonelessChangeDetection,
-} from '@angular/core';
+import { type ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideFileRouter } from '@analogjs/router';
 import { provideMovement } from 'angular-movement';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
     provideFileRouter(),
     provideHttpClient(withFetch()),
     provideMovement({

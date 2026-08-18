@@ -12,10 +12,7 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-wifi-bar {
-          0%, 100% { transform: scaleY(1); }
-          50% { transform: scaleY(1.4); }
-        }
+    @keyframes lmn-wifi-arc { 0%, 100% { transform: scale(1); opacity: 1; } 12% { transform: scale(0.72); opacity: 0; } 28% { transform: scale(1.05); opacity: 1; } 46% { transform: scale(1); opacity: 1; } 58% { transform: scale(0.72); opacity: 0; } 76% { transform: scale(1.05); opacity: 1; } }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -26,16 +23,7 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg path,
-        :host(.lmn-animate) svg line,
-        :host(.lmn-animate) svg circle,
-        :host(.lmn-animate) svg rect {
-          transform-origin: bottom center;
-        }
-
-    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-wifi-bar 600ms ease both; }
-        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-wifi-bar 600ms ease both 80ms; }
-        :host(.lmn-animate) svg .lmn-path-3 { animation: lmn-wifi-bar 600ms ease both 160ms; }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-wifi-arc 880ms cubic-bezier(0.22, 0.8, 0.32, 1) 0ms both; } :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-wifi-arc 880ms cubic-bezier(0.22, 0.8, 0.32, 1) 80ms both; } :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation: lmn-wifi-arc 880ms cubic-bezier(0.22, 0.8, 0.32, 1) 160ms both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -69,6 +57,7 @@ import { LmnIconBase } from '../lib/icon-base';
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
+      [style.--lmn-stroke-width]="strokeWidth() + 'px'"
       [class.lmn-animate]="animate()"
       viewBox="0 0 24 24"
       fill="none"
@@ -78,7 +67,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z"/>
+      <path class="lmn-path-1" d="M8.288 15.038 a5.25 5.25 0 0 1 7.424 0"/><path class="lmn-path-2" d="M5.106 11.856 c3.807 -3.808 9.98 -3.808 13.788 0"/><path class="lmn-path-3" d="M1.924 8.674 c5.565 -5.565 14.587 -5.565 20.152 0"/><path d="M12.53 18.22 l-0.53 0.53 -0.53 -0.53 a0.75 0.75 0 0 1 1.06 0 Z"/>
     </svg>
     }
   `,
