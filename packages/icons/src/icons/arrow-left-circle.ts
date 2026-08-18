@@ -12,24 +12,27 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-arrow-left-circle-draw-shaft {
-          0% { stroke-dashoffset: 1; }
-          62% { stroke-dashoffset: 0; }
+    @keyframes lmn-arrow-left-circle-ring {
+          0% { stroke-dashoffset: 1; opacity: 0.25; }
+          54% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-arrow-left-circle-shaft {
+          0%, 24% { stroke-dashoffset: 1; }
+          72% { stroke-dashoffset: 0; }
           100% { stroke-dashoffset: 0; }
         }
-        @keyframes lmn-arrow-left-circle-draw-head {
-          0%, 42% { stroke-dashoffset: 1; }
+        @keyframes lmn-arrow-left-circle-head {
+          0%, 52% { stroke-dashoffset: 1; }
           100% { stroke-dashoffset: 0; }
         }
-        @keyframes lmn-arrow-left-circle-lunge {
-          0%, 100% { transform: translate(0, 0); }
-          40% { transform: translate(-3px, 0); }
-          60% { transform: translate(calc(-3px * -0.33), calc(0 * -0.33)); }
+        @keyframes lmn-arrow-left-circle-arrive {
+          0%, 20% { transform: translate(3px, 0); }
+          78%, 100% { transform: translate(0, 0); }
         }
-        @keyframes lmn-arrow-left-circle-fade {
-          0%, 100% { opacity: 1; }
-          30% { opacity: 0.25; }
-          70% { opacity: 1; }
+        @keyframes lmn-arrow-left-circle-solid-ring {
+          0% { transform: scale(0.88); opacity: 0.35; }
+          58%, 100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -41,23 +44,24 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 {
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4 {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
-          animation: lmn-arrow-left-circle-draw-shaft 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
+          animation: lmn-arrow-left-circle-ring 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-arrow-left-circle-shaft 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-arrow-left-circle-arrive 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
-          animation: lmn-arrow-left-circle-draw-head 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
+          animation: lmn-arrow-left-circle-head 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-arrow-left-circle-arrive 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
-        :host(.lmn-animate.lmn-filled) svg {
-          animation: lmn-arrow-left-circle-lunge 700ms ease both;
-        }
-        :host(.lmn-animate.lmn-filled) svg .lmn-path-1 {
-          animation: lmn-arrow-left-circle-fade 700ms ease-in-out both;
-        }
+        :host(.lmn-animate.lmn-filled) svg .lmn-path-1 { animation: lmn-arrow-left-circle-solid-ring 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+        :host(.lmn-animate.lmn-filled) svg .lmn-path-2 { animation: lmn-arrow-left-circle-arrive 760ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -84,7 +88,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-4.28 9.22a.75.75 0 0 0 0 1.06l3 3a.75.75 0 1 0 1.06-1.06l-1.72-1.72h5.69a.75.75 0 0 0 0-1.5h-5.69l1.72-1.72a.75.75 0 0 0-1.06-1.06l-3 3Z" clip-rule="evenodd" pathLength="1"/>
+      <path class="lmn-path-1" fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25 c-5.385 0 -9.75 4.365 -9.75 9.75 s4.365 9.75 9.75 9.75 9.75 -4.365 9.75 -9.75 S17.385 2.25 12 2.25 Z" pathLength="1"/><path class="lmn-path-2" fill-rule="evenodd" clip-rule="evenodd" d="M7.72 11.47 a0.75 0.75 0 0 0 0 1.06 l3 3 a0.75 0.75 0 1 0 1.06 -1.06 l-1.72 -1.72 h5.69 a0.75 0.75 0 0 0 0 -1.5 h-5.69 l1.72 -1.72 a0.75 0.75 0 0 0 -1.06 -1.06 l-3 3 Z" pathLength="1"/>
     </svg>
     } @else {
       <svg

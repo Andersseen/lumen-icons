@@ -12,24 +12,23 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-arrow-down-tray-draw-shaft {
-          0% { stroke-dashoffset: 1; }
-          62% { stroke-dashoffset: 0; }
+    @keyframes lmn-arrow-down-tray-arrive {
+          0%, 18% { transform: translateY(-4px); opacity: 0.15; }
+          72% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-arrow-down-tray-shaft {
+          0%, 18% { stroke-dashoffset: 1; }
+          66% { stroke-dashoffset: 0; }
           100% { stroke-dashoffset: 0; }
         }
-        @keyframes lmn-arrow-down-tray-draw-head {
-          0%, 42% { stroke-dashoffset: 1; }
+        @keyframes lmn-arrow-down-tray-head {
+          0%, 46% { stroke-dashoffset: 1; }
           100% { stroke-dashoffset: 0; }
         }
-        @keyframes lmn-arrow-down-tray-lunge {
-          0%, 100% { transform: translateY(0); }
-          40% { transform: translateY(3px); }
-          60% { transform: translateY(-1px); }
-        }
-        @keyframes lmn-arrow-down-tray-fade {
-          0%, 100% { opacity: 1; }
-          30% { opacity: 0.25; }
-          70% { opacity: 1; }
+        @keyframes lmn-arrow-down-tray-receiver {
+          0%, 68%, 100% { transform: translateY(0); opacity: 1; }
+          82% { transform: translateY(1px); opacity: 0.9; }
         }
 
     :host(.lmn-animate) svg path,
@@ -41,23 +40,19 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4 {
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-arrow-down-tray-receiver 700ms ease-out both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4 {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
-          animation: lmn-arrow-down-tray-draw-shaft 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
+          animation: lmn-arrow-down-tray-shaft 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-arrow-down-tray-arrive 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
-          animation: lmn-arrow-down-tray-draw-head 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
+          animation: lmn-arrow-down-tray-head 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-arrow-down-tray-arrive 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
-        :host(.lmn-animate.lmn-filled) svg {
-          animation: lmn-arrow-down-tray-lunge 700ms ease both;
-        }
-        :host(.lmn-animate.lmn-filled) svg .lmn-path-1 {
-          animation: lmn-arrow-down-tray-fade 700ms ease-in-out both;
-        }
+        :host(.lmn-animate.lmn-filled) svg .lmn-path-1 { animation: lmn-arrow-down-tray-arrive 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -84,7 +79,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" pathLength="1"/>
+      <path class="lmn-path-1" fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25 a0.75 0.75 0 0 1 0.75 0.75 v11.69 l3.22 -3.22 a0.75 0.75 0 1 1 1.06 1.06 l-4.5 4.5 a0.75 0.75 0 0 1 -1.06 0 l-4.5 -4.5 a0.75 0.75 0 1 1 1.06 -1.06 l3.22 3.22 V3 a0.75 0.75 0 0 1 0.75 -0.75 Z" pathLength="1"/><path class="lmn-path-2" fill-rule="evenodd" clip-rule="evenodd" d="M3 15.75 a0.75 0.75 0 0 1 0.75 0.75 v2.25 a1.5 1.5 0 0 0 1.5 1.5 h13.5 a1.5 1.5 0 0 0 1.5 -1.5 V16.5 a0.75 0.75 0 0 1 1.5 0 v2.25 a3 3 0 0 1 -3 3 H5.25 a3 3 0 0 1 -3 -3 V16.5 a0.75 0.75 0 0 1 0.75 -0.75 Z" pathLength="1"/>
     </svg>
     } @else {
       <svg

@@ -205,6 +205,35 @@ Per-icon results:
 
 `draw-part` now accepts optional filled-variant `x/y` lunge tuning while preserving the existing vertical default output for the first directed batch.
 
+### Addendum 2026-08-18 — artifact-aware arrows
+
+Refinement after visual review of arrows that live inside or against another shape. `draw-part` now accepts:
+
+- `artifactIndices` — outline subpaths such as circles, trays, squares or rectangles draw with their own dash animation.
+- `arrowFromDx` / `arrowFromDy` — the arrow subpaths slide in from the opposite side while the shaft/head draw resolves.
+
+Applied to `arrow-down-circle`, `arrow-left-circle`, `arrow-right-circle`, `arrow-down-on-square`, `arrow-down-on-square-stack`, `arrow-down-tray`, and the six `arrow-left/right-*-on-rectangle` variants. Archive-box icons stay on their separate lid/action recipes, because their artifact is the box lid rather than a static frame around the arrow.
+
+### Addendum 2026-08-18 — first-30 per-icon visual refinement
+
+The initial artifact-aware implementation above was intentionally replaced after review: drawing every surrounding shape made this group feel like a shared generic recipe rather than individual icon motions. The replacement keeps the same SVG-only and reduced-motion constraints, but gives each semantic family its own narrative:
+
+| Icons | Recipe | Motion |
+|---|---|---|
+| `arrow-*-circle` | `arrow-in-circle` | ring draws first; arrow then enters from its opposing side. Filled variants split into ring + arrow. |
+| six `arrow-left/right-*-on-rectangle` variants | `arrow-through-rectangle` | rectangle is a fixed threshold; arrow travels through it from the opposite side. Filled variants split into frame + arrow. |
+| `arrow-down-on-square(-stack)` | `arrow-into-receiver` | a static square receives the descending arrow; the stacked version animates only its separable solid arrow. |
+| `arrow-down-tray` | `arrow-into-receiver` | arrow descends into a stable tray, which gives a small impact response; solid splits into arrow + tray. |
+| `adjustments-horizontal` / `-vertical` | `slider-pins` | both outline and filled variants move their three independent knobs, never the whole control. |
+| `alert-circle` | `alert-signal` | the ring draws, then the alert mark settles in. |
+| `academic-cap` | `cap-toss-fade` | retained recipe name for compatibility with the map; its motion is now a visible toss-and-settle, without a disappearance fade. |
+
+The generic `artifactIndices` / arrow-slide extension was removed from `draw-part`; its narrow arrow-only draw remains available for uses that actually need it.
+
+`arrow-path-rounded-square` is likewise no longer grouped with the rotating `arrow-path`: its `parallel-arrow-draw` recipe splits the two curved arrows into six outline segments, draws both shafts in parallel from tail to tip, then resolves their arrowheads together. The two filled halves settle in parallel as the safe filled-variant counterpart.
+
+The eight `arrow-turn-*` icons are explicitly mapped to `turn-draw` rather than the generic `spin` fallback. Their split geometry is route + two arrowhead strokes: the route is revealed tail → corner → tip, and the two head strokes resolve last. The filled fallback settles without any rotation.
+
 ### Original Phase-0/1 notes
 
 - **Recipe reuse instead of new recipes** (same semantic motion already exists): `arrow-down-on-square(-stack)` → existing `download-arrow`, `arrow-up-on-square(-stack)` → existing `upload-arrow` (drops `slot-in`/`slot-out`); `briefcase` → existing `lock-click` (drops `case-click`); `wallet` → existing `calendar-flip` (drops `wallet-open`); `link` → existing `draw-underline`, `link-slash` → existing `draw-strikethrough` (drops `link-connect`/`link-break`). *(Note: `arrow-down-on-square(-stack)` were later re-directed to `draw-part` in the 2026-08-18 batch above.)*

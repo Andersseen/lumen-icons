@@ -13,10 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-academic-cap {
-          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          35% { transform: translateY(-8px) rotate(-16deg); opacity: 0; }
-          60% { transform: translateY(0) rotate(0deg); opacity: 0; }
-          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          0% { transform: translateY(0) rotate(0deg); }
+          32% { transform: translateY(-6px) rotate(-11deg); }
+          58% { transform: translateY(-7px) rotate(-7deg); }
+          82% { transform: translateY(1px) rotate(1deg); }
+          100% { transform: translateY(0) rotate(0deg); }
         }
 
     :host(.lmn-animate) svg path,

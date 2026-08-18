@@ -406,6 +406,89 @@ const RECIPES = {
     };
   },
 
+  'bars-stagger'(name, duration = '440ms', total = 3, reverseIndices = []) {
+    const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
+    const normal = pathClasses
+      .map((cls, i) => reverseIndices.includes(i + 1) ? '' : `.lmn-animate svg .${cls}`)
+      .filter(Boolean)
+      .join(',\n        ');
+    const reversed = reverseIndices
+      .map((i) => `.lmn-animate svg .lmn-path-${i}`)
+      .join(',\n        ');
+    const rules = pathClasses.map((cls, i) => (
+      `.lmn-animate svg .${cls} { animation-delay: ${i * 70}ms; }`
+    )).join('\n        ');
+    const reversedBlock = reversed ? `${reversed} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-line-reverse ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }` : '';
+    return {
+      pathLength: true,
+      pathClasses,
+      splitPaths: 'both',
+      keyframes: `
+        @keyframes lmn-${name}-line {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-line-reverse {
+          0% { stroke-dashoffset: -1; opacity: 0; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: [
+        `${normal} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-line ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }`,
+        reversedBlock,
+        rules,
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  'bars-arrow'(name, duration = '650ms', direction = 'down') {
+    const fromY = direction === 'down' ? '-3px' : '3px';
+    const shaftIndex = direction === 'down' ? 4 : 6;
+    const headIndices = direction === 'down' ? [5, 6] : [4, 5];
+    const listSelectors = [1, 2, 3].map(i => `.lmn-animate--outline svg .lmn-path-${i}`).join(',\n        ');
+    const arrowSelectors = [shaftIndex, ...headIndices].map(i => `.lmn-animate--outline svg .lmn-path-${i}`).join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4', 'lmn-path-5', 'lmn-path-6'],
+      splitPaths: 'both',
+      keyframes: `
+        @keyframes lmn-${name}-list {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          52%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-arrow {
+          0%, 36% { transform: translateY(${fromY}); opacity: 0; }
+          82%, 100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-${name}-solid {
+          0% { transform: translateY(${fromY}); opacity: 0.2; }
+          82%, 100% { transform: translateY(0); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${listSelectors} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-list ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--outline svg .lmn-path-2 { animation-delay: 60ms; }
+        .lmn-animate--outline svg .lmn-path-3 { animation-delay: 120ms; }
+        ${arrowSelectors} { animation: lmn-${name}-arrow ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-solid ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+      `,
+    };
+  },
+
   'copy-offset'(name, duration = '400ms') {
     return {
       pathLength: false,
@@ -1680,7 +1763,8 @@ const RECIPES = {
   'slider-pins'(name, duration = '600ms', axis = 'x') {
     const t = (v) => (axis === 'y' ? `translateY(${v})` : `translateX(${v})`);
     // Outline variant is split into 12 subpaths (3 rows × line/knob/knob/line);
-    // only the knob subpaths move. Filled stays whole: subtle nudge fallback.
+    // only the knob subpaths move. The solid artwork also splits into its
+    // tracks and three knob circles, avoiding a generic whole-icon nudge.
     return {
       pathLength: false,
       pathClasses: [
@@ -1688,7 +1772,7 @@ const RECIPES = {
         'lmn-path-5', 'lmn-path-6', 'lmn-path-7', 'lmn-path-8',
         'lmn-path-9', 'lmn-path-10', 'lmn-path-11', 'lmn-path-12',
       ],
-      splitPaths: true,
+      splitPaths: 'both',
       keyframes: `
         @keyframes lmn-${name}-pin-a {
           0%, 100% { transform: ${t('0')}; }
@@ -1697,11 +1781,6 @@ const RECIPES = {
         @keyframes lmn-${name}-pin-b {
           0%, 100% { transform: ${t('0')}; }
           50% { transform: ${t('-2px')}; }
-        }
-        @keyframes lmn-${name}-nudge {
-          0%, 100% { transform: ${t('0')}; }
-          30% { transform: ${t('3px')}; }
-          70% { transform: ${t('-3px')}; }
         }
       `,
       base: '',
@@ -1712,7 +1791,9 @@ const RECIPES = {
         .lmn-animate--outline svg .lmn-path-7 { animation: lmn-${name}-pin-b ${duration} ease-in-out both; }
         .lmn-animate--outline svg .lmn-path-10,
         .lmn-animate--outline svg .lmn-path-11 { animation: lmn-${name}-pin-a ${duration} ease-in-out both 80ms; }
-        .lmn-animate--filled svg { animation: lmn-${name}-nudge ${duration} ease-in-out both; }
+        .lmn-animate--filled svg .lmn-path-7 { animation: lmn-${name}-pin-a ${duration} ease-in-out both; }
+        .lmn-animate--filled svg .lmn-path-8 { animation: lmn-${name}-pin-b ${duration} ease-in-out both; }
+        .lmn-animate--filled svg .lmn-path-9 { animation: lmn-${name}-pin-a ${duration} ease-in-out both 80ms; }
       `,
     };
   },
@@ -2052,10 +2133,11 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          35% { transform: translateY(-8px) rotate(-16deg); opacity: 0; }
-          60% { transform: translateY(0) rotate(0deg); opacity: 0; }
-          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          0% { transform: translateY(0) rotate(0deg); }
+          32% { transform: translateY(-6px) rotate(-11deg); }
+          58% { transform: translateY(-7px) rotate(-7deg); }
+          82% { transform: translateY(1px) rotate(1deg); }
+          100% { transform: translateY(0) rotate(0deg); }
         }
       `,
       base: '',
@@ -2063,6 +2145,34 @@ const RECIPES = {
         .lmn-animate svg {
           animation: lmn-${name} ${duration} ease-in-out both;
         }
+      `,
+    };
+  },
+
+  'alert-signal'(name, duration = '560ms') {
+    return {
+      pathLength: true,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name}-ring {
+          0% { stroke-dashoffset: 1; opacity: 0.25; }
+          56% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-mark {
+          0%, 42% { transform: translateY(-1.5px); opacity: 0; }
+          68% { transform: translateY(0.5px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg circle {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-ring ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate svg line { animation: lmn-${name}-mark ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
       `,
     };
   },
@@ -2500,9 +2610,264 @@ const RECIPES = {
     };
   },
 
+  'parallel-arrow-draw'(name, duration = '760ms') {
+    // This is a pair of independent return arrows, not a rotating object.
+    // Both curved shafts write at the same time, then both arrowheads resolve.
+    // The outline paths begin at their tips, so a negative dash offset makes
+    // their visible stroke travel from each tail toward its arrowhead.
+    const selectors = (variant, indices) => indices
+      .map((i) => `.lmn-animate--${variant} svg .lmn-path-${i}`)
+      .join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4', 'lmn-path-5', 'lmn-path-6'],
+      splitPaths: 'both',
+      keyframes: `
+        @keyframes lmn-${name}-shaft {
+          0% { stroke-dashoffset: -1; opacity: 0.45; }
+          62% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-head {
+          0%, 44% { stroke-dashoffset: -1; opacity: 0.25; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-solid-half {
+          0% { transform: scale(0.94); opacity: 0.2; }
+          72% { transform: scale(1.02); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${selectors('outline', [1, 4])} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-shaft ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('outline', [2, 3, 5, 6])} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('filled', [1, 2])} { animation: lmn-${name}-solid-half ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+      `,
+    };
+  },
+
+  'turn-draw'(name, duration = '700ms') {
+    // Heroicons encodes every turn as [1]=first head stroke,
+    // [2]=second head stroke, [3]=the long route. The route begins at the
+    // arrow tip, so its negative dash offset writes it tail → corner → tip.
+    return {
+      pathLength: true,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: 'both',
+      keyframes: `
+        @keyframes lmn-${name}-route {
+          0% { stroke-dashoffset: -1; opacity: 0.35; }
+          64% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-head-forward {
+          0%, 46% { stroke-dashoffset: 1; opacity: 0; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-head-reverse {
+          0%, 46% { stroke-dashoffset: -1; opacity: 0; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-solid {
+          0% { transform: scale(0.94); opacity: 0.25; }
+          72% { transform: scale(1.02); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate--outline svg .lmn-path-3 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-route ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--outline svg .lmn-path-1 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-head-forward ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--outline svg .lmn-path-2 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-head-reverse ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--filled svg { animation: lmn-${name}-solid ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+      `,
+    };
+  },
+
+  'arrow-in-circle'(name, duration = '760ms', headIndices = [1, 2], shaftIndices = [3], total = 4, fromX = '0', fromY = '-3px') {
+    // The ring establishes the destination first; the arrow then travels into
+    // it from the opposite direction. Solid Heroicons circles split cleanly
+    // into [1]=ring and [2]=arrow, so they retain the same story.
+    const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
+    const selectors = (variant, indices) => indices
+      .map((i) => `.lmn-animate--${variant} svg .lmn-path-${i}`)
+      .join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses,
+      splitPaths: 'both',
+      reversePaths: shaftIndices,
+      keyframes: `
+        @keyframes lmn-${name}-ring {
+          0% { stroke-dashoffset: 1; opacity: 0.25; }
+          54% { stroke-dashoffset: 0; opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-shaft {
+          0%, 24% { stroke-dashoffset: 1; }
+          72% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-head {
+          0%, 52% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-arrive {
+          0%, 20% { transform: translate(${fromX}, ${fromY}); }
+          78%, 100% { transform: translate(0, 0); }
+        }
+        @keyframes lmn-${name}-solid-ring {
+          0% { transform: scale(0.88); opacity: 0.35; }
+          58%, 100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${selectors('outline', [total])} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-ring ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('outline', shaftIndices)} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-shaft ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('outline', headIndices)} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('filled', [1])} { animation: lmn-${name}-solid-ring ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+        ${selectors('filled', [2])} { animation: lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+      `,
+    };
+  },
+
+  'arrow-through-rectangle'(name, duration = '650ms', headIndices = [2, 3], shaftIndices = [4], total = 4, fromX = '-4px') {
+    // A login/logout rectangle is a fixed threshold, not an object to draw.
+    // The arrow crosses that threshold, including for the split filled SVG.
+    const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
+    const selectors = (variant, indices) => indices
+      .map((i) => `.lmn-animate--${variant} svg .lmn-path-${i}`)
+      .join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses,
+      splitPaths: 'both',
+      reversePaths: shaftIndices,
+      keyframes: `
+        @keyframes lmn-${name}-cross {
+          0%, 16% { transform: translateX(${fromX}); opacity: 0.2; }
+          78%, 100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes lmn-${name}-shaft {
+          0%, 18% { stroke-dashoffset: 1; }
+          70% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-head {
+          0%, 48% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-frame {
+          0%, 36% { opacity: 0.55; }
+          100% { opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${selectors('outline', [1])} { animation: lmn-${name}-frame ${duration} ease-out both; }
+        ${selectors('outline', shaftIndices)} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-shaft ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-cross ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('outline', headIndices)} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-cross ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('filled', [1])} { animation: lmn-${name}-frame ${duration} ease-out both; }
+        ${selectors('filled', [2])} { animation: lmn-${name}-cross ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+      `,
+    };
+  },
+
+  'arrow-into-receiver'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, receiverIndices = [1], fromY = '-4px', filledArrowIndices = [], receiverImpact = false) {
+    // Squares and trays are destinations. Keep their outline legible, then
+    // let the arrow descend into it; only a tray gets a tiny impact response.
+    const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
+    const selectors = (variant, indices) => indices
+      .map((i) => `.lmn-animate--${variant} svg .lmn-path-${i}`)
+      .join(',\n        ');
+    return {
+      pathLength: true,
+      pathClasses,
+      splitPaths: 'both',
+      reversePaths: shaftIndices,
+      keyframes: `
+        @keyframes lmn-${name}-arrive {
+          0%, 18% { transform: translateY(${fromY}); opacity: 0.15; }
+          72% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-${name}-shaft {
+          0%, 18% { stroke-dashoffset: 1; }
+          66% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-head {
+          0%, 46% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-receiver {
+          0%, 68%, 100% { transform: translateY(0); opacity: 1; }
+          82% { transform: translateY(1px); opacity: 0.9; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${receiverImpact ? `${selectors('outline', receiverIndices)} { animation: lmn-${name}-receiver ${duration} ease-out both; }` : ''}
+        ${selectors('outline', shaftIndices)} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-shaft ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('outline', headIndices)} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        ${selectors('filled', filledArrowIndices)} { animation: lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+      `,
+    };
+  },
+
   'draw-part'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, filledArrowIndices = null, filledDx = '0', filledDy = '3px') {
     // Outline is split into `total` subpaths. Draw the shaft from tail to tip,
-    // then resolve the head; the container remains at rest.
+    // then resolve the head; optional artifacts can draw around the action.
     // Filled is not split: whole-icon lunge, plus an opacity dip on the arrow's
     // filled paths when `filledArrowIndices` is given (per solid-SVG tag order).
     const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
@@ -2625,7 +2990,7 @@ export const ICON_ANIMATIONS = {
 
   // Refresh / rotate
   'arrow-path': { recipe: 'spin', duration: '1000ms' },
-  'arrow-path-rounded-square': { recipe: 'spin', duration: '1000ms' },
+  'arrow-path-rounded-square': { recipe: 'parallel-arrow-draw', duration: '760ms' },
   'refresh-cw': { recipe: 'spin', duration: '800ms' },
 
   // Settings / tools
@@ -2656,7 +3021,7 @@ export const ICON_ANIMATIONS = {
   'exclamation-circle': { recipe: 'wiggle', duration: '450ms' },
   'exclamation-triangle': { recipe: 'wiggle', duration: '450ms' },
   'question-mark-circle': { recipe: 'wiggle', duration: '450ms' },
-  'alert-circle': { recipe: 'wiggle', duration: '450ms' },
+  'alert-circle': { recipe: 'alert-signal', duration: '560ms' },
   info: { recipe: 'wiggle', duration: '450ms' },
   'information-circle': { recipe: 'wiggle', duration: '450ms' },
   'no-symbol': { recipe: 'no-shake', duration: '450ms' },
@@ -2682,7 +3047,6 @@ export const ICON_ANIMATIONS = {
   // Transfer arrows
   'arrow-top-right-on-square': { recipe: 'arrow-bounce', duration: '500ms', args: ['5px'] },
   'external-link': { recipe: 'arrow-bounce', duration: '500ms', args: ['5px'] },
-  'arrow-down-tray': { recipe: 'download-arrow', duration: '550ms' },
   download: { recipe: 'download-arrow', duration: '550ms' },
   'cloud-arrow-down': { recipe: 'download-arrow', duration: '550ms' },
   'arrow-up-tray': { recipe: 'upload-arrow', duration: '550ms' },
@@ -2692,10 +3056,15 @@ export const ICON_ANIMATIONS = {
   // Navigation
   home: { recipe: 'home-bounce', duration: '500ms' },
   'home-modern': { recipe: 'home-bounce', duration: '500ms' },
-  menu: { recipe: 'menu-morph', duration: '400ms' },
-  'bars-3': { recipe: 'menu-morph', duration: '400ms' },
-  'bars-2': { recipe: 'menu-morph', duration: '400ms' },
-  'bars-4': { recipe: 'menu-morph', duration: '400ms' },
+  menu: { recipe: 'bars-stagger', duration: '440ms', args: [3] },
+  'bars-2': { recipe: 'bars-stagger', duration: '360ms', args: [2] },
+  'bars-3': { recipe: 'bars-stagger', duration: '440ms', args: [3] },
+  'bars-3-bottom-left': { recipe: 'bars-stagger', duration: '440ms', args: [3] },
+  'bars-3-bottom-right': { recipe: 'bars-stagger', duration: '440ms', args: [3, [3]] },
+  'bars-3-center-left': { recipe: 'bars-stagger', duration: '440ms', args: [3] },
+  'bars-4': { recipe: 'bars-stagger', duration: '510ms', args: [4] },
+  'bars-arrow-down': { recipe: 'bars-arrow', duration: '650ms', args: ['down'] },
+  'bars-arrow-up': { recipe: 'bars-arrow', duration: '650ms', args: ['up'] },
 
   // Communication
   mail: { recipe: 'open-envelope', duration: '500ms' },
@@ -2889,6 +3258,19 @@ export const ICON_ANIMATIONS = {
   // Semantic remap — Phase 1 (docs/specs/2026-08-17-semantic-animation-remap.md)
   'arrow-trending-up': { recipe: 'trend-draw', duration: '600ms' },
   'arrow-trending-down': { recipe: 'trend-draw', duration: '600ms' },
+  'arrow-up-right': { recipe: 'draw-drift', duration: '700ms', args: ['2.5px', '-2.5px', [1], [2, 3], 3, false] },
+  'arrow-turn-down-left': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-down-right': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-left-down': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-left-up': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-right-down': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-right-up': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-up-left': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-turn-up-right': { recipe: 'turn-draw', duration: '700ms' },
+  'arrow-uturn-down': { recipe: 'turn-draw', duration: '720ms' },
+  'arrow-uturn-left': { recipe: 'turn-draw', duration: '720ms' },
+  'arrow-uturn-right': { recipe: 'turn-draw', duration: '720ms' },
+  'arrow-uturn-up': { recipe: 'turn-draw', duration: '720ms' },
   'arrows-pointing-in': { recipe: 'converge', duration: '450ms' },
   'arrows-pointing-out': { recipe: 'diverge', duration: '450ms' },
   'arrows-right-left': { recipe: 'swap-x', duration: '450ms' },
@@ -2900,14 +3282,14 @@ export const ICON_ANIMATIONS = {
   'chevron-double-right': { recipe: 'chevron-cascade', duration: '450ms', args: ['x', '3px'] },
   'log-in': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
   'log-out': { recipe: 'door-exit', duration: '450ms', args: ['4px'] },
-  'arrow-right-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '3px', '0'] },
-  'arrow-left-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '-3px', '0'] },
-  'arrow-right-start-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '3px', '0'] },
-  'arrow-left-start-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '-3px', '0'] },
-  'arrow-right-end-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '3px', '0'] },
-  'arrow-left-end-on-rectangle': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1], '-3px', '0'] },
-  'arrow-down-on-square': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1]] },
-  'arrow-down-on-square-stack': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 5, [1]] },
+  'arrow-right-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '-4px'] },
+  'arrow-left-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '4px'] },
+  'arrow-right-start-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '-4px'] },
+  'arrow-left-start-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '4px'] },
+  'arrow-right-end-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '-4px'] },
+  'arrow-left-end-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '4px'] },
+  'arrow-down-on-square': { recipe: 'arrow-into-receiver', duration: '700ms', args: [[2, 3], [4], 4, [1], '-4px', [1, 2]] },
+  'arrow-down-on-square-stack': { recipe: 'arrow-into-receiver', duration: '700ms', args: [[2, 3], [4], 5, [1, 5], '-4px', [2]] },
   'arrow-up-on-square': { recipe: 'upload-arrow', duration: '550ms' },
   'arrow-up-on-square-stack': { recipe: 'upload-arrow', duration: '550ms' },
   'speaker-wave': { recipe: 'sound-waves', duration: '500ms' },
@@ -2953,10 +3335,10 @@ export const ICON_ANIMATIONS = {
   // Directed batch 2026-08-18 (first 15 catalog icons)
   'arrow-down-left': { recipe: 'draw-drift', duration: '700ms', args: ['-2.5px', '2.5px', [1], [2, 3], 3, false] },
   'arrow-down-right': { recipe: 'draw-drift', duration: '700ms', args: ['2.5px', '2.5px', [1], [2, 3], 3, false] },
-  'arrow-down-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1]] },
-  'arrow-left-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1], '-3px', '0'] },
-  'arrow-right-circle': { recipe: 'draw-part', duration: '700ms', args: [[1, 2], [3], 4, [1], '3px', '0'] },
-  'arrow-down-tray': { recipe: 'draw-part', duration: '700ms', args: [[2, 3], [4], 4, [1]] },
+  'arrow-down-circle': { recipe: 'arrow-in-circle', duration: '760ms', args: [[1, 2], [3], 4, '0', '-3px'] },
+  'arrow-left-circle': { recipe: 'arrow-in-circle', duration: '760ms', args: [[1, 2], [3], 4, '3px', '0'] },
+  'arrow-right-circle': { recipe: 'arrow-in-circle', duration: '760ms', args: [[1, 2], [3], 4, '-3px', '0'] },
+  'arrow-down-tray': { recipe: 'arrow-into-receiver', duration: '700ms', args: [[2, 3], [4], 4, [1], '-4px', [1], true] },
 
   // Misc
   'ellipsis-horizontal': { recipe: 'ellipsis-pulse', duration: '600ms' },

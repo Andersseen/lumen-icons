@@ -20,11 +20,6 @@ import { LmnIconBase } from '../lib/icon-base';
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-2px); }
         }
-        @keyframes lmn-adjustments-vertical-nudge {
-          0%, 100% { transform: translateY(0); }
-          30% { transform: translateY(3px); }
-          70% { transform: translateY(-3px); }
-        }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
@@ -41,7 +36,9 @@ import { LmnIconBase } from '../lib/icon-base';
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-7 { animation: lmn-adjustments-vertical-pin-b 600ms ease-in-out both; }
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-10,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-11 { animation: lmn-adjustments-vertical-pin-a 600ms ease-in-out both 80ms; }
-        :host(.lmn-animate.lmn-filled) svg { animation: lmn-adjustments-vertical-nudge 600ms ease-in-out both; }
+        :host(.lmn-animate.lmn-filled) svg .lmn-path-7 { animation: lmn-adjustments-vertical-pin-a 600ms ease-in-out both; }
+        :host(.lmn-animate.lmn-filled) svg .lmn-path-8 { animation: lmn-adjustments-vertical-pin-b 600ms ease-in-out both; }
+        :host(.lmn-animate.lmn-filled) svg .lmn-path-9 { animation: lmn-adjustments-vertical-pin-a 600ms ease-in-out both 80ms; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -68,7 +65,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" d="M6 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 1 1 1.5 0v7.5A.75.75 0 0 1 6 12ZM18 12a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 18 12ZM6.75 20.25v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0ZM18.75 18.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 1.5 0ZM12.75 5.25v-1.5a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0ZM12 21a.75.75 0 0 1-.75-.75v-7.5a.75.75 0 0 1 1.5 0v7.5A.75.75 0 0 1 12 21ZM3.75 15a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0ZM12 11.25a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5ZM15.75 15a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0Z"/>
+      <path class="lmn-path-1" d="M6 12 a0.75 0.75 0 0 1 -0.75 -0.75 v-7.5 a0.75 0.75 0 1 1 1.5 0 v7.5 A0.75 0.75 0 0 1 6 12 Z"/><path class="lmn-path-2" d="M18 12 a0.75 0.75 0 0 1 -0.75 -0.75 v-7.5 a0.75 0.75 0 0 1 1.5 0 v7.5 A0.75 0.75 0 0 1 18 12 Z"/><path class="lmn-path-3" d="M6.75 20.25 v-1.5 a0.75 0.75 0 0 0 -1.5 0 v1.5 a0.75 0.75 0 0 0 1.5 0 Z"/><path class="lmn-path-4" d="M18.75 18.75 v1.5 a0.75 0.75 0 0 1 -1.5 0 v-1.5 a0.75 0.75 0 0 1 1.5 0 Z"/><path class="lmn-path-5" d="M12.75 5.25 v-1.5 a0.75 0.75 0 0 0 -1.5 0 v1.5 a0.75 0.75 0 0 0 1.5 0 Z"/><path class="lmn-path-6" d="M12 21 a0.75 0.75 0 0 1 -0.75 -0.75 v-7.5 a0.75 0.75 0 0 1 1.5 0 v7.5 A0.75 0.75 0 0 1 12 21 Z"/><path class="lmn-path-7" d="M3.75 15 a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0 -4.5 0 Z"/><path class="lmn-path-8" d="M12 11.25 a2.25 2.25 0 1 1 0 -4.5 2.25 2.25 0 0 1 0 4.5 Z"/><path class="lmn-path-9" d="M15.75 15 a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0 -4.5 0 Z"/>
     </svg>
     } @else {
       <svg

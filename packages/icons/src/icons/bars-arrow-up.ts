@@ -12,9 +12,17 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-bars-arrow-up {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
+    @keyframes lmn-bars-arrow-up-list {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          52%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-bars-arrow-up-arrow {
+          0%, 36% { transform: translateY(3px); opacity: 0; }
+          82%, 100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-bars-arrow-up-solid {
+          0% { transform: translateY(3px); opacity: 0.2; }
+          82%, 100% { transform: translateY(0); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,9 +34,19 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-bars-arrow-up 400ms ease both;
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-bars-arrow-up-list 650ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation-delay: 60ms; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation-delay: 120ms; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-5 { animation: lmn-bars-arrow-up-arrow 650ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-bars-arrow-up-solid 650ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -55,7 +73,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M2.25 4.5A.75.75 0 0 1 3 3.75h14.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75Zm14.47 3.97a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 1 1-1.06 1.06L18 10.81V21a.75.75 0 0 1-1.5 0V10.81l-2.47 2.47a.75.75 0 1 1-1.06-1.06l3.75-3.75ZM2.25 9A.75.75 0 0 1 3 8.25h9.75a.75.75 0 0 1 0 1.5H3A.75.75 0 0 1 2.25 9Zm0 4.5a.75.75 0 0 1 .75-.75h5.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/>
+      <path class="lmn-path-1" fill-rule="evenodd" clip-rule="evenodd" d="M2.25 4.5 A0.75 0.75 0 0 1 3 3.75 h14.25 a0.75 0.75 0 0 1 0 1.5 H3 a0.75 0.75 0 0 1 -0.75 -0.75 Z" pathLength="1"/><path class="lmn-path-2" fill-rule="evenodd" clip-rule="evenodd" d="M16.72 8.47 a0.75 0.75 0 0 1 1.06 0 l3.75 3.75 a0.75 0.75 0 1 1 -1.06 1.06 L18 10.81 V21 a0.75 0.75 0 0 1 -1.5 0 V10.81 l-2.47 2.47 a0.75 0.75 0 1 1 -1.06 -1.06 l3.75 -3.75 Z" pathLength="1"/><path class="lmn-path-3" fill-rule="evenodd" clip-rule="evenodd" d="M2.25 9 A0.75 0.75 0 0 1 3 8.25 h9.75 a0.75 0.75 0 0 1 0 1.5 H3 A0.75 0.75 0 0 1 2.25 9 Z" pathLength="1"/><path class="lmn-path-4" fill-rule="evenodd" clip-rule="evenodd" d="M2.25 13.5 a0.75 0.75 0 0 1 0.75 -0.75 h5.25 a0.75 0.75 0 0 1 0 1.5 H3 a0.75 0.75 0 0 1 -0.75 -0.75 Z" pathLength="1"/>
     </svg>
     } @else {
       <svg
@@ -71,7 +89,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12"/>
+      <path class="lmn-path-1" d="M3 4.5 h14.25" pathLength="1"/><path class="lmn-path-2" d="M3 9 h9.75" pathLength="1"/><path class="lmn-path-3" d="M3 13.5 h5.25" pathLength="1"/><path class="lmn-path-4" d="M13.5 12.75 L17.25 9" pathLength="1"/><path class="lmn-path-5" d="M17.25 9 L21 12.75" pathLength="1"/><path class="lmn-path-6" d="M17.25 9 v12" pathLength="1"/>
     </svg>
     }
   `,
