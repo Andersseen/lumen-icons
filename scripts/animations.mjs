@@ -1004,6 +1004,70 @@ const RECIPES = {
     };
   },
 
+  'document-draw'(name, duration = '620ms') {
+    return {
+      pathLength: true,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name}-outline {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          18% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-filled {
+          0% { transform: translateY(3px) scale(0.94); opacity: 0.35; }
+          72%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate--outline svg path {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-outline ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--filled svg {
+          animation: lmn-${name}-filled ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
+  'plus-draw'(name, duration = '480ms') {
+    return {
+      pathLength: true,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-draw {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          16% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-solid {
+          0% { transform: scale(0.72); opacity: 0.2; }
+          70%, 100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate--outline svg .lmn-path-1,
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-draw ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        .lmn-animate--outline svg .lmn-path-1 { animation-delay: 60ms; }
+        .lmn-animate--outline svg .lmn-path-2 { animation-delay: 150ms; }
+        .lmn-animate--outline svg .lmn-path-3 { animation-delay: 0ms; }
+        .lmn-animate--filled svg {
+          animation: lmn-${name}-solid ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
   'bookmark-fold'(name, duration = '450ms') {
     return {
       pathLength: false,
@@ -2954,9 +3018,9 @@ export const ICON_ANIMATIONS = {
   'x-circle': { recipe: 'draw-scale', duration: '500ms' },
 
   // Math / toggles
-  plus: { recipe: 'rotate-once', duration: '450ms', args: [180] },
-  'plus-circle': { recipe: 'rotate-once', duration: '450ms', args: [180] },
-  'plus-small': { recipe: 'rotate-once', duration: '400ms', args: [180] },
+  plus: { recipe: 'plus-draw', duration: '440ms' },
+  'plus-circle': { recipe: 'plus-draw', duration: '520ms' },
+  'plus-small': { recipe: 'plus-draw', duration: '400ms' },
   minus: { recipe: 'stretch-x', duration: '400ms' },
   'minus-circle': { recipe: 'stretch-x', duration: '400ms' },
   'minus-small': { recipe: 'stretch-x', duration: '350ms' },
@@ -3158,14 +3222,14 @@ export const ICON_ANIMATIONS = {
   'inbox-arrow-down': { recipe: 'folder-pop', duration: '450ms' },
   'inbox-stack': { recipe: 'folder-pop', duration: '450ms' },
   file: { recipe: 'file-appear', duration: '500ms' },
-  document: { recipe: 'file-appear', duration: '500ms' },
-  'document-text': { recipe: 'file-appear', duration: '500ms' },
-  'document-check': { recipe: 'file-appear', duration: '500ms' },
-  'document-plus': { recipe: 'file-appear', duration: '500ms' },
-  'document-minus': { recipe: 'file-appear', duration: '500ms' },
-  'document-arrow-up': { recipe: 'file-appear', duration: '500ms' },
-  'document-arrow-down': { recipe: 'file-appear', duration: '500ms' },
-  'document-chart-bar': { recipe: 'file-appear', duration: '500ms' },
+  document: { recipe: 'document-draw', duration: '620ms' },
+  'document-text': { recipe: 'document-draw', duration: '660ms' },
+  'document-check': { recipe: 'document-draw', duration: '660ms' },
+  'document-plus': { recipe: 'document-draw', duration: '660ms' },
+  'document-minus': { recipe: 'document-draw', duration: '660ms' },
+  'document-arrow-up': { recipe: 'document-draw', duration: '660ms' },
+  'document-arrow-down': { recipe: 'document-draw', duration: '660ms' },
+  'document-chart-bar': { recipe: 'document-draw', duration: '660ms' },
   'archive-box': { recipe: 'archive-peek', duration: '650ms' },
   'archive-box-arrow-down': { recipe: 'archive-drop', duration: '750ms' },
   'archive-box-x-mark': { recipe: 'archive-reject', duration: '700ms' },

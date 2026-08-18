@@ -75,3 +75,35 @@ test("clear search restores all icons", async ({ page }) => {
     page.getByRole("button", { name: "Copy import for check", exact: true }),
   ).toBeVisible();
 });
+
+test("catalog fits a narrow viewport without hiding card actions", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/icons");
+
+  await expect(page.getByRole("button", { name: "Copy import for check", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Copy selector for check", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Copy Angular example for check", exact: true })).toBeVisible();
+
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+
+  await page.setViewportSize({ width: 375, height: 720 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+});
+
+test("catalog keeps its desktop density and sticky controls", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/icons");
+
+  const firstCard = page.getByRole("button", { name: "Copy import for academic-cap", exact: true });
+  const fifthCard = page.getByRole("button", { name: "Copy import for archive-box", exact: true });
+  const [firstCardBox, fifthCardBox] = await Promise.all([firstCard.boundingBox(), fifthCard.boundingBox()]);
+
+  expect(firstCardBox).not.toBeNull();
+  expect(fifthCardBox).not.toBeNull();
+  expect(Math.abs(firstCardBox!.y - fifthCardBox!.y)).toBeLessThan(1);
+
+  const search = page.getByRole("textbox", { name: "Search" });
+  await page.evaluate(() => window.scrollTo(0, 720));
+  await expect(search).toBeVisible();
+  expect((await search.boundingBox())!.y).toBeLessThan(120);
+});

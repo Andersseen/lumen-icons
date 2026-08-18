@@ -12,9 +12,14 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-plus {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(180deg); }
+    @keyframes lmn-plus-draw {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          16% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-plus-solid {
+          0% { transform: scale(0.72); opacity: 0.2; }
+          70%, 100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,8 +31,18 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-plus 450ms ease-in-out both;
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-plus-draw 440ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation-delay: 60ms; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation-delay: 150ms; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation-delay: 0ms; }
+        :host(.lmn-animate.lmn-filled) svg {
+          animation: lmn-plus-solid 440ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
 
     @media (prefers-reduced-motion: reduce) {
@@ -55,7 +70,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+      <path class="lmn-path-1" fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" pathLength="1"/>
     </svg>
     } @else {
       <svg
@@ -71,7 +86,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M12 4.5v15m7.5-7.5h-15"/>
+      <path class="lmn-path-1" d="M12 4.5 v15" pathLength="1"/><path class="lmn-path-2" d="M19.5 12 h-15" pathLength="1"/>
     </svg>
     }
   `,

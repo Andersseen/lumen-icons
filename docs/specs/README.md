@@ -40,6 +40,7 @@ draft → approved → in-progress → done   (or: rejected)
 
 *(add new specs to the top)*
 
+- [2026-08-18-responsive-catalog-and-animation-audit.md](2026-08-18-responsive-catalog-and-animation-audit.md) — responsive catalog + targeted animation audit (in-progress)
 - [2026-08-18-navigation-motion-and-sticky-sidebar.md](2026-08-18-navigation-motion-and-sticky-sidebar.md) — sticky catalog controls + directional navigation motion (in-progress)
 - [2026-08-17-semantic-animation-remap.md](2026-08-17-semantic-animation-remap.md) — Phase 0/1: dedupe ICON_ANIMATIONS + semantic remap of the 75 `pulse-scale` icons (draft)
 - [2026-07-06-v0.3.0-plan.md](2026-07-06-v0.3.0-plan.md) — umbrella release plan for 0.3.0 + demo refresh (draft)

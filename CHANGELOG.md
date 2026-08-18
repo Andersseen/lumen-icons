@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Focused draw animations for document and add icons**: `document*` icons now trace their outlines rather than appearing as a generic fade, and `plus*` icons assemble their circle (where present), vertical stroke, then horizontal stroke instead of rotating.
 - **Per-part animation machinery**: recipes can now declare `splitPaths` (the generator splits compound `<path>` d's into one element per subpath, converting relative `m` starts to absolute) and variant-scoped CSS markers `.lmn-animate--outline` / `.lmn-animate--filled`, so animations can move *parts* of an icon (slider pins, box lids, a lone arrow) without touching SVG sources.
 - **Directed animations for the first 15 catalog icons** (spec addendum 2026-08-18): `academic-cap` tosses and fades back; `adjustments-*` move only their pins; the three `archive-box` variants open the lid with a distinct action each (peek / arrow drops in / X pops out); plain arrows draw themselves drifting toward their direction; download arrows draw only the arrow, never the container.
 - **Directed animations for the next 15 catalog icons**: long/right/left/up/down arrows now draw from tail to tip; circle and rectangle arrow variants draw only the arrow before resolving the head; `arrow-path` retains its one-shot rotation, while `arrow-path-rounded-square` draws its two return arrows in parallel.
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Narrow catalog overflow** — `/icons` now starts with one column below 420 px, its flex/grid children can shrink, and the compact header hides non-essential chrome. All card copy actions remain reachable at 320 px; a Playwright regression test covers it.
 - **Broken split-path icon geometry** — implicit relative line segments following a converted `m` command now remain relative, preventing malformed arrow strokes in the new per-part archive/download animations.
 - **Arrow draw direction and pacing** — the shaft now draws from its tail to the tip before the arrowhead resolves, using a longer eased motion instead of starting at the point.
 - **Shadowed duplicate keys in `ICON_ANIMATIONS`**: `cloud-arrow-down`/`cloud-arrow-up` now animate as download/upload (they silently floated); `document-magnifying-glass` zooms instead of fading in. Dead duplicate entries (`document-duplicate`, `finger-print`, nonexistent `ellipsis`) removed.
