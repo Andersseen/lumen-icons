@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Mechanism-specific motion**: batteries now assemble a terminal, case and charge level; balance scales settle around their pivot; scissors snip; paper clips flex into position; and puzzle pieces seat with a controlled compression.
 - **Focused draw animations for document and add icons**: `document*` icons now trace their outlines rather than appearing as a generic fade, and `plus*` icons assemble their circle (where present), vertical stroke, then horizontal stroke instead of rotating.
 - **Per-part animation machinery**: recipes can now declare `splitPaths` (the generator splits compound `<path>` d's into one element per subpath, converting relative `m` starts to absolute) and variant-scoped CSS markers `.lmn-animate--outline` / `.lmn-animate--filled`, so animations can move *parts* of an icon (slider pins, box lids, a lone arrow) without touching SVG sources.
 - **Directed animations for the first 15 catalog icons** (spec addendum 2026-08-18): `academic-cap` tosses and fades back; `adjustments-*` move only their pins; the three `archive-box` variants open the lid with a distinct action each (peek / arrow drops in / X pops out); plain arrows draw themselves drifting toward their direction; download arrows draw only the arrow, never the container.

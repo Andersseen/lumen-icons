@@ -13,8 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-scissors {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(180deg); }
+          0% { transform: translateX(-1px) rotate(-5deg) scale(0.96); }
+          48% { transform: translateX(1px) rotate(3deg) scale(1.035); }
+          72% { transform: translateX(0) rotate(-1deg) scale(0.99); }
+          100% { transform: translateX(0) rotate(0) scale(1); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +29,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-scissors 500ms ease-in-out both;
+          animation: lmn-scissors 560ms cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
 
     @media (prefers-reduced-motion: reduce) {

@@ -1068,6 +1068,151 @@ const RECIPES = {
     };
   },
 
+  'battery-charge'(name, duration = '720ms', chargePathIndex = 0) {
+    const frameSelectors = [2, 3]
+      .filter((index) => index !== chargePathIndex)
+      .map((index) => `.lmn-animate--outline svg .lmn-path-${index}`)
+      .join(',\n        ');
+    const chargeSelector = chargePathIndex
+      ? `.lmn-animate--outline svg .lmn-path-${chargePathIndex}`
+      : '';
+    const chargeBlock = chargeSelector ? `${chargeSelector} {
+          animation: lmn-${name}-charge ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }` : '';
+    return {
+      pathLength: true,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-frame {
+          0% { stroke-dashoffset: 1; opacity: 0; }
+          26% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-terminal {
+          0%, 26% { opacity: 0; transform: scaleX(0.35); }
+          52%, 100% { opacity: 1; transform: scaleX(1); }
+        }
+        @keyframes lmn-${name}-charge {
+          0%, 38% { transform: scaleX(0); opacity: 0; }
+          78%, 100% { transform: scaleX(1); opacity: 1; }
+        }
+        @keyframes lmn-${name}-filled {
+          0% { transform: scaleX(0.9); opacity: 0.35; }
+          74% { transform: scaleX(1.015); opacity: 1; }
+          100% { transform: scaleX(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-1,
+        .lmn-animate svg .lmn-path-2,
+        .lmn-animate svg .lmn-path-3 {
+          transform-origin: left center;
+        }
+      `,
+      animate: [
+        `${frameSelectors} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-frame ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }`,
+        `.lmn-animate--outline svg .lmn-path-1 {
+          animation: lmn-${name}-terminal ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }`,
+        chargeBlock,
+        `.lmn-animate--filled svg {
+          transform-origin: left center;
+          animation: lmn-${name}-filled ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }`,
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  'scale-settle'(name, duration = '680ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: rotate(-5deg); }
+          42% { transform: rotate(3deg); }
+          72% { transform: rotate(-1deg); }
+          100% { transform: rotate(0deg); }
+        }
+      `,
+      base: `
+        .lmn-animate svg { transform-origin: center top; }
+      `,
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
+  'scissors-snip'(name, duration = '560ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: translateX(-1px) rotate(-5deg) scale(0.96); }
+          48% { transform: translateX(1px) rotate(3deg) scale(1.035); }
+          72% { transform: translateX(0) rotate(-1deg) scale(0.99); }
+          100% { transform: translateX(0) rotate(0) scale(1); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
+  'clip-flex'(name, duration = '600ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: translate(-2px, 2px) rotate(-8deg) scale(0.94); opacity: 0.5; }
+          60% { transform: translate(0.5px, -0.5px) rotate(2deg) scale(1.02); opacity: 1; }
+          100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
+  'puzzle-seat'(name, duration = '620ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: translate(-3px, -3px) scale(0.88); opacity: 0.35; }
+          68% { transform: translate(0, 0) scale(1.035); opacity: 1; }
+          84% { transform: translate(0, 0) scale(0.99); opacity: 1; }
+          100% { transform: translate(0, 0) scale(1); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg {
+          animation: lmn-${name} ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
+        }
+      `,
+    };
+  },
+
   'bookmark-fold'(name, duration = '450ms') {
     return {
       pathLength: false,
@@ -3062,12 +3207,12 @@ export const ICON_ANIMATIONS = {
   'cog-6-tooth': { recipe: 'rotate-once', duration: '700ms', args: [180] },
   'cog-8-tooth': { recipe: 'rotate-once', duration: '700ms', args: [180] },
   settings: { recipe: 'rotate-once', duration: '700ms', args: [180] },
-  scissors: { recipe: 'rotate-once', duration: '500ms', args: [180] },
+  scissors: { recipe: 'scissors-snip', duration: '560ms' },
   wrench: { recipe: 'rotate-once', duration: '500ms', args: [180] },
   'wrench-screwdriver': { recipe: 'rotate-once', duration: '500ms', args: [180] },
-  'paper-clip': { recipe: 'rotate-once', duration: '500ms', args: [180] },
-  paperclip: { recipe: 'rotate-once', duration: '500ms', args: [180] },
-  'puzzle-piece': { recipe: 'rotate-once', duration: '500ms', args: [180] },
+  'paper-clip': { recipe: 'clip-flex', duration: '600ms' },
+  paperclip: { recipe: 'clip-flex', duration: '600ms' },
+  'puzzle-piece': { recipe: 'puzzle-seat', duration: '620ms' },
   cube: { recipe: 'rotate-once', duration: '500ms', args: [180] },
   'cube-transparent': { recipe: 'rotate-once', duration: '500ms', args: [180] },
 
@@ -3194,9 +3339,9 @@ export const ICON_ANIMATIONS = {
   wifi: { recipe: 'wave', duration: '600ms' },
   signal: { recipe: 'wave', duration: '600ms' },
   'signal-slash': { recipe: 'wave', duration: '600ms' },
-  'battery-0': { recipe: 'wave', duration: '600ms' },
-  'battery-50': { recipe: 'wave', duration: '600ms' },
-  'battery-100': { recipe: 'wave', duration: '600ms' },
+  'battery-0': { recipe: 'battery-charge', duration: '640ms' },
+  'battery-50': { recipe: 'battery-charge', duration: '720ms', args: [2] },
+  'battery-100': { recipe: 'battery-charge', duration: '800ms', args: [2] },
 
   // Code / terminal
   'code-bracket': { recipe: 'typewriter', duration: '500ms' },
@@ -3288,7 +3433,7 @@ export const ICON_ANIMATIONS = {
   'percent-badge': { recipe: 'percent-pop', duration: '400ms' },
   'receipt-percent': { recipe: 'receipt-print', duration: '500ms' },
   'receipt-refund': { recipe: 'receipt-print', duration: '500ms' },
-  scale: { recipe: 'rotate-once', duration: '500ms', args: [180] },
+  scale: { recipe: 'scale-settle', duration: '680ms' },
 
   // Charts
   'chart-bar': { recipe: 'chart-grow', duration: '600ms' },
