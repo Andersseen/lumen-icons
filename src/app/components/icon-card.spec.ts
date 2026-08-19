@@ -87,8 +87,12 @@ describe("IconCardComponent", () => {
       providers: [{ provide: ClipboardService, useValue: clipboardMock }],
     });
 
-    await user.click(screen.getByRole("button", { name: /copy selector for check/i }));
-    await user.click(screen.getByRole("button", { name: /copy angular example for check/i }));
+    // The three snippets moved behind one "Copy" dropdown; open it, then pick.
+    await user.click(screen.getByRole("button", { name: /copy options for check/i }));
+    await user.click(await screen.findByText("HTML selector"));
+
+    await user.click(screen.getByRole("button", { name: /copy options for check/i }));
+    await user.click(await screen.findByText("Angular example"));
 
     expect(copyMock).toHaveBeenCalledWith(
       '<lmn-check ariaLabel="check" [size]="20" [strokeWidth]="1.5" [animate]="true" tone="primary" variant="filled" background="soft" backgroundTone="accent" [padding]="8" [radius]="10" />',

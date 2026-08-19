@@ -14,6 +14,10 @@ Element.prototype.animate = vi.fn().mockReturnValue({
   removeEventListener: vi.fn(),
 });
 
+// jsdom implements neither of these; ng-primitives' overlay teardown calls
+// getAnimations() to wait for exit animations before detaching the portal.
+Element.prototype.getAnimations = vi.fn().mockReturnValue([]);
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   configurable: true,

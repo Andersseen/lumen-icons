@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Demo site
+
+#### Fixed
+
+- Hero badge text was invisible: a section-scoped `.dark` could not re-resolve
+  Tailwind theme tokens, because `@theme` declares `--color-*` only at `:root`.
+  The bridge now uses `@theme inline`, so any subtree may be `.dark`.
+- `--accent` was defined as a second brand purple, but volt-ui paints it as the
+  hover surface in 44 places, making every hover state read as "selected". It is
+  now the subtle surface the design system expects.
+- `/icons` exposed two `<main>` landmarks and a duplicate `icon-search` id.
+- Quickstart code snippets were clipped mid-token on the home page.
+- `provideMovement` ignored `prefers-reduced-motion`; app-level motion now
+  switches off with the OS setting (library icons already honoured it via CSS).
+- The GitHub link is reachable from the mobile header.
+
+#### Changed
+
+- The `/icons` desktop sidebar and mobile control block — two near-identical
+  templates, both permanently in the DOM — are one `app-icon-controls`, shown in
+  a sticky rail on desktop and a `volt-drawer` on mobile. Catalog state moved to
+  an `IconCatalogStore` with a single `CATALOG_DEFAULTS`.
+- Hand-rolled `role="radio"` grids are now an `app-option-group` atom over
+  `volt-toggle-group`, which brings roving-tabindex keyboard support.
+- Icon cards are built on `volt-card` with the three copy actions behind one
+  `volt-dropdown-menu`, a `volt-tooltip` for truncated names, and one page-level
+  toast instead of a pill per card.
+- The catalog grid renders in `@defer (on viewport)` chunks with `volt-skeleton`
+  placeholders: 6 703 → 2 502 DOM nodes, 14 065 px → 6 781 px.
+- `/docs` has a sticky TOC rail and tabs the reference tables, so the 362-row
+  icon list is no longer appended to every visit: 25 998 px → 3 816 px.
+- Scroll-reveal, stagger and parallax motion via `angular-movement` on the home,
+  catalog and docs pages.
+
+
+## [Unreleased]
+
 ### Added
 
 - **Rest-state corrections**: tool and key motions now turn briefly and return to their original orientation; bolt thickness pulses on its path and settles at normal width; trash isolates its top rim while the discard artifact is transient.

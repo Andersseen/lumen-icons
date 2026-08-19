@@ -9,6 +9,7 @@ import {
 } from "lumen-icons";
 
 import { VoltCard } from "@voltui/components";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
 
 @Component({
   selector: "app-home-features",
@@ -21,6 +22,7 @@ import { VoltCard } from "@voltui/components";
     LmnSearchIcon,
     LmnArrowRightIcon,
     VoltCard,
+    MOVEMENT_DIRECTIVES,
   ],
   templateUrl: "./home-features.html",
 })

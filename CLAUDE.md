@@ -269,18 +269,44 @@ The demo app imports from `@voltui/components`. Add it to `package.json` depende
 
 | Category | Selectors |
 |---|---|
-| Action | `volt-button`, `volt-toggle` |
-| Display | `volt-badge`, `volt-avatar`, `volt-card` (+ `volt-card-header`, `volt-card-title`, `volt-card-description`, `volt-card-content`, `volt-card-footer`), `volt-separator`, `volt-progress` |
-| Form | `volt-input`, `volt-textarea`, `volt-checkbox`, `volt-radio-group` + `volt-radio-item`, `volt-switch`, `volt-slider`, `volt-select` (+ `volt-select-content`, `volt-select-item`, `volt-select-label`, `volt-select-separator`), `volt-form-field` (+ `volt-form-field-label`, `volt-form-field-hint`, `volt-form-field-error`) |
-| Overlay | `volt-tooltip` + `volt-tooltip-content`, `volt-dialog`, `volt-popover`, `volt-dropdown-menu` |
-| Navigation | `volt-tabs` (+ `volt-tabs-list`, `volt-tabs-trigger`, `volt-tabs-content`), `volt-breadcrumbs`, `volt-navigation-menu`, `volt-nav-sidebar` |
-| Disclosure | `volt-accordion` |
+| Action | `volt-button`, `volt-toggle`, `volt-toggle-group` + `volt-toggle-group-item`, `volt-toolbar` |
+| Display | `volt-badge`, `volt-avatar`, `volt-card` (+ `-header`, `-title`, `-description`, `-content`, `-footer`), `volt-separator`, `volt-progress`, `volt-meter`, `volt-skeleton`, `volt-table` (+ `-header`, `-body`, `-row`, `-head`, `-cell`, `-footer`, `-caption`) |
+| Form | `volt-input`, `volt-textarea`, `volt-search` + `volt-search-clear`, `volt-checkbox`, `volt-radio-group` + `volt-radio-item`, `volt-switch`, `volt-slider`, `volt-range-slider`, `volt-select` (+ `-content`, `-item`, `-label`, `-separator`), `volt-combobox`, `volt-listbox`, `volt-date-picker`, `volt-file-upload`, `volt-input-otp`, `volt-form-field` |
+| Overlay | `[voltTooltip]` + `volt-tooltip-content`, `[voltDialog]` + `[voltDialogContent]`, `[voltDrawer]` + `[voltDrawerOverlay]` / `[voltDrawerContent]` / `volt-drawer-close`, `[voltPopover]` + `volt-popover-content`, `[voltDropdownMenu]` + `volt-dropdown-menu` (+ `-item`, `-label`, `-separator`), `volt-toast` (+ `-title`, `-description`) |
+| Navigation | `volt-tabs` (+ `volt-tabs-list`, `volt-tabs-trigger`, `volt-tabs-content`), `volt-breadcrumbs`, `volt-navigation-menu`, `volt-sidebar`, `volt-pagination` |
+| Disclosure | `volt-accordion`, `volt-resizable` |
+
+**Gotchas learned the hard way** (see `docs/specs/2026-08-18-official-site-refactor.md`):
+
+- **Overlay triggers are attribute directives** taking a `TemplateRef`: `[voltDrawer]`,
+  `[voltDropdownMenu]`, `[voltTooltip]`, `[voltDialog]`, `[voltPopover]`. The
+  `volt-*` element is the *content*, not the trigger.
+- **Not every part accepts a `class` input.** `volt-card-content` / `volt-card-footer`
+  take no inputs at all and hard-code `p-6`; a `class` attribute is concatenated, not
+  merged, so `p-0` fights `p-6` on stylesheet order. Use `volt-card` as a frame and lay
+  the interior out yourself when the built-in padding does not fit.
+- **`voltDrawerContent` hard-codes a fixed height per side** (`h-[300px]` for bottom).
+  Override with an inline `[style.height]`, not a class.
+- **`volt-toast` cannot be used declaratively** — it throws `No provider for
+  NgpToastOptions`. Drive it through `NgpToastManager` (re-exported by volt-ui), and
+  call `show()` **from an event handler, never from an `effect()`**: creating views
+  imperatively inside a reactive context deadlocks zoneless change detection.
+- **`volt-toggle-group` speaks `string[]`** even when `type="single"`. `app-option-group`
+  wraps that adaptation — prefer it over a new hand-rolled `role="radio"` grid.
+- **`--accent` is the hover surface**, used by ~44 volt states (`data-[hover]:bg-accent`),
+  not a second brand colour. A vivid value makes every hover read as "selected".
 
 All volt-ui components:
 - Are standalone, OnPush, Angular 21 signals-based.
 - Use `input()` for props and `model()` for two-way bindings.
 - Accept a `variant` input managed by `class-variance-authority`.
 - Wrap `ng-primitives` primitives for accessibility.
+
+**Scoped dark sections** — `src/styles.css` bridges the tokens with `@theme inline`, so
+utilities compile to `var(--foreground)` rather than a value resolved once at `:root`.
+That is what lets `class="dark"` work on a subtree. A dark island must set **both**
+`bg-background` and `text-foreground`: several volt variants (e.g. the `outline` button)
+set no colour of their own and would otherwise inherit the light theme's.
 
 **Theme selection** — include one theme preset CSS before `@voltui/components/themes.css`:
 ```css

@@ -4,7 +4,7 @@
 > "Recent changes" and (if applicable) "In progress" before ending the session.
 > Keep entries short; prune anything older than ~10 entries into git history.
 
-**Last updated:** 2026-08-18
+**Last updated:** 2026-08-19
 **Library version:** `lumen-icons` 0.2.0 (published to npm) · repo app `lumen` 0.0.1 (private)
 
 ## Snapshot
@@ -14,13 +14,27 @@
 - **Icon API** (all optional inputs on every icon, defined in `LmnIconBase`):
   `size` (12|14|16|20|24|32, default 24) · `strokeWidth` (default 2) · `ariaLabel` · `animate` (default false) · `tone` · `color` · `variant` (outline|filled) · `background` (none|soft|solid) · `backgroundTone` · `backgroundColor` · `padding` · `radius` (number|string, default `0.5rem`).
 - **Animations:** ~70 pure-CSS recipes in `scripts/animations.mjs`; every icon is mapped to one via `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern). Only `loader` loops infinitely.
-- **Demo app pages:** `index` (landing), `icons` (catalog with full prop playground, search, copy-to-clipboard), `docs`. Theme toggle (light/dark) via `ThemeService`.
+- **Demo app pages:** `index` (landing), `icons` (catalog playground — one `app-icon-controls` in a sticky rail or a `volt-drawer`, backed by `IconCatalogStore`; grid rendered in `@defer` chunks), `docs` (sticky TOC rail, tabbed reference tables). Theme toggle (light/dark) via `ThemeService`.
 - **Tooling:** Angular 21 · AnalogJS 2.4 (SSR off, static SPA) · Vite 8 · Vitest 4 + Testing Library · Playwright · Tailwind v4 (app only) · @voltui/components (app chrome) · pnpm 10 · husky + commitlint (conventional commits).
 - **CI/CD:** one workflow, `.github/workflows/ci.yml` — quality (lint/typecheck/unit) ∥ build (lib + site, uploaded as the `site` artifact) → e2e against that artifact → merge gate → Cloudflare Pages deploy (preview on PRs, production on `main`). Deploys happen **only** from CI; needs `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` secrets.
 - **Quality gate:** `pnpm run check` = lint + typecheck (app & lib) + unit tests + `build:lib` + publint.
 
 ## Recent changes (newest first)
 
+- **2026-08-19** — Official-site refactor onto volt-ui atoms and angular-movement
+  ([spec](../specs/2026-08-18-official-site-refactor.md), status `done`). A Playwright
+  audit found four defects, all fixed: the hero badge was invisible (scoped `.dark`
+  could not re-resolve theme tokens — the `@theme` bridge is now `inline`), `/icons`
+  had two `<main>` landmarks and a duplicate `icon-search` id, the quickstart snippets
+  clipped mid-token, and `provideMovement` ignored `prefers-reduced-motion`. Also
+  corrected `--accent`, which was a second brand purple where volt-ui expects the hover
+  surface (44 usages), so hover no longer reads as "selected". The two duplicated
+  `/icons` control panels became one `app-icon-controls` (sticky rail on desktop,
+  `volt-drawer` on mobile) over a new `IconCatalogStore`; the hand-rolled radio grids
+  became an `app-option-group` atom on `volt-toggle-group`; icon cards moved to
+  `volt-card` + `volt-dropdown-menu` + one page-level toast. `@defer` chunking and
+  tabbed docs reference cut `/icons` to 2 502 nodes (from 6 703) and `/docs` to 3 816 px
+  (from 25 998). `pnpm run check` and all 26 Playwright tests pass.
 - **2026-08-18** — Official-site visual refresh. The home page now presents Lumen as a product landing page: a high-contrast responsive hero, live semantic-motion canvas, 362/0/100% proof points, developer-focused capability cards and a three-step quickstart. The install copy action and existing routes remain intact; a new Playwright flow covers the primary browse CTA. Full E2E passes (23 tests), production build passes, and unit/package verification remains green.
 - **2026-08-18** — Official app refresh: upgraded `@voltui/components` 0.1.0 → 1.0.1 and `angular-movement` 0.1.0 → 0.8.0. The application and Analog test bed now run zoneless through `provideZonelessChangeDetection()` / `setupTestBed({ zoneless: true })`; direct `zone.js` was removed (it remains transitively present for Analog's test tooling only). VoltUI control labels now use the v1 ARIA inputs. The generator reads committed Lumen outline/filled branches rather than `node_modules/heroicons`, so direct Heroicons is removed too. Unit, Playwright and production builds pass.
 - **2026-08-18** — Verified semantic rest state + sidebar scrolling with Playwright. The outline generator now exposes the configured stroke width as a CSS variable, so `bold` genuinely thickens and returns to the caller's exact value; `rocket-launch` makes an upper-right diagonal flight before resetting at full opacity and identity transform. The semantic desktop `<aside>` is the sticky panel's own viewport-scoped scroll container, preventing users from having to reach the page bottom. Targeted E2E passes (11 tests) and `pnpm run check` passes (3648 tests + publint).

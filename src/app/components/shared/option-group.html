@@ -1,0 +1,15 @@
+<volt-toggle-group
+  type="single"
+  [allowDeselection]="false"
+  [value]="selected()"
+  (valueChange)="onValueChange($event)"
+  [attr.aria-label]="ariaLabel()"
+  [class.flex-wrap]="wrap()"
+  class="w-full gap-1"
+>
+  @for (item of items(); track item.key) {
+    <volt-toggle-group-item [value]="item.key" [size]="itemSize()">
+      {{ item.label }}
+    </volt-toggle-group-item>
+  }
+</volt-toggle-group>

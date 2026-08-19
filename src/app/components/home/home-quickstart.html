@@ -3,7 +3,7 @@
       aria-labelledby="quickstart-heading"
     >
       <div class="mx-auto max-w-5xl px-4">
-        <div class="mb-10 max-w-xl">
+        <div class="mb-10 max-w-xl" [moveInView]="'fade-up'" [moveInViewOnce]="true">
           <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">Developer experience</p>
           <h2 id="quickstart-heading" class="mt-3 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">
             From install to icon in three lines.
@@ -11,13 +11,28 @@
           <p class="mt-3 text-secondary-foreground">No modules, no registries and no configuration surface to learn.</p>
         </div>
 
-        <div class="grid gap-4 lg:grid-cols-3">
-          <div class="rounded-2xl border border-border bg-background/70 p-5 shadow-sm"><span class="mb-4 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span><app-code-snippet code="npm install lumen-icons" label="Install" copyKey="install" /></div>
-          <div class="rounded-2xl border border-border bg-background/70 p-5 shadow-sm"><span class="mb-4 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span><app-code-snippet [code]="importCode" label="Import one icon" copyKey="import" /></div>
-          <div class="rounded-2xl border border-border bg-background/70 p-5 shadow-sm"><span class="mb-4 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span><app-code-snippet [code]="templateCode" label="Use it anywhere" copyKey="template" /></div>
+        <div class="grid gap-4 lg:grid-cols-3" [moveStagger]="90">
+          <volt-card class="min-w-0 rounded-2xl" [moveInView]="'fade-up'" [moveInViewOnce]="true" [moveDuration]="420">
+            <div class="min-w-0 p-5">
+              <volt-badge class="mb-4 inline-flex h-7 w-7 items-center justify-center rounded-full">1</volt-badge>
+              <app-code-snippet code="npm install lumen-icons" label="Install" copyKey="install" />
+            </div>
+          </volt-card>
+          <volt-card class="min-w-0 rounded-2xl" [moveInView]="'fade-up'" [moveInViewOnce]="true" [moveDuration]="420">
+            <div class="min-w-0 p-5">
+              <volt-badge class="mb-4 inline-flex h-7 w-7 items-center justify-center rounded-full">2</volt-badge>
+              <app-code-snippet [code]="importCode" label="Import one icon" copyKey="import" />
+            </div>
+          </volt-card>
+          <volt-card class="min-w-0 rounded-2xl" [moveInView]="'fade-up'" [moveInViewOnce]="true" [moveDuration]="420">
+            <div class="min-w-0 p-5">
+              <volt-badge class="mb-4 inline-flex h-7 w-7 items-center justify-center rounded-full">3</volt-badge>
+              <app-code-snippet [code]="templateCode" label="Use it anywhere" copyKey="template" />
+            </div>
+          </volt-card>
         </div>
 
-        <div class="mt-9">
+        <div class="mt-9" [moveInView]="'fade-up'" [moveInViewOnce]="true">
           <a routerLink="/docs"
             class="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:text-primary dark:hover:text-primary">
             Explore the complete API

@@ -2,17 +2,26 @@ import { NgComponentOutlet } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   inject,
   input,
+  output,
   signal,
 } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { timer } from "rxjs";
+import { MOVEMENT_DIRECTIVES } from "angular-movement";
+import {
+  VoltBadge,
+  VoltCard,
+  VoltDropdownMenu,
+  VoltDropdownMenuItem,
+  VoltDropdownMenuLabel,
+  VoltDropdownMenuSeparator,
+  VoltDropdownMenuTrigger,
+  VoltTooltip,
+} from "@voltui/components";
 
 import { ClipboardService } from "../services/clipboard";
 
-import { LmnCheckIcon } from "lumen-icons/check";
+import { LmnCopyIcon } from "lumen-icons/copy";
 import type { LmnIconBackground, LmnIconSize, LmnIconTone, LmnIconVariant } from "lumen-icons";
 
 import type { IconEntry } from "../types/icon-entry.type";
@@ -32,10 +41,30 @@ export interface IconCardInputs {
   readonly [key: string]: unknown;
 }
 
+const COPY_LABELS: Record<CopyAction, string> = {
+  import: "import statement",
+  selector: "HTML selector",
+  example: "Angular example",
+};
+
+type CopyAction = "import" | "selector" | "example";
+
 @Component({
   selector: "app-icon-card",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet, LmnCheckIcon],
+  imports: [
+    NgComponentOutlet,
+    LmnCopyIcon,
+    VoltCard,
+    VoltBadge,
+    VoltTooltip,
+    VoltDropdownMenu,
+    VoltDropdownMenuItem,
+    VoltDropdownMenuLabel,
+    VoltDropdownMenuSeparator,
+    VoltDropdownMenuTrigger,
+    MOVEMENT_DIRECTIVES,
+  ],
   styles: [
     `
       :host {
@@ -66,28 +95,26 @@ export interface IconCardInputs {
         animation: icon-pop 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
       }
 
-      .icon-card {
-        transform: translateY(0) scale(1);
-      }
-
-      .icon-card:focus-within,
-      .icon-card:hover {
-        transform: translateY(-2px) scale(1.01);
+      @media (prefers-reduced-motion: reduce) {
+        .icon-inner.popped {
+          animation: none;
+        }
       }
     `,
   ],
   templateUrl: "./icon-card.html",
 })
 export class IconCardComponent {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly clipboard = inject(ClipboardService);
 
   readonly icon = input.required<IconEntry>();
   readonly iconInputs = input.required<IconCardInputs>();
   readonly categoryLabel = input.required<string>();
 
+  /** Raised so the page can show one toast instead of 362 inline pills. */
+  readonly copied = output<string>();
+
   readonly isHovered = signal(false);
-  readonly copiedAction = signal<string | null>(null);
   readonly popped = signal(false);
 
   readonly idleCardInputs = (): IconCardInputs => ({
@@ -100,28 +127,14 @@ export class IconCardComponent {
     animate: true,
   });
 
-  handlePreviewClick() {
-    this.copySnippet("import");
-  }
-
-  copySnippet(action: "import" | "selector" | "example") {
+  copySnippet(action: CopyAction) {
     this.triggerPop();
 
-    const text = this.snippetFor(action);
-    const key = `${this.icon().name}:${action}`;
-
-    this.clipboard.copy(text, key);
-    this.copiedAction.set(action);
-    timer(1500)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.copiedAction.set(null));
+    this.clipboard.copy(this.snippetFor(action), `${this.icon().name}:${action}`);
+    this.copied.emit(`Copied ${COPY_LABELS[action]} for ${this.icon().name}`);
   }
 
-  isCopied(action: "import" | "selector" | "example"): boolean {
-    return this.copiedAction() === action;
-  }
-
-  private snippetFor(action: "import" | "selector" | "example"): string {
+  private snippetFor(action: CopyAction): string {
     switch (action) {
       case "selector":
         return this.selectorSnippet();
