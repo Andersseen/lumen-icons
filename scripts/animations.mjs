@@ -50,6 +50,192 @@ const animateBase = `
 
 /** @type {Record<string, (name: string, duration?: string) => AnimationRecipeResult>} */
 const RECIPES = {
+
+  /**
+   * A padlock actually locking: the shackle is held open, drops into the body,
+   * and the body takes the impact. Requires the 2-subpath outline (shackle,
+   * body) — `lock-click` stays for lock-shaped icons without that split.
+   */
+  'lock-shackle'(name, duration = '560ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-shackle {
+          0%, 34% { transform: translateY(-4px); }
+          64% { transform: translateY(1px); }
+          82% { transform: translateY(-1px); }
+          100% { transform: translateY(0); }
+        }
+        @keyframes lmn-${name}-body {
+          0%, 58% { transform: scale(1, 1); }
+          70% { transform: scale(1.09, 0.9); }
+          86% { transform: scale(0.98, 1.04); }
+          100% { transform: scale(1, 1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-1 { transform-origin: bottom center; }
+        .lmn-animate svg .lmn-path-2 { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-shackle ${duration} cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-body ${duration} ease-out both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-body ${duration} ease-out both; }
+      `,
+    };
+  },
+
+  /**
+   * A real shutter: the lens iris closes to a point and reopens while the body
+   * takes the recoil and the flash lamp fires. Needs the 3-subpath camera
+   * outline (body, lens, flash).
+   */
+  'camera-shutter'(name, duration = '560ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-iris {
+          0% { transform: scale(1); }
+          38% { transform: scale(0.06); }
+          52% { transform: scale(0.06); }
+          82% { transform: scale(1.12); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-${name}-body {
+          0%, 30% { transform: scale(1, 1); }
+          46% { transform: scale(1.05, 0.94); }
+          72% { transform: scale(0.98, 1.02); }
+          100% { transform: scale(1, 1); }
+        }
+        @keyframes lmn-${name}-flash {
+          0%, 32% { opacity: 1; transform: scale(1); }
+          44% { opacity: 1; transform: scale(2.6); }
+          70%, 100% { opacity: 1; transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-1,
+        .lmn-animate svg .lmn-path-2,
+        .lmn-animate svg .lmn-path-3 { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-iris ${duration} cubic-bezier(0.3, 0, 0.2, 1) both; }
+        .lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-body ${duration} ease-out both; }
+        .lmn-animate--outline svg .lmn-path-3 { animation: lmn-${name}-flash ${duration} ease-out both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-body ${duration} ease-out both; }
+      `,
+    };
+  },
+
+  /**
+   * Light radiating: the eight rays shoot outward from the disc in a sweep and
+   * settle back, instead of the whole glyph throbbing.
+   */
+  'sun-rays'(name, duration = '900ms', rayCount = 8) {
+    const rays = Array.from({ length: rayCount }, (_, index) => index + 1);
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: rayCount + 1 }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-ray {
+          0% { transform: scale(0.2); opacity: 0.15; }
+          55% { transform: scale(1.35); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes lmn-${name}-disc {
+          0% { transform: scale(0.72); }
+          58% { transform: scale(1.14); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: [
+        ...rays.map((index) => `.lmn-animate--outline svg .lmn-path-${index} { animation: lmn-${name}-ray ${duration} cubic-bezier(0.22, 0.9, 0.3, 1) ${index * 42}ms both; }`),
+        `.lmn-animate--outline svg .lmn-path-${rayCount + 1} { animation: lmn-${name}-disc ${duration} cubic-bezier(0.3, 1.3, 0.5, 1) both; }`,
+        `.lmn-animate--filled svg { animation: lmn-${name}-disc ${duration} cubic-bezier(0.3, 1.3, 0.5, 1) both; }`,
+      ].join('\n        '),
+    };
+  },
+
+  /**
+   * The cart rolls: the wheels turn while the basket eases forward and back,
+   * rather than the whole glyph sliding sideways.
+   */
+  'cart-wheels'(name, duration = '760ms') {
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: 6 }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-wheel {
+          0% { transform: translateX(-5px) rotate(0deg); }
+          100% { transform: translateX(0) rotate(300deg); }
+        }
+        @keyframes lmn-${name}-body {
+          0% { transform: translateX(-5px); }
+          72% { transform: translateX(1px); }
+          100% { transform: translateX(0); }
+        }
+      `,
+      base: `
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-5,
+        .lmn-animate--outline svg .lmn-path-6 { animation: lmn-${name}-wheel ${duration} cubic-bezier(0.25, 0.8, 0.35, 1) both; }
+        .lmn-animate--outline svg .lmn-path-1,
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3,
+        .lmn-animate--outline svg .lmn-path-4 { animation: lmn-${name}-body ${duration} cubic-bezier(0.25, 0.8, 0.35, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-body ${duration} cubic-bezier(0.25, 0.8, 0.35, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * Transfer to/from a cloud: only the arrow travels — the cloud stays put, so
+   * the icon reads as data moving rather than the whole glyph bobbing.
+   * `direction` is -1 for upload (arrow rises into the cloud) and 1 for download.
+   */
+  'cloud-transfer'(name, duration = '760ms', direction = -1) {
+    const from = `${direction * 7}px`;
+    const overshoot = `${direction * -1.5}px`;
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3', 'lmn-path-4'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-arrow {
+          0% { transform: translateY(${from}); opacity: 0; }
+          22% { opacity: 1; }
+          74% { transform: translateY(${overshoot}); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-${name}-cloud {
+          0% { transform: scale(0.96); }
+          60% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-1,
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3 { animation: lmn-${name}-arrow ${duration} cubic-bezier(0.22, 0.9, 0.3, 1) both; }
+        .lmn-animate--outline svg .lmn-path-4 { animation: lmn-${name}-cloud ${duration} ease-out both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-cloud ${duration} ease-out both; }
+      `,
+    };
+  },
   'draw-scale'(name, duration = '420ms') {
     return {
       pathLength: true,
@@ -151,7 +337,7 @@ const RECIPES = {
     };
   },
 
-  'slide-right'(name, duration = '400ms', distance = '5px') {
+  'slide-right'(name, duration = '440ms', distance = '8px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -170,7 +356,7 @@ const RECIPES = {
     };
   },
 
-  'slide-left'(name, duration = '400ms', distance = '5px') {
+  'slide-left'(name, duration = '440ms', distance = '8px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -189,7 +375,7 @@ const RECIPES = {
     };
   },
 
-  'slide-up'(name, duration = '400ms', distance = '5px') {
+  'slide-up'(name, duration = '440ms', distance = '8px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -208,7 +394,7 @@ const RECIPES = {
     };
   },
 
-  'slide-down'(name, duration = '400ms', distance = '5px') {
+  'slide-down'(name, duration = '440ms', distance = '8px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -511,41 +697,6 @@ const RECIPES = {
     };
   },
 
-  'sun-rays'(name, duration = '600ms') {
-    return {
-      pathLength: false,
-      pathClasses: [],
-      keyframes: `
-        @keyframes lmn-${name}-core {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.1); }
-        }
-        @keyframes lmn-${name}-ray {
-          0% { opacity: 0; transform: scale(0.5); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-      `,
-      base: '',
-      animate: `
-        .lmn-animate svg :first-child {
-          animation: lmn-${name}-core ${duration} ease both;
-        }
-        .lmn-animate svg path:nth-child(n+2) {
-          opacity: 1;
-          animation: lmn-${name}-ray ${duration} ease both;
-          animation-delay: calc(var(--lmn-ray-index, 0) * 40ms);
-        }
-        .lmn-animate svg path:nth-child(2) { --lmn-ray-index: 0; }
-        .lmn-animate svg path:nth-child(3) { --lmn-ray-index: 1; }
-        .lmn-animate svg path:nth-child(4) { --lmn-ray-index: 2; }
-        .lmn-animate svg path:nth-child(5) { --lmn-ray-index: 3; }
-        .lmn-animate svg path:nth-child(6) { --lmn-ray-index: 4; }
-        .lmn-animate svg path:nth-child(7) { --lmn-ray-index: 5; }
-        .lmn-animate svg path:nth-child(8) { --lmn-ray-index: 6; }
-        .lmn-animate svg path:nth-child(9) { --lmn-ray-index: 7; }
-      `,
-    };
-  },
 
   'moon-wobble'(name, duration = '800ms') {
     return {
@@ -624,11 +775,11 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: rotate(0deg) translateX(0); }
-          15% { transform: rotate(8deg) translateX(2px); }
-          30% { transform: rotate(-8deg) translateX(-2px); }
-          45% { transform: rotate(5deg) translateX(1px); }
-          60% { transform: rotate(-5deg) translateX(-1px); }
-          75% { transform: rotate(2deg) translateX(0); }
+          15% { transform: rotate(15deg) translateX(3px); }
+          30% { transform: rotate(-15deg) translateX(-3px); }
+          45% { transform: rotate(10deg) translateX(2px); }
+          60% { transform: rotate(-8deg) translateX(-1.5px); }
+          75% { transform: rotate(4deg) translateX(0); }
         }
       `,
       base: '',
@@ -647,7 +798,7 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-4px); }
+          50% { transform: translateY(-8px); }
         }
       `,
       base: '',
@@ -705,20 +856,27 @@ const RECIPES = {
     };
   },
 
-  'typewriter'(name, duration = '500ms') {
+  'typewriter'(name, duration = '620ms') {
     return {
-      pathLength: false,
+      pathLength: true,
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { opacity: 0; transform: translateY(3px); }
-          100% { opacity: 1; transform: translateY(0); }
+          0% { stroke-dashoffset: 1; opacity: 0; transform: translateX(-3px); }
+          18% { opacity: 1; }
+          78% { transform: translateX(0.5px); }
+          100% { stroke-dashoffset: 0; opacity: 1; transform: translateX(0); }
         }
       `,
       base: '',
       animate: `
-        .lmn-animate svg {
-          animation: lmn-${name} ${duration} ease both;
+        .lmn-animate--outline svg path {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name} ${duration} cubic-bezier(0.3, 0.9, 0.35, 1) both;
+        }
+        .lmn-animate--filled svg {
+          animation: lmn-${name} ${duration} cubic-bezier(0.3, 0.9, 0.35, 1) both;
         }
       `,
     };
@@ -895,10 +1053,11 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          25% { transform: scale(1.12); opacity: 0.9; }
-          50% { transform: scale(1.05); opacity: 1; }
-          75% { transform: scale(1.1); opacity: 0.95; }
+          0% { transform: scale(0.86); opacity: 0.45; }
+          38% { transform: scale(1.24); opacity: 1; }
+          64% { transform: scale(0.96); opacity: 0.9; }
+          84% { transform: scale(1.08); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
       `,
       base: '',
@@ -956,12 +1115,13 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: translateX(0); }
-          15% { transform: translateX(-2px) rotate(-2deg); }
-          30% { transform: translateX(2px) rotate(2deg); }
-          45% { transform: translateX(-2px) rotate(-2deg); }
-          60% { transform: translateX(2px) rotate(2deg); }
-          75% { transform: translateX(-1px) rotate(-1deg); }
+          0%, 100% { transform: translateX(0) rotate(0deg); }
+          12% { transform: translateX(-6px) rotate(-13deg); }
+          26% { transform: translateX(6px) rotate(13deg); }
+          40% { transform: translateX(-5px) rotate(-10deg); }
+          54% { transform: translateX(5px) rotate(10deg); }
+          68% { transform: translateX(-3px) rotate(-6deg); }
+          84% { transform: translateX(1px) rotate(2deg); }
         }
       `,
       base: '',
@@ -1007,7 +1167,7 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-          40% { transform: translate(10px, -10px) rotate(-8deg); opacity: 0.75; }
+          40% { transform: translate(14px, -14px) rotate(-16deg); opacity: 0.6; }
           100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
         }
       `,
@@ -1189,9 +1349,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: rotate(-5deg); }
-          42% { transform: rotate(3deg); }
-          72% { transform: rotate(-1deg); }
+          0% { transform: rotate(-16deg); }
+          42% { transform: rotate(9deg); }
+          72% { transform: rotate(-3.5deg); }
+          88% { transform: rotate(1.5deg); }
           100% { transform: rotate(0deg); }
         }
       `,
@@ -1212,9 +1373,9 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translateX(-1px) rotate(-5deg) scale(0.96); }
-          48% { transform: translateX(1px) rotate(3deg) scale(1.035); }
-          72% { transform: translateX(0) rotate(-1deg) scale(0.99); }
+          0% { transform: translateX(-2px) rotate(-14deg) scale(0.92); }
+          48% { transform: translateX(2px) rotate(10deg) scale(1.08); }
+          72% { transform: translateX(0) rotate(-4deg) scale(0.98); }
           100% { transform: translateX(0) rotate(0) scale(1); }
         }
       `,
@@ -1233,8 +1394,8 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translate(-2px, 2px) rotate(-8deg) scale(0.94); opacity: 0.5; }
-          60% { transform: translate(0.5px, -0.5px) rotate(2deg) scale(1.02); opacity: 1; }
+          0% { transform: translate(-4px, 4px) rotate(-18deg) scale(0.86); opacity: 0.4; }
+          60% { transform: translate(1px, -1px) rotate(6deg) scale(1.06); opacity: 1; }
           100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
         }
       `,
@@ -1253,7 +1414,7 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translate(-3px, -3px) scale(0.88); opacity: 0.35; }
+          0% { transform: translate(-7px, -7px) scale(0.78) rotate(-10deg); opacity: 0.2; }
           68% { transform: translate(0, 0) scale(1.035); opacity: 1; }
           84% { transform: translate(0, 0) scale(0.99); opacity: 1; }
           100% { transform: translate(0, 0) scale(1); opacity: 1; }
@@ -1361,9 +1522,11 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1); }
-          40% { transform: scale(1.08); }
-          60% { transform: scale(0.96); }
+          0% { transform: scale(1, 1); }
+          38% { transform: scale(1.1, 0.88); }
+          62% { transform: scale(0.95, 1.07); }
+          82% { transform: scale(1.03, 0.98); }
+          100% { transform: scale(1, 1); }
         }
       `,
       base: '',
@@ -1382,9 +1545,9 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0% { transform: translate(0, 0) scale(1); opacity: 1; }
-          20% { transform: translate(-1px, 1px) scale(0.98); opacity: 1; }
-          58% { transform: translate(14px, -14px) scale(0.9); opacity: 0; }
-          66% { transform: translate(0, 0) scale(1); opacity: 0; }
+          18% { transform: translate(-2px, 2px) scale(0.94); opacity: 1; }
+          62% { transform: translate(9px, -9px) scale(1.06); opacity: 0.35; }
+          78% { transform: translate(-3px, 3px) scale(0.97); opacity: 0.75; }
           100% { transform: translate(0, 0) scale(1); opacity: 1; }
         }
       `,
@@ -1462,9 +1625,9 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: rotateY(0deg) rotate(0deg); }
-          25% { transform: rotateY(25deg) rotate(-2deg); }
-          75% { transform: rotateY(-25deg) rotate(2deg); }
+          0%, 100% { transform: perspective(220px) rotateY(0deg) rotate(0deg); }
+          25% { transform: perspective(220px) rotateY(52deg) rotate(-4deg); }
+          75% { transform: perspective(220px) rotateY(-52deg) rotate(4deg); }
         }
       `,
       base: '',
@@ -1502,8 +1665,8 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: skewX(0deg); }
-          25% { transform: skewX(-4deg); }
-          75% { transform: skewX(4deg); }
+          25% { transform: skewX(-14deg) translateX(-1px); }
+          75% { transform: skewX(14deg) translateX(1px); }
         }
       `,
       base: `
@@ -1572,8 +1735,8 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: rotateX(0deg); }
-          50% { transform: rotateX(-25deg); }
+          0%, 100% { transform: perspective(220px) rotateX(0deg); }
+          50% { transform: perspective(220px) rotateX(-62deg); }
         }
       `,
       base: `
@@ -1595,9 +1758,9 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(-6deg); }
-          75% { transform: rotate(6deg); }
+          0%, 100% { transform: rotate(0deg) translateX(0); }
+          25% { transform: rotate(-14deg) translateX(-2px); }
+          75% { transform: rotate(14deg) translateX(2px); }
         }
       `,
       base: '',
@@ -1641,9 +1804,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          40% { transform: scale(1.1); opacity: 0.9; }
-          60% { transform: scale(1.05); opacity: 1; }
+          0% { transform: scale(0.86) translateY(4px); opacity: 0.4; }
+          46% { transform: scale(1.2) translateY(-2px); opacity: 1; }
+          72% { transform: scale(0.97) translateY(0.5px); opacity: 1; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
         }
       `,
       base: '',
@@ -1662,9 +1826,9 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: scale(1); }
-          25% { transform: scale(1.12); }
-          50% { transform: scale(0.96); }
-          75% { transform: scale(1.06); }
+          25% { transform: scale(1.24) rotate(-6deg); }
+          50% { transform: scale(0.93) rotate(4deg); }
+          75% { transform: scale(1.1) rotate(-2deg); }
         }
       `,
       base: '',
@@ -1682,8 +1846,9 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-4px); }
+          0% { transform: translateX(7px); }
+          78% { transform: translateX(-1.5px); }
+          100% { transform: translateX(0); }
         }
       `,
       base: '',
@@ -1702,7 +1867,7 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.1); opacity: 0.8; }
+          50% { transform: scale(1.24); opacity: 0.7; }
         }
       `,
       base: '',
@@ -1761,7 +1926,7 @@ const RECIPES = {
     };
   },
 
-  'arrow-bounce'(name, duration = '500ms', distance = '6px') {
+  'arrow-bounce'(name, duration = '520ms', distance = '9px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -1827,9 +1992,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1) rotate(0deg); }
-          40% { transform: scale(1.15) rotate(-8deg); }
-          70% { transform: scale(1.08) rotate(4deg); }
+          0% { transform: scale(0.82) rotate(-10deg); }
+          42% { transform: scale(1.3) rotate(6deg); }
+          72% { transform: scale(0.95) rotate(-3deg); }
+          100% { transform: scale(1) rotate(0deg); }
         }
       `,
       base: '',
@@ -1847,8 +2013,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.55; }
+          0% { opacity: 0.25; transform: scaleY(0.6); }
+          45% { opacity: 1; transform: scaleY(1.08); }
+          70% { opacity: 0.8; transform: scaleY(0.97); }
+          100% { opacity: 1; transform: scaleY(1); }
         }
       `,
       base: '',
@@ -1886,10 +2054,10 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: rotate(0deg); }
-          20% { transform: rotate(-8deg); }
-          40% { transform: rotate(8deg); }
-          60% { transform: rotate(-4deg); }
-          80% { transform: rotate(4deg); }
+          20% { transform: rotate(-16deg); }
+          40% { transform: rotate(16deg); }
+          60% { transform: rotate(-9deg); }
+          80% { transform: rotate(5deg); }
         }
       `,
       base: '',
@@ -1983,7 +2151,7 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: translateY(0); opacity: 1; }
-          40% { transform: translateY(3px); opacity: 0.55; }
+          40% { transform: translateY(8px) scaleY(1.1); opacity: 0.35; }
         }
       `,
       base: '',
@@ -2001,8 +2169,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.12); opacity: 0.7; }
+          0% { transform: scale(0.84); opacity: 0.4; }
+          48% { transform: scale(1.26); opacity: 1; }
+          76% { transform: scale(0.96); opacity: 0.9; }
+          100% { transform: scale(1); opacity: 1; }
         }
       `,
       base: `
@@ -2024,8 +2194,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
+          0% { transform: scale(1); opacity: 1; }
+          38% { transform: scale(0.78); opacity: 0.15; }
+          70% { transform: scale(1.08); opacity: 0.9; }
+          100% { transform: scale(1); opacity: 1; }
         }
       `,
       base: '',
@@ -2082,8 +2254,8 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(3px); }
-          75% { transform: translateX(-3px); }
+          25% { transform: translateX(6px); }
+          75% { transform: translateX(-6px); }
         }
       `,
       base: '',
@@ -2102,8 +2274,8 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: translateY(0); }
-          25% { transform: translateY(3px); }
-          75% { transform: translateY(-3px); }
+          25% { transform: translateY(6px); }
+          75% { transform: translateY(-6px); }
         }
       `,
       base: '',
@@ -2201,7 +2373,7 @@ const RECIPES = {
     };
   },
 
-  'door-enter'(name, duration = '450ms', offset = '-4px') {
+  'door-enter'(name, duration = '500ms', offset = '-9px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -2220,7 +2392,7 @@ const RECIPES = {
     };
   },
 
-  'door-exit'(name, duration = '450ms', offset = '4px') {
+  'door-exit'(name, duration = '500ms', offset = '9px') {
     return {
       pathLength: false,
       pathClasses: [],
@@ -2314,10 +2486,10 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: scale(1); }
-          20% { transform: scale(1.08); }
-          40% { transform: scale(0.97); }
-          60% { transform: scale(1.05); }
-          80% { transform: scale(1); }
+          20% { transform: scale(1.2); }
+          40% { transform: scale(0.92); }
+          60% { transform: scale(1.11); }
+          80% { transform: scale(0.98); }
         }
       `,
       base: `
@@ -2364,8 +2536,8 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: rotate(0deg) scale(1); }
-          30% { transform: rotate(-4deg) scale(1.1); }
-          60% { transform: rotate(2deg) scale(1.05); }
+          30% { transform: rotate(-12deg) scale(1.22); }
+          60% { transform: rotate(6deg) scale(1.08); }
         }
       `,
       base: `
@@ -2387,8 +2559,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.06); opacity: 0.6; }
+          0% { transform: scale(0.82); opacity: 0.35; }
+          46% { transform: scale(1.26); opacity: 1; }
+          74% { transform: scale(0.95); opacity: 0.85; }
+          100% { transform: scale(1); opacity: 1; }
         }
       `,
       base: `
@@ -2461,9 +2635,9 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: scale(1); opacity: 1; }
-          25% { transform: scale(1.05); opacity: 0.75; }
-          50% { transform: scale(1.1); opacity: 1; }
-          75% { transform: scale(1.05); opacity: 0.85; }
+          25% { transform: scale(1.1); opacity: 0.6; }
+          50% { transform: scale(1.22); opacity: 1; }
+          75% { transform: scale(1.06); opacity: 0.85; }
         }
       `,
       base: '',
@@ -2527,8 +2701,8 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translateY(-4px); opacity: 0.7; }
-          60% { transform: translateY(1px); opacity: 1; }
+          0% { transform: translateY(-10px) scale(0.9); opacity: 0.4; }
+          60% { transform: translateY(2px) scale(1.04); opacity: 1; }
           100% { transform: translateY(0); opacity: 1; }
         }
       `,
@@ -2545,8 +2719,8 @@ const RECIPES = {
     };
   },
 
-  'grin'(name, duration = '450ms', energy = 1) {
-    const peak = 1 + 0.12 * energy;
+  'grin'(name, duration = '520ms', energy = 1) {
+    const peak = 1 + 0.22 * energy;
     return {
       pathLength: false,
       pathClasses: [],
@@ -2575,11 +2749,11 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 24% { opacity: 1; }
-          25%, 49% { opacity: 0.5; }
-          50%, 74% { opacity: 1; }
-          75%, 99% { opacity: 0.5; }
-          100% { opacity: 1; }
+          0%, 22% { opacity: 1; transform: translateX(0); }
+          25%, 47% { opacity: 0.25; transform: translateX(5px); }
+          50%, 72% { opacity: 1; transform: translateX(0); }
+          75%, 97% { opacity: 0.25; transform: translateX(-5px); }
+          100% { opacity: 1; transform: translateX(0); }
         }
       `,
       base: '',
@@ -2597,8 +2771,8 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: rotateY(0deg); }
-          100% { transform: rotateY(360deg); }
+          0% { transform: perspective(240px) rotateY(0deg); }
+          100% { transform: perspective(240px) rotateY(360deg); }
         }
       `,
       base: '',
@@ -2640,8 +2814,9 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0% { transform: translateY(-3px); opacity: 0.5; }
-          100% { transform: translateY(0); opacity: 1; }
+          0% { transform: translateY(-9px) scaleY(0.85); opacity: 0.3; }
+          72% { transform: translateY(1.5px) scaleY(1.02); opacity: 1; }
+          100% { transform: translateY(0) scaleY(1); opacity: 1; }
         }
       `,
       base: '',
@@ -2660,9 +2835,9 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: scale(1); }
-          30% { transform: scale(1.12); }
-          55% { transform: scale(0.95); }
-          80% { transform: scale(1.05); }
+          30% { transform: scale(1.26); }
+          55% { transform: scale(0.92); }
+          80% { transform: scale(1.08); }
         }
       `,
       base: `
@@ -2684,8 +2859,9 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: translate(0, 0); opacity: 1; }
-          50% { transform: translate(2px, -2px); opacity: 0.75; }
+          0% { transform: translate(0, 0) scale(0.9); opacity: 0.4; }
+          50% { transform: translate(6px, -6px) scale(1.1); opacity: 1; }
+          100% { transform: translate(0, 0) scale(1); opacity: 1; }
         }
       `,
       base: '',
@@ -2703,9 +2879,10 @@ const RECIPES = {
       pathClasses: [],
       keyframes: `
         @keyframes lmn-${name} {
-          0%, 100% { transform: scale(1); }
-          40% { transform: scale(1.1); }
-          70% { transform: scale(0.98); }
+          0% { transform: scale(1.35); opacity: 0.3; }
+          52% { transform: scale(0.92); opacity: 1; }
+          78% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
       `,
       base: `
@@ -2728,10 +2905,10 @@ const RECIPES = {
       keyframes: `
         @keyframes lmn-${name} {
           0%, 100% { transform: translate(0, 0); }
-          20% { transform: translate(1px, -1px); }
-          40% { transform: translate(-1px, 1px); }
-          60% { transform: translate(1px, 1px); }
-          80% { transform: translate(-1px, -1px); }
+          20% { transform: translateX(6px) translateY(-3px) rotate(13deg); }
+          40% { transform: translateX(-6px) translateY(3px) rotate(-13deg); }
+          60% { transform: translateX(5px) translateY(3px) rotate(9deg); }
+          80% { transform: translateX(-4px) translateY(-3px) rotate(-6deg); }
         }
       `,
       base: '',
@@ -3306,29 +3483,29 @@ export const ICON_ANIMATIONS = {
   // Arrows
   'arrow-right': { recipe: 'draw-drift', duration: '700ms', args: ['3px', '0', [3], [1, 2], 3] },
   'arrow-long-right': { recipe: 'draw-drift', duration: '700ms', args: ['3px', '0', [3], [1, 2], 3] },
-  'arrow-small-right': { recipe: 'slide-right', duration: '350ms', args: ['4px'] },
-  'chevron-right': { recipe: 'slide-right', duration: '350ms', args: ['4px'] },
+  'arrow-small-right': { recipe: 'slide-right', duration: '420ms', args: ['8px'] },
+  'chevron-right': { recipe: 'slide-right', duration: '420ms', args: ['8px'] },
   'arrow-left': { recipe: 'draw-drift', duration: '700ms', args: ['-3px', '0', [3], [1, 2], 3] },
   'arrow-long-left': { recipe: 'draw-drift', duration: '700ms', args: ['-3px', '0', [3], [1, 2], 3] },
-  'arrow-small-left': { recipe: 'slide-left', duration: '350ms', args: ['4px'] },
-  'chevron-left': { recipe: 'slide-left', duration: '350ms', args: ['4px'] },
+  'arrow-small-left': { recipe: 'slide-left', duration: '420ms', args: ['8px'] },
+  'chevron-left': { recipe: 'slide-left', duration: '420ms', args: ['8px'] },
   'arrow-up': { recipe: 'slide-up', duration: '400ms' },
   'arrow-long-up': { recipe: 'draw-drift', duration: '700ms', args: ['0', '-3px', [3], [1, 2], 3] },
-  'arrow-small-up': { recipe: 'slide-up', duration: '350ms', args: ['4px'] },
-  'chevron-up': { recipe: 'slide-up', duration: '350ms', args: ['4px'] },
+  'arrow-small-up': { recipe: 'slide-up', duration: '420ms', args: ['8px'] },
+  'chevron-up': { recipe: 'slide-up', duration: '420ms', args: ['8px'] },
   'arrow-down': { recipe: 'draw-drift', duration: '700ms', args: ['0', '3px', [3], [1, 2], 3] },
   'arrow-long-down': { recipe: 'draw-drift', duration: '700ms', args: ['0', '3px', [3], [1, 2], 3] },
-  'arrow-small-down': { recipe: 'slide-down', duration: '350ms', args: ['4px'] },
-  'chevron-down': { recipe: 'slide-down', duration: '350ms', args: ['4px'] },
+  'arrow-small-down': { recipe: 'slide-down', duration: '420ms', args: ['8px'] },
+  'chevron-down': { recipe: 'slide-down', duration: '420ms', args: ['8px'] },
 
   // Transfer arrows
   'arrow-top-right-on-square': { recipe: 'arrow-bounce', duration: '500ms', args: ['5px'] },
   'external-link': { recipe: 'arrow-bounce', duration: '500ms', args: ['5px'] },
   download: { recipe: 'download-arrow', duration: '550ms' },
-  'cloud-arrow-down': { recipe: 'download-arrow', duration: '550ms' },
+  'cloud-arrow-down': { recipe: 'cloud-transfer', duration: '760ms', args: [1] },
   'arrow-up-tray': { recipe: 'upload-arrow', duration: '550ms' },
   upload: { recipe: 'upload-arrow', duration: '550ms' },
-  'cloud-arrow-up': { recipe: 'upload-arrow', duration: '550ms' },
+  'cloud-arrow-up': { recipe: 'cloud-transfer', duration: '760ms', args: [-1] },
 
   // Navigation
   home: { recipe: 'home-bounce', duration: '500ms' },
@@ -3381,7 +3558,7 @@ export const ICON_ANIMATIONS = {
   'play-pause': { recipe: 'play-morph', duration: '400ms' },
   stop: { recipe: 'play-morph', duration: '400ms' },
   'stop-circle': { recipe: 'play-morph', duration: '400ms' },
-  camera: { recipe: 'shutter', duration: '450ms' },
+  camera: { recipe: 'camera-shutter', duration: '560ms' },
   photo: { recipe: 'shutter', duration: '450ms' },
   image: { recipe: 'shutter', duration: '450ms' },
   'video-camera': { recipe: 'film-roll', duration: '700ms' },
@@ -3392,7 +3569,7 @@ export const ICON_ANIMATIONS = {
   microphone: { recipe: 'microphone-pulse', duration: '500ms' },
 
   // System / theme
-  sun: { recipe: 'glow', duration: '700ms' },
+  sun: { recipe: 'sun-rays', duration: '900ms' },
   moon: { recipe: 'moon-wobble', duration: '800ms' },
   fire: { recipe: 'glow', duration: '700ms' },
   zap: { recipe: 'glow', duration: '700ms' },
@@ -3466,8 +3643,8 @@ export const ICON_ANIMATIONS = {
   'gift-top': { recipe: 'gift-unbox', duration: '550ms' },
 
   // Security
-  lock: { recipe: 'lock-click', duration: '400ms' },
-  'lock-closed': { recipe: 'lock-click', duration: '400ms' },
+  lock: { recipe: 'lock-shackle', duration: '560ms' },
+  'lock-closed': { recipe: 'lock-shackle', duration: '560ms' },
   'lock-open': { recipe: 'unlock', duration: '500ms' },
   key: { recipe: 'key-turn-return', duration: '520ms' },
   shield: { recipe: 'core-pulse', duration: '450ms' },
@@ -3485,7 +3662,7 @@ export const ICON_ANIMATIONS = {
   avatar: { recipe: 'bounce', duration: '450ms' },
 
   // Commerce
-  'shopping-cart': { recipe: 'cart-roll', duration: '550ms' },
+  'shopping-cart': { recipe: 'cart-wheels', duration: '760ms' },
   'shopping-bag': { recipe: 'bounce', duration: '450ms' },
   'credit-card': { recipe: 'credit-card-swipe', duration: '500ms' },
   banknotes: { recipe: 'banknote-flutter', duration: '600ms' },
@@ -3563,8 +3740,8 @@ export const ICON_ANIMATIONS = {
   'chevron-double-down': { recipe: 'chevron-cascade', duration: '450ms', args: ['y', '3px'] },
   'chevron-double-left': { recipe: 'chevron-cascade', duration: '450ms', args: ['x', '-3px'] },
   'chevron-double-right': { recipe: 'chevron-cascade', duration: '450ms', args: ['x', '3px'] },
-  'log-in': { recipe: 'door-enter', duration: '450ms', args: ['-4px'] },
-  'log-out': { recipe: 'door-exit', duration: '450ms', args: ['4px'] },
+  'log-in': { recipe: 'door-enter', duration: '500ms', args: ['-9px'] },
+  'log-out': { recipe: 'door-exit', duration: '500ms', args: ['9px'] },
   'arrow-right-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '-4px'] },
   'arrow-left-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '4px'] },
   'arrow-right-start-on-rectangle': { recipe: 'arrow-through-rectangle', duration: '650ms', args: [[2, 3], [4], 4, '-4px'] },
@@ -3601,7 +3778,7 @@ export const ICON_ANIMATIONS = {
   package: { recipe: 'package-pop', duration: '500ms' },
   'face-smile': { recipe: 'grin', duration: '450ms', args: [1] },
   smile: { recipe: 'grin', duration: '450ms', args: [1.1] },
-  'face-frown': { recipe: 'grin', duration: '600ms', args: [0.5] },
+  'face-frown': { recipe: 'grin', duration: '600ms', args: [0.85] },
   language: { recipe: 'translate-flip', duration: '600ms' },
   share: { recipe: 'share-cast', duration: '450ms' },
   'viewfinder-circle': { recipe: 'focus-lock', duration: '450ms' },
@@ -3679,13 +3856,15 @@ export const FALLBACK_ANIMATIONS = [
 
   // Media
   { match: n => n.includes('play') || n.includes('pause') || n === 'stop' || n === 'stop-circle', recipe: 'play-morph', duration: '400ms' },
-  { match: n => n === 'camera' || n === 'photo' || n === 'image', recipe: 'shutter', duration: '450ms' },
+  { match: n => n === 'camera', recipe: 'camera-shutter', duration: '560ms' },
+  { match: n => n === 'photo' || n === 'image', recipe: 'shutter', duration: '520ms' },
   { match: n => n.includes('video') || n === 'film', recipe: 'film-roll', duration: '700ms' },
   { match: n => n === 'musical-note' || n === 'play-pause', recipe: 'music-beat', duration: '500ms' },
   { match: n => n === 'microphone', recipe: 'microphone-pulse', duration: '500ms' },
 
   // System / theme
-  { match: n => n === 'sun' || n === 'fire' || n === 'zap' || n === 'bolt' || n === 'bolt-slash' || n === 'sparkles' || n === 'light-bulb' || n === 'cake' || n === 'power', recipe: 'glow', duration: '700ms' },
+  { match: n => n === 'sun', recipe: 'sun-rays', duration: '900ms' },
+  { match: n => n === 'fire' || n === 'zap' || n === 'bolt' || n === 'bolt-slash' || n === 'sparkles' || n === 'light-bulb' || n === 'cake' || n === 'power', recipe: 'glow', duration: '700ms' },
   { match: n => n === 'moon', recipe: 'moon-wobble', duration: '800ms' },
   { match: n => n.includes('wifi') || n.includes('signal') || n.includes('battery'), recipe: 'wave', duration: '600ms' },
   { match: n => n === 'cpu-chip' || n === 'command-line' || n.includes('chip'), recipe: 'core-pulse', duration: '500ms' },
@@ -3704,7 +3883,7 @@ export const FALLBACK_ANIMATIONS = [
   { match: n => n === 'inbox' || n === 'inbox-arrow-down' || n === 'inbox-stack', recipe: 'folder-pop', duration: '450ms' },
 
   // Security
-  { match: n => n === 'lock-closed' || n === 'lock', recipe: 'lock-click', duration: '400ms' },
+  { match: n => n === 'lock-closed' || n === 'lock', recipe: 'lock-shackle', duration: '560ms' },
   { match: n => n === 'lock-open', recipe: 'unlock', duration: '500ms' },
   { match: n => n === 'key', recipe: 'rotate-once', duration: '500ms', args: [90] },
   { match: n => n.includes('shield'), recipe: 'core-pulse', duration: '450ms' },

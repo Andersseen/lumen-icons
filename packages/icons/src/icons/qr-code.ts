@@ -13,8 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-qr-code {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.55; }
+          0% { opacity: 0.25; transform: scaleY(0.6); }
+          45% { opacity: 1; transform: scaleY(1.08); }
+          70% { opacity: 0.8; transform: scaleY(0.97); }
+          100% { opacity: 1; transform: scaleY(1); }
         }
 
     :host(.lmn-animate) svg path,

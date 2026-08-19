@@ -13,7 +13,7 @@
 - Sources: Heroicons 24/outline (outline variant) + 24/solid (filled variant), plus ~38 custom icons preserved by the generator's extraction pipeline.
 - **Icon API** (all optional inputs on every icon, defined in `LmnIconBase`):
   `size` (12|14|16|20|24|32, default 24) · `strokeWidth` (default 2) · `ariaLabel` · `animate` (default false) · `tone` · `color` · `variant` (outline|filled) · `background` (none|soft|solid) · `backgroundTone` · `backgroundColor` · `padding` · `radius` (number|string, default `0.5rem`).
-- **Animations:** ~70 pure-CSS recipes in `scripts/animations.mjs`; every icon is mapped to one via `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern). Only `loader` loops infinitely.
+- **Animations:** 137 pure-CSS recipes in `scripts/animations.mjs`; every icon is mapped to one via `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern). Only `loader` loops infinitely. Recipes must clear the perceptibility floor for a 24 px render — ≥15% scale, ≥10° rotation, ≥5 px translation, or split the icon into parts.
 - **Demo app pages:** `index` (landing), `icons` (catalog playground — one `app-icon-controls` in a sticky rail or a `volt-drawer`, backed by `IconCatalogStore`; grid rendered in `@defer` chunks), `docs` (sticky TOC rail, tabbed reference tables). Theme toggle (light/dark) via `ThemeService`.
 - **Tooling:** Angular 21 · AnalogJS 2.4 (SSR off, static SPA) · Vite 8 · Vitest 4 + Testing Library · Playwright · Tailwind v4 (app only) · @voltui/components (app chrome) · pnpm 10 · husky + commitlint (conventional commits).
 - **CI/CD:** one workflow, `.github/workflows/ci.yml` — quality (lint/typecheck/unit) ∥ build (lib + site, uploaded as the `site` artifact) → e2e against that artifact → merge gate → Cloudflare Pages deploy (preview on PRs, production on `main`). Deploys happen **only** from CI; needs `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` secrets.
@@ -21,6 +21,17 @@
 
 ## Recent changes (newest first)
 
+- **2026-08-19** — Animation perceptibility + semantics pass
+  ([spec](../specs/2026-08-19-animation-perceptibility-pass.md), status `done`). The
+  manual visual pass that kept two specs open is finally done, using a Playwright
+  filmstrip harness (clone the `<lmn-*>` host, freeze each copy at a different
+  `currentTime`). It found that **111 of 343 animated icons (32%) moved too little to be
+  seen at 24 px**, that `RECIPES` had a dead duplicate `sun-rays` shadowing the live one,
+  and that `rotateY`/`rotateX` without perspective flatten to a ~9% squeeze. Five icons
+  now animate the part that carries the meaning (`lock-shackle`, `camera-shutter`,
+  `sun-rays`, `cart-wheels`, `cloud-transfer`) and ~44 recipes were re-tuned above the
+  floor. Below-threshold icons: 111 → 1; expressive recipes: 60% → 85%. `pnpm run check`
+  and all 26 Playwright tests pass.
 - **2026-08-19** — Official-site refactor onto volt-ui atoms and angular-movement
   ([spec](../specs/2026-08-18-official-site-refactor.md), status `done`). A Playwright
   audit found four defects, all fixed: the hero badge was invisible (scoped `.dark`

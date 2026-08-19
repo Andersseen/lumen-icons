@@ -14,10 +14,10 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-no-symbol {
           0%, 100% { transform: rotate(0deg); }
-          20% { transform: rotate(-8deg); }
-          40% { transform: rotate(8deg); }
-          60% { transform: rotate(-4deg); }
-          80% { transform: rotate(4deg); }
+          20% { transform: rotate(-16deg); }
+          40% { transform: rotate(16deg); }
+          60% { transform: rotate(-9deg); }
+          80% { transform: rotate(5deg); }
         }
 
     :host(.lmn-animate) svg path,

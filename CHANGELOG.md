@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Icons
+
+#### Fixed
+
+- `RECIPES` declared `sun-rays` twice; JS keeps the last key, so the live version
+  targeted `path:nth-child(n+2)` — which matches nothing on a compound path. That
+  is why `sun` never radiated. The dead duplicate is gone.
+- `banknote-flutter` and `calendar-flip` used `rotateY`/`rotateX` with no
+  perspective, which flattens to a ~9% squeeze instead of a flip.
+- `rocket-launch` reached `opacity: 0` mid-flight, leaving a ~150 ms hole in the
+  icon; it now bottoms out at 0.35.
+
+#### Changed
+
+- Five icons whose meaning lives in one part no longer animate as a single blob:
+  `lock`/`lock-closed` drop the shackle into the body (`lock-shackle`), `camera`
+  closes and reopens an iris (`camera-shutter`), `sun` sweeps its eight rays
+  outward (`sun-rays`), `shopping-cart` turns its wheels as it advances
+  (`cart-wheels`), and `cloud-arrow-up`/`cloud-arrow-down` move only the arrow
+  while the cloud stays put (`cloud-transfer`).
+- ~44 recipes were re-tuned above the perceptibility floor for a 24 px render
+  (≥15% scale, ≥10° rotation, ≥5 px translation). `typewriter` — the widest, 16
+  icons — is now a stroke-draw instead of a 3 px fade. Icons whose motion is
+  invisible at the default size drop from 111 of 343 to 1.
+
+
 ### Demo site
 
 #### Fixed

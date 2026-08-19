@@ -13,10 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-power {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          25% { transform: scale(1.12); opacity: 0.9; }
-          50% { transform: scale(1.05); opacity: 1; }
-          75% { transform: scale(1.1); opacity: 0.95; }
+          0% { transform: scale(0.86); opacity: 0.45; }
+          38% { transform: scale(1.24); opacity: 1; }
+          64% { transform: scale(0.96); opacity: 0.9; }
+          84% { transform: scale(1.08); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

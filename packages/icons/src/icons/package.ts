@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-package {
-          0% { transform: translateY(-4px); opacity: 0.7; }
-          60% { transform: translateY(1px); opacity: 1; }
+          0% { transform: translateY(-10px) scale(0.9); opacity: 0.4; }
+          60% { transform: translateY(2px) scale(1.04); opacity: 1; }
           100% { transform: translateY(0); opacity: 1; }
         }
 

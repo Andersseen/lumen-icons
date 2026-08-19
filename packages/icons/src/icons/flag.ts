@@ -14,8 +14,8 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-flag {
           0%, 100% { transform: skewX(0deg); }
-          25% { transform: skewX(-4deg); }
-          75% { transform: skewX(4deg); }
+          25% { transform: skewX(-14deg) translateX(-1px); }
+          75% { transform: skewX(14deg) translateX(1px); }
         }
 
     :host(.lmn-animate) svg path,

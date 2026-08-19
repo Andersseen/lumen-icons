@@ -14,11 +14,11 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-shield-exclamation {
           0%, 100% { transform: rotate(0deg) translateX(0); }
-          15% { transform: rotate(8deg) translateX(2px); }
-          30% { transform: rotate(-8deg) translateX(-2px); }
-          45% { transform: rotate(5deg) translateX(1px); }
-          60% { transform: rotate(-5deg) translateX(-1px); }
-          75% { transform: rotate(2deg) translateX(0); }
+          15% { transform: rotate(15deg) translateX(3px); }
+          30% { transform: rotate(-15deg) translateX(-3px); }
+          45% { transform: rotate(10deg) translateX(2px); }
+          60% { transform: rotate(-8deg) translateX(-1.5px); }
+          75% { transform: rotate(4deg) translateX(0); }
         }
 
     :host(.lmn-animate) svg path,

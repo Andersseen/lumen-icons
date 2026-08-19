@@ -13,12 +13,13 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-phone-arrow-up-right {
-          0%, 100% { transform: translateX(0); }
-          15% { transform: translateX(-2px) rotate(-2deg); }
-          30% { transform: translateX(2px) rotate(2deg); }
-          45% { transform: translateX(-2px) rotate(-2deg); }
-          60% { transform: translateX(2px) rotate(2deg); }
-          75% { transform: translateX(-1px) rotate(-1deg); }
+          0%, 100% { transform: translateX(0) rotate(0deg); }
+          12% { transform: translateX(-6px) rotate(-13deg); }
+          26% { transform: translateX(6px) rotate(13deg); }
+          40% { transform: translateX(-5px) rotate(-10deg); }
+          54% { transform: translateX(5px) rotate(10deg); }
+          68% { transform: translateX(-3px) rotate(-6deg); }
+          84% { transform: translateX(1px) rotate(2deg); }
         }
 
     :host(.lmn-animate) svg path,

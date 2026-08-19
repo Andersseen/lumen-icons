@@ -13,9 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-trophy {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          40% { transform: scale(1.1); opacity: 0.9; }
-          60% { transform: scale(1.05); opacity: 1; }
+          0% { transform: scale(0.86) translateY(4px); opacity: 0.4; }
+          46% { transform: scale(1.2) translateY(-2px); opacity: 1; }
+          72% { transform: scale(0.97) translateY(0.5px); opacity: 1; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

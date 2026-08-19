@@ -13,8 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-speaker-wave {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.12); opacity: 0.7; }
+          0% { transform: scale(0.84); opacity: 0.4; }
+          48% { transform: scale(1.26); opacity: 1; }
+          76% { transform: scale(0.96); opacity: 0.9; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

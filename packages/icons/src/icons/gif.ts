@@ -13,11 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-gif {
-          0%, 24% { opacity: 1; }
-          25%, 49% { opacity: 0.5; }
-          50%, 74% { opacity: 1; }
-          75%, 99% { opacity: 0.5; }
-          100% { opacity: 1; }
+          0%, 22% { opacity: 1; transform: translateX(0); }
+          25%, 47% { opacity: 0.25; transform: translateX(5px); }
+          50%, 72% { opacity: 1; transform: translateX(0); }
+          75%, 97% { opacity: 0.25; transform: translateX(-5px); }
+          100% { opacity: 1; transform: translateX(0); }
         }
 
     :host(.lmn-animate) svg path,

@@ -13,9 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-scissors {
-          0% { transform: translateX(-1px) rotate(-5deg) scale(0.96); }
-          48% { transform: translateX(1px) rotate(3deg) scale(1.035); }
-          72% { transform: translateX(0) rotate(-1deg) scale(0.99); }
+          0% { transform: translateX(-2px) rotate(-14deg) scale(0.92); }
+          48% { transform: translateX(2px) rotate(10deg) scale(1.08); }
+          72% { transform: translateX(0) rotate(-4deg) scale(0.98); }
           100% { transform: translateX(0) rotate(0) scale(1); }
         }
 

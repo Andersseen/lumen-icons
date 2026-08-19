@@ -14,7 +14,7 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-face-frown {
           0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.060); }
+          50% { transform: scale(1.187); }
         }
 
     :host(.lmn-animate) svg path,

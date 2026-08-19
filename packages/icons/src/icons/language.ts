@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-language {
-          0% { transform: rotateY(0deg); }
-          100% { transform: rotateY(360deg); }
+          0% { transform: perspective(240px) rotateY(0deg); }
+          100% { transform: perspective(240px) rotateY(360deg); }
         }
 
     :host(.lmn-animate) svg path,

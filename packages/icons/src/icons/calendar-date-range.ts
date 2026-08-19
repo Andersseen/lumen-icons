@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-calendar-date-range {
-          0%, 100% { transform: rotateX(0deg); }
-          50% { transform: rotateX(-25deg); }
+          0%, 100% { transform: perspective(220px) rotateX(0deg); }
+          50% { transform: perspective(220px) rotateX(-62deg); }
         }
 
     :host(.lmn-animate) svg path,

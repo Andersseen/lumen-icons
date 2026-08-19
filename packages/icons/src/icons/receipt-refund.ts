@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-receipt-refund {
-          0% { transform: translateY(-3px); opacity: 0.5; }
-          100% { transform: translateY(0); opacity: 1; }
+          0% { transform: translateY(-9px) scaleY(0.85); opacity: 0.3; }
+          72% { transform: translateY(1.5px) scaleY(1.02); opacity: 1; }
+          100% { transform: translateY(0) scaleY(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

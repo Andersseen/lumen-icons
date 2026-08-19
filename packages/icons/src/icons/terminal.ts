@@ -13,8 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-terminal {
-          0% { opacity: 0; transform: translateY(3px); }
-          100% { opacity: 1; transform: translateY(0); }
+          0% { stroke-dashoffset: 1; opacity: 0; transform: translateX(-3px); }
+          18% { opacity: 1; }
+          78% { transform: translateX(0.5px); }
+          100% { stroke-dashoffset: 0; opacity: 1; transform: translateX(0); }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,8 +28,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-terminal 500ms ease both;
+    :host(.lmn-animate:not(.lmn-filled)) svg path {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-terminal 500ms cubic-bezier(0.3, 0.9, 0.35, 1) both;
+        }
+        :host(.lmn-animate.lmn-filled) svg {
+          animation: lmn-terminal 500ms cubic-bezier(0.3, 0.9, 0.35, 1) both;
         }
 
     @media (prefers-reduced-motion: reduce) {
@@ -65,7 +72,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>
+      <polyline points="4 17 10 11 4 5" pathLength="1"/><line x1="12" x2="20" y1="19" y2="19" pathLength="1"/>
     </svg>
   `,
 })

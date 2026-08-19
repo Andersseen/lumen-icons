@@ -226,6 +226,18 @@ When `animate` is `true`, the host and the SVG receive the `.lmn-animate` class 
 - Only `loader.ts` may use `infinite` animation; all other icons must run once (`both` fill mode).
 - Recipes must define both `0%` and `100%` keyframe blocks so the icon ends at rest state.
 - Keep recipes CSS-only; no JavaScript animation libraries.
+- **Clear the perceptibility floor.** Icons render at 24 px by default, where a `scale(1.08)`
+  or a 3 px translate is invisible. A recipe must reach **≥15% scale, ≥10° rotation,
+  ≥5 px translation, or split the icon into parts** (`splitPaths`) — otherwise it ships
+  motion nobody can see. See `docs/specs/2026-08-19-animation-perceptibility-pass.md`.
+- **Animate the part that carries the meaning.** A lock's shackle drops, a camera's iris
+  closes, a cart's wheels turn. Transforming the whole glyph is the generic fallback this
+  library exists to avoid.
+- **3D needs perspective.** `rotateY`/`rotateX` without a `perspective()` flatten to
+  `scaleX(cos θ)` — a squeeze, not a flip.
+- **Never reach `opacity: 0` mid-animation** — a hole in the icon reads as a bug.
+- `RECIPES` is a plain object literal: a duplicate key silently wins and shadows the
+  earlier definition. `pnpm run lint` catches this (`no-dupe-keys`).
 
 ### Exporting a new icon
 

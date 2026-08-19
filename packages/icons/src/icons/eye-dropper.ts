@@ -14,7 +14,7 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-eye-dropper {
           0%, 100% { transform: translateY(0); opacity: 1; }
-          40% { transform: translateY(3px); opacity: 0.55; }
+          40% { transform: translateY(8px) scaleY(1.1); opacity: 0.35; }
         }
 
     :host(.lmn-animate) svg path,

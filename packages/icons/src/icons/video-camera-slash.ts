@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-video-camera-slash {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-4px); }
+          0% { transform: translateX(7px); }
+          78% { transform: translateX(-1.5px); }
+          100% { transform: translateX(0); }
         }
 
     :host(.lmn-animate) svg path,
