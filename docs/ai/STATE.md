@@ -13,7 +13,7 @@
 - Sources: Heroicons 24/outline (outline variant) + 24/solid (filled variant), plus ~38 custom icons preserved by the generator's extraction pipeline.
 - **Icon API** (all optional inputs on every icon, defined in `LmnIconBase`):
   `size` (12|14|16|20|24|32, default 24) · `strokeWidth` (default 2) · `ariaLabel` · `animate` (default false) · `tone` · `color` · `variant` (outline|filled) · `background` (none|soft|solid) · `backgroundTone` · `backgroundColor` · `padding` · `radius` (number|string, default `0.5rem`).
-- **Animations:** 137 pure-CSS recipes in `scripts/animations.mjs`; every icon is mapped to one via `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern). Only `loader` loops infinitely. Recipes must clear the perceptibility floor for a 24 px render — ≥15% scale, ≥10° rotation, ≥5 px translation, or split the icon into parts.
+- **Animations:** 147 pure-CSS recipes in `scripts/animations.mjs`; every icon is mapped to one via `ICON_ANIMATIONS` (explicit) or `FALLBACK_ANIMATIONS` (pattern). Only `loader` loops infinitely. Recipes must clear the perceptibility floor for a 24 px render — ≥15% scale, ≥10° rotation, ≥5 px translation, or split the icon into parts.
 - **Demo app pages:** `index` (landing), `icons` (catalog playground — one `app-icon-controls` in a sticky rail or a `volt-drawer`, backed by `IconCatalogStore`; grid rendered in `@defer` chunks), `docs` (sticky TOC rail, tabbed reference tables). Theme toggle (light/dark) via `ThemeService`.
 - **Tooling:** Angular 21 · AnalogJS 2.4 (SSR off, static SPA) · Vite 8 · Vitest 4 + Testing Library · Playwright · Tailwind v4 (app only) · @voltui/components (app chrome) · pnpm 10 · husky + commitlint (conventional commits).
 - **CI/CD:** one workflow, `.github/workflows/ci.yml` — quality (lint/typecheck/unit) ∥ build (lib + site, uploaded as the `site` artifact) → e2e against that artifact → merge gate → Cloudflare Pages deploy (preview on PRs, production on `main`). Deploys happen **only** from CI; needs `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` secrets.
@@ -21,6 +21,16 @@
 
 ## Recent changes (newest first)
 
+- **2026-08-19** — Expressive motion pass
+  ([spec](../specs/2026-08-19-expressive-icon-motion.md), status `done`). Maintainer-
+  directed follow-up to the perceptibility pass: ten new recipes make 26 icons animate
+  their actual mechanism. The house opens and shuts its door, a face's mouth starts flat
+  and curves into its expression, `lock-open` closes and springs back open, screens power
+  on like a CRT, and every `*-slash` icon now draws its bar across the glyph *after* the
+  glyph settles — the bar is located geometrically by the new `tagSlashPaths()` helper,
+  because Heroicons splits it into collinear segments whose indices differ per icon.
+  Expressive recipes 85% → 87%; 147 recipes total. `pnpm run check` and all 26 Playwright
+  tests pass.
 - **2026-08-19** — Animation perceptibility + semantics pass
   ([spec](../specs/2026-08-19-animation-perceptibility-pass.md), status `done`). The
   manual visual pass that kept two specs open is finally done, using a Playwright

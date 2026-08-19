@@ -12,10 +12,23 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-device-tablet {
-          0% { transform: scaleY(0.2); opacity: 0; }
-          60% { transform: scaleY(1.02); opacity: 1; }
-          100% { transform: scaleY(1); opacity: 1; }
+    @keyframes lmn-device-tablet-screen {
+          0% { transform: scaleY(0.02) scaleX(0.7); opacity: 0.5; }
+          22% { transform: scaleY(0.03) scaleX(1); opacity: 1; }
+          52% { transform: scaleY(1.12) scaleX(1); opacity: 1; }
+          74% { transform: scaleY(0.96); }
+          100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+        }
+        @keyframes lmn-device-tablet-flash {
+          0%, 20% { opacity: 0; transform: scaleY(0.03); }
+          30% { opacity: 0.55; transform: scaleY(0.06); }
+          58% { opacity: 0.18; transform: scaleY(1); }
+          100% { opacity: 0; transform: scaleY(1); }
+        }
+        @keyframes lmn-device-tablet-chassis {
+          0%, 30% { opacity: 0; transform: translateY(2px); }
+          64% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 1; transform: translateY(0); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,13 +40,26 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
+    :host(.lmn-animate) { position: relative; }
+        /* The phosphor flood behind the glass. */
+        :host(.lmn-animate)::after {
+          content: '';
+          position: absolute;
+          left: 16%;
+          top: 14%;
+          width: 68%;
+          height: 46%;
+          background: currentColor;
+          border-radius: 6%;
+          opacity: 0;
           transform-origin: center;
         }
+        :host(.lmn-animate) svg path { transform-origin: center; }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-device-tablet 450ms ease-out both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-device-tablet-screen 900ms cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-device-tablet-chassis 900ms ease-out both; }
+        :host(.lmn-animate)::after { animation: lmn-device-tablet-flash 900ms ease-out both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-device-tablet-screen 900ms cubic-bezier(0.2, 0.9, 0.3, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -60,7 +86,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M10.5 18a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"/><path fill-rule="evenodd" d="M7.125 1.5A3.375 3.375 0 0 0 3.75 4.875v14.25A3.375 3.375 0 0 0 7.125 22.5h9.75a3.375 3.375 0 0 0 3.375-3.375V4.875A3.375 3.375 0 0 0 16.875 1.5h-9.75ZM6 4.875c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v14.25c0 .621-.504 1.125-1.125 1.125h-9.75A1.125 1.125 0 0 1 6 19.125V4.875Z" clip-rule="evenodd"/>
+      <path class="lmn-path-1" d="M10.5 18a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"/><path class="lmn-path-2" fill-rule="evenodd" d="M7.125 1.5A3.375 3.375 0 0 0 3.75 4.875v14.25A3.375 3.375 0 0 0 7.125 22.5h9.75a3.375 3.375 0 0 0 3.375-3.375V4.875A3.375 3.375 0 0 0 16.875 1.5h-9.75ZM6 4.875c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v14.25c0 .621-.504 1.125-1.125 1.125h-9.75A1.125 1.125 0 0 1 6 19.125V4.875Z" clip-rule="evenodd"/>
     </svg>
     } @else {
       <svg
@@ -77,7 +103,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M10.5 19.5h3m-6.75 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-15a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 4.5v15a2.25 2.25 0 0 0 2.25 2.25Z"/>
+      <path class="lmn-path-1" d="M10.5 19.5 h3"/><path class="lmn-path-2" d="M6.75 21.75 h10.5 a2.25 2.25 0 0 0 2.25 -2.25 v-15 a2.25 2.25 0 0 0 -2.25 -2.25 H6.75 A2.25 2.25 0 0 0 4.5 4.5 v15 a2.25 2.25 0 0 0 2.25 2.25 Z"/>
     </svg>
     }
   `,

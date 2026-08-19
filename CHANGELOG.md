@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Icons
 
+#### Added
+
+- `tagSlashPaths()` finds the diagonal bar of a `*-slash` icon geometrically —
+  Heroicons splits it into collinear segments whose indices differ per icon — and
+  tags it `lmn-slash` so it can be drawn independently of the glyph it crosses.
+  Recipes opt in with `slashPaths: true`.
+- Ten mechanism-specific recipes covering 26 icons: `slash-strike` (the glyph
+  settles, then its bar is drawn across it), `door-swing` (home opens and shuts
+  its door), `folder-lid`, `mouth-curve` (a face's mouth starts flat and curves
+  into its expression), `lock-cycle` (an open padlock closes and springs open
+  again), `crt-power` (a screen opens from a scan line with a phosphor flood),
+  `clock-hands`, `envelope-flap`, `terminal-prompt` (the chevron draws, then the
+  cursor blinks in) and `wallet-card`.
+
+
 #### Fixed
 
 - `RECIPES` declared `sun-rays` twice; JS keeps the last key, so the live version

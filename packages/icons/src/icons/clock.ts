@@ -12,13 +12,16 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-clock-hour {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(25deg); }
+    @keyframes lmn-clock-hands {
+          0% { transform: rotate(-125deg); opacity: 0.4; }
+          26% { opacity: 1; }
+          72% { transform: rotate(14deg); }
+          100% { transform: rotate(0deg); opacity: 1; }
         }
-        @keyframes lmn-clock-minute {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(90deg); }
+        @keyframes lmn-clock-dial {
+          0% { transform: scale(0.86); opacity: 0.5; }
+          58% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -30,13 +33,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg .lmn-path-1,
-        :host(.lmn-animate) svg .lmn-path-2 {
-          transform-origin: center;
-        }
+    /* The hands pivot on the dial centre, not on their own bounding box. */
+        :host(.lmn-animate) svg .lmn-path-1 { transform-box: view-box; transform-origin: 12px 12px; }
+        :host(.lmn-animate) svg .lmn-path-2 { transform-origin: center; }
 
-    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-clock-hour 600ms ease both; }
-        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-clock-minute 600ms ease both; }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-clock-hands 900ms cubic-bezier(0.25, 0.9, 0.3, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-clock-dial 900ms cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-clock-dial 900ms cubic-bezier(0.3, 1.3, 0.5, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -80,7 +83,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+      <path class="lmn-path-1" d="M12 6 v6 h4.5"/><path class="lmn-path-2" d="M21 12 a9 9 0 1 1 -18 0 9 9 0 0 1 18 0 Z"/>
     </svg>
     }
   `,

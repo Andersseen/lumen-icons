@@ -8,6 +8,7 @@ import {
   composeStyles,
   reverseStraightPaths,
   splitSubpaths,
+  tagSlashPaths,
 } from './animations.mjs';
 import {
   iconsDir,
@@ -227,6 +228,10 @@ function generateIconFiles(svgFiles) {
       outlineSvg = applyPathClasses(outlineSvg, animation.pathClasses);
       if (filledSvg) filledSvg = applyPathClasses(filledSvg, animation.pathClasses);
     }
+    if (animation.slashPaths) {
+      outlineSvg = tagSlashPaths(outlineSvg);
+      if (filledSvg) filledSvg = tagSlashPaths(filledSvg);
+    }
     if (animation.reversePaths?.length) {
       outlineSvg = reverseStraightPaths(outlineSvg, animation.reversePaths);
     }
@@ -269,6 +274,9 @@ function regenerateCustomIcons(outlineNames) {
     }
     if (animation.pathClasses.length > 0) {
       innerSvg = applyPathClasses(innerSvg, animation.pathClasses);
+    }
+    if (animation.slashPaths) {
+      innerSvg = tagSlashPaths(innerSvg);
     }
     if (animation.reversePaths?.length) {
       innerSvg = reverseStraightPaths(innerSvg, animation.reversePaths);

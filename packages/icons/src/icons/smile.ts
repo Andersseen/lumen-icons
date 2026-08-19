@@ -12,9 +12,16 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-smile {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.242); }
+    @keyframes lmn-smile-mouth {
+          0% { transform: scaleY(0.04); opacity: 0.55; }
+          58% { transform: scaleY(1.3); opacity: 1; }
+          80% { transform: scaleY(0.92); }
+          100% { transform: scaleY(1); opacity: 1; }
+        }
+        @keyframes lmn-smile-face {
+          0% { transform: scale(0.9); }
+          56% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,13 +33,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          transform-origin: center;
-        }
+    :host(.lmn-animate) svg path { transform-origin: center; }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-smile 450ms ease both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-smile-mouth 640ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4 { animation: lmn-smile-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-smile-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -69,7 +76,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <circle cx="12" cy="12" r="10" class="lmn-animate-el" /><path d="M8 14s1.5 2 4 2 4-2 4-2" class="lmn-animate-el" /><line x1="9" y1="9" x2="9.01" y2="9" class="lmn-animate-el" /><line x1="15" y1="9" x2="15.01" y2="9" class="lmn-animate-el" />
+      <circle cx="12" cy="12" r="10" class="lmn-animate-el lmn-path-1" /><path d="M8 14s1.5 2 4 2 4-2 4-2" class="lmn-animate-el lmn-path-2" /><line x1="9" y1="9" x2="9.01" y2="9" class="lmn-animate-el lmn-path-3" /><line x1="15" y1="9" x2="15.01" y2="9" class="lmn-animate-el lmn-path-4" />
     </svg>
   `,
 })

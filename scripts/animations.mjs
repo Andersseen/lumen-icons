@@ -46,10 +46,416 @@ const animateBase = `
  * compound paths whose subpaths punch holes (winding) — check before opting in.
  * @property {number[]} [reversePaths] — indices of split, straight outline paths
  * whose drawing direction should be reversed before assigning path length.
+ * @property {boolean} [slashPaths] — tag the diagonal strike-through segments of a
+ * `*-slash` icon with `lmn-slash` (and `pathLength`) and everything else with
+ * `lmn-body`, so the bar can be drawn independently of the glyph it crosses.
+ * Implies `splitPaths`.
  */
 
 /** @type {Record<string, (name: string, duration?: string) => AnimationRecipeResult>} */
 const RECIPES = {
+
+  /**
+   * A prohibition icon striking through: the glyph settles first, then the
+   * diagonal bar is drawn across it. The bar is found geometrically by
+   * `tagSlashPaths`, because Heroicons splits it into collinear segments whose
+   * indices differ from icon to icon.
+   */
+  'slash-strike'(name, duration = '780ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      splitPaths: true,
+      slashPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-body {
+          0% { transform: scale(0.88); opacity: 0.35; }
+          46% { transform: scale(1.04); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes lmn-${name}-bar {
+          0%, 34% { stroke-dashoffset: 1; opacity: 0; }
+          40% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-body { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate svg .lmn-body { animation: lmn-${name}-body calc(${duration} * 0.62) cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+        .lmn-animate svg .lmn-slash {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-bar ${duration} cubic-bezier(0.5, 0, 0.2, 1) both;
+        }
+      `,
+    };
+  },
+
+  /** A house whose door swings open and shuts again. */
+  'door-swing'(name, duration = '820ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-door {
+          0%, 14% { transform: perspective(120px) rotateY(0deg); opacity: 1; }
+          44%, 64% { transform: perspective(120px) rotateY(-78deg); opacity: 0.85; }
+          100% { transform: perspective(120px) rotateY(0deg); opacity: 1; }
+        }
+        @keyframes lmn-${name}-shell {
+          0% { transform: scale(0.94); }
+          52% { transform: scale(1.02); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate { position: relative; }
+        /* The door is not its own subpath, so it is mirrored by a pseudo-element
+           hinged on its left jamb. Sized as a share of the 24-unit viewBox. */
+        .lmn-animate::after {
+          content: '';
+          position: absolute;
+          left: 41.5%;
+          top: 62.5%;
+          width: 17%;
+          height: 25%;
+          background: currentColor;
+          opacity: 0;
+          transform-origin: left center;
+          border-radius: 6% 6% 0 0;
+        }
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate svg .lmn-path-1,
+        .lmn-animate svg .lmn-path-2,
+        .lmn-animate svg .lmn-path-3 { animation: lmn-${name}-shell ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        .lmn-animate::after { animation: lmn-${name}-door ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-shell ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+      `,
+    };
+  },
+
+  /** A folder whose front panel lifts open and drops shut. */
+  'folder-lid'(name, duration = '720ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-front {
+          0%, 12% { transform: perspective(140px) rotateX(0deg) translateY(0); }
+          42%, 58% { transform: perspective(140px) rotateX(-52deg) translateY(-1.5px); }
+          100% { transform: perspective(140px) rotateX(0deg) translateY(0); }
+        }
+        @keyframes lmn-${name}-back {
+          0% { transform: translateY(1.5px) scaleX(0.96); }
+          52% { transform: translateY(-0.5px) scaleX(1.01); }
+          100% { transform: translateY(0) scaleX(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-1 { transform-origin: bottom center; }
+        .lmn-animate svg .lmn-path-2 { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-front ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-back ${duration} ease-out both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-front ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * A face whose expression forms: the mouth starts flat and curves into place.
+   * `mouthIndex` is the subpath carrying the mouth (1 on the Heroicons faces).
+   */
+  'mouth-curve'(name, duration = '640ms', mouthIndex = 1, partCount = 6) {
+    const others = Array.from({ length: partCount }, (_, index) => index + 1)
+      .filter((index) => index !== mouthIndex)
+      .map((index) => `.lmn-animate--outline svg .lmn-path-${index}`)
+      .join(',\n        ');
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: partCount }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-mouth {
+          0% { transform: scaleY(0.04); opacity: 0.55; }
+          58% { transform: scaleY(1.3); opacity: 1; }
+          80% { transform: scaleY(0.92); }
+          100% { transform: scaleY(1); opacity: 1; }
+        }
+        @keyframes lmn-${name}-face {
+          0% { transform: scale(0.9); }
+          56% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-${mouthIndex} { animation: lmn-${name}-mouth ${duration} cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        ${others} { animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * An open padlock that closes and springs open again: the shackle swings down
+   * into the body, locks, then lifts back to the open rest position it started
+   * from — so the icon still ends exactly as it began.
+   */
+  'lock-cycle'(name, duration = '1000ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-shackle {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          30% { transform: translate(-8px, 1px) rotate(0deg); }
+          40% { transform: translate(-8px, 2px) rotate(0deg); }
+          62% { transform: translate(-8px, 2px) rotate(0deg); }
+          80% { transform: translate(-2px, -1px) rotate(0deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        @keyframes lmn-${name}-body {
+          0%, 32% { transform: scale(1, 1); }
+          44% { transform: scale(1.08, 0.92); }
+          60% { transform: scale(0.98, 1.03); }
+          100% { transform: scale(1, 1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-1 { transform-origin: bottom center; }
+        .lmn-animate svg .lmn-path-2 { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-shackle ${duration} cubic-bezier(0.4, 0, 0.3, 1) both; }
+        .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-body ${duration} ease-out both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-body ${duration} ease-out both; }
+      `,
+    };
+  },
+
+  /**
+   * A CRT warming up: the picture starts as a scan line, snaps open to full
+   * height with a phosphor flash, then settles.
+   * `screenIndex` is the subpath holding the screen; the rest is the chassis.
+   */
+  'crt-power'(name, duration = '900ms', screenIndex = 4, partCount = 4) {
+    const chassis = Array.from({ length: partCount }, (_, index) => index + 1)
+      .filter((index) => index !== screenIndex)
+      .map((index) => `.lmn-animate--outline svg .lmn-path-${index}`)
+      .join(',\n        ');
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: partCount }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-screen {
+          0% { transform: scaleY(0.02) scaleX(0.7); opacity: 0.5; }
+          22% { transform: scaleY(0.03) scaleX(1); opacity: 1; }
+          52% { transform: scaleY(1.12) scaleX(1); opacity: 1; }
+          74% { transform: scaleY(0.96); }
+          100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+        }
+        @keyframes lmn-${name}-flash {
+          0%, 20% { opacity: 0; transform: scaleY(0.03); }
+          30% { opacity: 0.55; transform: scaleY(0.06); }
+          58% { opacity: 0.18; transform: scaleY(1); }
+          100% { opacity: 0; transform: scaleY(1); }
+        }
+        @keyframes lmn-${name}-chassis {
+          0%, 30% { opacity: 0; transform: translateY(2px); }
+          64% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+      `,
+      base: `
+        .lmn-animate { position: relative; }
+        /* The phosphor flood behind the glass. */
+        .lmn-animate::after {
+          content: '';
+          position: absolute;
+          left: 16%;
+          top: 14%;
+          width: 68%;
+          height: 46%;
+          background: currentColor;
+          border-radius: 6%;
+          opacity: 0;
+          transform-origin: center;
+        }
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-${screenIndex} { animation: lmn-${name}-screen ${duration} cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+        ${chassis} { animation: lmn-${name}-chassis ${duration} ease-out both; }
+        .lmn-animate::after { animation: lmn-${name}-flash ${duration} ease-out both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-screen ${duration} cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+      `,
+    };
+  },
+
+  /** A clock whose hands sweep round before coming to rest. */
+  'clock-hands'(name, duration = '900ms') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2'],
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-hands {
+          0% { transform: rotate(-125deg); opacity: 0.4; }
+          26% { opacity: 1; }
+          72% { transform: rotate(14deg); }
+          100% { transform: rotate(0deg); opacity: 1; }
+        }
+        @keyframes lmn-${name}-dial {
+          0% { transform: scale(0.86); opacity: 0.5; }
+          58% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: `
+        /* The hands pivot on the dial centre, not on their own bounding box. */
+        .lmn-animate svg .lmn-path-1 { transform-box: view-box; transform-origin: 12px 12px; }
+        .lmn-animate svg .lmn-path-2 { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-1 { animation: lmn-${name}-hands ${duration} cubic-bezier(0.25, 0.9, 0.3, 1) both; }
+        .lmn-animate--outline svg .lmn-path-2 { animation: lmn-${name}-dial ${duration} cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-dial ${duration} cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * An envelope whose flap falls open. `flapIndex` is the subpath drawing the
+   * flap; the remaining subpaths are the body.
+   */
+  'envelope-flap'(name, duration = '760ms', flapIndex = 3, partCount = 3) {
+    const body = Array.from({ length: partCount }, (_, index) => index + 1)
+      .filter((index) => index !== flapIndex)
+      .map((index) => `.lmn-animate--outline svg .lmn-path-${index}`)
+      .join(',\n        ');
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: partCount }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-flap {
+          0%, 16% { transform: perspective(150px) rotateX(0deg); }
+          48%, 62% { transform: perspective(150px) rotateX(-74deg); }
+          100% { transform: perspective(150px) rotateX(0deg); }
+        }
+        @keyframes lmn-${name}-body {
+          0% { transform: scale(0.93); opacity: 0.5; }
+          54% { transform: scale(1.03); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-${flapIndex} { transform-origin: top center; }
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-${flapIndex} { animation: lmn-${name}-flap ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
+        ${body} { animation: lmn-${name}-body ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-body ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * A shell prompt: the chevron is drawn, then the cursor blinks in beside it.
+   * `promptIndex`/`cursorIndex` are the chevron and underscore subpaths.
+   */
+  'terminal-prompt'(name, duration = '860ms', promptIndex = 1, cursorIndex = 2, partCount = 3) {
+    const frame = Array.from({ length: partCount }, (_, index) => index + 1)
+      .filter((index) => index !== promptIndex && index !== cursorIndex)
+      .map((index) => `.lmn-animate svg .lmn-path-${index}`)
+      .join(',\n        ');
+    const frameBlock = frame ? `${frame} { animation: lmn-${name}-frame ${duration} ease-out both; }` : '';
+    return {
+      pathLength: true,
+      pathClasses: Array.from({ length: partCount }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-prompt {
+          0%, 18% { stroke-dashoffset: 1; opacity: 0; }
+          24% { opacity: 1; }
+          62%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-${name}-cursor {
+          0%, 60% { opacity: 0; transform: scaleX(0.2); }
+          70% { opacity: 1; transform: scaleX(1); }
+          78% { opacity: 0.15; }
+          86% { opacity: 1; }
+          92% { opacity: 0.15; }
+          100% { opacity: 1; transform: scaleX(1); }
+        }
+        @keyframes lmn-${name}-frame {
+          0% { transform: scale(0.94); opacity: 0.4; }
+          46% { transform: scale(1.02); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-${cursorIndex} { transform-origin: left center; }
+        .lmn-animate svg .lmn-path-${promptIndex} { transform-origin: center; }
+      `,
+      animate: [
+        `.lmn-animate svg .lmn-path-${promptIndex} {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-${name}-prompt ${duration} cubic-bezier(0.4, 0, 0.2, 1) both;
+        }`,
+        `.lmn-animate svg .lmn-path-${cursorIndex} { animation: lmn-${name}-cursor ${duration} steps(1, end) both; }`,
+        frameBlock,
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  /** A wallet accepting a card: the flap lifts as the card slides home. */
+  'wallet-card'(name, duration = '820ms') {
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: 6 }, (_, index) => `lmn-path-${index + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-card {
+          0%, 12% { transform: translateY(-9px); opacity: 0; }
+          26% { opacity: 1; }
+          70% { transform: translateY(1.5px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-${name}-shell {
+          0% { transform: scale(0.94); }
+          58% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        .lmn-animate svg path { transform-origin: center; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-5,
+        .lmn-animate--outline svg .lmn-path-6 { animation: lmn-${name}-card ${duration} cubic-bezier(0.25, 0.9, 0.3, 1) both; }
+        .lmn-animate--outline svg .lmn-path-1,
+        .lmn-animate--outline svg .lmn-path-2,
+        .lmn-animate--outline svg .lmn-path-3,
+        .lmn-animate--outline svg .lmn-path-4 { animation: lmn-${name}-shell ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-shell ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+      `,
+    };
+  },
 
   /**
    * A padlock actually locking: the shackle is held open, drops into the body,
@@ -3470,7 +3876,7 @@ export const ICON_ANIMATIONS = {
   // Alerts
   bell: { recipe: 'ring', duration: '500ms' },
   'bell-alert': { recipe: 'ring', duration: '500ms' },
-  'bell-slash': { recipe: 'ring', duration: '500ms' },
+  'bell-slash': { recipe: 'slash-strike', duration: '780ms' },
   'bell-snooze': { recipe: 'ring', duration: '500ms' },
   'exclamation-circle': { recipe: 'wiggle', duration: '450ms' },
   'exclamation-triangle': { recipe: 'wiggle', duration: '450ms' },
@@ -3478,7 +3884,7 @@ export const ICON_ANIMATIONS = {
   'alert-circle': { recipe: 'alert-signal', duration: '560ms' },
   info: { recipe: 'wiggle', duration: '450ms' },
   'information-circle': { recipe: 'wiggle', duration: '450ms' },
-  'no-symbol': { recipe: 'no-shake', duration: '450ms' },
+  'no-symbol': { recipe: 'slash-strike', duration: '780ms' },
 
   // Arrows
   'arrow-right': { recipe: 'draw-drift', duration: '700ms', args: ['3px', '0', [3], [1, 2], 3] },
@@ -3508,7 +3914,7 @@ export const ICON_ANIMATIONS = {
   'cloud-arrow-up': { recipe: 'cloud-transfer', duration: '760ms', args: [-1] },
 
   // Navigation
-  home: { recipe: 'home-bounce', duration: '500ms' },
+  home: { recipe: 'door-swing', duration: '820ms' },
   'home-modern': { recipe: 'home-bounce', duration: '500ms' },
   menu: { recipe: 'bars-stagger', duration: '440ms', args: [3] },
   'bars-2': { recipe: 'bars-stagger', duration: '360ms', args: [2] },
@@ -3521,8 +3927,8 @@ export const ICON_ANIMATIONS = {
   'bars-arrow-up': { recipe: 'bars-arrow', duration: '650ms', args: ['up'] },
 
   // Communication
-  mail: { recipe: 'open-envelope', duration: '500ms' },
-  envelope: { recipe: 'open-envelope', duration: '500ms' },
+  mail: { recipe: 'envelope-flap', duration: '760ms', args: [2, 2] },
+  envelope: { recipe: 'envelope-flap', duration: '760ms', args: [3, 3] },
   'envelope-open': { recipe: 'open-envelope', duration: '500ms' },
   send: { recipe: 'send-plane', duration: '550ms' },
   'paper-airplane': { recipe: 'send-plane', duration: '550ms' },
@@ -3538,7 +3944,7 @@ export const ICON_ANIMATIONS = {
   phone: { recipe: 'phone-vibrate', duration: '450ms' },
   'phone-arrow-down-left': { recipe: 'phone-vibrate', duration: '450ms' },
   'phone-arrow-up-right': { recipe: 'phone-vibrate', duration: '450ms' },
-  'phone-x-mark': { recipe: 'phone-vibrate', duration: '450ms' },
+  'phone-x-mark': { recipe: 'slash-strike', duration: '780ms' },
   'device-phone-mobile': { recipe: 'phone-vibrate', duration: '450ms' },
   rss: { recipe: 'signal-double-pulse', duration: '880ms' },
 
@@ -3562,7 +3968,7 @@ export const ICON_ANIMATIONS = {
   photo: { recipe: 'shutter', duration: '450ms' },
   image: { recipe: 'shutter', duration: '450ms' },
   'video-camera': { recipe: 'film-roll', duration: '700ms' },
-  'video-camera-slash': { recipe: 'film-roll', duration: '700ms' },
+  'video-camera-slash': { recipe: 'slash-strike', duration: '780ms' },
   video: { recipe: 'film-roll', duration: '700ms' },
   film: { recipe: 'film-roll', duration: '700ms' },
   'musical-note': { recipe: 'music-beat', duration: '500ms' },
@@ -3574,7 +3980,7 @@ export const ICON_ANIMATIONS = {
   fire: { recipe: 'glow', duration: '700ms' },
   zap: { recipe: 'glow', duration: '700ms' },
   bolt: { recipe: 'bolt-thicken', duration: '540ms' },
-  'bolt-slash': { recipe: 'bolt-thicken', duration: '540ms' },
+  'bolt-slash': { recipe: 'slash-strike', duration: '780ms' },
   sparkles: { recipe: 'glow', duration: '700ms' },
   'light-bulb': { recipe: 'glow', duration: '700ms' },
   power: { recipe: 'glow', duration: '700ms' },
@@ -3583,7 +3989,7 @@ export const ICON_ANIMATIONS = {
   // Signals
   wifi: { recipe: 'signal-double-pulse', duration: '880ms' },
   signal: { recipe: 'wave', duration: '600ms' },
-  'signal-slash': { recipe: 'wave', duration: '600ms' },
+  'signal-slash': { recipe: 'slash-strike', duration: '780ms' },
   'battery-0': { recipe: 'battery-charge', duration: '640ms' },
   'battery-50': { recipe: 'battery-charge', duration: '720ms', args: [2] },
   'battery-100': { recipe: 'battery-charge', duration: '800ms', args: [2] },
@@ -3591,8 +3997,8 @@ export const ICON_ANIMATIONS = {
   // Code / terminal
   'code-bracket': { recipe: 'typewriter', duration: '500ms' },
   'code-bracket-square': { recipe: 'typewriter', duration: '500ms' },
-  terminal: { recipe: 'typewriter', duration: '500ms' },
-  'command-line': { recipe: 'typewriter', duration: '500ms' },
+  terminal: { recipe: 'terminal-prompt', duration: '860ms', args: [1, 2, 2] },
+  'command-line': { recipe: 'terminal-prompt', duration: '860ms', args: [1, 2, 3] },
   hashtag: { recipe: 'typewriter', duration: '500ms' },
   variable: { recipe: 'typewriter', duration: '500ms' },
   calculator: { recipe: 'typewriter', duration: '500ms' },
@@ -3603,7 +4009,7 @@ export const ICON_ANIMATIONS = {
   cloud: { recipe: 'float', duration: '2000ms' },
 
   // Content / files
-  folder: { recipe: 'folder-pop', duration: '450ms' },
+  folder: { recipe: 'folder-lid', duration: '720ms' },
   'folder-open': { recipe: 'folder-pop', duration: '450ms' },
   'folder-plus': { recipe: 'folder-pop', duration: '450ms' },
   'folder-minus': { recipe: 'folder-pop', duration: '450ms' },
@@ -3622,7 +4028,7 @@ export const ICON_ANIMATIONS = {
   'document-chart-bar': { recipe: 'document-draw', duration: '660ms' },
   'archive-box': { recipe: 'archive-peek', duration: '650ms' },
   'archive-box-arrow-down': { recipe: 'archive-drop', duration: '750ms' },
-  'archive-box-x-mark': { recipe: 'archive-reject', duration: '700ms' },
+  'archive-box-x-mark': { recipe: 'slash-strike', duration: '780ms' },
   newspaper: { recipe: 'file-appear', duration: '500ms' },
   identification: { recipe: 'file-appear', duration: '500ms' },
   clipboard: { recipe: 'file-appear', duration: '500ms' },
@@ -3633,9 +4039,9 @@ export const ICON_ANIMATIONS = {
   calendar: { recipe: 'calendar-flip', duration: '500ms' },
   'calendar-days': { recipe: 'calendar-flip', duration: '500ms' },
   'calendar-date-range': { recipe: 'calendar-flip', duration: '500ms' },
-  clock: { recipe: 'clock-tick', duration: '600ms' },
+  clock: { recipe: 'clock-hands', duration: '900ms' },
   bookmark: { recipe: 'bookmark-fold', duration: '450ms' },
-  'bookmark-slash': { recipe: 'bookmark-fold', duration: '450ms' },
+  'bookmark-slash': { recipe: 'slash-strike', duration: '780ms' },
   'bookmark-square': { recipe: 'bookmark-fold', duration: '450ms' },
   'book-open': { recipe: 'book-open', duration: '550ms' },
   ticket: { recipe: 'ticket-tear', duration: '500ms' },
@@ -3645,7 +4051,7 @@ export const ICON_ANIMATIONS = {
   // Security
   lock: { recipe: 'lock-shackle', duration: '560ms' },
   'lock-closed': { recipe: 'lock-shackle', duration: '560ms' },
-  'lock-open': { recipe: 'unlock', duration: '500ms' },
+  'lock-open': { recipe: 'lock-cycle', duration: '1000ms' },
   key: { recipe: 'key-turn-return', duration: '520ms' },
   shield: { recipe: 'core-pulse', duration: '450ms' },
   'shield-check': { recipe: 'draw-scale', duration: '500ms' },
@@ -3673,7 +4079,7 @@ export const ICON_ANIMATIONS = {
   'currency-rupee': { recipe: 'banknote-flutter', duration: '600ms' },
   'currency-bangladeshi': { recipe: 'banknote-flutter', duration: '600ms' },
   truck: { recipe: 'truck-move', duration: '600ms' },
-  wallet: { recipe: 'calendar-flip', duration: '500ms' },
+  wallet: { recipe: 'wallet-card', duration: '820ms' },
   tag: { recipe: 'tag-swing', duration: '550ms' },
   'percent-badge': { recipe: 'percent-pop', duration: '400ms' },
   'receipt-percent': { recipe: 'receipt-print', duration: '500ms' },
@@ -3705,9 +4111,9 @@ export const ICON_ANIMATIONS = {
   map: { recipe: 'globe-spin', duration: '900ms' },
   trophy: { recipe: 'trophy-shine', duration: '600ms' },
   beaker: { recipe: 'wiggle', duration: '450ms' },
-  'device-tablet': { recipe: 'screen-on', duration: '450ms' },
-  'computer-desktop': { recipe: 'screen-on', duration: '500ms' },
-  tv: { recipe: 'screen-on', duration: '450ms' },
+  'device-tablet': { recipe: 'crt-power', duration: '900ms', args: [2, 2] },
+  'computer-desktop': { recipe: 'crt-power', duration: '900ms', args: [4, 4] },
+  tv: { recipe: 'crt-power', duration: '900ms', args: [4, 4] },
   window: { recipe: 'screen-on', duration: '400ms' },
 
   // Interaction
@@ -3753,7 +4159,7 @@ export const ICON_ANIMATIONS = {
   'arrow-up-on-square': { recipe: 'upload-arrow', duration: '550ms' },
   'arrow-up-on-square-stack': { recipe: 'upload-arrow', duration: '550ms' },
   'speaker-wave': { recipe: 'sound-waves', duration: '500ms' },
-  'speaker-x-mark': { recipe: 'mute-fade', duration: '400ms' },
+  'speaker-x-mark': { recipe: 'slash-strike', duration: '780ms' },
   radio: { recipe: 'emit', duration: '600ms' },
   gif: { recipe: 'frame-flip', duration: '600ms' },
   database: { recipe: 'stack-rise', duration: '500ms' },
@@ -3776,9 +4182,9 @@ export const ICON_ANIMATIONS = {
   filter: { recipe: 'funnel-drain', duration: '500ms' },
   funnel: { recipe: 'funnel-drain', duration: '500ms' },
   package: { recipe: 'package-pop', duration: '500ms' },
-  'face-smile': { recipe: 'grin', duration: '450ms', args: [1] },
-  smile: { recipe: 'grin', duration: '450ms', args: [1.1] },
-  'face-frown': { recipe: 'grin', duration: '600ms', args: [0.85] },
+  'face-smile': { recipe: 'mouth-curve', duration: '640ms', args: [1, 6] },
+  smile: { recipe: 'mouth-curve', duration: '640ms', args: [2, 4] },
+  'face-frown': { recipe: 'mouth-curve', duration: '640ms', args: [1, 6] },
   language: { recipe: 'translate-flip', duration: '600ms' },
   share: { recipe: 'share-cast', duration: '450ms' },
   'viewfinder-circle': { recipe: 'focus-lock', duration: '450ms' },
@@ -3802,10 +4208,10 @@ export const ICON_ANIMATIONS = {
   'more-vertical': { recipe: 'ellipsis-pulse', duration: '600ms' },
   'qr-code': { recipe: 'scan', duration: '700ms' },
   eye: { recipe: 'blink', duration: '450ms' },
-  'eye-slash': { recipe: 'blink', duration: '500ms' },
+  'eye-slash': { recipe: 'slash-strike', duration: '780ms' },
   'eye-dropper': { recipe: 'drip', duration: '500ms' },
   link: { recipe: 'draw-underline', duration: '500ms' },
-  'link-slash': { recipe: 'draw-strikethrough', duration: '500ms' },
+  'link-slash': { recipe: 'slash-strike', duration: '780ms' },
 };
 
 /**
@@ -3974,6 +4380,65 @@ export function buildAnimation(name) {
  * @param {string[]} pathClasses
  * @returns {string}
  */
+/**
+ * Tag the diagonal "slash" strokes of a `*-slash` / `no-symbol` icon.
+ *
+ * Heroicons splits the bar into several collinear segments whose indices differ
+ * per icon, so they are found geometrically instead: a subpath that is a single
+ * straight move+line running down-right at roughly 45°. Those get `lmn-slash`
+ * (plus `pathLength` so they can be drawn); everything else gets `lmn-body`.
+ *
+ * @param {string} innerSvg — already passed through `splitSubpaths`
+ */
+export function tagSlashPaths(innerSvg) {
+  const tagPattern = /<(path)\b([^>]*)>/gi;
+
+  return innerSvg.replace(tagPattern, (match, tag, attrs) => {
+    const d = attrs.match(/d="([^"]+)"/)?.[1] ?? '';
+    const cls = isSlashSegment(d) ? 'lmn-slash' : 'lmn-body';
+    const existing = attrs.match(/class="([^"]*)"/);
+    const selfClosing = /\/\s*$/.test(attrs);
+    let next = attrs.replace(/\/\s*$/, '');
+
+    if (existing) {
+      const kept = existing[1].split(/\s+/).filter(c => c !== 'lmn-slash' && c !== 'lmn-body');
+      next = next.replace(existing[0], `class="${[...kept, cls].join(' ')}"`);
+    } else {
+      next = ` class="${cls}"${next}`;
+    }
+
+    if (cls === 'lmn-slash' && !/\bpathLength=/.test(next)) {
+      next = `${next} pathLength="1"`;
+    }
+
+    return selfClosing ? `<${tag}${next}/>` : `<${tag}${next}>`;
+  });
+}
+
+/** A single straight segment heading down-right at roughly 45°. */
+function isSlashSegment(d) {
+  const numbers = d.match(/-?\d*\.?\d+/g);
+  const commands = d.match(/[A-Za-z]/g) ?? [];
+  if (!numbers || numbers.length !== 4) return false;
+  // Exactly one move and one line-to, in absolute or relative form.
+  if (commands.length > 2) return false;
+  if (!/^[Mm]/.test(d.trim())) return false;
+  if (commands.length === 2 && !/^[MmLl]$/.test(commands[1])) return false;
+
+  const [x1, y1, a, b] = numbers.map(Number);
+  const relative = commands.length === 2 && commands[1] === 'l';
+  const dx = relative ? a : a - x1;
+  const dy = relative ? b : b - y1;
+  // Same sign on both axes = the top-left→bottom-right diagonal. Segments are
+  // authored in either direction, so accept both and normalise below.
+  if (dx * dy <= 0) return false;
+
+  const length = Math.hypot(dx, dy);
+  if (length < 1.2) return false;
+  // Within ~12° of the 45° diagonal.
+  return Math.abs(Math.abs(dx) - Math.abs(dy)) / length < 0.22;
+}
+
 export function applyPathClasses(innerSvg, pathClasses) {
   if (!pathClasses || pathClasses.length === 0) return innerSvg;
 
