@@ -14,9 +14,9 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-badge {
           0%, 100% { transform: scale(1); opacity: 1; }
-          25% { transform: scale(1.05); opacity: 0.75; }
-          50% { transform: scale(1.1); opacity: 1; }
-          75% { transform: scale(1.05); opacity: 0.85; }
+          25% { transform: scale(1.1); opacity: 0.6; }
+          50% { transform: scale(1.22); opacity: 1; }
+          75% { transform: scale(1.06); opacity: 0.85; }
         }
 
     :host(.lmn-animate) svg path,

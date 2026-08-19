@@ -13,9 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-currency-bangladeshi {
-          0%, 100% { transform: rotateY(0deg) rotate(0deg); }
-          25% { transform: rotateY(25deg) rotate(-2deg); }
-          75% { transform: rotateY(-25deg) rotate(2deg); }
+          0%, 100% { transform: perspective(220px) rotateY(0deg) rotate(0deg); }
+          25% { transform: perspective(220px) rotateY(52deg) rotate(-4deg); }
+          75% { transform: perspective(220px) rotateY(-52deg) rotate(4deg); }
         }
 
     :host(.lmn-animate) svg path,

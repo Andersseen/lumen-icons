@@ -12,9 +12,23 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-terminal {
-          0% { opacity: 0; transform: translateY(3px); }
-          100% { opacity: 1; transform: translateY(0); }
+    @keyframes lmn-terminal-prompt {
+          0%, 18% { stroke-dashoffset: 1; opacity: 0; }
+          24% { opacity: 1; }
+          62%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes lmn-terminal-cursor {
+          0%, 60% { opacity: 0; transform: scaleX(0.2); }
+          70% { opacity: 1; transform: scaleX(1); }
+          78% { opacity: 0.15; }
+          86% { opacity: 1; }
+          92% { opacity: 0.15; }
+          100% { opacity: 1; transform: scaleX(1); }
+        }
+        @keyframes lmn-terminal-frame {
+          0% { transform: scale(0.94); opacity: 0.4; }
+          46% { transform: scale(1.02); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,9 +40,15 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-terminal 500ms ease both;
+    :host(.lmn-animate) svg .lmn-path-2 { transform-origin: left center; }
+        :host(.lmn-animate) svg .lmn-path-1 { transform-origin: center; }
+
+    :host(.lmn-animate) svg .lmn-path-1 {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 0;
+          animation: lmn-terminal-prompt 860ms cubic-bezier(0.4, 0, 0.2, 1) both;
         }
+        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-terminal-cursor 860ms steps(1, end) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -65,7 +85,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>
+      <polyline class="lmn-path-1" points="4 17 10 11 4 5" pathLength="1"/><line class="lmn-path-2" x1="12" x2="20" y1="19" y2="19" pathLength="1"/>
     </svg>
   `,
 })

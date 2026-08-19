@@ -1,0 +1,49 @@
+<div class="mx-auto flex max-w-6xl gap-10 px-4 py-12">
+  <!-- Sticky table of contents, previously an inline card at the top -->
+  <app-docs-toc [sections]="sections" />
+
+  <div class="min-w-0 max-w-4xl flex-1">
+    <header [move]="'fade-up'" [moveDuration]="320">
+      <h1 class="text-4xl font-bold tracking-tight text-foreground">Documentation</h1>
+      <p class="mt-4 text-lg text-secondary-foreground">
+        Accessible, tree-shakable Angular icon components with a consistent
+        <code class="rounded bg-secondary px-1 py-0.5 text-sm">lmn-*</code>
+        selector.
+      </p>
+    </header>
+
+    <app-docs-installation [moveInView]="'fade-up'" [moveInViewOnce]="true" />
+    <app-docs-usage [moveInView]="'fade-up'" [moveInViewOnce]="true" />
+    <app-docs-animations [moveInView]="'fade-up'" [moveInViewOnce]="true" />
+    <app-docs-accessibility [moveInView]="'fade-up'" [moveInViewOnce]="true" />
+
+    <section id="reference" class="mt-16">
+      <h2 class="text-2xl font-bold tracking-tight text-foreground">Reference</h2>
+      <p class="mt-3 text-secondary-foreground">
+        Every input the icon components accept, and every icon in the set.
+      </p>
+
+      <volt-tabs class="mt-5 block" [(value)]="referenceTab">
+        <volt-tabs-list>
+          <volt-tabs-trigger value="api">API</volt-tabs-trigger>
+          <volt-tabs-trigger value="icons">Available icons</volt-tabs-trigger>
+        </volt-tabs-list>
+
+        <volt-tabs-content value="api">
+          <app-docs-api-table />
+        </volt-tabs-content>
+
+        <volt-tabs-content value="icons">
+          <!-- Inactive panels stay mounted, so the heavy table is gated too -->
+          @if (referenceTab() === 'icons') {
+            <app-docs-icon-table />
+          }
+        </volt-tabs-content>
+      </volt-tabs>
+    </section>
+
+    <div class="mt-20 border-t border-border pt-8">
+      <p class="text-sm text-muted-foreground">MIT License · Built with Angular 21</p>
+    </div>
+  </div>
+</div>

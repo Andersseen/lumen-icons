@@ -13,9 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-scale {
-          0% { transform: rotate(-5deg); }
-          42% { transform: rotate(3deg); }
-          72% { transform: rotate(-1deg); }
+          0% { transform: rotate(-16deg); }
+          42% { transform: rotate(9deg); }
+          72% { transform: rotate(-3.5deg); }
+          88% { transform: rotate(1.5deg); }
           100% { transform: rotate(0deg); }
         }
 

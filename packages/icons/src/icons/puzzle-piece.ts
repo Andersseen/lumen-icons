@@ -13,7 +13,7 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-puzzle-piece {
-          0% { transform: translate(-3px, -3px) scale(0.88); opacity: 0.35; }
+          0% { transform: translate(-7px, -7px) scale(0.78) rotate(-10deg); opacity: 0.2; }
           68% { transform: translate(0, 0) scale(1.035); opacity: 1; }
           84% { transform: translate(0, 0) scale(0.99); opacity: 1; }
           100% { transform: translate(0, 0) scale(1); opacity: 1; }

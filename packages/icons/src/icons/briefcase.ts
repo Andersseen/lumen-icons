@@ -13,9 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-briefcase {
-          0%, 100% { transform: scale(1); }
-          40% { transform: scale(1.08); }
-          60% { transform: scale(0.96); }
+          0% { transform: scale(1, 1); }
+          38% { transform: scale(1.1, 0.88); }
+          62% { transform: scale(0.95, 1.07); }
+          82% { transform: scale(1.03, 0.98); }
+          100% { transform: scale(1, 1); }
         }
 
     :host(.lmn-animate) svg path,

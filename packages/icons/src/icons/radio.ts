@@ -13,8 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-radio {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.06); opacity: 0.6; }
+          0% { transform: scale(0.82); opacity: 0.35; }
+          46% { transform: scale(1.26); opacity: 1; }
+          74% { transform: scale(0.95); opacity: 0.85; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

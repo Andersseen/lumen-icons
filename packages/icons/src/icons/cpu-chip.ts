@@ -14,10 +14,10 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-cpu-chip {
           0%, 100% { transform: scale(1); }
-          20% { transform: scale(1.08); }
-          40% { transform: scale(0.97); }
-          60% { transform: scale(1.05); }
-          80% { transform: scale(1); }
+          20% { transform: scale(1.2); }
+          40% { transform: scale(0.92); }
+          60% { transform: scale(1.11); }
+          80% { transform: scale(0.98); }
         }
 
     :host(.lmn-animate) svg path,

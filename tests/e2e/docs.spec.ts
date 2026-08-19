@@ -18,19 +18,23 @@ test("copy terminal snippet in docs", async ({ page }) => {
 });
 
 test("table of contents links point to sections", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/docs");
 
-  const apiLink = page.getByRole("link", { name: "API Reference" });
-  await expect(apiLink).toBeVisible();
-  await expect(apiLink).toHaveAttribute("href", "#api");
+  const referenceLink = page.getByRole("link", { name: "Reference" });
+  await expect(referenceLink).toBeVisible();
+  await expect(referenceLink).toHaveAttribute("href", "#reference");
 });
 
-test("icon table copy import", async ({ page }) => {
+test("the icon table is only built when its tab is opened", async ({ page }) => {
   await page.goto("/docs");
 
-  const copyButton = page.getByRole("button", {
-    name: /copy import for heart/i,
-  });
+  // The 362-row table used to be appended to every visit.
+  await expect(page.getByRole("button", { name: /copy import for heart/i })).toHaveCount(0);
+
+  await page.getByRole("tab", { name: "Available icons" }).click();
+
+  const copyButton = page.getByRole("button", { name: /copy import for heart/i });
   await expect(copyButton).toBeVisible();
   await copyButton.click();
 

@@ -14,7 +14,7 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-send {
           0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-          40% { transform: translate(10px, -10px) rotate(-8deg); opacity: 0.75; }
+          40% { transform: translate(14px, -14px) rotate(-16deg); opacity: 0.6; }
           100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
         }
 

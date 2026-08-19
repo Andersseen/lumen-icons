@@ -13,12 +13,14 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-envelope-flap {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-4px) rotateX(25deg); }
+          0%, 16% { transform: perspective(150px) rotateX(0deg); }
+          48%, 62% { transform: perspective(150px) rotateX(-74deg); }
+          100% { transform: perspective(150px) rotateX(0deg); }
         }
         @keyframes lmn-envelope-body {
-          0%, 100% { transform: scaleY(1); }
-          50% { transform: scaleY(1.04); }
+          0% { transform: scale(0.93); opacity: 0.5; }
+          54% { transform: scale(1.03); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,
@@ -30,13 +32,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg .lmn-path-1,
-        :host(.lmn-animate) svg .lmn-path-2 {
-          transform-origin: top center;
-        }
+    :host(.lmn-animate) svg .lmn-path-3 { transform-origin: top center; }
+        :host(.lmn-animate) svg path { transform-origin: center; }
 
-    :host(.lmn-animate) svg .lmn-path-1 { animation: lmn-envelope-flap 500ms ease both; }
-        :host(.lmn-animate) svg .lmn-path-2 { animation: lmn-envelope-body 500ms ease both; }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation: lmn-envelope-flap 760ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-envelope-body 760ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-envelope-body 760ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -80,7 +82,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path class="lmn-path-1" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+      <path class="lmn-path-1" d="M21.75 6.75 v10.5 a2.25 2.25 0 0 1 -2.25 2.25 h-15 a2.25 2.25 0 0 1 -2.25 -2.25 V6.75"/><path class="lmn-path-2" d="M21.75 6.75 A2.25 2.25 0 0 0 19.5 4.5 h-15 a2.25 2.25 0 0 0 -2.25 2.25"/><path class="lmn-path-3" d="M21.75 6.75 v0.243 a2.25 2.25 0 0 1 -1.07 1.916 l-7.5 4.615 a2.25 2.25 0 0 1 -2.36 0 L3.32 8.91 a2.25 2.25 0 0 1 -1.07 -1.916 V6.75"/>
     </svg>
     }
   `,

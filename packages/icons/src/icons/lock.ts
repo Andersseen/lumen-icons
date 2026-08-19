@@ -12,10 +12,17 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-lock {
-          0%, 100% { transform: scale(1); }
-          40% { transform: scale(1.08); }
-          60% { transform: scale(0.96); }
+    @keyframes lmn-lock-shackle {
+          0%, 34% { transform: translateY(-4px); }
+          64% { transform: translateY(1px); }
+          82% { transform: translateY(-1px); }
+          100% { transform: translateY(0); }
+        }
+        @keyframes lmn-lock-body {
+          0%, 58% { transform: scale(1, 1); }
+          70% { transform: scale(1.09, 0.9); }
+          86% { transform: scale(0.98, 1.04); }
+          100% { transform: scale(1, 1); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,9 +34,12 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-lock 400ms ease both;
-        }
+    :host(.lmn-animate) svg .lmn-path-1 { transform-origin: bottom center; }
+        :host(.lmn-animate) svg .lmn-path-2 { transform-origin: center; }
+
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-lock-shackle 560ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-lock-body 560ms ease-out both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-lock-body 560ms ease-out both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -66,7 +76,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" class="lmn-animate-el" /><path d="M7 11V7a5 5 0 0 1 10 0v4" class="lmn-animate-el" />
+      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" class="lmn-animate-el lmn-path-1" /><path d="M7 11V7a5 5 0 0 1 10 0v4" class="lmn-animate-el lmn-path-2" />
     </svg>
   `,
 })

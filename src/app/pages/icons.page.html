@@ -1,114 +1,118 @@
-<div class="border-b border-border bg-background dark:border-border dark:bg-background">
+<div class="border-b border-border bg-background">
   <div class="mx-auto max-w-6xl px-4 py-8 sm:py-10">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h1 class="text-3xl font-bold tracking-tight text-foreground">Icons</h1>
         <p class="mt-1.5 max-w-2xl text-muted-foreground">
-          {{ filteredIcons().length }} of {{ totalIcons }} icons
+          {{ store.filteredIcons().length }} of {{ store.totalIcons }} icons
           &middot; Search by name, alias, selector or category.
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-2 text-xs text-muted-foreground" aria-label="Catalog summary">
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ selectedCategoryLabel() }}
-        </span>
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ size() }}px
-        </span>
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ strokeWidth() }} stroke
-        </span>
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ background() === 'solid' ? 'Auto foreground' : selectedTone().label }}
-        </span>
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ selectedVariant().label }}
-        </span>
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ selectedBackground().label }} bg
-        </span>
-        @if (padding() > 0) {
-          <span class="rounded-md border border-border px-2.5 py-1">
-            {{ padding() }}px pad
-          </span>
+      <div class="flex flex-wrap items-center gap-2" aria-label="Catalog summary">
+        @for (chip of summaryChips(); track chip) {
+          <volt-badge variant="outline">{{ chip }}</volt-badge>
         }
-        <span class="rounded-md border border-border px-2.5 py-1">
-          {{ typeof radius() === 'number' ? radius() + 'px' : radius() }} radius
-        </span>
       </div>
     </div>
   </div>
 </div>
 
 <div class="mx-auto flex max-w-6xl gap-4 px-4 py-6 sm:py-8 lg:gap-8">
-  <app-icons-sidebar
-    [(search)]="search"
-    [(category)]="category"
-    [(size)]="size"
-    [(strokeWidth)]="strokeWidth"
-    [(animate)]="animate"
-    [(tone)]="tone"
-    [(variant)]="variant"
-    [(background)]="background"
-    [(backgroundTone)]="backgroundTone"
-    [(padding)]="padding"
-    [(radius)]="radius"
-    [categories]="categoryFilters"
-    [toneOptions]="toneOptions"
-    [variantOptions]="variantOptions"
-    [backgroundOptions]="backgroundOptions"
-    [backgroundToneOptions]="backgroundToneOptions"
-    [resultCount]="filteredIcons().length"
-    [totalCount]="totalIcons"
-  />
+  <!-- Desktop: the controls live in a sticky rail -->
+  <aside
+    aria-label="Icon controls"
+    class="hidden w-72 shrink-0 self-start lg:sticky lg:top-20 lg:block lg:max-h-[calc(100dvh-5.5rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-2"
+  >
+    <app-icon-controls />
+  </aside>
 
-  <main class="min-w-0 flex-1" aria-label="Icon grid">
-    <app-icons-mobile-controls
-      [(search)]="search"
-      [(category)]="category"
-      [(size)]="size"
-      [(strokeWidth)]="strokeWidth"
-      [(animate)]="animate"
-      [(tone)]="tone"
-      [(variant)]="variant"
-      [(background)]="background"
-      [(backgroundTone)]="backgroundTone"
-      [(padding)]="padding"
-      [(radius)]="radius"
-      [categories]="categoryFilters"
-      [toneOptions]="toneOptions"
-      [variantOptions]="variantOptions"
-      [backgroundOptions]="backgroundOptions"
-      [backgroundToneOptions]="backgroundToneOptions"
-    />
+  <section class="min-w-0 flex-1" aria-label="Icon grid">
+    <!-- Mobile: the same controls, in a drawer, so icons start at the top -->
+    <div class="mb-5 lg:hidden">
+      <volt-button variant="outline" size="sm" [voltDrawer]="controlsDrawer">
+        <lmn-adjustments-horizontal slot="leading" [size]="16" [strokeWidth]="2" />
+        Filters &amp; appearance
+      </volt-button>
+    </div>
 
-    @if (filteredIcons().length > 0) {
+    @if (store.filteredIcons().length > 0) {
       <p class="sr-only" aria-live="polite">
-        Showing {{ filteredIcons().length }} icons for {{ selectedCategoryLabel() }}.
+        Showing {{ store.filteredIcons().length }} icons for {{ selectedCategoryLabel() }}.
       </p>
 
-      <div class="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-        @for (icon of filteredIcons(); track icon.name) {
-          <app-icon-card
-            [icon]="icon"
-            [iconInputs]="iconInputs()"
-            [categoryLabel]="categoryLabel(icon.category)"
-          />
+      @for (chunk of chunks(); track $index) {
+        @defer (on viewport; prefetch on idle) {
+          <div
+            class="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5"
+            [class.mt-3]="!$first"
+            [moveStagger]="18"
+          >
+            @for (icon of chunk; track icon.name) {
+              <app-icon-card
+                [icon]="icon"
+                [iconInputs]="store.iconInputs()"
+                [categoryLabel]="store.categoryLabel(icon.category)"
+                (copied)="showCopyToast($event)"
+                [moveInView]="'fade-up'"
+                [moveInViewOnce]="true"
+                [moveDuration]="260"
+              />
+            }
+          </div>
+        } @placeholder {
+          <div
+            class="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5"
+            [class.mt-3]="!$first"
+            aria-hidden="true"
+          >
+            @for (slot of skeletonSlots; track $index) {
+              <volt-skeleton variant="rectangle" height="11rem" />
+            }
+          </div>
         }
-      </div>
+      }
     } @else {
-      <div class="flex flex-col items-center gap-3 py-24 text-center">
-        <div class="text-muted-foreground dark:text-foreground">
+      <div class="flex flex-col items-center gap-3 py-24 text-center" [move]="'fade-up'" [moveDuration]="240">
+        <div class="text-muted-foreground">
           <lmn-search [size]="32" [strokeWidth]="1.5" />
         </div>
         <p class="text-sm text-muted-foreground">
-          No icons matching <strong class="text-foreground">"{{ search() || selectedCategoryLabel() }}"</strong>
+          No icons matching
+          <strong class="text-foreground">"{{ store.search() || selectedCategoryLabel() }}"</strong>
         </p>
-        <button type="button" class="text-sm text-primary hover:underline dark:text-primary" (click)="clearFilters()">
+        <volt-button variant="ghost" size="sm" (click)="store.clearFilters()">
           Clear filters
-        </button>
+        </volt-button>
       </div>
     }
-  </main>
+  </section>
 </div>
+
+<!-- One toast for the whole catalog, instead of a pill per card -->
+<ng-template #copyToast>
+  <volt-toast variant="success">
+    <volt-toast-title>{{ toastMessage() }}</volt-toast-title>
+  </volt-toast>
+</ng-template>
+
+<ng-template #controlsDrawer>
+  <div voltDrawerOverlay></div>
+  <!--
+    voltDrawerContent hard-codes `h-[300px]` for the bottom side and appends the
+    `class` input without merging, so the height is set inline instead.
+  -->
+  <div
+    voltDrawerContent
+    side="bottom"
+    class="overflow-y-auto overscroll-contain px-4 pb-6 pt-4"
+    [style.height]="'auto'"
+    [style.maxHeight]="'85dvh'"
+  >
+    <div class="mb-4 flex items-center justify-between gap-4">
+      <h2 voltDrawerTitle class="text-base font-semibold text-foreground">Filters &amp; appearance</h2>
+      <volt-drawer-close>Done</volt-drawer-close>
+    </div>
+    <app-icon-controls />
+  </div>
+</ng-template>

@@ -14,10 +14,10 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-bug-ant {
           0%, 100% { transform: translate(0, 0); }
-          20% { transform: translate(1px, -1px); }
-          40% { transform: translate(-1px, 1px); }
-          60% { transform: translate(1px, 1px); }
-          80% { transform: translate(-1px, -1px); }
+          20% { transform: translateX(6px) translateY(-3px) rotate(13deg); }
+          40% { transform: translateX(-6px) translateY(3px) rotate(-13deg); }
+          60% { transform: translateX(5px) translateY(3px) rotate(9deg); }
+          80% { transform: translateX(-4px) translateY(-3px) rotate(-6deg); }
         }
 
     :host(.lmn-animate) svg path,

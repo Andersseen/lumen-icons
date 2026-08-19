@@ -13,9 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-ticket {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(-6deg); }
-          75% { transform: rotate(6deg); }
+          0%, 100% { transform: rotate(0deg) translateX(0); }
+          25% { transform: rotate(-14deg) translateX(-2px); }
+          75% { transform: rotate(14deg) translateX(2px); }
         }
 
     :host(.lmn-animate) svg path,

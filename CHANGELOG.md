@@ -7,6 +7,84 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Icons
+
+#### Added
+
+- `tagSlashPaths()` finds the diagonal bar of a `*-slash` icon geometrically —
+  Heroicons splits it into collinear segments whose indices differ per icon — and
+  tags it `lmn-slash` so it can be drawn independently of the glyph it crosses.
+  Recipes opt in with `slashPaths: true`.
+- Ten mechanism-specific recipes covering 26 icons: `slash-strike` (the glyph
+  settles, then its bar is drawn across it), `door-swing` (home opens and shuts
+  its door), `folder-lid`, `mouth-curve` (a face's mouth starts flat and curves
+  into its expression), `lock-cycle` (an open padlock closes and springs open
+  again), `crt-power` (a screen opens from a scan line with a phosphor flood),
+  `clock-hands`, `envelope-flap`, `terminal-prompt` (the chevron draws, then the
+  cursor blinks in) and `wallet-card`.
+
+
+#### Fixed
+
+- `RECIPES` declared `sun-rays` twice; JS keeps the last key, so the live version
+  targeted `path:nth-child(n+2)` — which matches nothing on a compound path. That
+  is why `sun` never radiated. The dead duplicate is gone.
+- `banknote-flutter` and `calendar-flip` used `rotateY`/`rotateX` with no
+  perspective, which flattens to a ~9% squeeze instead of a flip.
+- `rocket-launch` reached `opacity: 0` mid-flight, leaving a ~150 ms hole in the
+  icon; it now bottoms out at 0.35.
+
+#### Changed
+
+- Five icons whose meaning lives in one part no longer animate as a single blob:
+  `lock`/`lock-closed` drop the shackle into the body (`lock-shackle`), `camera`
+  closes and reopens an iris (`camera-shutter`), `sun` sweeps its eight rays
+  outward (`sun-rays`), `shopping-cart` turns its wheels as it advances
+  (`cart-wheels`), and `cloud-arrow-up`/`cloud-arrow-down` move only the arrow
+  while the cloud stays put (`cloud-transfer`).
+- ~44 recipes were re-tuned above the perceptibility floor for a 24 px render
+  (≥15% scale, ≥10° rotation, ≥5 px translation). `typewriter` — the widest, 16
+  icons — is now a stroke-draw instead of a 3 px fade. Icons whose motion is
+  invisible at the default size drop from 111 of 343 to 1.
+
+
+### Demo site
+
+#### Fixed
+
+- Hero badge text was invisible: a section-scoped `.dark` could not re-resolve
+  Tailwind theme tokens, because `@theme` declares `--color-*` only at `:root`.
+  The bridge now uses `@theme inline`, so any subtree may be `.dark`.
+- `--accent` was defined as a second brand purple, but volt-ui paints it as the
+  hover surface in 44 places, making every hover state read as "selected". It is
+  now the subtle surface the design system expects.
+- `/icons` exposed two `<main>` landmarks and a duplicate `icon-search` id.
+- Quickstart code snippets were clipped mid-token on the home page.
+- `provideMovement` ignored `prefers-reduced-motion`; app-level motion now
+  switches off with the OS setting (library icons already honoured it via CSS).
+- The GitHub link is reachable from the mobile header.
+
+#### Changed
+
+- The `/icons` desktop sidebar and mobile control block — two near-identical
+  templates, both permanently in the DOM — are one `app-icon-controls`, shown in
+  a sticky rail on desktop and a `volt-drawer` on mobile. Catalog state moved to
+  an `IconCatalogStore` with a single `CATALOG_DEFAULTS`.
+- Hand-rolled `role="radio"` grids are now an `app-option-group` atom over
+  `volt-toggle-group`, which brings roving-tabindex keyboard support.
+- Icon cards are built on `volt-card` with the three copy actions behind one
+  `volt-dropdown-menu`, a `volt-tooltip` for truncated names, and one page-level
+  toast instead of a pill per card.
+- The catalog grid renders in `@defer (on viewport)` chunks with `volt-skeleton`
+  placeholders: 6 703 → 2 502 DOM nodes, 14 065 px → 6 781 px.
+- `/docs` has a sticky TOC rail and tabs the reference tables, so the 362-row
+  icon list is no longer appended to every visit: 25 998 px → 3 816 px.
+- Scroll-reveal, stagger and parallax motion via `angular-movement` on the home,
+  catalog and docs pages.
+
+
+## [Unreleased]
+
 ### Added
 
 - **Rest-state corrections**: tool and key motions now turn briefly and return to their original orientation; bolt thickness pulses on its path and settles at normal width; trash isolates its top rim while the discard artifact is transient.

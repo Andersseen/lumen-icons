@@ -13,8 +13,8 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-paperclip {
-          0% { transform: translate(-2px, 2px) rotate(-8deg) scale(0.94); opacity: 0.5; }
-          60% { transform: translate(0.5px, -0.5px) rotate(2deg) scale(1.02); opacity: 1; }
+          0% { transform: translate(-4px, 4px) rotate(-18deg) scale(0.86); opacity: 0.4; }
+          60% { transform: translate(1px, -1px) rotate(6deg) scale(1.06); opacity: 1; }
           100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
         }
 

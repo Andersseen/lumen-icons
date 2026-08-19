@@ -13,8 +13,9 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-share {
-          0%, 100% { transform: translate(0, 0); opacity: 1; }
-          50% { transform: translate(2px, -2px); opacity: 0.75; }
+          0% { transform: translate(0, 0) scale(0.9); opacity: 0.4; }
+          50% { transform: translate(6px, -6px) scale(1.1); opacity: 1; }
+          100% { transform: translate(0, 0) scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

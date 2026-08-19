@@ -14,9 +14,9 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-musical-note {
           0%, 100% { transform: scale(1); }
-          25% { transform: scale(1.12); }
-          50% { transform: scale(0.96); }
-          75% { transform: scale(1.06); }
+          25% { transform: scale(1.24) rotate(-6deg); }
+          50% { transform: scale(0.93) rotate(4deg); }
+          75% { transform: scale(1.1) rotate(-2deg); }
         }
 
     :host(.lmn-animate) svg path,

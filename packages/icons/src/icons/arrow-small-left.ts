@@ -14,7 +14,7 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-arrow-small-left {
           0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(-4px); }
+          50% { transform: translateX(-8px); }
         }
 
     :host(.lmn-animate) svg path,
@@ -27,7 +27,7 @@ import { LmnIconBase } from '../lib/icon-base';
     }
 
     :host(.lmn-animate) svg {
-          animation: lmn-arrow-small-left 350ms ease both;
+          animation: lmn-arrow-small-left 420ms ease both;
         }
 
     @media (prefers-reduced-motion: reduce) {

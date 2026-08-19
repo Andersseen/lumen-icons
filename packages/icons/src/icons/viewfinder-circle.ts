@@ -13,9 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-viewfinder-circle {
-          0%, 100% { transform: scale(1); }
-          40% { transform: scale(1.1); }
-          70% { transform: scale(0.98); }
+          0% { transform: scale(1.35); opacity: 0.3; }
+          52% { transform: scale(0.92); opacity: 1; }
+          78% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
     :host(.lmn-animate) svg path,

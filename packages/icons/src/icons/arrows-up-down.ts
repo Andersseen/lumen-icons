@@ -14,8 +14,8 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-arrows-up-down {
           0%, 100% { transform: translateY(0); }
-          25% { transform: translateY(3px); }
-          75% { transform: translateY(-3px); }
+          25% { transform: translateY(6px); }
+          75% { transform: translateY(-6px); }
         }
 
     :host(.lmn-animate) svg path,

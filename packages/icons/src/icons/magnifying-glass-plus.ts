@@ -13,9 +13,10 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-magnifying-glass-plus {
-          0%, 100% { transform: scale(1) rotate(0deg); }
-          40% { transform: scale(1.15) rotate(-8deg); }
-          70% { transform: scale(1.08) rotate(4deg); }
+          0% { transform: scale(0.82) rotate(-10deg); }
+          42% { transform: scale(1.3) rotate(6deg); }
+          72% { transform: scale(0.95) rotate(-3deg); }
+          100% { transform: scale(1) rotate(0deg); }
         }
 
     :host(.lmn-animate) svg path,

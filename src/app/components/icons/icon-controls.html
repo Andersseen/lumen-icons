@@ -1,0 +1,160 @@
+<div class="space-y-6">
+  <!-- Search -->
+  <div>
+    <div class="mb-1.5 flex items-center justify-between">
+      <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Search</p>
+      <span class="text-xs tabular-nums text-muted-foreground">
+        {{ store.filteredIcons().length }}/{{ store.totalIcons }}
+      </span>
+    </div>
+    <volt-search>
+      <volt-input
+        ariaLabel="Search icons"
+        placeholder="Search icons..."
+        [value]="store.search()"
+        (valueChange)="store.search.set($event)"
+      />
+      <volt-search-clear>
+        <lmn-x [size]="14" [strokeWidth]="2" />
+      </volt-search-clear>
+    </volt-search>
+  </div>
+
+  <!-- Category -->
+  <div>
+    <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Category</p>
+    <app-option-group
+      ariaLabel="Icon category"
+      [options]="categories"
+      [(value)]="store.category"
+    />
+  </div>
+
+  <!-- Size -->
+  <div>
+    <p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Size</p>
+    <app-option-group
+      ariaLabel="Icon size"
+      [options]="sizeOptions"
+      [(value)]="store.size"
+    />
+  </div>
+
+  <!-- Stroke -->
+  <div>
+    <div class="mb-1.5 flex items-center justify-between">
+      <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Stroke</p>
+      <span class="text-sm font-medium tabular-nums text-foreground">{{ store.strokeWidth() }}</span>
+    </div>
+    <volt-slider
+      ariaLabel="Stroke width"
+      [value]="store.strokeWidth()"
+      (valueChange)="store.strokeWidth.set($event)"
+      [min]="0.5"
+      [max]="3"
+      [step]="0.5"
+    />
+  </div>
+
+  <!-- Animation -->
+  <div class="flex items-center justify-between gap-3">
+    <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Animate</span>
+    <volt-switch ariaLabel="Animate icons" [(checked)]="store.animate" />
+  </div>
+
+  <!-- Variant -->
+  <div>
+    <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Variant</p>
+    <app-option-group
+      ariaLabel="Icon variant"
+      [options]="variantOptions"
+      [(value)]="store.variant"
+    />
+  </div>
+
+  <!-- Tone -->
+  @if (store.background() !== 'solid') {
+    <div>
+      <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tone</p>
+      <app-swatch-group
+        ariaLabel="Icon tone"
+        [options]="toneOptions"
+        [(value)]="store.tone"
+      />
+    </div>
+  } @else {
+    <p class="rounded-lg border border-border bg-secondary px-3 py-2 text-xs text-secondary-foreground">
+      Solid background uses the theme foreground automatically.
+    </p>
+  }
+
+  <!-- Background -->
+  <div>
+    <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Background</p>
+    <app-option-group
+      ariaLabel="Icon background"
+      [options]="backgroundOptions"
+      [(value)]="store.background"
+    />
+  </div>
+
+  @if (store.background() !== 'none') {
+    <div>
+      <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bg tone</p>
+      <app-swatch-group
+        ariaLabel="Background tone"
+        [options]="backgroundToneOptions"
+        [(value)]="store.backgroundTone"
+      />
+    </div>
+
+    <div>
+      <div class="mb-1.5 flex items-center justify-between">
+        <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Padding</p>
+        <span class="text-sm font-medium tabular-nums text-foreground">{{ store.padding() }}px</span>
+      </div>
+      <volt-slider
+        ariaLabel="Padding"
+        [value]="store.padding()"
+        (valueChange)="store.padding.set($event)"
+        [min]="0"
+        [max]="16"
+        [step]="1"
+      />
+    </div>
+  }
+
+  <!-- Radius -->
+  <div>
+    <div class="mb-1.5 flex items-center justify-between">
+      <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Radius</p>
+      <span class="text-sm font-medium tabular-nums text-foreground">{{ radiusLabel() }}</span>
+    </div>
+    <volt-slider
+      ariaLabel="Corner radius"
+      [value]="radiusSliderValue()"
+      (valueChange)="store.radius.set($event)"
+      [min]="0"
+      [max]="24"
+      [step]="1"
+    />
+    <div class="mt-2">
+      <app-option-group
+        ariaLabel="Radius preset"
+        [options]="radiusPresets"
+        [value]="radiusPreset()"
+        (valueChange)="store.radius.set($event)"
+      />
+    </div>
+  </div>
+
+  <volt-button variant="outline" size="sm" class="block w-full" (click)="store.reset()">
+    Reset demo
+  </volt-button>
+
+  @if (store.animate()) {
+    <p class="rounded-lg border border-primary/40 bg-primary/10 px-3 py-2.5 text-xs text-foreground">
+      Hover an icon to preview its semantic animation.
+    </p>
+  }
+</div>

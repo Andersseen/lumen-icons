@@ -14,9 +14,9 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-rocket-launch {
           0% { transform: translate(0, 0) scale(1); opacity: 1; }
-          20% { transform: translate(-1px, 1px) scale(0.98); opacity: 1; }
-          58% { transform: translate(14px, -14px) scale(0.9); opacity: 0; }
-          66% { transform: translate(0, 0) scale(1); opacity: 0; }
+          18% { transform: translate(-2px, 2px) scale(0.94); opacity: 1; }
+          62% { transform: translate(9px, -9px) scale(1.06); opacity: 0.35; }
+          78% { transform: translate(-3px, 3px) scale(0.97); opacity: 0.75; }
           100% { transform: translate(0, 0) scale(1); opacity: 1; }
         }
 

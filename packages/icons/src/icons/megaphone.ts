@@ -14,8 +14,8 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-megaphone {
           0%, 100% { transform: rotate(0deg) scale(1); }
-          30% { transform: rotate(-4deg) scale(1.1); }
-          60% { transform: rotate(2deg) scale(1.05); }
+          30% { transform: rotate(-12deg) scale(1.22); }
+          60% { transform: rotate(6deg) scale(1.08); }
         }
 
     :host(.lmn-animate) svg path,

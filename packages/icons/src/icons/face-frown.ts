@@ -12,9 +12,16 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-face-frown {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.060); }
+    @keyframes lmn-face-frown-mouth {
+          0% { transform: scaleY(0.04); opacity: 0.55; }
+          58% { transform: scaleY(1.3); opacity: 1; }
+          80% { transform: scaleY(0.92); }
+          100% { transform: scaleY(1); opacity: 1; }
+        }
+        @keyframes lmn-face-frown-face {
+          0% { transform: scale(0.9); }
+          56% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
 
     :host(.lmn-animate) svg path,
@@ -26,13 +33,15 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          transform-origin: center;
-        }
+    :host(.lmn-animate) svg path { transform-origin: center; }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-face-frown 600ms ease both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-face-frown-mouth 640ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-5,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6 { animation: lmn-face-frown-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-face-frown-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -59,7 +68,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm-4.34 7.964a.75.75 0 0 1-1.061-1.06 5.236 5.236 0 0 1 3.73-1.538 5.236 5.236 0 0 1 3.695 1.538.75.75 0 1 1-1.061 1.06 3.736 3.736 0 0 0-2.639-1.098 3.736 3.736 0 0 0-2.664 1.098Z" clip-rule="evenodd"/>
+      <path class="lmn-path-1" fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 0 0-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634Zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 0 1-.189-.866c0-.298.059-.605.189-.866Zm-4.34 7.964a.75.75 0 0 1-1.061-1.06 5.236 5.236 0 0 1 3.73-1.538 5.236 5.236 0 0 1 3.695 1.538.75.75 0 1 1-1.061 1.06 3.736 3.736 0 0 0-2.639-1.098 3.736 3.736 0 0 0-2.664 1.098Z" clip-rule="evenodd"/>
     </svg>
     } @else {
       <svg
@@ -76,7 +85,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"/>
+      <path class="lmn-path-1" d="M15.182 16.318 A4.486 4.486 0 0 0 12.016 15 a4.486 4.486 0 0 0 -3.198 1.318"/><path class="lmn-path-2" d="M21 12 a9 9 0 1 1 -18 0 9 9 0 0 1 18 0 Z"/><path class="lmn-path-3" d="M9.75 9.75 c0 0.414 -0.168 0.75 -0.375 0.75 S9 10.164 9 9.75 9.168 9 9.375 9 s0.375 0.336 0.375 0.75 Z"/><path class="lmn-path-4" d="M9.375 9.75 h0.008 v0.015 h-0.008 V9.75 Z"/><path class="lmn-path-5" d="M15 9.75 c0 0.414 -0.168 0.75 -0.375 0.75 s-0.375 -0.336 -0.375 -0.75 0.168 -0.75 0.375 -0.75 0.375 0.336 0.375 0.75 Z"/><path class="lmn-path-6" d="M14.625 9.75 h0.008 v0.015 h-0.008 V9.75 Z"/>
     </svg>
     }
   `,
