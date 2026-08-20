@@ -1,4 +1,44 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
+
+/**
+ * Seek a running CSS animation to a fraction of its own duration and read the
+ * property it drives. Sampling by wall clock (`waitForTimeout(250)`) is a lie on
+ * a loaded CI runner: the drift lands the read on a neighbouring keyframe — a
+ * 250 ms sample of bold's 520 ms curve returned 1.85 px off the 80 % keyframe
+ * instead of the 44 % peak. Seeking asserts what the keyframes declare, not how
+ * fast the machine happened to be.
+ */
+async function styleAtProgress(locator: Locator, progress: number, property: string): Promise<string> {
+  await expect
+    .poll(() => locator.evaluate((element) => element.getAnimations().length))
+    .toBeGreaterThan(0);
+
+  return locator.evaluate(
+    (element, { ratio, name }) => {
+      const animation = element.getAnimations()[0]!;
+      const duration = animation.effect!.getComputedTiming().duration as number;
+      animation.pause();
+      animation.currentTime = duration * ratio;
+      return getComputedStyle(element).getPropertyValue(name);
+    },
+    { ratio: progress, name: property },
+  );
+}
+
+/** Let every animation under `locator` run to its end state — no fixed wait. */
+async function settle(locator: Locator): Promise<void> {
+  await locator.evaluate((element) =>
+    Promise.all(
+      element
+        .getAnimations({ subtree: true })
+        .filter((animation) => animation.effect!.getComputedTiming().iterations !== Infinity)
+        .map((animation) => {
+          animation.finish();
+          return animation.finished;
+        }),
+    ).then(() => undefined),
+  );
+}
 
 test("search filters icons", async ({ page }) => {
   await page.goto("/icons");
@@ -209,10 +249,9 @@ test("bold gains weight and rocket returns to its idle position", async ({ page 
   await boldCard.hover();
   const boldPath = boldCard.locator("lmn-bold svg path");
   await expect(boldPath).toBeVisible();
-  await page.waitForTimeout(250);
-  expect(Number.parseFloat(await boldPath.evaluate((path) => getComputedStyle(path).strokeWidth))).toBeGreaterThan(2);
-  await page.waitForTimeout(450);
-  expect(Number.parseFloat(await boldPath.evaluate((path) => getComputedStyle(path).strokeWidth))).toBe(2);
+  // 44 % is bold's peak keyframe; 100 % must return the stroke to its resting 2 px.
+  expect(Number.parseFloat(await styleAtProgress(boldPath, 0.44, "stroke-width"))).toBeGreaterThan(2);
+  expect(Number.parseFloat(await styleAtProgress(boldPath, 1, "stroke-width"))).toBe(2);
 
   const search = page.getByRole("textbox", { name: "Search" });
   await search.fill("rocket-launch");
@@ -220,7 +259,7 @@ test("bold gains weight and rocket returns to its idle position", async ({ page 
   await rocketCard.hover();
   const rocket = rocketCard.locator("lmn-rocket-launch svg");
   await expect(rocket).toBeVisible();
-  await page.waitForTimeout(850);
+  await settle(rocket);
   await expect(rocket).toHaveCSS("opacity", "1");
   expect(await rocket.evaluate((svg) => getComputedStyle(svg).transform)).toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
 });
