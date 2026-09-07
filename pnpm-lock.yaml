@@ -36,8 +36,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(95872548e2fc444457fa11d459033224)
       angular-movement:
-        specifier: ^0.8.0
-        version: 0.8.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+        specifier: ^1.1.0
+        version: 1.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
       front-matter:
         specifier: ^4.0.2
         version: 4.0.2
@@ -473,6 +473,7 @@ packages:
   '@angular/platform-browser-dynamic@21.2.10':
     resolution: {integrity: sha512-+/HMJSLnF87EODkHj0AKE3Q8AfYO/8jpTfr731QmplqBtCoLlA/1XR8aYow2hB9YKL9HZWDb2qGkRtCXhrtt+w==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+    deprecated: '@angular/platform-browser-dynamic is deprecated. Use `@angular/platform-browser` instead.'
     peerDependencies:
       '@angular/common': 21.2.10
       '@angular/compiler': 21.2.10
@@ -2439,8 +2440,8 @@ packages:
       typescript: '*'
       typescript-eslint: ^8.0.0
 
-  angular-movement@0.8.0:
-    resolution: {integrity: sha512-32WjXoJ7PkFjC2cqp8cOJBjPYwBU+p4onRH6uiBpp7TMXg2YSq/ytUelkoWmIA8d+4V7lf6LLo16lOQVtdUBBA==}
+  angular-movement@1.1.0:
+    resolution: {integrity: sha512-rJGE1BGK0zYnUIVfBFpVQnRh/QIsboKYBtZQ+tHMpmBiIWCTc56npXmuvFMVT7XzbZxmhnLOjy2cmIU886YvIg==}
     peerDependencies:
       '@angular/common': ^21.2.0 || ^22.0.0
       '@angular/core': ^21.2.0 || ^22.0.0
@@ -3377,6 +3378,7 @@ packages:
   git-raw-commits@5.0.1:
     resolution: {integrity: sha512-Y+csSm2GD/PCSh6Isd/WiMjNAydu0VBiG9J7EdQsNA5P9uXvLayqjmTsNlK5Gs9IhblFZqOU0yid5Il5JPoLiQ==}
     engines: {node: '>=18'}
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   github-slugger@2.0.0:
@@ -7651,7 +7653,7 @@ snapshots:
       - chokidar
       - supports-color
 
-  angular-movement@0.8.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
+  angular-movement@1.1.0(@angular/common@21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)):
     dependencies:
       '@angular/common': 21.2.10(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
