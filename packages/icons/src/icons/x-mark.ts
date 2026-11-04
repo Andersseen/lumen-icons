@@ -12,7 +12,30 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-x-mark-left { 0% { stroke-dashoffset: 1; transform: rotate(-45deg); opacity: 0; } 28% { opacity: 1; } 76% { transform: rotate(3deg); } 100% { stroke-dashoffset: 0; transform: rotate(0); opacity: 1; } } @keyframes lmn-x-mark-right { 0% { stroke-dashoffset: 1; transform: rotate(45deg); opacity: 0; } 28% { opacity: 1; } 76% { transform: rotate(-3deg); } 100% { stroke-dashoffset: 0; transform: rotate(0); opacity: 1; } }
+    @keyframes lmn-x-mark-turn {
+          0% { transform: rotate(-90deg) scale(0.6); }
+          62% { transform: rotate(8deg) scale(1.1); }
+          100% { transform: rotate(0deg) scale(1); }
+        }
+        @keyframes lmn-x-mark-spin {
+          0% { transform: rotate(-90deg); }
+          62% { transform: rotate(8deg); }
+          100% { transform: rotate(0deg); }
+        }
+        @keyframes lmn-x-mark-first {
+          0% { stroke-dashoffset: 1; }
+          45%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-x-mark-second {
+          0%, 20% { stroke-dashoffset: 1; }
+          65%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-x-mark-press {
+          0%, 40% { transform: scale(1); }
+          60% { transform: scale(0.92); }
+          80% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
 
     :host(.lmn-animate) svg {
       overflow: visible;
@@ -30,7 +53,12 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1, :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { stroke-dasharray: 1; stroke-dashoffset: 0; transform-origin: center; } :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-x-mark-left 560ms cubic-bezier(0.22, 0.8, 0.32, 1) both; } :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-x-mark-right 560ms cubic-bezier(0.22, 0.8, 0.32, 1) 70ms both; }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1,
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { transform-box: view-box; transform-origin: 12px 12px; }
+
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-x-mark-first 640ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-x-mark-turn 640ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-x-mark-second 640ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-x-mark-turn 640ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-x-mark-turn 640ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),

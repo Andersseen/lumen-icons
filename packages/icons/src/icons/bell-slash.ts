@@ -13,9 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-bell-slash-body {
-          0% { transform: scale(0.88); opacity: 0.35; }
-          46% { transform: scale(1.04); opacity: 1; }
-          100% { transform: scale(1); opacity: 1; }
+          0% { transform: rotate(0deg); }
+          12% { transform: rotate(16deg); }
+          26% { transform: rotate(-12deg); }
+          38% { transform: rotate(6deg); }
+          48%, 100% { transform: rotate(0deg); }
         }
         @keyframes lmn-bell-slash-bar {
           0%, 34% { stroke-dashoffset: 1; opacity: 0; }
@@ -39,13 +41,13 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg .lmn-body { transform-origin: center; }
+    :host(.lmn-animate) svg .lmn-body { transform-box: view-box; transform-origin: 12px 3px; }
 
-    :host(.lmn-animate) svg .lmn-body { animation: lmn-bell-slash-body calc(780ms * 0.62) cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+    :host(.lmn-animate) svg .lmn-body { animation: lmn-bell-slash-body 900ms ease-in-out both; }
         :host(.lmn-animate) svg .lmn-slash {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
-          animation: lmn-bell-slash-bar 780ms cubic-bezier(0.5, 0, 0.2, 1) both;
+          animation: lmn-bell-slash-bar 900ms cubic-bezier(0.5, 0, 0.2, 1) both;
         }
 
     @media (prefers-reduced-motion: reduce) {

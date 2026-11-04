@@ -23,6 +23,19 @@ import { LmnIconBase } from '../lib/icon-base';
           56% { transform: scale(1.05); }
           100% { transform: scale(1); }
         }
+        @keyframes lmn-face-smile-blink {
+          0%, 64% { transform: scaleY(1); }
+          72% { transform: scaleY(0.1); }
+          82%, 100% { transform: scaleY(1); }
+        }
+        @keyframes lmn-face-smile-mood {
+          0% { transform: rotate(0deg) translateY(0); }
+          22% { transform: rotate(-14deg) translateY(-1.5px); }
+          46% { transform: rotate(10deg) translateY(0); }
+          66% { transform: rotate(-5deg); }
+          84% { transform: rotate(2deg); }
+          100% { transform: rotate(0deg) translateY(0); }
+        }
 
     :host(.lmn-animate) svg {
       overflow: visible;
@@ -42,13 +55,13 @@ import { LmnIconBase } from '../lib/icon-base';
 
     :host(.lmn-animate) svg path { transform-origin: center; }
 
-    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-face-smile-mouth 640ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
-        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-face-smile-mouth 900ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-face-smile-face 900ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-5,
-        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6 { animation: lmn-face-smile-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
-        :host(.lmn-animate.lmn-filled) svg { animation: lmn-face-smile-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6 { animation: lmn-face-smile-face 900ms cubic-bezier(0.3, 1.2, 0.5, 1) both, lmn-face-smile-blink 900ms ease-in-out both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-face-smile-mood 900ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),

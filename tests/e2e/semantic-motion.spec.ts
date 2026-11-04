@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 /**
- * Semantic motion batch 01 (docs/specs/2026-11-04-semantic-motion-batch-01.md).
+ * Semantic motion batches (docs/specs/2026-11-04-semantic-motion-batch-*.md).
  *
  * Every frame is reached by pausing and seeking the Web Animations API — never
  * by wall-clock waits — on the real Angular host rendered by the catalog, so
@@ -30,6 +30,26 @@ const CASES: Case[] = [
   { name: "clipboard-document-list", at: 0.4, outline: { moving: ".lmn-path-3", property: "stroke-dashoffset", still: ".lmn-path-8" }, filled: { moving: ".lmn-path-2", property: "transform", still: ".lmn-path-1" } },
   { name: "file", at: 0.3, outline: { moving: ".lmn-path-1", property: "stroke-dashoffset" }, filled: { moving: ":scope", property: "clip-path" } },
   { name: "newspaper", at: 0.4, outline: { moving: ".lmn-path-4", property: "stroke-dashoffset", still: ".lmn-path-7" }, filled: { moving: ":scope", property: "clip-path" } },
+  // batch 02 — feedback
+  { name: "bell", at: 0.1, outline: { moving: ".lmn-path-3", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "bell-alert", at: 0.12, outline: { moving: ".lmn-path-4", property: "transform" }, filled: { moving: ".lmn-path-1", property: "transform" } },
+  { name: "bell-snooze", at: 0.4, outline: { moving: ".lmn-path-4", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "bell-slash", at: 0.12, outline: { moving: ".lmn-body", property: "transform" }, filled: { moving: ".lmn-body", property: "transform" } },
+  { name: "heart", at: 0.12, outline: { moving: ":scope", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "star", at: 0.3, outline: { moving: ":scope", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "check", at: 0.3, outline: { moving: ".lmn-path-1", property: "stroke-dashoffset" }, filled: { moving: ":scope", property: "clip-path" } },
+  { name: "check-circle", at: 0.3, outline: { moving: ".lmn-path-1", property: "stroke-dashoffset" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "check-badge", at: 0.3, outline: { moving: ".lmn-path-1", property: "stroke-dashoffset" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "x-mark", at: 0.2, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "x-circle", at: 0.2, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "exclamation-circle", at: 0.2, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "exclamation-triangle", at: 0.2, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "question-mark-circle", at: 0.22, outline: { moving: ".lmn-path-1", property: "transform", still: ".lmn-path-2" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "information-circle", at: 0.2, outline: { moving: ".lmn-path-3", property: "transform", still: ".lmn-path-2" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "hand-thumb-up", at: 0.46, outline: { moving: ":scope", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "hand-thumb-down", at: 0.46, outline: { moving: ":scope", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "face-smile", at: 0.3, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "face-frown", at: 0.3, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
 ];
 
 /** The value an element shows when nothing is animating it. */
@@ -86,7 +106,7 @@ const snapshot = (host: Locator) =>
     }),
   );
 
-test.describe("semantic motion batch 01", () => {
+test.describe("semantic motion", () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/icons");
@@ -117,7 +137,7 @@ test.describe("semantic motion batch 01", () => {
     });
   }
 
-  test("reduced motion disables every batch animation", async ({ page }) => {
+  test("reduced motion disables every reviewed animation", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     for (const { name } of CASES) {
       for (const variant of ["outline", "filled"] as const) {

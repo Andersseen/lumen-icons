@@ -129,17 +129,25 @@ const RECIPES = {
    * `tagSlashPaths`, because Heroicons splits it into collinear segments whose
    * indices differ from icon to icon.
    */
-  'slash-strike'(name, duration = '780ms') {
+  'slash-strike'(name, duration = '780ms', { bodyMotion = 'settle', pivot = '12px 3px' } = {}) {
+    // `bodyMotion: 'ring'` — the glyph starts to ring and is silenced as the bar
+    // strikes (bell-slash); the swing pivots on `pivot` for every body piece.
+    const ring = bodyMotion === 'ring';
     return {
       pathLength: false,
       pathClasses: [],
       splitPaths: true,
       slashPaths: true,
       keyframes: `
-        @keyframes lmn-${name}-body {
+        @keyframes lmn-${name}-body {${ring ? `
+          0% { transform: rotate(0deg); }
+          12% { transform: rotate(16deg); }
+          26% { transform: rotate(-12deg); }
+          38% { transform: rotate(6deg); }
+          48%, 100% { transform: rotate(0deg); }` : `
           0% { transform: scale(0.88); opacity: 0.35; }
           46% { transform: scale(1.04); opacity: 1; }
-          100% { transform: scale(1); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }`}
         }
         @keyframes lmn-${name}-bar {
           0%, 34% { stroke-dashoffset: 1; opacity: 0; }
@@ -148,10 +156,10 @@ const RECIPES = {
         }
       `,
       base: `
-        .lmn-animate svg .lmn-body { transform-origin: center; }
+        .lmn-animate svg .lmn-body { ${ring ? `transform-box: view-box; transform-origin: ${pivot};` : 'transform-origin: center;'} }
       `,
       animate: `
-        .lmn-animate svg .lmn-body { animation: lmn-${name}-body calc(${duration} * 0.62) cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+        .lmn-animate svg .lmn-body { animation: lmn-${name}-body ${ring ? `${duration} ease-in-out` : `calc(${duration} * 0.62) cubic-bezier(0.3, 1.3, 0.5, 1)`} both; }
         .lmn-animate svg .lmn-slash {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
@@ -241,9 +249,12 @@ const RECIPES = {
    * A face whose expression forms: the mouth starts flat and curves into place.
    * `mouthIndex` is the subpath carrying the mouth (1 on the Heroicons faces).
    */
-  'mouth-curve'(name, duration = '640ms', mouthIndex = 1, partCount = 6) {
+  'mouth-curve'(name, duration = '640ms', mouthIndex = 1, partCount = 6, { eyes = [], filledMood = null } = {}) {
+    // `eyes` blink once the expression has formed. `filledMood` ('happy' | 'sad')
+    // tilts the whole filled face: the disc is rotation-invariant, so only its
+    // feature holes visibly move — a head bob instead of a generic pop.
     const others = Array.from({ length: partCount }, (_, index) => index + 1)
-      .filter((index) => index !== mouthIndex)
+      .filter((index) => index !== mouthIndex && !eyes.includes(index))
       .map((index) => `.lmn-animate--outline svg .lmn-path-${index}`)
       .join(',\n        ');
     return {
@@ -261,16 +272,37 @@ const RECIPES = {
           0% { transform: scale(0.9); }
           56% { transform: scale(1.05); }
           100% { transform: scale(1); }
-        }
+        }${eyes.length ? `
+        @keyframes lmn-${name}-blink {
+          0%, 64% { transform: scaleY(1); }
+          72% { transform: scaleY(0.1); }
+          82%, 100% { transform: scaleY(1); }
+        }` : ''}${filledMood === 'happy' ? `
+        @keyframes lmn-${name}-mood {
+          0% { transform: rotate(0deg) translateY(0); }
+          22% { transform: rotate(-14deg) translateY(-1.5px); }
+          46% { transform: rotate(10deg) translateY(0); }
+          66% { transform: rotate(-5deg); }
+          84% { transform: rotate(2deg); }
+          100% { transform: rotate(0deg) translateY(0); }
+        }` : filledMood === 'sad' ? `
+        @keyframes lmn-${name}-mood {
+          0% { transform: rotate(0deg) translateY(0); }
+          45%, 62% { transform: rotate(16deg) translateY(1.5px); }
+          100% { transform: rotate(0deg) translateY(0); }
+        }` : ''}
       `,
       base: `
         .lmn-animate svg path { transform-origin: center; }
       `,
-      animate: `
-        .lmn-animate--outline svg .lmn-path-${mouthIndex} { animation: lmn-${name}-mouth ${duration} cubic-bezier(0.3, 1.4, 0.5, 1) both; }
-        ${others} { animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
-        .lmn-animate--filled svg { animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
-      `,
+      animate: [
+        `.lmn-animate--outline svg .lmn-path-${mouthIndex} { animation: lmn-${name}-mouth ${duration} cubic-bezier(0.3, 1.4, 0.5, 1) both; }`,
+        `${others} { animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }`,
+        partRule('outline', eyes, `animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both, lmn-${name}-blink ${duration} ease-in-out both;`),
+        filledMood
+          ? `.lmn-animate--filled svg { animation: lmn-${name}-mood ${duration} ${filledMood === 'happy' ? EASE.spring : EASE.inOut} both; }`
+          : `.lmn-animate--filled svg { animation: lmn-${name}-face ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }`,
+      ].filter(Boolean).join('\n        '),
     };
   },
 
@@ -4169,6 +4201,364 @@ const RECIPES = {
       `,
     };
   },
+
+  // ── Semantic motion batch 02 — feedback (docs/specs/2026-11-04-semantic-motion-batch-02.md) ──
+
+  /**
+   * A bell that rings: the bell swings from its crown with a decaying
+   * oscillation and the clapper lags behind it (inertia), so it swings wider
+   * and against the bell. Optional `waves` (bell-alert) pulse outward twice.
+   * `mode: 'snooze'` — a drowsy half-swing while the Z drifts up and back.
+   * Filled clappers / Zs are evenodd holes: the filled bell swings as a whole.
+   */
+  'bell-ring'(name, duration = '1000ms', {
+    mode = 'ring', body = [1, 2], clapper = [3], waves = [], z = [], pivot = '12px 3px',
+    filledBody = [], filledWaves = [], parts = 3,
+  } = {}) {
+    const snooze = mode === 'snooze';
+    const swing = (variant, indices) => partRule(variant, indices, `transform-box: view-box; transform-origin: ${pivot}; animation: lmn-${name}-body ${duration} ease-in-out both;`);
+    const [left, right] = waves;
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-body {${snooze ? `
+          0% { transform: rotate(0deg); }
+          34% { transform: rotate(10deg); }
+          62% { transform: rotate(-4deg); }
+          100% { transform: rotate(0deg); }` : `
+          0% { transform: rotate(0deg); }
+          10% { transform: rotate(18deg); }
+          24% { transform: rotate(-15deg); }
+          38% { transform: rotate(11deg); }
+          52% { transform: rotate(-7deg); }
+          66% { transform: rotate(4deg); }
+          80% { transform: rotate(-2deg); }
+          100% { transform: rotate(0deg); }`}
+        }
+        @keyframes lmn-${name}-clapper {
+          0% { transform: rotate(0deg); }
+          10% { transform: rotate(4deg); }
+          22% { transform: rotate(26deg); }
+          36% { transform: rotate(-21deg); }
+          50% { transform: rotate(14deg); }
+          64% { transform: rotate(-8deg); }
+          78% { transform: rotate(4deg); }
+          100% { transform: rotate(0deg); }
+        }
+        @keyframes lmn-${name}-wave-left {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          12% { transform: translate(-2.5px, -1px) scale(1.2); }
+          26% { transform: translate(0, 0) scale(1); }
+          40% { transform: translate(-2px, -0.5px) scale(1.14); }
+          56% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes lmn-${name}-wave-right {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          12% { transform: translate(2.5px, -1px) scale(1.2); }
+          26% { transform: translate(0, 0) scale(1); }
+          40% { transform: translate(2px, -0.5px) scale(1.14); }
+          56% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes lmn-${name}-waves {
+          0%, 26%, 56%, 100% { transform: scale(1); }
+          12% { transform: scale(1.16); }
+          40% { transform: scale(1.1); }
+        }
+        @keyframes lmn-${name}-z {
+          0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+          42% { transform: translate(1.2px, -1.6px) rotate(-14deg) scale(1.22); }
+          72% { transform: translate(0.3px, -0.4px) rotate(4deg) scale(0.97); }
+          100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        }
+      `,
+      base: '',
+      animate: [
+        swing('outline', body),
+        snooze ? '' : partRule('outline', clapper, `transform-box: view-box; transform-origin: ${pivot}; animation: lmn-${name}-clapper ${duration} ease-in-out both;`),
+        snooze ? partRule('outline', clapper, `transform-box: view-box; transform-origin: ${pivot}; animation: lmn-${name}-body ${duration} ease-in-out both;`) : '',
+        left ? partRule('outline', [left], `animation: lmn-${name}-wave-left ${duration} ${EASE.out} both;`) : '',
+        right ? partRule('outline', [right], `animation: lmn-${name}-wave-right ${duration} ${EASE.out} both;`) : '',
+        partRule('outline', z, `animation: lmn-${name}-z ${duration} ${EASE.springSoft} both;`),
+        filledBody.length
+          ? swing('filled', filledBody)
+          : `.lmn-animate--filled svg { transform-origin: 50% 12.5%; animation: lmn-${name}-body ${duration} ease-in-out both; }`,
+        partRule('filled', filledWaves, `animation: lmn-${name}-waves ${duration} ${EASE.out} both;`),
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  /** A heart beating: lub-dub — a strong beat, a softer second, and a settle. */
+  heartbeat(name, duration = '900ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: scale(1); }
+          12% { transform: scale(1.24); }
+          24% { transform: scale(0.95); }
+          38% { transform: scale(1.16); }
+          52% { transform: scale(0.98); }
+          70% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg { animation: lmn-${name} ${duration} ease-in-out both; }
+      `,
+    };
+  },
+
+  /**
+   * A star being favourited: it spins in by one point (72° — the silhouette is
+   * identical at both ends) and pops past its size before settling.
+   */
+  'star-twinkle'(name, duration = '760ms') {
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: rotate(-72deg) scale(0.55); }
+          56% { transform: rotate(6deg) scale(1.2); }
+          76% { transform: rotate(-2deg) scale(0.96); }
+          100% { transform: rotate(0deg) scale(1); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg { transform-origin: 50% 52%; animation: lmn-${name} ${duration} ${EASE.spring} both; }
+      `,
+    };
+  },
+
+  /**
+   * A confirmation: the tick is written stroke-first, then lands with a small
+   * pop while its container (if any) is pressed like a button.
+   * Filled: `filled: 'reveal'` writes a solid tick left → right; `'press'` —
+   * the tick is a hole in a disc/badge, so the whole glyph is pressed.
+   */
+  'check-tick'(name, duration = '640ms', { check = [1], container = [], filled = 'reveal', parts = 1 } = {}) {
+    return {
+      pathLength: true,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-draw {
+          0% { stroke-dashoffset: 1; }
+          58%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-pop {
+          0%, 56% { transform: scale(1); }
+          72% { transform: scale(1.18); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-${name}-press {
+          0%, 10% { transform: scale(1); }
+          40% { transform: scale(0.86); }
+          66% { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-${name}-reveal {
+          0% { clip-path: inset(0 100% 0 0); }
+          58%, 100% { clip-path: inset(0 0 0 0); }
+        }
+      `,
+      base: '',
+      animate: [
+        partRule('outline', check, `stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-draw ${duration} ${EASE.out} both, lmn-${name}-pop ${duration} ${EASE.spring} both;`),
+        partRule('outline', container, `animation: lmn-${name}-press ${duration} ${EASE.spring} both;`),
+        filled === 'reveal'
+          ? `.lmn-animate--filled svg { animation: lmn-${name}-reveal ${duration} ${EASE.out} both, lmn-${name}-pop ${duration} ${EASE.spring} both; }`
+          : `.lmn-animate--filled svg { animation: lmn-${name}-press ${duration} ${EASE.spring} both; }`,
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  /**
+   * Close / dismiss: the X swirls in — its two strokes are written one after
+   * the other while turning a quarter turn into place (an X is identical every
+   * 90°). Filled: the whole glyph makes the same quarter turn; inside a disc
+   * only the X visibly turns.
+   */
+  'x-close'(name, duration = '640ms', { strokes = [1, 2], container = [], center = '12px 12px', parts = 2 } = {}) {
+    const [first, second] = strokes;
+    return {
+      pathLength: true,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-turn {
+          0% { transform: rotate(-90deg) scale(0.6); }
+          62% { transform: rotate(8deg) scale(1.1); }
+          100% { transform: rotate(0deg) scale(1); }
+        }
+        @keyframes lmn-${name}-spin {
+          0% { transform: rotate(-90deg); }
+          62% { transform: rotate(8deg); }
+          100% { transform: rotate(0deg); }
+        }
+        @keyframes lmn-${name}-first {
+          0% { stroke-dashoffset: 1; }
+          45%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-second {
+          0%, 20% { stroke-dashoffset: 1; }
+          65%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-press {
+          0%, 40% { transform: scale(1); }
+          60% { transform: scale(0.92); }
+          80% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        ${partRule('outline', strokes, `transform-box: view-box; transform-origin: ${center};`)}
+      `,
+      animate: [
+        partRule('outline', [first], `stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-first ${duration} ${EASE.out} both, lmn-${name}-turn ${duration} ${EASE.spring} both;`),
+        partRule('outline', [second], `stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-second ${duration} ${EASE.out} both, lmn-${name}-turn ${duration} ${EASE.spring} both;`),
+        partRule('outline', container, `animation: lmn-${name}-press ${duration} ${EASE.spring} both;`),
+        // In a disc the filled X is a hole: rotate only, so the disc stays put.
+        `.lmn-animate--filled svg { animation: lmn-${name}-${container.length ? 'spin' : 'turn'} ${duration} ${EASE.spring} both; }`,
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  /**
+   * A punctuation mark that speaks:
+   * - `rise` (!) — the bar springs up from its base, overshoots and settles;
+   *   the dot pops as it lands and the container flinches. (A bar falling in
+   *   from above was rejected: its first frame reads as a power symbol.)
+   * - `tilt` (?) — the hook tilts like a puzzled head; the dot bounces.
+   * - `dot`  (i) — the dot drops onto the stem, which takes the weight.
+   * Filled marks are holes: a disc shakes/tilts as a whole (only the hole
+   * visibly moves); a triangle wobbles on its base.
+   */
+  'alert-mark'(name, duration = '820ms', {
+    mode = 'rise', mark = [1], dot = [3], container = [2], pivot = '12px 12px', filled = 'shake', parts = 3,
+  } = {}) {
+    const frames = {
+      rise: {
+        mark: `0% { transform: scaleY(0); }
+          34% { transform: scaleY(1.32); }
+          48% { transform: scaleY(0.82); }
+          64% { transform: scaleY(1.06); }
+          100% { transform: scaleY(1); }`,
+        dot: `0%, 44% { transform: scale(0); }
+          62% { transform: scale(1.6); }
+          100% { transform: scale(1); }`,
+      },
+      tilt: {
+        mark: `0% { transform: rotate(0deg); }
+          22% { transform: rotate(-20deg); }
+          46% { transform: rotate(14deg); }
+          66% { transform: rotate(-7deg); }
+          84% { transform: rotate(3deg); }
+          100% { transform: rotate(0deg); }`,
+        dot: `0%, 30% { transform: translateY(0); }
+          46% { transform: translateY(-3.5px); }
+          62% { transform: translateY(0); }
+          74% { transform: translateY(-1px); }
+          100% { transform: translateY(0); }`,
+      },
+      dot: {
+        mark: `0%, 34% { transform: scaleY(1); }
+          44% { transform: scaleY(0.78); }
+          60% { transform: scaleY(1.06); }
+          100% { transform: scaleY(1); }`,
+        dot: `0% { transform: translateY(-6px); }
+          40% { transform: translateY(0); }
+          52% { transform: translateY(-1.8px); }
+          64% { transform: translateY(0); }
+          100% { transform: translateY(0); }`,
+      },
+    }[mode];
+    const filledFrames = {
+      shake: `0% { transform: rotate(0deg); }
+          14% { transform: rotate(-16deg); }
+          28% { transform: rotate(14deg); }
+          42% { transform: rotate(-10deg); }
+          56% { transform: rotate(6deg); }
+          72% { transform: rotate(-3deg); }
+          100% { transform: rotate(0deg); }`,
+      tilt: `0% { transform: rotate(0deg); }
+          22% { transform: rotate(-20deg); }
+          46% { transform: rotate(14deg); }
+          66% { transform: rotate(-7deg); }
+          84% { transform: rotate(3deg); }
+          100% { transform: rotate(0deg); }`,
+      wobble: `0%, 100% { transform: rotate(0deg) scale(1); }
+          16% { transform: rotate(-7deg) scale(1.08); }
+          34% { transform: rotate(6deg) scale(1.08); }
+          52% { transform: rotate(-4deg) scale(1.03); }
+          70% { transform: rotate(2deg) scale(1); }`,
+    }[filled];
+    const markOrigin = mode === 'tilt' ? `transform-box: view-box; transform-origin: ${pivot};` : 'transform-origin: bottom center;';
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-mark {
+          ${frames.mark}
+        }
+        @keyframes lmn-${name}-dot {
+          ${frames.dot}
+        }
+        @keyframes lmn-${name}-flinch {
+          0%, 42% { transform: scale(1) rotate(0deg); }
+          52% { transform: scale(0.94) rotate(-4deg); }
+          66% { transform: scale(1.02) rotate(3deg); }
+          80% { transform: scale(1) rotate(-1.5deg); }
+          100% { transform: scale(1) rotate(0deg); }
+        }
+        @keyframes lmn-${name}-filled {
+          ${filledFrames}
+        }
+      `,
+      base: `
+        ${partRule('outline', mark, markOrigin)}
+      `,
+      animate: [
+        partRule('outline', mark, `animation: lmn-${name}-mark ${duration} ease-in-out both;`),
+        partRule('outline', dot, `animation: lmn-${name}-dot ${duration} ${mode === 'dot' ? 'cubic-bezier(0.5, 0, 0.3, 1)' : EASE.spring} both;`),
+        mode === 'rise' ? partRule('outline', container, `transform-origin: ${filled === 'wobble' ? 'bottom center' : 'center'}; animation: lmn-${name}-flinch ${duration} ease-out both;`) : '',
+        `.lmn-animate--filled svg { transform-origin: ${filled === 'wobble' ? '50% 85%' : '50% 50%'}; animation: lmn-${name}-filled ${duration} ease-in-out both; }`,
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  /**
+   * A thumb gesture with intent: a small wind-up against the direction, then
+   * the hand thrusts up (or down) from the wrist, overshoots and settles.
+   */
+  'thumb-gesture'(name, duration = '720ms', direction = 'up') {
+    const up = direction === 'up';
+    const sign = up ? -1 : 1;
+    return {
+      pathLength: false,
+      pathClasses: [],
+      keyframes: `
+        @keyframes lmn-${name} {
+          0% { transform: rotate(0deg) translateY(0); }
+          18% { transform: rotate(${-sign * 10}deg) translateY(${-sign}px); }
+          46% { transform: rotate(${sign * 18}deg) translateY(${sign * 4}px); }
+          66% { transform: rotate(${-sign * 6}deg) translateY(${-sign * 0.5}px); }
+          84% { transform: rotate(${sign * 2}deg) translateY(0); }
+          100% { transform: rotate(0deg) translateY(0); }
+        }
+      `,
+      base: '',
+      animate: `
+        .lmn-animate svg { transform-origin: ${up ? '15% 90%' : '15% 10%'}; animation: lmn-${name} ${duration} ${EASE.inOut} both; }
+      `,
+    };
+  },
 };
 
 /** Recipe names, for internal tooling (scripts/motion-inventory.mjs). */
@@ -4183,13 +4573,14 @@ export const ICON_ANIMATIONS = {
   loader: { recipe: 'spin-infinite', duration: '800ms' },
 
   // Actions / confirmation
-  check: { recipe: 'draw-scale', duration: '420ms' },
-  'check-circle': { recipe: 'draw-scale', duration: '500ms' },
-  'check-badge': { recipe: 'draw-scale', duration: '500ms' },
+  // batch 02 — docs/specs/2026-11-04-semantic-motion-batch-02.md
+  check: { recipe: 'check-tick', duration: '640ms', args: [{ check: [1], filled: 'reveal', parts: 1 }] },
+  'check-circle': { recipe: 'check-tick', duration: '700ms', args: [{ check: [1], container: [2], filled: 'press', parts: 2 }] },
+  'check-badge': { recipe: 'check-tick', duration: '700ms', args: [{ check: [1], container: [2], filled: 'press', parts: 2 }] },
   checkbox: { recipe: 'draw-scale', duration: '420ms' },
-  'x-mark': { recipe: 'x-from-pause', duration: '560ms' },
+  'x-mark': { recipe: 'x-close', duration: '640ms', args: [{ strokes: [1, 2], parts: 2 }] },
   x: { recipe: 'x-from-pause', duration: '560ms' },
-  'x-circle': { recipe: 'x-from-pause', duration: '620ms' },
+  'x-circle': { recipe: 'x-close', duration: '700ms', args: [{ strokes: [1, 2], container: [3], parts: 3 }] },
 
   // Math / toggles
   plus: { recipe: 'plus-draw', duration: '440ms' },
@@ -4246,22 +4637,24 @@ export const ICON_ANIMATIONS = {
   'cube-transparent': { recipe: 'rotate-once', duration: '500ms', args: [180] },
 
   // Social / feedback
-  heart: { recipe: 'beat', duration: '600ms' },
-  star: { recipe: 'beat', duration: '550ms' },
-  'hand-thumb-up': { recipe: 'thumbs-up', duration: '500ms' },
-  'hand-thumb-down': { recipe: 'thumbs-down', duration: '500ms' },
+  // batch 02 — docs/specs/2026-11-04-semantic-motion-batch-02.md
+  heart: { recipe: 'heartbeat', duration: '900ms' },
+  star: { recipe: 'star-twinkle', duration: '760ms' },
+  'hand-thumb-up': { recipe: 'thumb-gesture', duration: '720ms', args: ['up'] },
+  'hand-thumb-down': { recipe: 'thumb-gesture', duration: '720ms', args: ['down'] },
 
   // Alerts
-  bell: { recipe: 'ring', duration: '500ms' },
-  'bell-alert': { recipe: 'ring', duration: '500ms' },
-  'bell-slash': { recipe: 'slash-strike', duration: '780ms' },
-  'bell-snooze': { recipe: 'ring', duration: '500ms' },
-  'exclamation-circle': { recipe: 'wiggle', duration: '450ms' },
-  'exclamation-triangle': { recipe: 'wiggle', duration: '450ms' },
-  'question-mark-circle': { recipe: 'wiggle', duration: '450ms' },
+  // batch 02 — docs/specs/2026-11-04-semantic-motion-batch-02.md
+  bell: { recipe: 'bell-ring', duration: '1000ms', args: [{ body: [1, 2], clapper: [3], parts: 3 }] },
+  'bell-alert': { recipe: 'bell-ring', duration: '1000ms', args: [{ body: [1, 2], clapper: [3], waves: [4, 5], filledBody: [2], filledWaves: [1], parts: 5 }] },
+  'bell-slash': { recipe: 'slash-strike', duration: '900ms', args: [{ bodyMotion: 'ring' }] },
+  'bell-snooze': { recipe: 'bell-ring', duration: '1200ms', args: [{ mode: 'snooze', body: [1, 2], clapper: [3], z: [4], parts: 4 }] },
+  'exclamation-circle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'rise', filled: 'shake' }] },
+  'exclamation-triangle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'rise', filled: 'wobble' }] },
+  'question-mark-circle': { recipe: 'alert-mark', duration: '900ms', args: [{ mode: 'tilt', pivot: '12px 13px', filled: 'tilt' }] },
   'alert-circle': { recipe: 'alert-signal', duration: '560ms' },
   info: { recipe: 'wiggle', duration: '450ms' },
-  'information-circle': { recipe: 'wiggle', duration: '450ms' },
+  'information-circle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'dot', filled: 'tilt' }] },
   'no-symbol': { recipe: 'slash-strike', duration: '780ms' },
 
   // Arrows
@@ -4562,9 +4955,9 @@ export const ICON_ANIMATIONS = {
   filter: { recipe: 'funnel-drain', duration: '500ms' },
   funnel: { recipe: 'funnel-drain', duration: '500ms' },
   package: { recipe: 'package-pop', duration: '500ms' },
-  'face-smile': { recipe: 'mouth-curve', duration: '640ms', args: [1, 6] },
+  'face-smile': { recipe: 'mouth-curve', duration: '900ms', args: [1, 6, { eyes: [3, 4, 5, 6], filledMood: 'happy' }] },
   smile: { recipe: 'mouth-curve', duration: '640ms', args: [2, 4] },
-  'face-frown': { recipe: 'mouth-curve', duration: '640ms', args: [1, 6] },
+  'face-frown': { recipe: 'mouth-curve', duration: '900ms', args: [1, 6, { eyes: [3, 4, 5, 6], filledMood: 'sad' }] },
   language: { recipe: 'translate-flip', duration: '600ms' },
   share: { recipe: 'share-cast', duration: '450ms' },
   'viewfinder-circle': { recipe: 'focus-lock', duration: '450ms' },

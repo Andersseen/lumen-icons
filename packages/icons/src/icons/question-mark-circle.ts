@@ -12,13 +12,35 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-question-mark-circle {
-          0%, 100% { transform: rotate(0deg) translateX(0); }
-          15% { transform: rotate(15deg) translateX(3px); }
-          30% { transform: rotate(-15deg) translateX(-3px); }
-          45% { transform: rotate(10deg) translateX(2px); }
-          60% { transform: rotate(-8deg) translateX(-1.5px); }
-          75% { transform: rotate(4deg) translateX(0); }
+    @keyframes lmn-question-mark-circle-mark {
+          0% { transform: rotate(0deg); }
+          22% { transform: rotate(-20deg); }
+          46% { transform: rotate(14deg); }
+          66% { transform: rotate(-7deg); }
+          84% { transform: rotate(3deg); }
+          100% { transform: rotate(0deg); }
+        }
+        @keyframes lmn-question-mark-circle-dot {
+          0%, 30% { transform: translateY(0); }
+          46% { transform: translateY(-3.5px); }
+          62% { transform: translateY(0); }
+          74% { transform: translateY(-1px); }
+          100% { transform: translateY(0); }
+        }
+        @keyframes lmn-question-mark-circle-flinch {
+          0%, 42% { transform: scale(1) rotate(0deg); }
+          52% { transform: scale(0.94) rotate(-4deg); }
+          66% { transform: scale(1.02) rotate(3deg); }
+          80% { transform: scale(1) rotate(-1.5deg); }
+          100% { transform: scale(1) rotate(0deg); }
+        }
+        @keyframes lmn-question-mark-circle-filled {
+          0% { transform: rotate(0deg); }
+          22% { transform: rotate(-20deg); }
+          46% { transform: rotate(14deg); }
+          66% { transform: rotate(-7deg); }
+          84% { transform: rotate(3deg); }
+          100% { transform: rotate(0deg); }
         }
 
     :host(.lmn-animate) svg {
@@ -37,9 +59,11 @@ import { LmnIconBase } from '../lib/icon-base';
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-question-mark-circle 450ms ease-in-out both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { transform-box: view-box; transform-origin: 12px 13px; }
+
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-question-mark-circle-mark 900ms ease-in-out both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3 { animation: lmn-question-mark-circle-dot 900ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        :host(.lmn-animate.lmn-filled) svg { transform-origin: 50% 50%; animation: lmn-question-mark-circle-filled 900ms ease-in-out both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -69,7 +93,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
+      <path class="lmn-path-1" fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
     </svg>
     } @else {
       <svg
@@ -86,7 +110,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
+      <path class="lmn-path-1" d="M9.879 7.519 c1.171 -1.025 3.071 -1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712 -0.203 0.179 -0.43 0.326 -0.67 0.442 -0.745 0.361 -1.45 0.999 -1.45 1.827 v0.75"/><path class="lmn-path-2" d="M21 12 a9 9 0 1 1 -18 0 9 9 0 0 1 18 0 Z"/><path class="lmn-path-3" d="M12 17.25 h0.008 v0.008 H12 v-0.008 Z"/>
     </svg>
     }
   `,
