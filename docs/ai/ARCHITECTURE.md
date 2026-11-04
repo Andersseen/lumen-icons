@@ -15,6 +15,7 @@
 | `packages/icons/dist/**` | 🤖 build output, not committed | `scripts/build-lib.mjs` | build config (`ng-package.json`, the script) |
 | `packages/icons/src/lib/icon-base.ts` | ✍️ hand-written | — | directly (this is the shared API — see breaking-change policy) |
 | `packages/icons/src/types/icon.types.ts` | ✍️ hand-written | — | directly (public types) |
+| `packages/icons/svg/custom-filled/*.svg` | ✍️ hand-written source | — | the SVG, then regenerate (filled geometry for custom icons; see its README) |
 | `src/app/data/icon-metadata.ts` | ✍️ hand-written | — | directly (categories + search aliases) |
 | `scripts/*.mjs` | ✍️ hand-written | — | directly |
 | everything in `src/app/` except `data/icon-catalog.ts` | ✍️ hand-written | — | directly |

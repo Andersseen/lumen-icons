@@ -30,12 +30,12 @@ Icons nobody has reviewed are `unreviewed` — they are **not** graded by recipe
 | Explicit mappings | 350 |
 | Pattern-fallback mappings | 11 |
 | Global-default mappings | 1 |
-| Reviewed (outline + filled) | 31 |
+| Reviewed (outline + filled) | 36 |
 | Review incomplete | 0 |
-| Unreviewed | 331 |
-| Certified A/B | 31 (A 14 · B 17) |
+| Unreviewed | 326 |
+| Certified A/B | 36 (A 16 · B 20) |
 | Reviewed C/D/E | 0 (C 0 · D 0 · E 0) |
-| **Certified semantic coverage** | **8.6%** (31 / 362) |
+| **Certified semantic coverage** | **9.9%** (36 / 362) |
 
 ## Batches
 
@@ -43,6 +43,7 @@ Icons nobody has reviewed are `unreviewed` — they are **not** graded by recipe
 |---|---|---|---|
 | batch-01 | complete | 12 | [2026-11-04-semantic-motion-batch-01.md](../specs/2026-11-04-semantic-motion-batch-01.md) |
 | batch-02 | complete | 19 | [2026-11-04-semantic-motion-batch-02.md](../specs/2026-11-04-semantic-motion-batch-02.md) |
+| batch-03 | complete | 5 | [2026-11-04-semantic-motion-batch-03.md](../specs/2026-11-04-semantic-motion-batch-03.md) |
 
 ### batch-01
 
@@ -85,6 +86,16 @@ Icons nobody has reviewed are `unreviewed` — they are **not** graded by recipe
 | `face-smile` | mouth-curve (C) | mouth-curve | A (A / A) | The mouth curves into a smile and the eyes blink; filled, the head bobs happily. |
 | `face-frown` | mouth-curve (C) | mouth-curve | A (A / A) | The mouth sags into a frown and the eyes blink; filled, the head droops. |
 
+### batch-03
+
+| Icon | Before | After | Grade (outline / filled) | Story |
+|---|---|---|---|---|
+| `x` | x-from-pause (E) | x-close | A (A / A) | Close: the strokes are written in sequence during a quarter turn into place. |
+| `checkbox` | draw-scale (E) | check-tick | B (A / B) | The box stays and is pressed like a button while the tick is written and lands. |
+| `info` | wiggle (E) | alert-mark | B (A / B) | The dot drops onto the stem, which takes the weight. |
+| `alert-circle` | alert-signal (E) | alert-mark | B (A / B) | The ! springs up from its base, the dot pops on landing, the ring flinches. |
+| `smile` | mouth-curve (E) | mouth-curve | A (A / A) | The mouth curves into a smile and the eyes blink; filled, the head bobs. |
+
 ## Flags
 
 Errors: none.
@@ -93,9 +104,9 @@ Errors: none.
 
 `video`
 
-**Unused recipes** (19)
+**Unused recipes** (21)
 
-`archive-reject`, `beat`, `cart-roll`, `clock-tick`, `draw-part`, `flash`, `fly`, `folder-pop`, `grin`, `menu-morph`, `mute-fade`, `no-shake`, `ring`, `search`, `shake`, `swing`, `thumbs-down`, `thumbs-up`, `unlock`
+`alert-signal`, `archive-reject`, `beat`, `cart-roll`, `clock-tick`, `draw-part`, `flash`, `fly`, `folder-pop`, `grin`, `menu-morph`, `mute-fade`, `no-shake`, `ring`, `search`, `shake`, `swing`, `thumbs-down`, `thumbs-up`, `unlock`, `x-from-pause`
 
 **Global-default fallbacks** (1)
 
@@ -108,7 +119,7 @@ Errors: none.
 | `academic-cap` | cap-toss-fade | explicit | — | unreviewed | — | — | — |
 | `adjustments-horizontal` | slider-pins | explicit | — | unreviewed | — | — | — |
 | `adjustments-vertical` | slider-pins | explicit | — | unreviewed | — | — | — |
-| `alert-circle` | alert-signal | explicit | — | unreviewed | — | — | — |
+| `alert-circle` | alert-mark | explicit | alerts | reviewed | B | verified | verified |
 | `archive-box` | archive-peek | explicit | — | unreviewed | — | — | — |
 | `archive-box-arrow-down` | archive-drop | explicit | — | unreviewed | — | — | — |
 | `archive-box-x-mark` | slash-strike | explicit | — | unreviewed | — | — | — |
@@ -219,7 +230,7 @@ Errors: none.
 | `check` | check-tick | explicit | feedback | reviewed | A | verified | verified |
 | `check-badge` | check-tick | explicit | feedback | reviewed | B | verified | verified |
 | `check-circle` | check-tick | explicit | feedback | reviewed | B | verified | verified |
-| `checkbox` | draw-scale | explicit | — | unreviewed | — | — | — |
+| `checkbox` | check-tick | explicit | feedback | reviewed | B | verified | verified |
 | `chevron-double-down` | chevron-cascade | explicit | — | unreviewed | — | — | — |
 | `chevron-double-left` | chevron-cascade | explicit | — | unreviewed | — | — | — |
 | `chevron-double-right` | chevron-cascade | explicit | — | unreviewed | — | — | — |
@@ -332,7 +343,7 @@ Errors: none.
 | `inbox` | tray-receive | explicit | inbox | reviewed | B | verified | verified |
 | `inbox-arrow-down` | arrow-into-receiver | explicit | inbox | reviewed | A | verified | verified |
 | `inbox-stack` | tray-stack | explicit | inbox | reviewed | A | verified | verified |
-| `info` | wiggle | explicit | — | unreviewed | — | — | — |
+| `info` | alert-mark | explicit | alerts | reviewed | B | verified | verified |
 | `information-circle` | alert-mark | explicit | alerts | reviewed | B | verified | verified |
 | `italic` | typewriter | explicit | — | unreviewed | — | — | — |
 | `key` | key-turn-return | explicit | — | unreviewed | — | — | — |
@@ -423,7 +434,7 @@ Errors: none.
 | `signal` | wave | explicit | — | unreviewed | — | — | — |
 | `signal-slash` | slash-strike | explicit | — | unreviewed | — | — | — |
 | `slash` | draw-strikethrough | explicit | — | unreviewed | — | — | — |
-| `smile` | mouth-curve | explicit | — | unreviewed | — | — | — |
+| `smile` | mouth-curve | explicit | feedback | reviewed | A | verified | verified |
 | `sparkles` | glow | explicit | — | unreviewed | — | — | — |
 | `speaker-wave` | sound-waves | explicit | — | unreviewed | — | — | — |
 | `speaker-x-mark` | slash-strike | explicit | — | unreviewed | — | — | — |
@@ -463,7 +474,7 @@ Errors: none.
 | `window` | screen-on | explicit | — | unreviewed | — | — | — |
 | `wrench` | tool-tighten | explicit | — | unreviewed | — | — | — |
 | `wrench-screwdriver` | tool-tighten | explicit | — | unreviewed | — | — | — |
-| `x` | x-from-pause | explicit | — | unreviewed | — | — | — |
+| `x` | x-close | explicit | feedback | reviewed | A | verified | verified |
 | `x-circle` | x-close | explicit | feedback | reviewed | A | verified | verified |
 | `x-mark` | x-close | explicit | feedback | reviewed | A | verified | verified |
 | `zap` | glow | explicit | — | unreviewed | — | — | — |

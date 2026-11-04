@@ -45,6 +45,18 @@
         "face-smile",
         "face-frown"
       ]
+    },
+    {
+      "id": "batch-03",
+      "status": "complete",
+      "spec": "docs/specs/2026-11-04-semantic-motion-batch-03.md",
+      "icons": [
+        "x",
+        "checkbox",
+        "info",
+        "alert-circle",
+        "smile"
+      ]
     }
   ],
   "reviews": {
@@ -697,6 +709,111 @@
         "grade": "A",
         "status": "verified",
         "evidence": "filmstrip 24px, 2026-11-04 — the disc is rotation-invariant: the features droop"
+      }
+    },
+    "x": {
+      "batch": "batch-03",
+      "family": "feedback",
+      "recipe": "x-close",
+      "before": {
+        "recipe": "x-from-pause",
+        "grade": "E",
+        "note": "The filled variant rendered nothing at all (CSS fallback erased both strokes)."
+      },
+      "story": "Close: the strokes are written in sequence during a quarter turn into place.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — now real filled geometry (Heroicons x-mark solid); it makes the same quarter turn"
+      }
+    },
+    "checkbox": {
+      "batch": "batch-03",
+      "family": "feedback",
+      "recipe": "check-tick",
+      "before": {
+        "recipe": "draw-scale",
+        "grade": "E",
+        "note": "The filled variant rendered as a notched black blob."
+      },
+      "story": "The box stays and is pressed like a button while the tick is written and lands.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — now a rounded square with the tick as a hole; the whole box is pressed"
+      }
+    },
+    "info": {
+      "batch": "batch-03",
+      "family": "alerts",
+      "recipe": "alert-mark",
+      "before": {
+        "recipe": "wiggle",
+        "grade": "E",
+        "note": "The filled variant rendered as a plain black disc (the i was filled in)."
+      },
+      "story": "The dot drops onto the stem, which takes the weight.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — now Heroicons information-circle solid; the disc tilts so the i nods"
+      }
+    },
+    "alert-circle": {
+      "batch": "batch-03",
+      "family": "alerts",
+      "recipe": "alert-mark",
+      "before": {
+        "recipe": "alert-signal",
+        "grade": "E",
+        "note": "The filled variant rendered as a plain black disc (the ! was filled in)."
+      },
+      "story": "The ! springs up from its base, the dot pops on landing, the ring flinches.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — now Heroicons exclamation-circle solid; the disc shakes so only the ! moves"
+      }
+    },
+    "smile": {
+      "batch": "batch-03",
+      "family": "feedback",
+      "recipe": "mouth-curve",
+      "before": {
+        "recipe": "mouth-curve",
+        "grade": "E",
+        "note": "The filled variant rendered as a plain black disc (the face was filled in)."
+      },
+      "story": "The mouth curves into a smile and the eyes blink; filled, the head bobs.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — now Heroicons face-smile solid; rotation-invariant disc, so the features bob"
       }
     }
   }
