@@ -11,6 +11,7 @@
 | `packages/icons/src/icons/*.spec.ts` | 🤖 GENERATED (committed) | `scripts/generate-icons.mjs` | the generator's test template |
 | `packages/icons/src/icons/index.ts` (barrel) | 🤖 GENERATED | `scripts/sync-icons.mjs` | nothing — always re-run `pnpm run sync:icons` |
 | `src/app/data/icon-catalog.ts` | 🤖 GENERATED | `scripts/sync-icons.mjs` | nothing — re-run sync |
+| `docs/ai/MOTION-INVENTORY.md` | 🤖 GENERATED (committed) | `scripts/motion-inventory.mjs` | `docs/ai/motion-reviews.json` (judgements) or the recipes, then `pnpm run motion:inventory` |
 | `packages/icons/dist/**` | 🤖 build output, not committed | `scripts/build-lib.mjs` | build config (`ng-package.json`, the script) |
 | `packages/icons/src/lib/icon-base.ts` | ✍️ hand-written | — | directly (this is the shared API — see breaking-change policy) |
 | `packages/icons/src/types/icon.types.ts` | ✍️ hand-written | — | directly (public types) |

@@ -1,0 +1,134 @@
+{
+  "$comment": "Hand-maintained semantic-motion review record. Read by scripts/motion-inventory.mjs, which derives everything else (catalog, recipe, mapping source) from the code. Grades: A strongly semantic · B semantic family · C acceptable generic · D weak / generic fallback · E wrong semantics. An icon's grade is the weaker of its outline and filled grades. Only record what was actually inspected; see docs/ai/MOTION-INVENTORY.md for the method.",
+  "batches": [
+    {
+      "id": "batch-01",
+      "status": "complete",
+      "spec": "docs/specs/2026-11-04-semantic-motion-batch-01.md",
+      "icons": [
+        "folder-open",
+        "folder-plus",
+        "folder-minus",
+        "folder-arrow-down",
+        "inbox",
+        "inbox-arrow-down",
+        "inbox-stack",
+        "clipboard",
+        "clipboard-document",
+        "clipboard-document-list",
+        "file",
+        "newspaper"
+      ]
+    }
+  ],
+  "reviews": {
+    "folder-open": {
+      "batch": "batch-01",
+      "family": "folders",
+      "recipe": "folder-open-swing",
+      "before": { "recipe": "folder-pop", "grade": "D", "note": "Whole glyph hops 6px up and back; nothing opens." },
+      "story": "The front panel starts stood up (closed) and falls forward onto the drawing's open pose; the back panel never moves.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 (front panel is its own subpath)" }
+    },
+    "folder-plus": {
+      "batch": "batch-01",
+      "family": "folders",
+      "recipe": "folder-action",
+      "before": { "recipe": "folder-pop", "grade": "D", "note": "Whole glyph hops; the plus is static relative to the folder." },
+      "story": "The plus turns in from a point and lands with a small overshoot; the folder stays put.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the plus is an evenodd hole, so the folder swells (gains) instead" }
+    },
+    "folder-minus": {
+      "batch": "batch-01",
+      "family": "folders",
+      "recipe": "folder-action",
+      "before": { "recipe": "folder-pop", "grade": "D", "note": "Whole glyph hops; the minus is static relative to the folder." },
+      "story": "The minus collapses to a point (taken out) and springs back; the folder stays put.",
+      "outline": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — the mark acts, but a round-trip collapse only implies removal" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — the minus is an evenodd hole, so the folder contracts instead" }
+    },
+    "folder-arrow-down": {
+      "batch": "batch-01",
+      "family": "folders",
+      "recipe": "arrow-into-receiver",
+      "before": { "recipe": "folder-pop", "grade": "E", "note": "Whole glyph hops up — against the direction the arrow means." },
+      "story": "The arrow is drawn down from above the folder into it, then the head resolves; the folder takes a slight impact.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the arrow is an evenodd hole, so the folder squashes on arrival instead" }
+    },
+    "inbox": {
+      "batch": "batch-01",
+      "family": "inbox",
+      "recipe": "tray-receive",
+      "before": { "recipe": "folder-pop", "grade": "D", "note": "Borrowed folder hop; whole glyph." },
+      "story": "The tray floor drops in from the tray mouth, narrowed to stay between the walls, and lands; the tray takes the weight.",
+      "outline": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the floor line stands in for the received content" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the cavity is an evenodd hole, so the tray squashes instead" }
+    },
+    "inbox-arrow-down": {
+      "batch": "batch-01",
+      "family": "inbox",
+      "recipe": "arrow-into-receiver",
+      "before": { "recipe": "folder-pop", "grade": "E", "note": "Whole glyph hops up — against the direction the arrow means." },
+      "story": "The arrow is drawn down into the tray through the gap in its rim; the tray takes a small impact.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 (arrow is its own tag)" }
+    },
+    "inbox-stack": {
+      "batch": "batch-01",
+      "family": "inbox",
+      "recipe": "tray-stack",
+      "before": { "recipe": "folder-pop", "grade": "D", "note": "Borrowed folder hop; the stack moves as one block." },
+      "story": "The lower tray rises into place, then the upper tray is set down on it and the lower one takes the weight.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 (each tray is its own tag)" }
+    },
+    "clipboard": {
+      "batch": "batch-01",
+      "family": "clipboard-documents",
+      "recipe": "clipboard-secure",
+      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "story": "The clip springs open, holds, and snaps shut on the board.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — the clip's opening is an evenodd hole, so the board squashes instead" }
+    },
+    "clipboard-document": {
+      "batch": "batch-01",
+      "family": "clipboard-documents",
+      "recipe": "clipboard-secure",
+      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "story": "The clip opens, the document slides under it and is pinned as the clip snaps shut.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04" },
+      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — document placed onto the board (clip is part of the board's compound path)" }
+    },
+    "clipboard-document-list": {
+      "batch": "batch-01",
+      "family": "clipboard-documents",
+      "recipe": "clipboard-secure",
+      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "story": "Each row checks in, in order: its bullet pops, then its line is written.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — rows are evenodd holes in the document, so the document is placed onto the board instead" }
+    },
+    "file": {
+      "batch": "batch-01",
+      "family": "clipboard-documents",
+      "recipe": "page-corner",
+      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "story": "The sheet is drawn, then its dog-ear folds down from the corner.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — custom icon with CSS filled fallback (fold is hidden inside the page), printed top → bottom instead" }
+    },
+    "newspaper": {
+      "batch": "batch-01",
+      "family": "clipboard-documents",
+      "recipe": "newspaper-layout",
+      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "story": "The photo block is placed, then the columns are set line by line.",
+      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
+      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — content is evenodd holes, so the page is printed top → bottom and the holes appear in reading order" }
+    }
+  }
+}

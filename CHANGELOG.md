@@ -22,7 +22,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   again), `crt-power` (a screen opens from a scan line with a phosphor flood),
   `clock-hands`, `envelope-flap`, `terminal-prompt` (the chevron draws, then the
   cursor blinks in) and `wallet-card`.
-
+- Semantic motion batch 01: twelve folder, inbox and document icons now animate
+  what they mean instead of hopping or fading in as a whole. `folder-open`'s front
+  panel falls open; `folder-plus`/`folder-minus` move only their mark;
+  `folder-arrow-down` and `inbox-arrow-down` draw their arrow down into the
+  receiver; `inbox` receives an item; `inbox-stack` assembles tray by tray;
+  `clipboard` snaps its clip; `clipboard-document` pins a sheet under the clip;
+  `clipboard-document-list` checks its rows in; `file` is drawn and folds its
+  dog-ear; `newspaper` lays out its photo, then its columns. Seven new recipes
+  (`folder-open-swing`, `folder-action`, `tray-receive`, `tray-stack`,
+  `clipboard-secure`, `newspaper-layout`, `page-corner`); `arrow-into-receiver`
+  gained an options argument. Filled variants whose mark is an evenodd hole keep
+  their compound path intact and animate the whole glyph instead. Animation
+  behaviour only — no input, selector, default or export changes.
 
 #### Fixed
 

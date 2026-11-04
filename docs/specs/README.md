@@ -40,6 +40,7 @@ draft → approved → in-progress → done   (or: rejected)
 
 *(add new specs to the top)*
 
+- [2026-11-04-semantic-motion-batch-01.md](2026-11-04-semantic-motion-batch-01.md) — semantic motion for 12 folder/inbox/document icons + internal motion inventory (done)
 - [2026-08-18-official-site-refresh.md](2026-08-18-official-site-refresh.md) — product-quality official homepage redesign (done)
 - [2026-08-18-zoneless-and-dependency-refresh.md](2026-08-18-zoneless-and-dependency-refresh.md) — update app dependencies, make the demo zoneless and decouple the generator from Heroicons (done)
 - [2026-08-18-semantic-motion-compositions.md](2026-08-18-semantic-motion-compositions.md) — authored multi-part motion, rest-state checks and catalog control scrolling (done)

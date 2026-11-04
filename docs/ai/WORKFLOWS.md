@@ -36,6 +36,22 @@ Use when a reviewed outline SVG (and ideally a filled SVG) is available but is n
 4. Verify: `pnpm run check`; then in the dev app toggle "animate" on affected icons; test with OS reduced-motion enabled (animation must not run).
 5. Changelog + STATE.md.
 
+## W3b — Semantic motion batch (review + improve a family of icons)
+
+Goal: raise *certified* semantic coverage in `docs/ai/MOTION-INVENTORY.md`, not the
+recipe count. Reference: [batch 01 spec](../specs/2026-11-04-semantic-motion-batch-01.md).
+
+1. Pick a family from the inventory's `unreviewed` rows. Film the current behaviour
+   first: `pnpm run dev`, then `pnpm run motion:filmstrip <icons…> --sizes 16,24,48` (add `--url` if the dev server is not on 5173)
+   (PNGs land in `test-results/filmstrips/`). Grade *what you see*, not the recipe name.
+2. Inspect outline **and** filled geometry (`splitSubpaths` on the source SVGs). A
+   filled mark that is an evenodd hole must not be split — animate the whole glyph.
+3. Change recipes per W3; regenerate; confirm only the batch's files changed.
+4. Re-film; record grades + evidence for both variants in `docs/ai/motion-reviews.json`
+   under a new batch; `pnpm run motion:inventory`.
+5. Extend `tests/e2e/semantic-motion.spec.ts` (moving / still probes) and the unit spec.
+6. Verify: `pnpm run check` (includes `check:motion`), `pnpm run test:e2e`.
+
 ## W4 — Change the shared icon API (`LmnIconBase` / `icon.types.ts`)
 
 ⚠️ This is the public contract. Before coding, write a spec (`docs/specs/`) and classify the change against the semver policy in CONVENTIONS.md.
