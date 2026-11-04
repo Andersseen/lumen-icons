@@ -50,6 +50,12 @@ const CASES: Case[] = [
   { name: "hand-thumb-down", at: 0.46, outline: { moving: ":scope", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
   { name: "face-smile", at: 0.3, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
   { name: "face-frown", at: 0.3, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  // batch 03 — custom icons, now with real filled geometry
+  { name: "x", at: 0.2, outline: { moving: ".lmn-path-1", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "checkbox", at: 0.3, outline: { moving: ".lmn-path-2", property: "stroke-dashoffset" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "info", at: 0.2, outline: { moving: ".lmn-path-3", property: "transform", still: ".lmn-path-1" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "alert-circle", at: 0.2, outline: { moving: ".lmn-path-2", property: "transform", still: ".lmn-path-1" }, filled: { moving: ":scope", property: "transform" } },
+  { name: "smile", at: 0.3, outline: { moving: ".lmn-path-2", property: "transform" }, filled: { moving: ":scope", property: "transform" } },
 ];
 
 /** The value an element shows when nothing is animating it. */

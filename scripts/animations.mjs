@@ -4577,9 +4577,10 @@ export const ICON_ANIMATIONS = {
   check: { recipe: 'check-tick', duration: '640ms', args: [{ check: [1], filled: 'reveal', parts: 1 }] },
   'check-circle': { recipe: 'check-tick', duration: '700ms', args: [{ check: [1], container: [2], filled: 'press', parts: 2 }] },
   'check-badge': { recipe: 'check-tick', duration: '700ms', args: [{ check: [1], container: [2], filled: 'press', parts: 2 }] },
-  checkbox: { recipe: 'draw-scale', duration: '420ms' },
+  // batch 03 — docs/specs/2026-11-04-semantic-motion-batch-03.md (custom siblings of batch 02)
+  checkbox: { recipe: 'check-tick', duration: '700ms', args: [{ check: [2], container: [1], filled: 'press', parts: 2 }] },
   'x-mark': { recipe: 'x-close', duration: '640ms', args: [{ strokes: [1, 2], parts: 2 }] },
-  x: { recipe: 'x-from-pause', duration: '560ms' },
+  x: { recipe: 'x-close', duration: '640ms', args: [{ strokes: [1, 2], parts: 2 }] },
   'x-circle': { recipe: 'x-close', duration: '700ms', args: [{ strokes: [1, 2], container: [3], parts: 3 }] },
 
   // Math / toggles
@@ -4652,8 +4653,9 @@ export const ICON_ANIMATIONS = {
   'exclamation-circle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'rise', filled: 'shake' }] },
   'exclamation-triangle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'rise', filled: 'wobble' }] },
   'question-mark-circle': { recipe: 'alert-mark', duration: '900ms', args: [{ mode: 'tilt', pivot: '12px 13px', filled: 'tilt' }] },
-  'alert-circle': { recipe: 'alert-signal', duration: '560ms' },
-  info: { recipe: 'wiggle', duration: '450ms' },
+  // batch 03 — docs/specs/2026-11-04-semantic-motion-batch-03.md (custom siblings of batch 02)
+  'alert-circle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'rise', mark: [2], dot: [3], container: [1], filled: 'shake' }] },
+  info: { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'dot', mark: [2], dot: [3], container: [1], filled: 'tilt' }] },
   'information-circle': { recipe: 'alert-mark', duration: '820ms', args: [{ mode: 'dot', filled: 'tilt' }] },
   'no-symbol': { recipe: 'slash-strike', duration: '780ms' },
 
@@ -4956,7 +4958,8 @@ export const ICON_ANIMATIONS = {
   funnel: { recipe: 'funnel-drain', duration: '500ms' },
   package: { recipe: 'package-pop', duration: '500ms' },
   'face-smile': { recipe: 'mouth-curve', duration: '900ms', args: [1, 6, { eyes: [3, 4, 5, 6], filledMood: 'happy' }] },
-  smile: { recipe: 'mouth-curve', duration: '640ms', args: [2, 4] },
+  // batch 03 — docs/specs/2026-11-04-semantic-motion-batch-03.md (custom siblings of batch 02)
+  smile: { recipe: 'mouth-curve', duration: '900ms', args: [2, 4, { eyes: [3, 4], filledMood: 'happy' }] },
   'face-frown': { recipe: 'mouth-curve', duration: '900ms', args: [1, 6, { eyes: [3, 4, 5, 6], filledMood: 'sad' }] },
   language: { recipe: 'translate-flip', duration: '600ms' },
   share: { recipe: 'share-cast', duration: '450ms' },
