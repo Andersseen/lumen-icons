@@ -73,15 +73,22 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
     
-    :host(.lmn-filled) svg,
-    :host(.lmn-filled) svg path {
-      fill: currentColor;
-      stroke: none;
-    }
-  
   `],
   template: `
-    <svg
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path class="lmn-path-1" fill-rule="evenodd" d="M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" pathLength="1"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -97,6 +104,7 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <polyline class="lmn-path-1" points="4 17 10 11 4 5" pathLength="1"/><line class="lmn-path-2" x1="12" x2="20" y1="19" y2="19" pathLength="1"/>
     </svg>
+    }
   `,
 })
 export class LmnTerminalIcon extends LmnIconBase {}

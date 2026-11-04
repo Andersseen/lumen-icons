@@ -53,15 +53,22 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
     
-    :host(.lmn-filled) svg,
-    :host(.lmn-filled) svg path {
-      fill: currentColor;
-      stroke: none;
-    }
-  
   `],
   template: `
-    <svg
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M5 2.25h10.19c.73 0 1.43.29 1.94.8l3.82 3.82c.51.51.8 1.21.8 1.94V19A2.75 2.75 0 0 1 19 21.75H5A2.75 2.75 0 0 1 2.25 19V5A2.75 2.75 0 0 1 5 2.25Zm3.25 2.25v2.25c0 .41.34.75.75.75h5.25a.75.75 0 0 0 .75-.75V4.5H8.25Zm-.75 15h9v-5.25a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v5.25Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -77,6 +84,7 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
     </svg>
+    }
   `,
 })
 export class LmnSaveIcon extends LmnIconBase {}

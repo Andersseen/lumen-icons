@@ -23,6 +23,8 @@ import {
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const outlineDir = join(root, 'packages/icons/svg/outline');
 const solidDir = join(root, 'packages/icons/svg/solid');
+// Lumen-authored filled geometry for custom icons (no Heroicons source).
+const customFilledDir = join(root, 'packages/icons/svg/custom-filled');
 
 const overwrite = process.argv.includes('--overwrite');
 
@@ -164,9 +166,10 @@ describe('${className}', () => {
 }
 
 function extractInnerSvgFromComponent(source, name) {
-  const svgMatch = source.match(/<svg[\s\S]*?<\/svg>/);
-  if (!svgMatch) return null;
-  const svg = svgMatch[0];
+  // The outline branch is always the last <svg>: with a filled branch the
+  // template is `@if (filled) { <svg…> } @else { <svg…> }`.
+  const svg = [...source.matchAll(/<svg[\s\S]*?<\/svg>/g)].at(-1)?.[0];
+  if (!svg) return null;
   let inner = svg.slice(svg.indexOf('>') + 1).replace(/<\/svg>\s*$/, '');
   inner = inner
     .replace(/\[attr\.width\]="size\(\)"/g, '')
@@ -184,6 +187,36 @@ function extractInnerSvgFromComponent(source, name) {
     .replace(/\s+/g, ' ')
     .trim();
   return inner;
+}
+
+/**
+ * Apply a recipe's markup needs (split subpaths, part classes, slash tags,
+ * reversed shafts, pathLength) to both variants. Shared by Heroicons-sourced
+ * and custom icons so their filled branches are treated identically.
+ */
+function applyAnimationMarkup(outlineSvg, filledSvg, animation) {
+  if (animation.splitPaths) {
+    outlineSvg = splitSubpaths(outlineSvg);
+    if (animation.splitPaths === 'both' && filledSvg) {
+      filledSvg = splitSubpaths(filledSvg);
+    }
+  }
+  if (animation.pathClasses.length > 0) {
+    outlineSvg = applyPathClasses(outlineSvg, animation.pathClasses);
+    if (filledSvg) filledSvg = applyPathClasses(filledSvg, animation.pathClasses);
+  }
+  if (animation.slashPaths) {
+    outlineSvg = tagSlashPaths(outlineSvg);
+    if (filledSvg) filledSvg = tagSlashPaths(filledSvg);
+  }
+  if (animation.reversePaths?.length) {
+    outlineSvg = reverseStraightPaths(outlineSvg, animation.reversePaths);
+  }
+  if (animation.pathLength) {
+    outlineSvg = applyPathLength(outlineSvg);
+    if (filledSvg) filledSvg = applyPathLength(filledSvg);
+  }
+  return { outlineSvg, filledSvg };
 }
 
 function generateIconFiles(svgFiles) {
@@ -218,27 +251,7 @@ function generateIconFiles(svgFiles) {
     }
 
     const animation = buildAnimation(name);
-    if (animation.splitPaths) {
-      outlineSvg = splitSubpaths(outlineSvg);
-      if (animation.splitPaths === 'both' && filledSvg) {
-        filledSvg = splitSubpaths(filledSvg);
-      }
-    }
-    if (animation.pathClasses.length > 0) {
-      outlineSvg = applyPathClasses(outlineSvg, animation.pathClasses);
-      if (filledSvg) filledSvg = applyPathClasses(filledSvg, animation.pathClasses);
-    }
-    if (animation.slashPaths) {
-      outlineSvg = tagSlashPaths(outlineSvg);
-      if (filledSvg) filledSvg = tagSlashPaths(filledSvg);
-    }
-    if (animation.reversePaths?.length) {
-      outlineSvg = reverseStraightPaths(outlineSvg, animation.reversePaths);
-    }
-    if (animation.pathLength) {
-      outlineSvg = applyPathLength(outlineSvg);
-      if (filledSvg) filledSvg = applyPathLength(filledSvg);
-    }
+    ({ outlineSvg, filledSvg } = applyAnimationMarkup(outlineSvg, filledSvg, animation));
 
     const componentSource = generateComponent(name, className, outlineSvg, filledSvg, animation);
     const specSource = generateSpec(name, className);
@@ -269,23 +282,13 @@ function regenerateCustomIcons(outlineNames) {
 
     const className = toClassName(name);
     const animation = buildAnimation(name);
-    if (animation.splitPaths) {
-      innerSvg = splitSubpaths(innerSvg);
-    }
-    if (animation.pathClasses.length > 0) {
-      innerSvg = applyPathClasses(innerSvg, animation.pathClasses);
-    }
-    if (animation.slashPaths) {
-      innerSvg = tagSlashPaths(innerSvg);
-    }
-    if (animation.reversePaths?.length) {
-      innerSvg = reverseStraightPaths(innerSvg, animation.reversePaths);
-    }
-    if (animation.pathLength) {
-      innerSvg = applyPathLength(innerSvg);
-    }
+    // A custom icon gets a real filled branch when Lumen has authored one;
+    // otherwise it keeps the CSS fill fallback.
+    const filledPath = join(customFilledDir, `${name}.svg`);
+    let filledSvg = existsSync(filledPath) ? cleanSvg(readFileSync(filledPath, 'utf8'), name) : null;
+    ({ outlineSvg: innerSvg, filledSvg } = applyAnimationMarkup(innerSvg, filledSvg, animation));
 
-    const componentSource = generateComponent(name, className, innerSvg, null, animation);
+    const componentSource = generateComponent(name, className, innerSvg, filledSvg, animation);
     const specSource = generateSpec(name, className);
 
     writeFileSync(componentPath, componentSource);

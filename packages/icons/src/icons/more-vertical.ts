@@ -53,15 +53,22 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
     
-    :host(.lmn-filled) svg,
-    :host(.lmn-filled) svg path {
-      fill: currentColor;
-      stroke: none;
-    }
-  
   `],
   template: `
-    <svg
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path class="lmn-path-1" fill-rule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -77,6 +84,7 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <circle cx="12" cy="12" r="1" class="lmn-animate-el lmn-path-1" /><circle cx="12" cy="5" r="1" class="lmn-animate-el lmn-path-2" /><circle cx="12" cy="19" r="1" class="lmn-animate-el lmn-path-3" />
     </svg>
+    }
   `,
 })
 export class LmnMoreVerticalIcon extends LmnIconBase {}
