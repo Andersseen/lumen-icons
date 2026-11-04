@@ -33,18 +33,23 @@ const option = (flag, fallback) => {
 const baseUrl = option('--url', 'http://localhost:5173');
 const sizes = option('--sizes', '24').split(',').map(Number);
 const outDir = resolve(root, option('--out', 'test-results/filmstrips'));
+// --sheet <file.png>: every icon on one contact sheet (rows labelled by icon).
+const sheet = option('--sheet', null);
 const names = args;
 const fractions = [0, 0.2, 0.4, 0.6, 0.8, 1];
 
 if (names.length === 0) {
-  console.error('Usage: node scripts/motion-filmstrip.mjs <icon> [...] [--sizes 24,48] [--url URL]');
+  console.error('Usage: node scripts/motion-filmstrip.mjs <icon> [...] [--sizes 24,48] [--url URL] [--sheet name.png]');
   process.exit(1);
 }
 
 mkdirSync(outDir, { recursive: true });
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 4 });
-await page.goto(`${baseUrl}/icons`);
+const page = await browser.newPage(sheet
+  ? { viewport: { width: 1280, height: 4000 }, deviceScaleFactor: 2 }
+  : { viewport: { width: 1280, height: 900 }, deviceScaleFactor: 4 });
+// Right after a regeneration the dev server re-transforms every icon.
+await page.goto(`${baseUrl}/icons`, { timeout: 180_000 });
 await page.getByRole('switch', { name: 'Animate icons' }).click();
 
 /** Hover the catalog card so it renders the animated instance; return its host. */
@@ -52,32 +57,37 @@ async function animatedHost(name, variant) {
   await page.getByRole('radio', { name: variant === 'filled' ? 'Filled' : 'Outline' }).click();
   await page.getByRole('textbox', { name: 'Search' }).fill(name);
   const card = page.getByRole('button', { name: `Copy import for ${name}`, exact: true });
-  await card.hover();
+  // A real hover races the search reflow (the card slides out from under the
+  // cursor and unmounts its animated instance mid-capture). Park the pointer and
+  // enter the card by event instead — same fix as tests/e2e/semantic-motion.spec.ts.
+  await page.mouse.move(0, 0);
+  await page.locator('volt-card', { has: card }).dispatchEvent('mouseenter');
   const host = card.locator(`lmn-${name}.lmn-animate`);
   await host.waitFor();
   return host;
 }
 
 for (const name of names) {
-  // Build the strip off-screen-free: a fixed white board on top of the page.
-  await page.evaluate(() => {
+  // A fixed white board on top of the page; a sheet keeps one board for all icons.
+  await page.evaluate((reset) => {
+    if (!reset && document.getElementById('lmn-filmstrip')) return;
     document.getElementById('lmn-filmstrip')?.remove();
     const board = document.createElement('div');
     board.id = 'lmn-filmstrip';
     board.style.cssText = 'position:fixed;inset:0 auto auto 0;z-index:99999;background:#fff;color:#111;padding:12px;display:grid;gap:10px;font:11px system-ui;pointer-events:none';
     document.body.append(board);
-  });
+  }, !sheet);
 
   for (const variant of ['outline', 'filled']) {
     const host = await animatedHost(name, variant);
-    await host.evaluate((element, { sizes, fractions, variant }) => {
+    await host.evaluate((element, { sizes, fractions, variant, title }) => {
       const board = document.getElementById('lmn-filmstrip');
       for (const size of sizes) {
         const row = document.createElement('div');
         row.style.cssText = 'display:flex;align-items:center;gap:14px';
         const label = document.createElement('span');
-        label.textContent = `${variant} ${size}px`;
-        label.style.cssText = 'width:72px';
+        label.textContent = `${title}${variant} ${size}px`;
+        label.style.cssText = `width:${title ? 190 : 72}px`;
         row.append(label);
         // Attach first: a disconnected clone has no animations to seek, and
         // would start playing live once attached — every frame identical.
@@ -92,8 +102,17 @@ for (const name of names) {
           cell.append(clone);
           row.append(cell);
           const animations = clone.getAnimations({ subtree: true });
-          if (animations.length === 0) throw new Error(`${variant}: no animations to seek`);
-          const end = Math.max(...animations.map((a) => a.effect.getComputedTiming().endTime));
+          if (animations.length === 0) {
+            // A finding, not a harness failure: this variant does not animate.
+            label.textContent = `${title}${variant} ${size}px — NO ANIMATION`;
+            label.style.color = '#c00';
+            continue;
+          }
+          // An infinite animation (only `loader`) is sampled across one iteration.
+          const end = Math.max(...animations.map((a) => {
+            const timing = a.effect.getComputedTiming();
+            return Number.isFinite(timing.endTime) ? timing.endTime : timing.delay + timing.duration;
+          }));
           for (const animation of animations) {
             animation.pause();
             animation.currentTime = end * fraction;
@@ -101,10 +120,27 @@ for (const name of names) {
           cell.title = `${Math.round(fraction * 100)}% · ${animations.length} animations`;
         }
       }
-    }, { sizes, fractions, variant });
+    }, { sizes, fractions, variant, title: sheet ? `${name} · ` : '' });
+    // Angular removes a component's <style> from <head> when its last instance
+    // is destroyed — which the next search does. Keep a copy on the board so the
+    // frozen clones keep their scoped animation CSS on a multi-icon sheet.
+    await page.evaluate(() => {
+      const board = document.getElementById('lmn-filmstrip');
+      const kept = new Set([...board.querySelectorAll('style')].map((s) => s.textContent));
+      for (const style of document.head.querySelectorAll('style')) {
+        if (!kept.has(style.textContent)) board.append(style.cloneNode(true));
+      }
+    });
   }
 
+  if (sheet) continue;
   const file = join(outDir, `${name}.png`);
+  await page.locator('#lmn-filmstrip').screenshot({ path: file });
+  console.log(file);
+}
+
+if (sheet) {
+  const file = resolve(outDir, sheet);
   await page.locator('#lmn-filmstrip').screenshot({ path: file });
   console.log(file);
 }

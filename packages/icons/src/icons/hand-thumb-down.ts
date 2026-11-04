@@ -13,28 +13,31 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-hand-thumb-down {
-          0%, 100% { transform: rotate(0deg); }
-          25% { transform: rotate(16deg); }
-          50% { transform: rotate(-8deg); }
-          75% { transform: rotate(4deg); }
+          0% { transform: rotate(0deg) translateY(0); }
+          18% { transform: rotate(-10deg) translateY(-1px); }
+          46% { transform: rotate(18deg) translateY(4px); }
+          66% { transform: rotate(-6deg) translateY(-0.5px); }
+          84% { transform: rotate(2deg) translateY(0); }
+          100% { transform: rotate(0deg) translateY(0); }
         }
+
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          transform-origin: top left;
-        }
-
-    :host(.lmn-animate) svg {
-          animation: lmn-hand-thumb-down 500ms ease both;
-        }
+    :host(.lmn-animate) svg { transform-origin: 15% 10%; animation: lmn-hand-thumb-down 720ms cubic-bezier(0.4, 0, 0.2, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -43,6 +46,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;

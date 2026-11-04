@@ -42,14 +42,14 @@ Goal: raise *certified* semantic coverage in `docs/ai/MOTION-INVENTORY.md`, not 
 recipe count. Reference: [batch 01 spec](../specs/2026-11-04-semantic-motion-batch-01.md).
 
 1. Pick a family from the inventory's `unreviewed` rows. Film the current behaviour
-   first: `pnpm run dev`, then `pnpm run motion:filmstrip <icons…> --sizes 16,24,48` (add `--url` if the dev server is not on 5173)
+   first: `pnpm run dev`, then `pnpm run motion:filmstrip <icons…> --sizes 16,24,48` (add `--url` if the dev server is not on 5173; `--sheet name.png` puts many icons on one contact sheet)
    (PNGs land in `test-results/filmstrips/`). Grade *what you see*, not the recipe name.
 2. Inspect outline **and** filled geometry (`splitSubpaths` on the source SVGs). A
    filled mark that is an evenodd hole must not be split — animate the whole glyph.
 3. Change recipes per W3; regenerate; confirm only the batch's files changed.
 4. Re-film; record grades + evidence for both variants in `docs/ai/motion-reviews.json`
    under a new batch; `pnpm run motion:inventory`.
-5. Extend `tests/e2e/semantic-motion.spec.ts` (moving / still probes) and the unit spec.
+5. Add the icons to `CASES` in `tests/e2e/semantic-motion.spec.ts` (moving / still probes). The unit spec (`scripts/semantic-motion.spec.ts`) picks reviewed icons up from the JSON automatically.
 6. Verify: `pnpm run check` (includes `check:motion`), `pnpm run test:e2e`.
 
 ## W4 — Change the shared icon API (`LmnIconBase` / `icon.types.ts`)

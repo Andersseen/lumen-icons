@@ -13,9 +13,11 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-bell-slash-body {
-          0% { transform: scale(0.88); opacity: 0.35; }
-          46% { transform: scale(1.04); opacity: 1; }
-          100% { transform: scale(1); opacity: 1; }
+          0% { transform: rotate(0deg); }
+          12% { transform: rotate(16deg); }
+          26% { transform: rotate(-12deg); }
+          38% { transform: rotate(6deg); }
+          48%, 100% { transform: rotate(0deg); }
         }
         @keyframes lmn-bell-slash-bar {
           0%, 34% { stroke-dashoffset: 1; opacity: 0; }
@@ -23,22 +25,29 @@ import { LmnIconBase } from '../lib/icon-base';
           100% { stroke-dashoffset: 0; opacity: 1; }
         }
 
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
+
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg .lmn-body { transform-origin: center; }
+    :host(.lmn-animate) svg .lmn-body { transform-box: view-box; transform-origin: 12px 3px; }
 
-    :host(.lmn-animate) svg .lmn-body { animation: lmn-bell-slash-body calc(780ms * 0.62) cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+    :host(.lmn-animate) svg .lmn-body { animation: lmn-bell-slash-body 900ms ease-in-out both; }
         :host(.lmn-animate) svg .lmn-slash {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
-          animation: lmn-bell-slash-bar 780ms cubic-bezier(0.5, 0, 0.2, 1) both;
+          animation: lmn-bell-slash-bar 900ms cubic-bezier(0.5, 0, 0.2, 1) both;
         }
 
     @media (prefers-reduced-motion: reduce) {
@@ -48,6 +57,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;

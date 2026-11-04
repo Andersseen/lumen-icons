@@ -23,11 +23,28 @@ import { LmnIconBase } from '../lib/icon-base';
           56% { transform: scale(1.05); }
           100% { transform: scale(1); }
         }
+        @keyframes lmn-face-frown-blink {
+          0%, 64% { transform: scaleY(1); }
+          72% { transform: scaleY(0.1); }
+          82%, 100% { transform: scaleY(1); }
+        }
+        @keyframes lmn-face-frown-mood {
+          0% { transform: rotate(0deg) translateY(0); }
+          45%, 62% { transform: rotate(16deg) translateY(1.5px); }
+          100% { transform: rotate(0deg) translateY(0); }
+        }
+
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
@@ -35,13 +52,13 @@ import { LmnIconBase } from '../lib/icon-base';
 
     :host(.lmn-animate) svg path { transform-origin: center; }
 
-    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-face-frown-mouth 640ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
-        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2,
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { animation: lmn-face-frown-mouth 900ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-face-frown-face 900ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-3,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-4,
         :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-5,
-        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6 { animation: lmn-face-frown-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
-        :host(.lmn-animate.lmn-filled) svg { animation: lmn-face-frown-face 640ms cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-6 { animation: lmn-face-frown-face 900ms cubic-bezier(0.3, 1.2, 0.5, 1) both, lmn-face-frown-blink 900ms ease-in-out both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-face-frown-mood 900ms cubic-bezier(0.4, 0, 0.2, 1) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -50,6 +67,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;

@@ -12,26 +12,45 @@ import { LmnIconBase } from '../lib/icon-base';
     '[class.lmn-animate]': 'animate()',
   },
   styles: [`
-    @keyframes lmn-check-circle {
-          0% { stroke-dashoffset: 1; opacity: 0; transform: scale(0.6); }
-          60% { transform: scale(1.12); }
-          100% { stroke-dashoffset: 0; opacity: 1; transform: scale(1); }
+    @keyframes lmn-check-circle-draw {
+          0% { stroke-dashoffset: 1; }
+          58%, 100% { stroke-dashoffset: 0; }
         }
+        @keyframes lmn-check-circle-pop {
+          0%, 56% { transform: scale(1); }
+          72% { transform: scale(1.18); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-check-circle-press {
+          0%, 10% { transform: scale(1); }
+          40% { transform: scale(0.86); }
+          66% { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-check-circle-reveal {
+          0% { clip-path: inset(0 100% 0 0); }
+          58%, 100% { clip-path: inset(0 0 0 0); }
+        }
+
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg path {
-          stroke-dasharray: 1;
-          stroke-dashoffset: 0;
-          animation: lmn-check-circle 500ms ease both;
-        }
+    :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-1 { stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-check-circle-draw 700ms cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-check-circle-pop 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        :host(.lmn-animate:not(.lmn-filled)) svg .lmn-path-2 { animation: lmn-check-circle-press 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        :host(.lmn-animate.lmn-filled) svg { animation: lmn-check-circle-press 700ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -40,6 +59,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;
@@ -58,7 +80,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" pathLength="1"/>
+      <path class="lmn-path-1" fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" pathLength="1"/>
     </svg>
     } @else {
       <svg
@@ -75,7 +97,7 @@ import { LmnIconBase } from '../lib/icon-base';
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" pathLength="1"/>
+      <path class="lmn-path-1" d="M9 12.75 11.25 15 15 9.75" pathLength="1"/><path class="lmn-path-2" d="M21 12 a9 9 0 1 1 -18 0 9 9 0 0 1 18 0 Z" pathLength="1"/>
     </svg>
     }
   `,

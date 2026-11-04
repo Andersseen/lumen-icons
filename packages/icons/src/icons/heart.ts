@@ -13,25 +13,32 @@ import { LmnIconBase } from '../lib/icon-base';
   },
   styles: [`
     @keyframes lmn-heart {
-          0%, 100% { transform: scale(1); }
-          15% { transform: scale(1.25); }
-          30% { transform: scale(0.92); }
-          45% { transform: scale(1.12); }
-          60% { transform: scale(1); }
+          0% { transform: scale(1); }
+          12% { transform: scale(1.24); }
+          24% { transform: scale(0.95); }
+          38% { transform: scale(1.16); }
+          52% { transform: scale(0.98); }
+          70% { transform: scale(1.03); }
+          100% { transform: scale(1); }
         }
+
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
 
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
     }
 
-    :host(.lmn-animate) svg {
-          animation: lmn-heart 600ms ease-in-out both;
-        }
+    :host(.lmn-animate) svg { animation: lmn-heart 900ms ease-in-out both; }
 
     @media (prefers-reduced-motion: reduce) {
       :host(.lmn-animate),
@@ -40,6 +47,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;
