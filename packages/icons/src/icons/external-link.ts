@@ -54,15 +54,22 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
     
-    :host(.lmn-filled) svg,
-    :host(.lmn-filled) svg path {
-      fill: currentColor;
-      stroke: none;
-    }
-  
   `],
   template: `
-    <svg
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path fill-rule="evenodd" d="M15.75 2.25H21a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0V4.81L8.03 17.03a.75.75 0 0 1-1.06-1.06L19.19 3.75h-3.44a.75.75 0 0 1 0-1.5Zm-10.5 4.5a1.5 1.5 0 0 0-1.5 1.5v10.5a1.5 1.5 0 0 0 1.5 1.5h10.5a1.5 1.5 0 0 0 1.5-1.5V10.5a.75.75 0 0 1 1.5 0v8.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V8.25a3 3 0 0 1 3-3h8.25a.75.75 0 0 1 0 1.5H5.25Z" clip-rule="evenodd"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -78,6 +85,7 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <path d="M15 3h6v6" class="lmn-animate-el" /><path d="M10 14 21 3" class="lmn-animate-el" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
     </svg>
+    }
   `,
 })
 export class LmnExternalLinkIcon extends LmnIconBase {}

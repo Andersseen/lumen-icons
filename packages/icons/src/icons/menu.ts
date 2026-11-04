@@ -64,15 +64,22 @@ import { LmnIconBase } from '../lib/icon-base';
       }
     }
     
-    :host(.lmn-filled) svg,
-    :host(.lmn-filled) svg path {
-      fill: currentColor;
-      stroke: none;
-    }
-  
   `],
   template: `
-    <svg
+    @if (variant() === 'filled') {
+      <svg
+      [attr.width]="size()"
+      [attr.height]="size()"
+      [class.lmn-animate]="animate()"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path class="lmn-path-1" fill-rule="evenodd" clip-rule="evenodd" d="M3 6.75 A0.75 0.75 0 0 1 3.75 6 h16.5 a0.75 0.75 0 0 1 0 1.5 H3.75 A0.75 0.75 0 0 1 3 6.75 Z" pathLength="1"/><path class="lmn-path-2" fill-rule="evenodd" clip-rule="evenodd" d="M3 12 a0.75 0.75 0 0 1 0.75 -0.75 h16.5 a0.75 0.75 0 0 1 0 1.5 H3.75 A0.75 0.75 0 0 1 3 12 Z" pathLength="1"/><path class="lmn-path-3" fill-rule="evenodd" clip-rule="evenodd" d="M3 17.25 a0.75 0.75 0 0 1 0.75 -0.75 h16.5 a0.75 0.75 0 0 1 0 1.5 H3.75 a0.75 0.75 0 0 1 -0.75 -0.75 Z" pathLength="1"/>
+    </svg>
+    } @else {
+      <svg
       [attr.width]="size()"
       [attr.height]="size()"
       [attr.stroke-width]="strokeWidth()"
@@ -88,6 +95,7 @@ import { LmnIconBase } from '../lib/icon-base';
     >
       <line x1="4" x2="20" y1="6" y2="6" class="lmn-animate-el lmn-path-1" pathLength="1"/><line x1="4" x2="20" y1="12" y2="12" class="lmn-animate-el lmn-path-2" pathLength="1"/><line x1="4" x2="20" y1="18" y2="18" class="lmn-animate-el lmn-path-3" pathLength="1"/>
     </svg>
+    }
   `,
 })
 export class LmnMenuIcon extends LmnIconBase {}

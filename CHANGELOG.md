@@ -49,6 +49,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Fixed
 
+- The filled variant of 25 custom icons rendered wrong or not at all: the CSS
+  fallback (`fill: currentColor; stroke: none`) erased open strokes and filled
+  inner details. `x`, `menu`, `list` and `loader` were invisible; `info`,
+  `alert-circle`, `smile`, `search`, `globe`, `image`, `checkbox`, `edit`, `package`,
+  `paperclip` and `save` became discs or blobs; `log-in`, `log-out`, `terminal`,
+  `refresh-cw`, `upload`, `download`, `external-link`, `more-vertical`, `mail` and
+  `settings` lost their meaning. They now ship real filled geometry (the Heroicons
+  solid glyph of their equivalent, or authored for `checkbox`, `save`, `loader`).
+  `x`, `checkbox`, `info`, `alert-circle` and `smile` also animate like their
+  reworked Heroicons siblings.
+
 - The shared `prefers-reduced-motion` and transform-box blocks now cover
   `polyline`, `polygon` and `ellipse`.
 
