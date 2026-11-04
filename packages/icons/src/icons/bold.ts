@@ -14,10 +14,17 @@ import { LmnIconBase } from '../lib/icon-base';
   styles: [`
     @keyframes lmn-bold-weight { 0%, 100% { stroke-width: var(--lmn-stroke-width); opacity: 1; } 44% { stroke-width: calc(var(--lmn-stroke-width) * 1.55); opacity: 1; } 80% { stroke-width: calc(var(--lmn-stroke-width) * 0.92); opacity: 1; } } @keyframes lmn-bold-filled { 0%, 100% { transform: scaleX(1); opacity: 1; } 44% { transform: scaleX(1.11); opacity: 1; } 80% { transform: scaleX(0.98); opacity: 1; } }
 
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
+
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
@@ -34,6 +41,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;

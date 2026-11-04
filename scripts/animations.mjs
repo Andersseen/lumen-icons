@@ -15,6 +15,9 @@ const prefersReducedMotion = `
       .lmn-animate line,
       .lmn-animate circle,
       .lmn-animate rect,
+      .lmn-animate polyline,
+      .lmn-animate polygon,
+      .lmn-animate ellipse,
       .lmn-animate g,
       .lmn-animate-el {
         animation: none !important;
@@ -22,16 +25,38 @@ const prefersReducedMotion = `
     }
   `;
 
+// While animating, parts may travel past the 24-unit box (a clip swinging
+// open, an arrow arriving from outside) instead of being cut at its edge. At
+// rest nothing overflows, so non-animated rendering is unchanged.
 const animateBase = `
+    .lmn-animate svg {
+      overflow: visible;
+    }
+
     .lmn-animate svg path,
     .lmn-animate svg line,
     .lmn-animate svg circle,
     .lmn-animate svg rect,
+    .lmn-animate svg polyline,
+    .lmn-animate svg polygon,
+    .lmn-animate svg ellipse,
     .lmn-animate svg g {
       transform-box: fill-box;
       transform-origin: center;
     }
   `;
+
+/**
+ * Shared easing vocabulary. `spring` overshoots and settles — the character
+ * that makes a part feel physical (cf. lucide-animated / ajitzero
+ * animated-icons). Recipes reworked from semantic batch 02 onwards use these.
+ */
+export const EASE = Object.freeze({
+  spring: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+  springSoft: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+  out: 'cubic-bezier(0.22, 0.8, 0.32, 1)',
+  inOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+});
 
 /**
  * Shared building blocks for the semantic-motion recipes.
@@ -4115,8 +4140,8 @@ const RECIPES = {
 
   /**
    * A new page: the sheet is drawn, then its dog-ear folds down from the
-   * corner. The fold is a <polyline>, which neither the shared transform-box
-   * rule nor the shared reduced-motion block covers — both are set here.
+   * corner. The fold is a <polyline>; it pivots on the page corner (view-box
+   * origin), not its own box.
    */
   'page-corner'(name, duration = '760ms', pageIndex = 1, foldIndex = 2, foldOrigin = '20px 2px') {
     return {
@@ -4141,9 +4166,6 @@ const RECIPES = {
         .lmn-animate--outline svg .lmn-path-${pageIndex} { stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-page ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
         .lmn-animate--outline svg .lmn-path-${foldIndex} { animation: lmn-${name}-fold ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
         .lmn-animate--filled svg { animation: lmn-${name}-print ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
-        @media (prefers-reduced-motion: reduce) {
-          .lmn-animate svg polyline { animation: none !important; }
-        }
       `,
     };
   },

@@ -85,7 +85,7 @@ describe.each(Object.entries(BATCH))('semantic motion: %s', (name, recipe) => {
   it('is disabled under prefers-reduced-motion', () => {
     expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*:host\(\.lmn-animate\) svg,[\s\S]*animation: none !important/);
     if (/<polyline/.test(outline)) {
-      expect(css).toMatch(/prefers-reduced-motion: reduce\)\s*\{\s*:host\(\.lmn-animate\) svg polyline \{ animation: none !important; \}/);
+      expect(css).toMatch(/prefers-reduced-motion: reduce\)[\s\S]*:host\(\.lmn-animate\) polyline,[\s\S]*animation: none !important/);
     }
   });
 

@@ -21,10 +21,17 @@ import { LmnIconBase } from '../lib/icon-base';
           50% { transform: translateY(-2px); }
         }
 
+    :host(.lmn-animate) svg {
+      overflow: visible;
+    }
+
     :host(.lmn-animate) svg path,
     :host(.lmn-animate) svg line,
     :host(.lmn-animate) svg circle,
     :host(.lmn-animate) svg rect,
+    :host(.lmn-animate) svg polyline,
+    :host(.lmn-animate) svg polygon,
+    :host(.lmn-animate) svg ellipse,
     :host(.lmn-animate) svg g {
       transform-box: fill-box;
       transform-origin: center;
@@ -47,6 +54,9 @@ import { LmnIconBase } from '../lib/icon-base';
       :host(.lmn-animate) line,
       :host(.lmn-animate) circle,
       :host(.lmn-animate) rect,
+      :host(.lmn-animate) polyline,
+      :host(.lmn-animate) polygon,
+      :host(.lmn-animate) ellipse,
       :host(.lmn-animate) g,
       :host(.lmn-animate) .lmn-animate-el {
         animation: none !important;
