@@ -35,8 +35,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   gained an options argument. Filled variants whose mark is an evenodd hole keep
   their compound path intact and animate the whole glyph instead. Animation
   behaviour only — no input, selector, default or export changes.
+- Semantic motion batch 02 — character + feedback. While an icon animates, its
+  svg is `overflow: visible`, so swinging or arriving parts are no longer cut at
+  the 24-unit edge (static rendering unchanged); reworked recipes share an
+  overshooting spring easing. Nineteen feedback icons now act out their meaning:
+  bells ring with a lagging clapper (`bell-alert` waves pulse, `bell-snooze`
+  drowses, `bell-slash` is silenced mid-ring), the heart beats lub-dub, the star
+  spins in by one point, checks are written and land, X marks swirl in a quarter
+  turn, `!` springs up, `?` tilts like a puzzled head, the `i` dot drops onto its
+  stem, thumbs wind up and thrust, faces form their expression and blink. Filled
+  `x-mark` and `x-circle`, which did not animate, now do; inside a disc only the
+  mark turns.
 
 #### Fixed
+
+- The shared `prefers-reduced-motion` and transform-box blocks now cover
+  `polyline`, `polygon` and `ellipse`.
 
 - `RECIPES` declared `sun-rays` twice; JS keeps the last key, so the live version
   targeted `path:nth-child(n+2)` — which matches nothing on a compound path. That

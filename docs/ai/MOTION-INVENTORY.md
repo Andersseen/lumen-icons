@@ -26,22 +26,23 @@ Icons nobody has reviewed are `unreviewed` — they are **not** graded by recipe
 | Metric | Value |
 |---|---|
 | Catalog icons | 362 |
-| Recipes | 154 |
+| Recipes | 161 |
 | Explicit mappings | 350 |
 | Pattern-fallback mappings | 11 |
 | Global-default mappings | 1 |
-| Reviewed (outline + filled) | 12 |
+| Reviewed (outline + filled) | 31 |
 | Review incomplete | 0 |
-| Unreviewed | 350 |
-| Certified A/B | 12 (A 4 · B 8) |
+| Unreviewed | 331 |
+| Certified A/B | 31 (A 14 · B 17) |
 | Reviewed C/D/E | 0 (C 0 · D 0 · E 0) |
-| **Certified semantic coverage** | **3.3%** (12 / 362) |
+| **Certified semantic coverage** | **8.6%** (31 / 362) |
 
 ## Batches
 
 | Batch | Status | Icons | Spec |
 |---|---|---|---|
 | batch-01 | complete | 12 | [2026-11-04-semantic-motion-batch-01.md](../specs/2026-11-04-semantic-motion-batch-01.md) |
+| batch-02 | complete | 19 | [2026-11-04-semantic-motion-batch-02.md](../specs/2026-11-04-semantic-motion-batch-02.md) |
 
 ### batch-01
 
@@ -60,6 +61,30 @@ Icons nobody has reviewed are `unreviewed` — they are **not** graded by recipe
 | `file` | file-appear (D) | page-corner | B (A / B) | The sheet is drawn, then its dog-ear folds down from the corner. |
 | `newspaper` | file-appear (D) | newspaper-layout | B (A / B) | The photo block is placed, then the columns are set line by line. |
 
+### batch-02
+
+| Icon | Before | After | Grade (outline / filled) | Story |
+|---|---|---|---|---|
+| `bell` | ring (C) | bell-ring | B (A / B) | The bell swings from its crown with a decaying oscillation; the clapper lags and swings wider, against it. |
+| `bell-alert` | ring (C) | bell-ring | A (A / A) | The bell rings (clapper lagging) while the alert waves pulse outward twice. |
+| `bell-snooze` | ring (D) | bell-ring | B (A / B) | A drowsy half-swing while the Z drifts up, tilts and settles. |
+| `bell-slash` | slash-strike (B) | slash-strike | B (A / B) | The bell starts to ring and is silenced as the bar strikes through it. |
+| `heart` | beat (C) | heartbeat | A (A / A) | A heartbeat: a strong lub, a softer dub, a settle. |
+| `star` | beat (D) | star-twinkle | B (B / B) | Favourited: the star spins in by one point (identical silhouette at both ends) and pops past its size. |
+| `check` | draw-scale (B) | check-tick | A (A / A) | The tick is written stroke-first and lands with a small pop. |
+| `check-circle` | draw-scale (C) | check-tick | B (A / B) | The ring stays; it is pressed like a button while the tick is written and pops. |
+| `check-badge` | draw-scale (C) | check-tick | B (A / B) | The badge stays; it is pressed like a button while the tick is written and pops. |
+| `x-mark` | x-from-pause (D) | x-close | A (A / A) | Close: the two strokes are written one after the other while the X makes a quarter turn into place. |
+| `x-circle` | x-from-pause (D) | x-close | A (A / A) | The X swirls in a quarter turn inside the ring, which is pressed as it lands. |
+| `exclamation-circle` | wiggle (D) | alert-mark | B (A / B) | The ! springs up from its base, overshoots and settles; the dot pops as it lands; the ring flinches. |
+| `exclamation-triangle` | wiggle (D) | alert-mark | B (A / B) | The ! springs up from its base; the dot pops; the triangle flinches on its base. |
+| `question-mark-circle` | wiggle (D) | alert-mark | A (A / A) | The hook tilts like a puzzled head and the dot bounces. |
+| `information-circle` | wiggle (D) | alert-mark | B (A / B) | The dot drops onto the stem, which takes the weight. |
+| `hand-thumb-up` | thumbs-up (B) | thumb-gesture | A (A / A) | A wind-up, then the hand thrusts up from the wrist, overshoots and settles. |
+| `hand-thumb-down` | thumbs-down (B) | thumb-gesture | A (A / A) | A wind-up, then the hand thrusts down from the wrist, overshoots and settles. |
+| `face-smile` | mouth-curve (C) | mouth-curve | A (A / A) | The mouth curves into a smile and the eyes blink; filled, the head bobs happily. |
+| `face-frown` | mouth-curve (C) | mouth-curve | A (A / A) | The mouth sags into a frown and the eyes blink; filled, the head droops. |
+
 ## Flags
 
 Errors: none.
@@ -68,9 +93,9 @@ Errors: none.
 
 `video`
 
-**Unused recipes** (15)
+**Unused recipes** (19)
 
-`archive-reject`, `cart-roll`, `clock-tick`, `draw-part`, `flash`, `fly`, `folder-pop`, `grin`, `menu-morph`, `mute-fade`, `no-shake`, `search`, `shake`, `swing`, `unlock`
+`archive-reject`, `beat`, `cart-roll`, `clock-tick`, `draw-part`, `flash`, `fly`, `folder-pop`, `grin`, `menu-morph`, `mute-fade`, `no-shake`, `ring`, `search`, `shake`, `swing`, `thumbs-down`, `thumbs-up`, `unlock`
 
 **Global-default fallbacks** (1)
 
@@ -158,10 +183,10 @@ Errors: none.
 | `battery-100` | battery-charge | explicit | — | unreviewed | — | — | — |
 | `battery-50` | battery-charge | explicit | — | unreviewed | — | — | — |
 | `beaker` | wiggle | explicit | — | unreviewed | — | — | — |
-| `bell` | ring | explicit | — | unreviewed | — | — | — |
-| `bell-alert` | ring | explicit | — | unreviewed | — | — | — |
-| `bell-slash` | slash-strike | explicit | — | unreviewed | — | — | — |
-| `bell-snooze` | ring | explicit | — | unreviewed | — | — | — |
+| `bell` | bell-ring | explicit | notifications | reviewed | B | verified | verified |
+| `bell-alert` | bell-ring | explicit | notifications | reviewed | A | verified | verified |
+| `bell-slash` | slash-strike | explicit | notifications | reviewed | B | verified | verified |
+| `bell-snooze` | bell-ring | explicit | notifications | reviewed | B | verified | verified |
 | `bold` | bold-thicken | explicit | — | unreviewed | — | — | — |
 | `bolt` | bolt-thicken | explicit | — | unreviewed | — | — | — |
 | `bolt-slash` | slash-strike | explicit | — | unreviewed | — | — | — |
@@ -191,9 +216,9 @@ Errors: none.
 | `chat-bubble-left-right` | bubble-pop | explicit | — | unreviewed | — | — | — |
 | `chat-bubble-oval-left` | bubble-pop | explicit | — | unreviewed | — | — | — |
 | `chat-bubble-oval-left-ellipsis` | bubble-pop | explicit | — | unreviewed | — | — | — |
-| `check` | draw-scale | explicit | — | unreviewed | — | — | — |
-| `check-badge` | draw-scale | explicit | — | unreviewed | — | — | — |
-| `check-circle` | draw-scale | explicit | — | unreviewed | — | — | — |
+| `check` | check-tick | explicit | feedback | reviewed | A | verified | verified |
+| `check-badge` | check-tick | explicit | feedback | reviewed | B | verified | verified |
+| `check-circle` | check-tick | explicit | feedback | reviewed | B | verified | verified |
 | `checkbox` | draw-scale | explicit | — | unreviewed | — | — | — |
 | `chevron-double-down` | chevron-cascade | explicit | — | unreviewed | — | — | — |
 | `chevron-double-left` | chevron-cascade | explicit | — | unreviewed | — | — | — |
@@ -261,14 +286,14 @@ Errors: none.
 | `envelope` | envelope-flap | explicit | — | unreviewed | — | — | — |
 | `envelope-open` | open-envelope | explicit | — | unreviewed | — | — | — |
 | `equals` | stretch-x | explicit | — | unreviewed | — | — | — |
-| `exclamation-circle` | wiggle | explicit | — | unreviewed | — | — | — |
-| `exclamation-triangle` | wiggle | explicit | — | unreviewed | — | — | — |
+| `exclamation-circle` | alert-mark | explicit | alerts | reviewed | B | verified | verified |
+| `exclamation-triangle` | alert-mark | explicit | alerts | reviewed | B | verified | verified |
 | `external-link` | arrow-bounce | explicit | — | unreviewed | — | — | — |
 | `eye` | blink | explicit | — | unreviewed | — | — | — |
 | `eye-dropper` | drip | explicit | — | unreviewed | — | — | — |
 | `eye-slash` | slash-strike | explicit | — | unreviewed | — | — | — |
-| `face-frown` | mouth-curve | explicit | — | unreviewed | — | — | — |
-| `face-smile` | mouth-curve | explicit | — | unreviewed | — | — | — |
+| `face-frown` | mouth-curve | explicit | feedback | reviewed | A | verified | verified |
+| `face-smile` | mouth-curve | explicit | feedback | reviewed | A | verified | verified |
 | `file` | page-corner | explicit | clipboard-documents | reviewed | B | verified | verified |
 | `film` | film-roll | explicit | — | unreviewed | — | — | — |
 | `filter` | funnel-drain | explicit | — | unreviewed | — | — | — |
@@ -296,10 +321,10 @@ Errors: none.
 | `h2` | typewriter | explicit | — | unreviewed | — | — | — |
 | `h3` | typewriter | explicit | — | unreviewed | — | — | — |
 | `hand-raised` | tap | explicit | — | unreviewed | — | — | — |
-| `hand-thumb-down` | thumbs-down | explicit | — | unreviewed | — | — | — |
-| `hand-thumb-up` | thumbs-up | explicit | — | unreviewed | — | — | — |
+| `hand-thumb-down` | thumb-gesture | explicit | feedback | reviewed | A | verified | verified |
+| `hand-thumb-up` | thumb-gesture | explicit | feedback | reviewed | A | verified | verified |
 | `hashtag` | typewriter | explicit | — | unreviewed | — | — | — |
-| `heart` | beat | explicit | — | unreviewed | — | — | — |
+| `heart` | heartbeat | explicit | feedback | reviewed | A | verified | verified |
 | `home` | door-swing | explicit | — | unreviewed | — | — | — |
 | `home-modern` | home-bounce | explicit | — | unreviewed | — | — | — |
 | `identification` | file-appear | explicit | — | unreviewed | — | — | — |
@@ -308,7 +333,7 @@ Errors: none.
 | `inbox-arrow-down` | arrow-into-receiver | explicit | inbox | reviewed | A | verified | verified |
 | `inbox-stack` | tray-stack | explicit | inbox | reviewed | A | verified | verified |
 | `info` | wiggle | explicit | — | unreviewed | — | — | — |
-| `information-circle` | wiggle | explicit | — | unreviewed | — | — | — |
+| `information-circle` | alert-mark | explicit | alerts | reviewed | B | verified | verified |
 | `italic` | typewriter | explicit | — | unreviewed | — | — | — |
 | `key` | key-turn-return | explicit | — | unreviewed | — | — | — |
 | `language` | translate-flip | explicit | — | unreviewed | — | — | — |
@@ -371,7 +396,7 @@ Errors: none.
 | `printer` | file-appear | explicit | — | unreviewed | — | — | — |
 | `puzzle-piece` | puzzle-seat | explicit | — | unreviewed | — | — | — |
 | `qr-code` | scan | explicit | — | unreviewed | — | — | — |
-| `question-mark-circle` | wiggle | explicit | — | unreviewed | — | — | — |
+| `question-mark-circle` | alert-mark | explicit | alerts | reviewed | A | verified | verified |
 | `queue-list` | cell-pop | explicit | — | unreviewed | — | — | — |
 | `radio` | emit | explicit | — | unreviewed | — | — | — |
 | `receipt-percent` | receipt-print | explicit | — | unreviewed | — | — | — |
@@ -406,7 +431,7 @@ Errors: none.
 | `square-3-stack-3d` | stack-assemble | explicit | — | unreviewed | — | — | — |
 | `squares-2x2` | cell-pop | explicit | — | unreviewed | — | — | — |
 | `squares-plus` | cell-pop | explicit | — | unreviewed | — | — | — |
-| `star` | beat | explicit | — | unreviewed | — | — | — |
+| `star` | star-twinkle | explicit | feedback | reviewed | B | verified | verified |
 | `stop` | play-morph | explicit | — | unreviewed | — | — | — |
 | `stop-circle` | play-morph | explicit | — | unreviewed | — | — | — |
 | `strikethrough` | draw-strikethrough | explicit | — | unreviewed | — | — | — |
@@ -439,6 +464,6 @@ Errors: none.
 | `wrench` | tool-tighten | explicit | — | unreviewed | — | — | — |
 | `wrench-screwdriver` | tool-tighten | explicit | — | unreviewed | — | — | — |
 | `x` | x-from-pause | explicit | — | unreviewed | — | — | — |
-| `x-circle` | x-from-pause | explicit | — | unreviewed | — | — | — |
-| `x-mark` | x-from-pause | explicit | — | unreviewed | — | — | — |
+| `x-circle` | x-close | explicit | feedback | reviewed | A | verified | verified |
+| `x-mark` | x-close | explicit | feedback | reviewed | A | verified | verified |
 | `zap` | glow | explicit | — | unreviewed | — | — | — |

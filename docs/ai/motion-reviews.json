@@ -19,6 +19,32 @@
         "file",
         "newspaper"
       ]
+    },
+    {
+      "id": "batch-02",
+      "status": "complete",
+      "spec": "docs/specs/2026-11-04-semantic-motion-batch-02.md",
+      "icons": [
+        "bell",
+        "bell-alert",
+        "bell-snooze",
+        "bell-slash",
+        "heart",
+        "star",
+        "check",
+        "check-circle",
+        "check-badge",
+        "x-mark",
+        "x-circle",
+        "exclamation-circle",
+        "exclamation-triangle",
+        "question-mark-circle",
+        "information-circle",
+        "hand-thumb-up",
+        "hand-thumb-down",
+        "face-smile",
+        "face-frown"
+      ]
     }
   ],
   "reviews": {
@@ -26,109 +52,652 @@
       "batch": "batch-01",
       "family": "folders",
       "recipe": "folder-open-swing",
-      "before": { "recipe": "folder-pop", "grade": "D", "note": "Whole glyph hops 6px up and back; nothing opens." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "D",
+        "note": "Whole glyph hops 6px up and back; nothing opens."
+      },
       "story": "The front panel starts stood up (closed) and falls forward onto the drawing's open pose; the back panel never moves.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 (front panel is its own subpath)" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 (front panel is its own subpath)"
+      }
     },
     "folder-plus": {
       "batch": "batch-01",
       "family": "folders",
       "recipe": "folder-action",
-      "before": { "recipe": "folder-pop", "grade": "D", "note": "Whole glyph hops; the plus is static relative to the folder." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "D",
+        "note": "Whole glyph hops; the plus is static relative to the folder."
+      },
       "story": "The plus turns in from a point and lands with a small overshoot; the folder stays put.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the plus is an evenodd hole, so the folder swells (gains) instead" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the plus is an evenodd hole, so the folder swells (gains) instead"
+      }
     },
     "folder-minus": {
       "batch": "batch-01",
       "family": "folders",
       "recipe": "folder-action",
-      "before": { "recipe": "folder-pop", "grade": "D", "note": "Whole glyph hops; the minus is static relative to the folder." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "D",
+        "note": "Whole glyph hops; the minus is static relative to the folder."
+      },
       "story": "The minus collapses to a point (taken out) and springs back; the folder stays put.",
-      "outline": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — the mark acts, but a round-trip collapse only implies removal" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — the minus is an evenodd hole, so the folder contracts instead" }
+      "outline": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 — the mark acts, but a round-trip collapse only implies removal"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 — the minus is an evenodd hole, so the folder contracts instead"
+      }
     },
     "folder-arrow-down": {
       "batch": "batch-01",
       "family": "folders",
       "recipe": "arrow-into-receiver",
-      "before": { "recipe": "folder-pop", "grade": "E", "note": "Whole glyph hops up — against the direction the arrow means." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "E",
+        "note": "Whole glyph hops up — against the direction the arrow means."
+      },
       "story": "The arrow is drawn down from above the folder into it, then the head resolves; the folder takes a slight impact.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the arrow is an evenodd hole, so the folder squashes on arrival instead" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the arrow is an evenodd hole, so the folder squashes on arrival instead"
+      }
     },
     "inbox": {
       "batch": "batch-01",
       "family": "inbox",
       "recipe": "tray-receive",
-      "before": { "recipe": "folder-pop", "grade": "D", "note": "Borrowed folder hop; whole glyph." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "D",
+        "note": "Borrowed folder hop; whole glyph."
+      },
       "story": "The tray floor drops in from the tray mouth, narrowed to stay between the walls, and lands; the tray takes the weight.",
-      "outline": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the floor line stands in for the received content" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — the cavity is an evenodd hole, so the tray squashes instead" }
+      "outline": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the floor line stands in for the received content"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the cavity is an evenodd hole, so the tray squashes instead"
+      }
     },
     "inbox-arrow-down": {
       "batch": "batch-01",
       "family": "inbox",
       "recipe": "arrow-into-receiver",
-      "before": { "recipe": "folder-pop", "grade": "E", "note": "Whole glyph hops up — against the direction the arrow means." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "E",
+        "note": "Whole glyph hops up — against the direction the arrow means."
+      },
       "story": "The arrow is drawn down into the tray through the gap in its rim; the tray takes a small impact.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 (arrow is its own tag)" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 (arrow is its own tag)"
+      }
     },
     "inbox-stack": {
       "batch": "batch-01",
       "family": "inbox",
       "recipe": "tray-stack",
-      "before": { "recipe": "folder-pop", "grade": "D", "note": "Borrowed folder hop; the stack moves as one block." },
+      "before": {
+        "recipe": "folder-pop",
+        "grade": "D",
+        "note": "Borrowed folder hop; the stack moves as one block."
+      },
       "story": "The lower tray rises into place, then the upper tray is set down on it and the lower one takes the weight.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 (each tray is its own tag)" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 (each tray is its own tag)"
+      }
     },
     "clipboard": {
       "batch": "batch-01",
       "family": "clipboard-documents",
       "recipe": "clipboard-secure",
-      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "before": {
+        "recipe": "file-appear",
+        "grade": "D",
+        "note": "Whole glyph fades in from fully invisible."
+      },
       "story": "The clip springs open, holds, and snaps shut on the board.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — the clip's opening is an evenodd hole, so the board squashes instead" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 — the clip's opening is an evenodd hole, so the board squashes instead"
+      }
     },
     "clipboard-document": {
       "batch": "batch-01",
       "family": "clipboard-documents",
       "recipe": "clipboard-secure",
-      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "before": {
+        "recipe": "file-appear",
+        "grade": "D",
+        "note": "Whole glyph fades in from fully invisible."
+      },
       "story": "The clip opens, the document slides under it and is pinned as the clip snaps shut.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04" },
-      "filled": { "grade": "A", "status": "verified", "evidence": "filmstrip 24px, 2026-11-04 — document placed onto the board (clip is part of the board's compound path)" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — document placed onto the board (clip is part of the board's compound path)"
+      }
     },
     "clipboard-document-list": {
       "batch": "batch-01",
       "family": "clipboard-documents",
       "recipe": "clipboard-secure",
-      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "before": {
+        "recipe": "file-appear",
+        "grade": "D",
+        "note": "Whole glyph fades in from fully invisible."
+      },
       "story": "Each row checks in, in order: its bullet pops, then its line is written.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — rows are evenodd holes in the document, so the document is placed onto the board instead" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 — rows are evenodd holes in the document, so the document is placed onto the board instead"
+      }
     },
     "file": {
       "batch": "batch-01",
       "family": "clipboard-documents",
       "recipe": "page-corner",
-      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "before": {
+        "recipe": "file-appear",
+        "grade": "D",
+        "note": "Whole glyph fades in from fully invisible."
+      },
       "story": "The sheet is drawn, then its dog-ear folds down from the corner.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — custom icon with CSS filled fallback (fold is hidden inside the page), printed top → bottom instead" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 — custom icon with CSS filled fallback (fold is hidden inside the page), printed top → bottom instead"
+      }
     },
     "newspaper": {
       "batch": "batch-01",
       "family": "clipboard-documents",
       "recipe": "newspaper-layout",
-      "before": { "recipe": "file-appear", "grade": "D", "note": "Whole glyph fades in from fully invisible." },
+      "before": {
+        "recipe": "file-appear",
+        "grade": "D",
+        "note": "Whole glyph fades in from fully invisible."
+      },
       "story": "The photo block is placed, then the columns are set line by line.",
-      "outline": { "grade": "A", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04" },
-      "filled": { "grade": "B", "status": "verified", "evidence": "filmstrip 16/24/48px, 2026-11-04 — content is evenodd holes, so the page is printed top → bottom and the holes appear in reading order" }
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 16/24/48px, 2026-11-04 — content is evenodd holes, so the page is printed top → bottom and the holes appear in reading order"
+      }
+    },
+    "bell": {
+      "batch": "batch-02",
+      "family": "notifications",
+      "recipe": "bell-ring",
+      "before": {
+        "recipe": "ring",
+        "grade": "C",
+        "note": "Whole bell sways ~10°; the clapper is welded to it."
+      },
+      "story": "The bell swings from its crown with a decaying oscillation; the clapper lags and swings wider, against it.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the clapper is an evenodd hole, so the filled bell swings as one piece"
+      }
+    },
+    "bell-alert": {
+      "batch": "batch-02",
+      "family": "notifications",
+      "recipe": "bell-ring",
+      "before": {
+        "recipe": "ring",
+        "grade": "C",
+        "note": "Whole glyph sways, alert waves included."
+      },
+      "story": "The bell rings (clapper lagging) while the alert waves pulse outward twice.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — waves are their own tag and pulse; the body swings"
+      }
+    },
+    "bell-snooze": {
+      "batch": "batch-02",
+      "family": "notifications",
+      "recipe": "bell-ring",
+      "before": {
+        "recipe": "ring",
+        "grade": "D",
+        "note": "Rings like an alarm — the opposite of snoozing."
+      },
+      "story": "A drowsy half-swing while the Z drifts up, tilts and settles.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — the Z is a hole: the filled bell makes the drowsy half-swing only"
+      }
+    },
+    "bell-slash": {
+      "batch": "batch-02",
+      "family": "notifications",
+      "recipe": "slash-strike",
+      "before": {
+        "recipe": "slash-strike",
+        "grade": "B",
+        "note": "The glyph settles, then the bar is drawn."
+      },
+      "story": "The bell starts to ring and is silenced as the bar strikes through it.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the filled bar is part of the compound: the bell rings and stops, the bar does not draw"
+      }
+    },
+    "heart": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "heartbeat",
+      "before": {
+        "recipe": "beat",
+        "grade": "C",
+        "note": "One generic scale pulse."
+      },
+      "story": "A heartbeat: a strong lub, a softer dub, a settle.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      }
+    },
+    "star": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "star-twinkle",
+      "before": {
+        "recipe": "beat",
+        "grade": "D",
+        "note": "Borrowed heart pulse."
+      },
+      "story": "Favourited: the star spins in by one point (identical silhouette at both ends) and pops past its size.",
+      "outline": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      }
+    },
+    "check": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "check-tick",
+      "before": {
+        "recipe": "draw-scale",
+        "grade": "B",
+        "note": "Drawn while fading in."
+      },
+      "story": "The tick is written stroke-first and lands with a small pop.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the solid tick is written left → right by a clip reveal"
+      }
+    },
+    "check-circle": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "check-tick",
+      "before": {
+        "recipe": "draw-scale",
+        "grade": "C",
+        "note": "The whole glyph, ring included, is drawn in from nothing."
+      },
+      "story": "The ring stays; it is pressed like a button while the tick is written and pops.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the tick is a hole: the whole disc is pressed"
+      }
+    },
+    "check-badge": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "check-tick",
+      "before": {
+        "recipe": "draw-scale",
+        "grade": "C",
+        "note": "The whole glyph, badge included, is drawn in from nothing."
+      },
+      "story": "The badge stays; it is pressed like a button while the tick is written and pops.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the tick is a hole: the whole badge is pressed"
+      }
+    },
+    "x-mark": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "x-close",
+      "before": {
+        "recipe": "x-from-pause",
+        "grade": "D",
+        "note": "Strokes swing in from a pause stance; the filled variant does not animate at all."
+      },
+      "story": "Close: the two strokes are written one after the other while the X makes a quarter turn into place.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the solid X makes the same quarter turn (identical every 90°)"
+      }
+    },
+    "x-circle": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "x-close",
+      "before": {
+        "recipe": "x-from-pause",
+        "grade": "D",
+        "note": "Outline only; the filled variant does not animate at all."
+      },
+      "story": "The X swirls in a quarter turn inside the ring, which is pressed as it lands.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — rotation only — the disc is rotation-invariant, so only the X visibly turns"
+      }
+    },
+    "exclamation-circle": {
+      "batch": "batch-02",
+      "family": "alerts",
+      "recipe": "alert-mark",
+      "before": {
+        "recipe": "wiggle",
+        "grade": "D",
+        "note": "Whole glyph wiggles a few degrees."
+      },
+      "story": "The ! springs up from its base, overshoots and settles; the dot pops as it lands; the ring flinches.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — the ! is a hole: the disc shakes, so only the ! visibly shakes"
+      }
+    },
+    "exclamation-triangle": {
+      "batch": "batch-02",
+      "family": "alerts",
+      "recipe": "alert-mark",
+      "before": {
+        "recipe": "wiggle",
+        "grade": "D",
+        "note": "Whole glyph wiggles a few degrees."
+      },
+      "story": "The ! springs up from its base; the dot pops; the triangle flinches on its base.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24/48px, 2026-11-04 — the ! is a hole: the triangle wobbles on its base"
+      }
+    },
+    "question-mark-circle": {
+      "batch": "batch-02",
+      "family": "alerts",
+      "recipe": "alert-mark",
+      "before": {
+        "recipe": "wiggle",
+        "grade": "D",
+        "note": "Whole glyph wiggles a few degrees."
+      },
+      "story": "The hook tilts like a puzzled head and the dot bounces.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — rotation only — inside the rotation-invariant disc only the ? tilts"
+      }
+    },
+    "information-circle": {
+      "batch": "batch-02",
+      "family": "alerts",
+      "recipe": "alert-mark",
+      "before": {
+        "recipe": "wiggle",
+        "grade": "D",
+        "note": "Whole glyph wiggles a few degrees."
+      },
+      "story": "The dot drops onto the stem, which takes the weight.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "B",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the i is a hole: the disc tilts, so the i nods"
+      }
+    },
+    "hand-thumb-up": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "thumb-gesture",
+      "before": {
+        "recipe": "thumbs-up",
+        "grade": "B",
+        "note": "A tilt and settle."
+      },
+      "story": "A wind-up, then the hand thrusts up from the wrist, overshoots and settles.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      }
+    },
+    "hand-thumb-down": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "thumb-gesture",
+      "before": {
+        "recipe": "thumbs-down",
+        "grade": "B",
+        "note": "A tilt and settle."
+      },
+      "story": "A wind-up, then the hand thrusts down from the wrist, overshoots and settles.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      }
+    },
+    "face-smile": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "mouth-curve",
+      "before": {
+        "recipe": "mouth-curve",
+        "grade": "C",
+        "note": "Outline mouth curves; the filled face only pops."
+      },
+      "story": "The mouth curves into a smile and the eyes blink; filled, the head bobs happily.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the disc is rotation-invariant: the features tilt, a head bob"
+      }
+    },
+    "face-frown": {
+      "batch": "batch-02",
+      "family": "feedback",
+      "recipe": "mouth-curve",
+      "before": {
+        "recipe": "mouth-curve",
+        "grade": "C",
+        "note": "Outline mouth curves; the filled face only pops."
+      },
+      "story": "The mouth sags into a frown and the eyes blink; filled, the head droops.",
+      "outline": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04"
+      },
+      "filled": {
+        "grade": "A",
+        "status": "verified",
+        "evidence": "filmstrip 24px, 2026-11-04 — the disc is rotation-invariant: the features droop"
+      }
     }
   }
 }
