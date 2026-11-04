@@ -34,6 +34,49 @@ const animateBase = `
   `;
 
 /**
+ * Shared building blocks for the semantic-motion recipes.
+ *
+ * Several filled Heroicons carry their action mark (a folder's plus, an inbox's
+ * cavity, a newspaper's columns) as an evenodd *hole* in one compound path.
+ * Splitting that path would fill the hole in, so those filled variants animate
+ * the whole glyph with one of the two stories below instead.
+ */
+
+/** Weight arriving in a receiver: squash from the base, rebound, settle. */
+function receiveSquashKeyframes(id) {
+  return `
+        @keyframes ${id} {
+          0%, 22% { transform: scale(1, 1); }
+          48% { transform: scale(1.06, 0.84); }
+          70% { transform: scale(0.98, 1.04); }
+          100% { transform: scale(1, 1); }
+        }`;
+}
+
+/** A printed sheet: revealed top → bottom, starting half-visible so it never vanishes. */
+function printRevealKeyframes(id) {
+  return `
+        @keyframes ${id} {
+          0% { clip-path: inset(0 0 48% 0); }
+          100% { clip-path: inset(0 0 0 0); }
+        }`;
+}
+
+/** `.lmn-animate--<variant> svg .lmn-path-N` for each index, comma-joined. */
+function partSelectors(variant, indices) {
+  return indices.map((i) => `.lmn-animate--${variant} svg .lmn-path-${i}`).join(',\n        ');
+}
+
+/** A CSS rule over those parts, or nothing at all when there are no parts. */
+function partRule(variant, indices, body) {
+  return indices.length ? `${partSelectors(variant, indices)} { ${body} }` : '';
+}
+
+function msOf(duration) {
+  return Number.parseFloat(duration);
+}
+
+/**
  * @typedef {Object} AnimationRecipeResult
  * @property {string} keyframes
  * @property {string} base
@@ -3675,19 +3718,32 @@ const RECIPES = {
     };
   },
 
-  'arrow-into-receiver'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, receiverIndices = [1], fromY = '-4px', filledArrowIndices = [], receiverImpact = false) {
+  /**
+   * `options` (all optional):
+   * - `reverseShaft` (default true) — reverse the shaft subpath so it draws
+   *   tail → tip. Pass false when the source already runs that way.
+   * - `splitFilled` (default true) — also split the filled variant. Pass false
+   *   when its arrow is an evenodd hole inside the receiver (splitting would
+   *   fill the hole in).
+   * - `filledReceiverIndices` — filled tags that take the impact response.
+   * - `filledWhole` — the filled arrow is not separable: the whole glyph
+   *   squashes on arrival instead (`receiveSquash`).
+   */
+  'arrow-into-receiver'(name, duration = '700ms', headIndices = [2, 3], shaftIndices = [4], total = 4, receiverIndices = [1], fromY = '-4px', filledArrowIndices = [], receiverImpact = false, options = {}) {
     // Squares and trays are destinations. Keep their outline legible, then
     // let the arrow descend into it; only a tray gets a tiny impact response.
+    const { reverseShaft = true, splitFilled = true, filledReceiverIndices = [], filledWhole = false } = options;
     const pathClasses = Array.from({ length: total }, (_, i) => `lmn-path-${i + 1}`);
     const selectors = (variant, indices) => indices
       .map((i) => `.lmn-animate--${variant} svg .lmn-path-${i}`)
       .join(',\n        ');
+    const rule = (variant, indices, body) => (indices.length ? `${selectors(variant, indices)} { ${body} }` : '');
     return {
       pathLength: true,
       pathClasses,
-      splitPaths: 'both',
-      reversePaths: shaftIndices,
-      keyframes: `
+      splitPaths: splitFilled ? 'both' : true,
+      reversePaths: reverseShaft ? shaftIndices : [],
+      keyframes: `${filledWhole ? receiveSquashKeyframes(`lmn-${name}-squash`) : ''}
         @keyframes lmn-${name}-arrive {
           0%, 18% { transform: translateY(${fromY}); opacity: 0.15; }
           72% { transform: translateY(0); opacity: 1; }
@@ -3709,7 +3765,11 @@ const RECIPES = {
       `,
       base: '',
       animate: `
-        ${receiverImpact ? `${selectors('outline', receiverIndices)} { animation: lmn-${name}-receiver ${duration} ease-out both; }` : ''}
+        ${[
+          receiverImpact ? rule('outline', receiverIndices, `animation: lmn-${name}-receiver ${duration} ease-out both;`) : '',
+          receiverImpact ? rule('filled', filledReceiverIndices, `animation: lmn-${name}-receiver ${duration} ease-out both;`) : '',
+          filledWhole ? `.lmn-animate--filled svg { transform-origin: 50% 100%; animation: lmn-${name}-squash ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }` : '',
+        ].filter(Boolean).join('\n        ')}
         ${selectors('outline', shaftIndices)} {
           stroke-dasharray: 1;
           stroke-dashoffset: 0;
@@ -3720,7 +3780,7 @@ const RECIPES = {
           stroke-dashoffset: 0;
           animation: lmn-${name}-head ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both, lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;
         }
-        ${selectors('filled', filledArrowIndices)} { animation: lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+        ${rule('filled', filledArrowIndices, `animation: lmn-${name}-arrive ${duration} cubic-bezier(0.22, 0.8, 0.32, 1) both;`)}
       `,
     };
   },
@@ -3794,7 +3854,303 @@ const RECIPES = {
       `,
     };
   },
+
+  // ── Semantic motion batch 01 (docs/specs/2026-11-04-semantic-motion-batch-01.md) ──
+
+  /**
+   * An open folder opening: the front panel starts stood up (closed) and falls
+   * forward onto the drawing's open pose. The back panel never moves. Both
+   * front subpaths share one hinge on the panel's bottom edge, so they pivot
+   * together (`fill-box` would give each its own origin).
+   */
+  'folder-open-swing'(name, duration = '700ms', outlineFront = [1, 2], filledFront = [2], hingeOutline = '12px 20.25px', hingeFilled = '12px 21px') {
+    return {
+      pathLength: false,
+      pathClasses: ['lmn-path-1', 'lmn-path-2', 'lmn-path-3'],
+      splitPaths: 'both',
+      keyframes: `
+        @keyframes lmn-${name}-front {
+          0%, 12% { transform: scaleY(1.4); }
+          56% { transform: scaleY(0.86); }
+          76% { transform: scaleY(1.05); }
+          100% { transform: scaleY(1); }
+        }
+      `,
+      base: `
+        ${partRule('outline', outlineFront, `transform-box: view-box; transform-origin: ${hingeOutline};`)}
+        ${partRule('filled', filledFront, `transform-box: view-box; transform-origin: ${hingeFilled};`)}
+      `,
+      animate: `
+        ${partRule('outline', outlineFront, `animation: lmn-${name}-front ${duration} cubic-bezier(0.45, 0, 0.25, 1) both;`)}
+        ${partRule('filled', filledFront, `animation: lmn-${name}-front ${duration} cubic-bezier(0.45, 0, 0.25, 1) both;`)}
+      `,
+    };
+  },
+
+  /**
+   * A folder taking an action: only its mark moves; the folder stays put.
+   * `add` — the plus turns in from a point and lands with a small overshoot.
+   * `remove` — the minus collapses to a point (taken out) and springs back.
+   * Filled marks are evenodd holes, so the filled folder swells / contracts.
+   */
+  'folder-action'(name, duration = '620ms', mode = 'add', markIndices = [1, 2], markOrigin = '12px 13.5px', parts = 3) {
+    const add = mode === 'add';
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: add
+        ? `
+        @keyframes lmn-${name}-mark {
+          0% { transform: scale(0.2) rotate(-90deg); }
+          58% { transform: scale(1.18) rotate(8deg); }
+          78% { transform: scale(0.96) rotate(0deg); }
+          100% { transform: scale(1) rotate(0deg); }
+        }
+        @keyframes lmn-${name}-filled {
+          0% { transform: scale(1); }
+          42% { transform: scale(1.16); }
+          70% { transform: scale(0.97); }
+          100% { transform: scale(1); }
+        }
+      `
+        : `
+        @keyframes lmn-${name}-mark {
+          0%, 8% { transform: scaleX(1); }
+          44%, 54% { transform: scaleX(0.14); }
+          80% { transform: scaleX(1.12); }
+          100% { transform: scaleX(1); }
+        }
+        @keyframes lmn-${name}-filled {
+          0% { transform: scale(1); }
+          42% { transform: scale(0.84); }
+          70% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+      `,
+      base: `
+        ${partRule('outline', markIndices, `transform-box: view-box; transform-origin: ${markOrigin};`)}
+      `,
+      animate: `
+        ${partRule('outline', markIndices, `animation: lmn-${name}-mark ${duration} cubic-bezier(0.3, 0.9, 0.35, 1) both;`)}
+        .lmn-animate--filled svg { animation: lmn-${name}-filled ${duration} cubic-bezier(0.3, 0.9, 0.35, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * An inbox receiving: the tray floor line drops in from the mouth of the
+   * tray — narrowed so it stays between the slanted walls — and lands; the
+   * tray takes a small impact. The filled cavity is a hole: whole-glyph squash.
+   */
+  'tray-receive'(name, duration = '720ms', itemIndices = [1], trayIndices = [2]) {
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: Math.max(...itemIndices, ...trayIndices) }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-item {
+          0% { transform: translateY(-6px) scaleX(0.8); opacity: 0.4; }
+          18% { opacity: 1; }
+          52% { transform: translateY(1.2px) scaleX(1); opacity: 1; }
+          70% { transform: translateY(-0.4px) scaleX(1); }
+          100% { transform: translateY(0) scaleX(1); opacity: 1; }
+        }
+        @keyframes lmn-${name}-tray {
+          0%, 46% { transform: scaleY(1); }
+          58% { transform: scaleY(0.94); }
+          78% { transform: scaleY(1.01); }
+          100% { transform: scaleY(1); }
+        }${receiveSquashKeyframes(`lmn-${name}-squash`)}
+      `,
+      base: `
+        ${partRule('outline', trayIndices, 'transform-origin: bottom center;')}
+      `,
+      animate: `
+        ${partRule('outline', itemIndices, `animation: lmn-${name}-item ${duration} cubic-bezier(0.5, 0, 0.3, 1) both;`)}
+        ${partRule('outline', trayIndices, `animation: lmn-${name}-tray ${duration} ease-out both;`)}
+        .lmn-animate--filled svg { transform-origin: 50% 100%; animation: lmn-${name}-squash ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+      `,
+    };
+  },
+
+  /**
+   * Stacked trays assembling in order: the lower tray rises into place, then
+   * the upper tray is set down on it and the lower one takes the weight.
+   */
+  'tray-stack'(name, duration = '780ms', { outlineUpper = [2, 3, 4], outlineLower = [1, 5], filledUpper = [1], filledLower = [2], parts = 5 } = {}) {
+    const rules = (upper, lower, variant) => [
+      partRule(variant, upper, `animation: lmn-${name}-upper ${duration} cubic-bezier(0.4, 0, 0.2, 1) both;`),
+      partRule(variant, lower, `animation: lmn-${name}-lower ${duration} cubic-bezier(0.4, 0, 0.2, 1) both;`),
+    ].join('\n        ');
+    return {
+      pathLength: false,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-lower {
+          0% { transform: translateY(3px); opacity: 0.7; }
+          40%, 64% { transform: translateY(0); opacity: 1; }
+          76% { transform: translateY(0.8px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes lmn-${name}-upper {
+          0%, 22% { transform: translateY(-3.75px); opacity: 0.55; }
+          66% { transform: translateY(0.6px); opacity: 1; }
+          82% { transform: translateY(-0.2px); opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `,
+      base: '',
+      animate: `
+        ${rules(outlineUpper, outlineLower, 'outline')}
+        ${rules(filledUpper, filledLower, 'filled')}
+      `,
+    };
+  },
+
+  /**
+   * A clipboard doing its job. Every part is optional, so one recipe serves the
+   * clipboard family:
+   * - `clip` — the clip springs open, holds, and snaps shut (pivots on `clipOrigin`).
+   * - `sheet` — a document is slid under the open clip and pinned as it snaps.
+   * - `rows` — `[bullet, line]` pairs: each bullet pops and its line is written, in order.
+   * - `filledSheet` — filled tags that carry the document (placed like `sheet`).
+   * - `filledWhole` — filled clip is a hole: the whole board squashes instead.
+   */
+  'clipboard-secure'(name, duration = '860ms', {
+    clip = [], clipOrigin = '12px 5.25px', sheet = [], sheetOrigin = '9.75px 14.6px',
+    rows = [], filledSheet = [], filledWhole = false, parts = 3,
+  } = {}) {
+    const total = msOf(duration);
+    const rowDuration = Math.round(total * 0.55);
+    const rowRules = rows.flatMap(([bullet, line], k) => {
+      const delay = Math.round(k * total * 0.18);
+      return [
+        partRule('outline', [bullet], `animation: lmn-${name}-bullet ${rowDuration}ms cubic-bezier(0.3, 1.4, 0.5, 1) ${delay}ms both;`),
+        partRule('outline', [line], `stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-line ${rowDuration}ms cubic-bezier(0.4, 0, 0.2, 1) ${delay + 60}ms both;`),
+      ];
+    });
+    const sheetBlock = (variant, indices) => [
+      partRule(variant, indices, `transform-box: view-box; transform-origin: ${sheetOrigin};`),
+      partRule(variant, indices, `animation: lmn-${name}-sheet ${duration} cubic-bezier(0.4, 0, 0.2, 1) both;`),
+    ];
+    return {
+      pathLength: rows.length > 0,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-clip {
+          0%, 8% { transform: translateY(0) scale(1, 1); }
+          30%, 46% { transform: translateY(-0.75px) scale(1.16, 1.32); }
+          60% { transform: translateY(0.5px) scale(0.95, 0.78); }
+          78% { transform: translateY(0) scale(1.02, 1.06); }
+          100% { transform: translateY(0) scale(1, 1); }
+        }
+        @keyframes lmn-${name}-sheet {
+          0%, 10% { transform: translateY(-5px) rotate(-5deg); opacity: 0.5; }
+          52% { transform: translateY(0.6px) rotate(0deg); opacity: 1; }
+          64% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+        @keyframes lmn-${name}-bullet {
+          0% { transform: scale(0); }
+          60% { transform: scale(1.3); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-${name}-line {
+          0% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }${filledWhole ? receiveSquashKeyframes(`lmn-${name}-squash`) : ''}
+      `,
+      base: `
+        ${partRule('outline', clip, `transform-box: view-box; transform-origin: ${clipOrigin};`)}
+      `,
+      animate: [
+        partRule('outline', clip, `animation: lmn-${name}-clip ${duration} cubic-bezier(0.4, 0, 0.2, 1) both;`),
+        ...sheetBlock('outline', sheet),
+        ...sheetBlock('filled', filledSheet),
+        ...rowRules,
+        filledWhole ? `.lmn-animate--filled svg { transform-origin: 50% 100%; animation: lmn-${name}-squash ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }` : '',
+      ].filter(Boolean).join('\n        '),
+    };
+  },
+
+  /**
+   * A front page being laid out: the photo block is placed, then the columns
+   * are set line by line. The filled page carries its content as holes, so it
+   * is printed top → bottom instead — the holes appear in the same order.
+   */
+  'newspaper-layout'(name, duration = '900ms', { photo = [8], lines = [[1, 2], [3], [4]], parts = 8 } = {}) {
+    const total = msOf(duration);
+    const lineDuration = Math.round(total * 0.5);
+    const lineRules = lines.map((group, k) => partRule(
+      'outline',
+      group,
+      `stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-line ${lineDuration}ms cubic-bezier(0.4, 0, 0.2, 1) ${Math.round(total * (0.16 + k * 0.14))}ms both;`,
+    ));
+    return {
+      pathLength: true,
+      pathClasses: Array.from({ length: parts }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: true,
+      keyframes: `
+        @keyframes lmn-${name}-photo {
+          0% { transform: scale(0.3); }
+          60% { transform: scale(1.12); }
+          100% { transform: scale(1); }
+        }
+        @keyframes lmn-${name}-line {
+          0% { stroke-dashoffset: 1; }
+          100% { stroke-dashoffset: 0; }
+        }${printRevealKeyframes(`lmn-${name}-print`)}
+      `,
+      base: '',
+      animate: [
+        partRule('outline', photo, `animation: lmn-${name}-photo ${Math.round(total * 0.45)}ms cubic-bezier(0.3, 1.2, 0.5, 1) both;`),
+        ...lineRules,
+        `.lmn-animate--filled svg { animation: lmn-${name}-print ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }`,
+      ].join('\n        '),
+    };
+  },
+
+  /**
+   * A new page: the sheet is drawn, then its dog-ear folds down from the
+   * corner. The fold is a <polyline>, which neither the shared transform-box
+   * rule nor the shared reduced-motion block covers — both are set here.
+   */
+  'page-corner'(name, duration = '760ms', pageIndex = 1, foldIndex = 2, foldOrigin = '20px 2px') {
+    return {
+      pathLength: true,
+      pathClasses: Array.from({ length: Math.max(pageIndex, foldIndex) }, (_, i) => `lmn-path-${i + 1}`),
+      splitPaths: false,
+      keyframes: `
+        @keyframes lmn-${name}-page {
+          0% { stroke-dashoffset: 1; }
+          62%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes lmn-${name}-fold {
+          0%, 50% { transform: scale(0); }
+          80% { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }${printRevealKeyframes(`lmn-${name}-print`)}
+      `,
+      base: `
+        .lmn-animate svg .lmn-path-${foldIndex} { transform-box: view-box; transform-origin: ${foldOrigin}; }
+      `,
+      animate: `
+        .lmn-animate--outline svg .lmn-path-${pageIndex} { stroke-dasharray: 1; stroke-dashoffset: 0; animation: lmn-${name}-page ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .lmn-animate--outline svg .lmn-path-${foldIndex} { animation: lmn-${name}-fold ${duration} cubic-bezier(0.3, 1.2, 0.5, 1) both; }
+        .lmn-animate--filled svg { animation: lmn-${name}-print ${duration} cubic-bezier(0.4, 0, 0.2, 1) both; }
+        @media (prefers-reduced-motion: reduce) {
+          .lmn-animate svg polyline { animation: none !important; }
+        }
+      `,
+    };
+  },
 };
+
+/** Recipe names, for internal tooling (scripts/motion-inventory.mjs). */
+export const RECIPE_NAMES = Object.freeze(Object.keys(RECIPES));
 
 /**
  * Per-icon animation map.
@@ -4010,14 +4366,16 @@ export const ICON_ANIMATIONS = {
 
   // Content / files
   folder: { recipe: 'folder-lid', duration: '720ms' },
-  'folder-open': { recipe: 'folder-pop', duration: '450ms' },
-  'folder-plus': { recipe: 'folder-pop', duration: '450ms' },
-  'folder-minus': { recipe: 'folder-pop', duration: '450ms' },
-  'folder-arrow-down': { recipe: 'folder-pop', duration: '450ms' },
-  inbox: { recipe: 'folder-pop', duration: '450ms' },
-  'inbox-arrow-down': { recipe: 'folder-pop', duration: '450ms' },
-  'inbox-stack': { recipe: 'folder-pop', duration: '450ms' },
-  file: { recipe: 'file-appear', duration: '500ms' },
+  // Semantic motion batch 01 — see docs/specs/2026-11-04-semantic-motion-batch-01.md.
+  // Indices are split-subpath positions (outline) / tag positions (filled).
+  'folder-open': { recipe: 'folder-open-swing', duration: '700ms' },
+  'folder-plus': { recipe: 'folder-action', duration: '620ms', args: ['add', [1, 2], '12px 13.5px', 3] },
+  'folder-minus': { recipe: 'folder-action', duration: '620ms', args: ['remove', [1], '12px 13.5px', 2] },
+  'folder-arrow-down': { recipe: 'arrow-into-receiver', duration: '760ms', args: [[1, 2], [3], 4, [4], '-6px', [], true, { splitFilled: false, filledWhole: true }] },
+  inbox: { recipe: 'tray-receive', duration: '720ms', args: [[1], [2]] },
+  'inbox-arrow-down': { recipe: 'arrow-into-receiver', duration: '760ms', args: [[4, 5], [3], 5, [1, 2], '-5px', [2], true, { reverseShaft: false, splitFilled: false, filledReceiverIndices: [1] }] },
+  'inbox-stack': { recipe: 'tray-stack', duration: '780ms' },
+  file: { recipe: 'page-corner', duration: '760ms' },
   document: { recipe: 'document-draw', duration: '620ms' },
   'document-text': { recipe: 'document-draw', duration: '660ms' },
   'document-check': { recipe: 'document-draw', duration: '660ms' },
@@ -4029,11 +4387,11 @@ export const ICON_ANIMATIONS = {
   'archive-box': { recipe: 'archive-peek', duration: '650ms' },
   'archive-box-arrow-down': { recipe: 'archive-drop', duration: '750ms' },
   'archive-box-x-mark': { recipe: 'slash-strike', duration: '780ms' },
-  newspaper: { recipe: 'file-appear', duration: '500ms' },
+  newspaper: { recipe: 'newspaper-layout', duration: '900ms' },
   identification: { recipe: 'file-appear', duration: '500ms' },
-  clipboard: { recipe: 'file-appear', duration: '500ms' },
-  'clipboard-document': { recipe: 'file-appear', duration: '500ms' },
-  'clipboard-document-list': { recipe: 'file-appear', duration: '500ms' },
+  clipboard: { recipe: 'clipboard-secure', duration: '820ms', args: [{ clip: [1, 2], clipOrigin: '12px 5.25px', filledWhole: true, parts: 3 }] },
+  'clipboard-document': { recipe: 'clipboard-secure', duration: '900ms', args: [{ clip: [4, 5], clipOrigin: '14.25px 5.25px', sheet: [3, 6], sheetOrigin: '9.75px 14.6px', filledSheet: [2, 3], parts: 6 }] },
+  'clipboard-document-list': { recipe: 'clipboard-secure', duration: '900ms', args: [{ rows: [[9, 1], [10, 2], [11, 3]], filledSheet: [2], sheetOrigin: '9.75px 15px', parts: 11 }] },
   save: { recipe: 'file-appear', duration: '500ms' },
   printer: { recipe: 'file-appear', duration: '500ms' },
   calendar: { recipe: 'calendar-flip', duration: '500ms' },

@@ -7,7 +7,7 @@ export default defineConfig({
   },
   plugins: [angular({ tsconfig: "./tsconfig.json" })],
   test: {
-    include: ["src/**/*.spec.ts", "packages/**/*.spec.ts"],
+    include: ["src/**/*.spec.ts", "packages/**/*.spec.ts", "scripts/**/*.spec.ts"],
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
