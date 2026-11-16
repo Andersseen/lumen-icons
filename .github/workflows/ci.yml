@@ -67,7 +67,9 @@ jobs:
   e2e:
     name: E2E (Playwright)
     needs: [build]
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04, which Playwright 1.59 cannot install
+    # browsers on. Unpin when @playwright/test supports it.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
