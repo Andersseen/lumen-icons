@@ -1,6 +1,6 @@
 {
   "name": "lumen-icons",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Lumen icon components for Angular",
   "keywords": [
@@ -21,7 +21,7 @@
   "module": "dist/fesm2022/lumen-icons.mjs",
   "typings": "dist/types/lumen-icons.d.ts",
   "peerDependencies": {
-    "@angular/common": "^21.0.0",
-    "@angular/core": "^21.0.0"
+    "@angular/common": "^21.0.0 || ^22.0.0",
+    "@angular/core": "^21.0.0 || ^22.0.0"
   }
 }
