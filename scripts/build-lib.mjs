@@ -8,7 +8,7 @@ const iconsDir = join(root, 'packages/icons/src/icons');
 const distDir = join(root, 'packages/icons/dist');
 
 console.log('Building library with ng-packagr...');
-execSync('npx ng-packagr -p packages/icons/ng-package.json', { cwd: root, stdio: 'inherit' });
+execSync('npx ng-packagr -p packages/icons/ng-package.json -c packages/icons/tsconfig.lib.json', { cwd: root, stdio: 'inherit' });
 
 const icons = readdirSync(iconsDir)
   .filter(file => file.endsWith('.ts') && !file.endsWith('.spec.ts') && file !== 'index.ts')
