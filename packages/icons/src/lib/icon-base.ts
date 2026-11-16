@@ -2,10 +2,18 @@ import { computed, Directive, input } from '@angular/core';
 import type {
   LmnIconBackground,
   LmnIconInstance,
-  LmnIconSize,
   LmnIconTone,
   LmnIconVariant,
 } from '../types/icon.types';
+import {
+  LMN_DEFAULT_PADDING,
+  LMN_DEFAULT_SIZE,
+  LMN_DEFAULT_STROKE_WIDTH,
+  lmnIconPaddingAttribute,
+  lmnIconRadiusAttribute,
+  lmnIconSizeAttribute,
+  lmnIconStrokeWidthAttribute,
+} from './icon-inputs';
 
 const TONE_COLORS: Record<LmnIconTone, string | null> = {
   inherit: null,
@@ -61,8 +69,8 @@ const TONE_BACKGROUNDS: Record<LmnIconTone, string | null> = {
   },
 })
 export abstract class LmnIconBase implements LmnIconInstance {
-  readonly size = input<LmnIconSize>(24);
-  readonly strokeWidth = input<number>(2);
+  readonly size = input(LMN_DEFAULT_SIZE, { transform: lmnIconSizeAttribute });
+  readonly strokeWidth = input(LMN_DEFAULT_STROKE_WIDTH, { transform: lmnIconStrokeWidthAttribute });
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly animate = input<boolean>(false);
   readonly tone = input<LmnIconTone>('inherit');
@@ -71,8 +79,8 @@ export abstract class LmnIconBase implements LmnIconInstance {
   readonly background = input<LmnIconBackground>('none');
   readonly backgroundTone = input<LmnIconTone>('primary');
   readonly backgroundColor = input<string | undefined>(undefined);
-  readonly padding = input<number>(0);
-  readonly radius = input<number | string>('0.5rem');
+  readonly padding = input(LMN_DEFAULT_PADDING, { transform: lmnIconPaddingAttribute });
+  readonly radius = input<number | string, number | string>('0.5rem', { transform: lmnIconRadiusAttribute });
 
   readonly filledClass = computed(() => this.variant() === 'filled');
   readonly hasBackgroundClass = computed(() => this.background() !== 'none');
