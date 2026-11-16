@@ -12,7 +12,7 @@
 <br/>
 
 [![npm version](https://img.shields.io/npm/v/lumen-icons?style=for-the-badge&color=cb3837&logo=npm&logoColor=white)](https://www.npmjs.com/package/lumen-icons)
-[![Angular 21](https://img.shields.io/badge/Angular-21+-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
+[![Angular 21 | 22](https://img.shields.io/badge/Angular-21%20%7C%2022-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
 [![362 icons](https://img.shields.io/badge/362-icons-8B5CF6?style=for-the-badge)](https://lumen-icons.andersseen.dev/icons)
 [![MIT](https://img.shields.io/badge/License-MIT-FDCB6E?style=for-the-badge)](LICENSE)
 
@@ -147,8 +147,8 @@ Every icon accepts the same twelve optional inputs — all signal-based (`input(
 
 | Input | Type | Default | What it does |
 |---|---|---|---|
-| `size` | `12 \| 14 \| 16 \| 20 \| 24 \| 32` | `24` | Width and height in px |
-| `strokeWidth` | `number` | `2` | Outline thickness |
+| `size` | `12 \| 14 \| 16 \| 20 \| 24 \| 32` | `24` | Width and height in px; `size="14"` works as well as `[size]="14"` |
+| `strokeWidth` | `number` | `2` | Outline thickness; static `strokeWidth="1.5"` works too |
 | `ariaLabel` | `string` | — | Sets `role="img"` + the accessible name. Omit it and the icon is `aria-hidden` |
 | `variant` | `'outline' \| 'filled'` | `'outline'` | Outline or solid rendering |
 | `animate` | `boolean` | `false` | Runs the icon's CSS animation once |
@@ -158,7 +158,7 @@ Every icon accepts the same twelve optional inputs — all signal-based (`input(
 | `backgroundTone` | `LmnIconTone` | `'primary'` | Tone of that frame |
 | `backgroundColor` | `string` | — | Any CSS colour for the frame |
 | `padding` | `number` | `0` | Padding inside the frame, px |
-| `radius` | `number \| string` | `'0.5rem'` | Frame corner radius (`'50%'` for a circle) |
+| `radius` | `number \| string` | `'0.5rem'` | Frame corner radius (`'50%'` for a circle; `radius="12"` means 12px) |
 
 ```html
 <!-- Decorative: hidden from screen readers automatically -->
@@ -177,6 +177,67 @@ Every icon accepts the same twelve optional inputs — all signal-based (`input(
   ariaLabel="Notifications"
 />
 ```
+
+#### Static attributes
+
+Numeric inputs accept a static attribute as well as a binding, so both compile under `strictTemplates`:
+
+```html
+<lmn-check size="14" />          <!-- same as [size]="14" -->
+<lmn-check strokeWidth="1.5" />  <!-- same as [strokeWidth]="1.5" -->
+```
+
+`size` must be one of `12 | 14 | 16 | 20 | 24 | 32`. A size outside that scale (`size="15"`) is a compile error under `strictTemplates`. If a bad value still reaches the icon at runtime, it renders at `24` and logs a warning in dev mode. Invalid `strokeWidth` and `padding` values fall back to their defaults the same way.
+
+#### Icons inside buttons: decorative vs meaningful
+
+When the button already has a text label, the icon is **decorative**. Leave out `ariaLabel` and the icon stays `aria-hidden`, so screen readers announce "Save" once:
+
+```html
+<button type="button">
+  <lmn-check size="16" />
+  Save
+</button>
+```
+
+When the icon **is** the label (an icon-only button), name the button itself. The icon stays decorative:
+
+```html
+<button type="button" aria-label="Delete">
+  <lmn-trash size="16" />
+</button>
+```
+
+Use `ariaLabel` only when the icon carries meaning on its own and no surrounding text says the same thing, like a status icon in a table cell:
+
+```html
+<td><lmn-check-circle tone="success" ariaLabel="Paid" /></td>
+```
+
+#### State with `variant`: filled vs outline
+
+`variant` makes a good on/off switch for state. For example, stars for rounds won:
+
+```ts
+@Component({
+  selector: 'app-rounds',
+  imports: [LmnStarIcon],
+  template: `
+    <span role="img" [attr.aria-label]="won() + ' of ' + total() + ' rounds won'">
+      @for (round of rounds(); track round) {
+        <lmn-star size="20" [variant]="round <= won() ? 'filled' : 'outline'" />
+      }
+    </span>
+  `,
+})
+export class RoundsComponent {
+  readonly won = input.required<number>();
+  readonly total = input(3);
+  readonly rounds = computed(() => Array.from({ length: this.total() }, (_, i) => i + 1));
+}
+```
+
+Each star is decorative. The group carries one accessible name ("2 of 3 rounds won"), so screen readers don't read out a row of unlabelled stars.
 
 <sub>♿ <b>Accessibility is not opt-in.</b> An icon without <code>ariaLabel</code> is decorative and gets <code>aria-hidden="true"</code>; with one, it gets <code>role="img"</code> and an accessible name. There is no way to accidentally ship an unlabelled, screen-reader-visible icon.</sub>
 
