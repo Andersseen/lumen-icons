@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-16
+
+### Library API
+
+#### Added
+
+- Numeric inputs accept static attributes. `<lmn-check size="14" />` used to fail
+  under `strictTemplates` (`Type '"14"' is not assignable to type 'LmnIconSize'`)
+  and forced `[size]="14"`. `size` now takes `LmnIconSize | \`${LmnIconSize}\``
+  (new `LmnIconSizeInput` type); `strokeWidth` and `padding` take
+  `number | \`${number}\`` (new `LmnIconNumberInput`). The input transforms live
+  in `LmnIconBase`, so every icon gets them. Out-of-scale sizes (`size="15"`) are
+  still a compile error. A bad value that reaches an icon at runtime falls back
+  to the default (`24` / `2` / `0`) and logs a warning in dev mode only.
+- `pnpm run typecheck` now compiles template fixtures with `ngc` +
+  `strictTemplates` (`scripts/check-template-types.mjs`). Before, `tsc` never saw
+  icon templates, which is how the `size="14"` bug got through.
+- README: decorative vs meaningful icons inside buttons, and `variant`
+  filled/outline for state (stars for rounds won).
+
+#### Changed
+
+- Peer dependencies widened to `@angular/core` / `@angular/common`
+  `^21.0.0 || ^22.0.0`. Verified by AOT-compiling a consumer against Angular
+  22.2.6 with `strictTemplates` and `skipLibCheck: false`.
+- `radius="12"` now means 12px. Before, the string reached CSS as the invalid,
+  unitless `border-radius: 12`. CSS lengths (`'50%'`, `'0.5rem'`) are unchanged.
+- `LmnIconInstance.size`, `.strokeWidth`, `.padding` and `.radius` are typed as
+  `InputSignalWithTransform`. Their read type (`size()` etc.) is unchanged.
+
+#### Fixed
+
+- The published declarations typed `ariaLabel`, `color` and `backgroundColor` as
+  `InputSignal<string>`, dropping `| undefined`: ng-packagr ran with its default,
+  non-strict tsconfig. So `[ariaLabel]="label"` with `label: string | undefined`
+  failed under `strictTemplates`, and consumers with `skipLibCheck: false` got
+  TS2416 errors inside `lumen-icons.d.ts`. The library now builds with
+  `packages/icons/tsconfig.lib.json`.
+
 ### Icons
 
 #### Added
@@ -120,9 +159,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   catalog and docs pages.
 
 
-## [Unreleased]
+### Earlier changes since 0.2.0
 
-### Added
+#### Added
 
 - **Rest-state corrections**: tool and key motions now turn briefly and return to their original orientation; bolt thickness pulses on its path and settles at normal width; trash isolates its top rim while the discard artifact is transient.
 - **Composed semantic motion**: chart bars now grow independently; stacks assemble layer by layer; X symbols unfold from pause-like strokes; bolts pulse their width; rockets launch then return as a fade; and Wi‑Fi/RSS emit two staggered pulses.
@@ -138,7 +177,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **34 new semantic animation recipes** in `scripts/animations.mjs` (e.g. `blink`, `chevron-cascade`, `trend-draw`, `door-enter`/`door-exit`, `stack-rise`, `cell-pop`, `screen-on`, `bubble-pop`, `cap-toss-fade`, `tag-swing`, `receipt-print`, `grin`, `crawl`), all pure CSS, single-run with `both` fill and reduced-motion safe. See `docs/specs/2026-08-17-semantic-animation-remap.md`.
 - **Root `LICENSE`** (MIT) so GitHub and npm both detect the license correctly.
 
-### Changed
+#### Changed
 
 - **Official homepage refresh**: rebuilt the public landing page into a responsive product experience with a live Lumen icon canvas, clear library metrics, technical capability cards and a three-step quickstart. The page uses Lumen icons rather than stock image assets and has dedicated Playwright coverage for its main browse flow.
 
@@ -149,7 +188,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **~90 icons remapped to semantic animations** (spec `2026-08-17-semantic-animation-remap`): the generic `pulse-scale` went from 75 icons to just 1 (`github`, brand logo). Eyes blink, double chevrons cascade, trending arrows draw themselves, login/logout icons enter/exit, stacks rise, grids pop cell by cell, screens power on, chat bubbles pop from their tail. No SVG or public API changes.
 
-### Fixed
+#### Fixed
 
 - **Narrow catalog overflow** — `/icons` now starts with one column below 420 px, its flex/grid children can shrink, and the compact header hides non-essential chrome. All card copy actions remain reachable at 320 px; a Playwright regression test covers it.
 - **Broken split-path icon geometry** — implicit relative line segments following a converted `m` command now remain relative, preventing malformed arrow strokes in the new per-part archive/download animations.
@@ -160,7 +199,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`SECURITY.md`** and structured issue templates (bug report, icon request, feature request).
 - **Screenshots** of the demo site in `docs/assets/`, used by the rewritten README.
 
-### Changed
+#### Changed
 
 - **Heroicons SVG sources are now vendored** in `packages/icons/svg/` (v2.2.0, MIT) instead of being read from `node_modules/heroicons` at generation time. The `heroicons` npm dependency is gone — the generator runs fully offline and upstream upgrades can no longer silently mutate the icon set.
 - **The demo app is now explicitly zoneless** (`provideZonelessChangeDetection`) and so is the unit-test environment — the `zone.js` dependency was removed entirely.
@@ -168,7 +207,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CI/CD consolidated into a single pipeline** (`.github/workflows/ci.yml`, replacing `ci-cd.yml`). The site is now built **once** and the same artifact is what E2E runs against and what gets deployed — down from 6 dependency installs and 3 builds to 3 installs and 1 build. Cloudflare Pages is the only deployment path; the manual `deploy:preview` / `deploy:prod` scripts were removed so no deploy can bypass the quality gates.
 - **Demo site version is no longer hardcoded** in two places — the header badge and hero badge both read `LIBRARY_VERSION` from `src/app/data/site-meta.ts` (they were still showing `v0.1` at 0.2.0).
 
-### Fixed
+#### Fixed
 
 - **Invisible selected states** in the catalog: the size picker rendered white-on-white when selected in light mode, and the animate toggle rendered purple-on-purple. Both now follow the repo's `border-primary bg-primary text-primary-foreground` convention.
 - **Overlapping action buttons** on icon cards — the `Import` / `HTML` / `Code` row now shrinks correctly instead of spilling out of its grid cells.

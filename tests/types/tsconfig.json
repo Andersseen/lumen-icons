@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../",
+    "noEmit": true,
+    "types": []
+  },
+  "files": ["./template-inputs.valid.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
+  }
+}

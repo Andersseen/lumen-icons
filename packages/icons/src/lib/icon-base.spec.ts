@@ -1,5 +1,5 @@
 import { render } from "@testing-library/angular";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { LmnCheckIcon } from "../icons/check";
 
 describe("LmnIconBase host bindings", () => {
@@ -65,5 +65,40 @@ describe("LmnIconBase host bindings", () => {
     expect(fixture.componentInstance.hostBackgroundStyle()).toBe("color-mix(in oklab, var(--primary, currentColor) 18%, transparent)");
     expect(host.style.padding).toBe("8px");
     expect(host.style.borderRadius).toBe("10px");
+  });
+
+  it("accepts numeric inputs as static attributes", async () => {
+    const { container } = await render(
+      `<lmn-check size="14" strokeWidth="1.5" background="soft" padding="8" radius="12" />`,
+      { imports: [LmnCheckIcon] },
+    );
+    const host = container.querySelector("lmn-check") as HTMLElement;
+    const svg = host.querySelector("svg") as SVGElement;
+    expect(svg).toHaveAttribute("width", "14");
+    expect(svg).toHaveAttribute("height", "14");
+    expect(svg).toHaveAttribute("stroke-width", "1.5");
+    expect(host.style.padding).toBe("8px");
+    expect(host.style.borderRadius).toBe("12px");
+  });
+
+  it("accepts numeric inputs as property bindings", async () => {
+    const { container } = await render(`<lmn-check [size]="14" [strokeWidth]="1.5" />`, {
+      imports: [LmnCheckIcon],
+    });
+    const svg = container.querySelector("lmn-check svg") as SVGElement;
+    expect(svg).toHaveAttribute("width", "14");
+    expect(svg).toHaveAttribute("stroke-width", "1.5");
+  });
+
+  it("falls back to size 24 and warns in dev mode for an invalid size", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    try {
+      const { container } = await render(`<lmn-check size="15" />`, { imports: [LmnCheckIcon] });
+      const svg = container.querySelector("lmn-check svg") as SVGElement;
+      expect(svg).toHaveAttribute("width", "24");
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("Invalid `size` value \"15\""));
+    } finally {
+      warn.mockRestore();
+    }
   });
 });
