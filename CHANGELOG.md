@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-17
+
+### Changed
+
+- The repo now develops, tests and builds on Angular 22 (`@angular/*` 22.2,
+  ng-packagr 22, angular-eslint 22, AnalogJS 2.9, TypeScript 6.0), so CI checks
+  the library against Angular 22 instead of trusting the peer range. The
+  published bundle still declares `minVersion` ≤ 17.1 in its partial
+  declarations, so Angular 21 consumers keep linking it. Peer range unchanged:
+  `^21.0.0 || ^22.0.0`.
+- tsconfig: dropped `baseUrl` and `downlevelIteration` (deprecated in TS 6);
+  path aliases are now `./`-relative and the type fixtures set `rootDir`.
+
 ## [0.3.0] - 2026-11-16
 
 ### Library API

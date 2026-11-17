@@ -2,11 +2,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
-      "lumen-icons": ["packages/icons/src/index.ts"],
-      "lumen-icons/icons": ["packages/icons/src/icons/index.ts"],
-      "lumen-icons/*": ["packages/icons/src/icons/*"]
+      "lumen-icons": ["./packages/icons/src/index.ts"],
+      "lumen-icons/icons": ["./packages/icons/src/icons/index.ts"],
+      "lumen-icons/*": ["./packages/icons/src/icons/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -17,7 +16,6 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "isolatedModules": true,

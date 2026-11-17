@@ -33,7 +33,7 @@
 
 | Half | Path | Published? | Stack | Purpose |
 |---|---|---|---|---|
-| **Library** | `packages/icons/` | ✅ npm as `lumen-icons` | Angular 21, ng-packagr (APF) | The product. Zero deps beyond Angular peers. |
+| **Library** | `packages/icons/` | ✅ npm as `lumen-icons` | Angular 21 / 22 (built on 22), ng-packagr (APF) | The product. Zero deps beyond Angular peers. |
 | **Demo/docs app** | `src/` | ❌ deployed to Cloudflare Pages | AnalogJS, Tailwind v4, @voltui/components | Showcase, docs, catalog, and dogfooding ground. |
 
 Rules differ per half: the app may use Tailwind and volt-ui freely; the library may use **nothing** but Angular. Never let an app-side convenience leak into `packages/icons/`.
