@@ -284,7 +284,7 @@ lumen-icons/
 
 | | |
 |---|---|
-| **Library** | Angular 21 · standalone · signals · OnPush · ng-packagr (APF) |
+| **Library** | Angular 21 / 22 · standalone · signals · OnPush · ng-packagr (APF) |
 | **Site** | AnalogJS 2 · Vite 8 · Tailwind v4 · `@voltui/components` |
 | **Tests** | Vitest 4 + Testing Library (unit) · Playwright (e2e) |
 | **Quality** | ESLint · TypeScript strict · publint · commitlint + husky |

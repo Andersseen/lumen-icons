@@ -43,7 +43,7 @@ try {
     JSON.stringify({
       ...config,
       extends: '../../../tsconfig.json',
-      compilerOptions: { ...config.compilerOptions, baseUrl: '../../../' },
+      compilerOptions: { ...config.compilerOptions, rootDir: '../../../' },
       files: ['../template-inputs.invalid.ts'],
     }),
   );
