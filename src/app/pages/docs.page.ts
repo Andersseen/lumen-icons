@@ -7,6 +7,7 @@ import { DocsApiTableComponent } from "../components/docs/docs-api-table";
 import { DocsAnimationsComponent } from "../components/docs/docs-animations";
 import { DocsIconTableComponent } from "../components/docs/docs-icon-table";
 import { DocsInstallationComponent } from "../components/docs/docs-installation";
+import { DocsToneContrastComponent } from "../components/docs/docs-tone-contrast";
 import { DocsTocComponent } from "../components/docs/docs-toc";
 import { DocsUsageComponent } from "../components/docs/docs-usage";
 
@@ -21,6 +22,7 @@ import { DocsUsageComponent } from "../components/docs/docs-usage";
     DocsAccessibilityComponent,
     DocsApiTableComponent,
     DocsIconTableComponent,
+    DocsToneContrastComponent,
     VoltTabs,
     VoltTabsList,
     VoltTabsTrigger,

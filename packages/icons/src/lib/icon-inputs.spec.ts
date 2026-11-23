@@ -16,14 +16,24 @@ describe("icon input transforms", () => {
     }
   });
 
-  it("falls back to 24 and warns in dev mode for a size outside the scale", () => {
+  it("accepts sizes off the recommended scale", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    expect(lmnIconSizeAttribute("15" as never)).toBe(24);
-    expect(lmnIconSizeAttribute(18 as never)).toBe(24);
+    expect(lmnIconSizeAttribute(40)).toBe(40);
+    expect(lmnIconSizeAttribute("40")).toBe(40);
+    expect(lmnIconSizeAttribute(18)).toBe(18);
+    expect(lmnIconSizeAttribute("15.5")).toBe(15.5);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("falls back to 24 and warns in dev mode for a non-positive or non-numeric size", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    expect(lmnIconSizeAttribute("large" as never)).toBe(24);
+    expect(lmnIconSizeAttribute(0)).toBe(24);
+    expect(lmnIconSizeAttribute(-8)).toBe(24);
     expect(lmnIconSizeAttribute("" as never)).toBe(24);
     expect(lmnIconSizeAttribute(undefined as never)).toBe(24);
-    expect(warn).toHaveBeenCalledTimes(4);
-    expect(warn.mock.calls[0]?.[0]).toContain("Invalid `size` value \"15\"");
+    expect(warn).toHaveBeenCalledTimes(5);
+    expect(warn.mock.calls[0]?.[0]).toContain("Invalid `size` value \"large\"");
   });
 
   it("does not warn in production mode", () => {
@@ -31,7 +41,7 @@ describe("icon input transforms", () => {
     const previous = globalThis.ngDevMode;
     globalThis.ngDevMode = false;
     try {
-      expect(lmnIconSizeAttribute("15" as never)).toBe(24);
+      expect(lmnIconSizeAttribute("large" as never)).toBe(24);
     } finally {
       globalThis.ngDevMode = previous;
     }

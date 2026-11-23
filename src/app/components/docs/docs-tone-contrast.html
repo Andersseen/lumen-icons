@@ -1,0 +1,58 @@
+<div class="mt-6">
+  <p class="text-secondary-foreground">
+    Contrast of the icon against what sits behind it, for each <code class="rounded bg-secondary px-1">tone</code>
+    (with <code class="rounded bg-secondary px-1">background="none"</code>) or
+    <code class="rounded bg-secondary px-1">backgroundTone</code> (with <code class="rounded bg-secondary px-1">soft</code> /
+    <code class="rounded bg-secondary px-1">solid</code>, using the same tone for both). Icons are graphics, so WCAG asks for
+    <strong>3:1</strong>; aim for <strong>4.5:1</strong> when the icon stands in for text.
+  </p>
+  <p class="mt-2 text-sm text-muted-foreground">
+    Tones are CSS variables: these numbers are for this site's theme. Run
+    <code class="rounded bg-secondary px-1">node scripts/tone-contrast.mjs --css your-theme.css</code> from a clone of the repo to measure yours.
+  </p>
+
+  <volt-card class="mt-5 block overflow-x-auto">
+    <table class="w-full text-sm">
+      <caption class="sr-only">WCAG contrast ratio per tone and background, light and dark themes</caption>
+      <thead>
+        <tr class="border-b border-border bg-muted dark:bg-card">
+          <th scope="col" class="px-4 py-3 text-left font-semibold text-foreground">Tone</th>
+          @for (column of columns; track column) {
+            <th scope="col" class="px-4 py-3 text-left font-semibold text-foreground">{{ column }} · light</th>
+            <th scope="col" class="px-4 py-3 text-left font-semibold text-foreground">{{ column }} · dark</th>
+          }
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border">
+        @for (row of rows; track row.tone) {
+          <tr class="bg-background">
+            <th scope="row" class="px-4 py-3 text-left font-mono text-xs font-normal">{{ row.tone }}</th>
+            @for (column of columns; track column) {
+              @for (ratio of row[column]; track $index) {
+                <td class="px-4 py-3 font-mono text-xs" [class.text-muted-foreground]="ratio >= 3">
+                  {{ ratio.toFixed(1) }}
+                  <span [class.font-semibold]="ratio < 3" [class.text-destructive]="ratio < 3">
+                    {{ verdict(ratio) }}
+                  </span>
+                </td>
+              }
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </volt-card>
+
+  <ul class="mt-4 list-disc space-y-1 pl-5 text-sm text-secondary-foreground">
+    <li>
+      <code class="rounded bg-secondary px-1">accent</code> is a hover surface, not an ink colour: use it only as
+      <code class="rounded bg-secondary px-1">backgroundTone</code> with <code class="rounded bg-secondary px-1">solid</code>.
+    </li>
+    <li>
+      In light mode, <code class="rounded bg-secondary px-1">success</code> and <code class="rounded bg-secondary px-1">warning</code>
+      are too light for a white page and carry white on top when solid. Prefer
+      <code class="rounded bg-secondary px-1">foreground</code>, or darken those tokens in your theme.
+    </li>
+    <li>Dark mode passes 3:1 everywhere except <code class="rounded bg-secondary px-1">accent</code> as an icon colour.</li>
+  </ul>
+</div>

@@ -1,8 +1,21 @@
 import type { InputSignal, InputSignalWithTransform } from '@angular/core';
 
+/**
+ * The recommended size scale, in px. Icons are drawn on a 24 px grid and look
+ * crispest on these steps, but `size` accepts any positive number.
+ */
 export type LmnIconSize = 12 | 14 | 16 | 20 | 24 | 32;
-/** What the `size` input accepts: `[size]="14"` or the static attribute `size="14"`. */
-export type LmnIconSizeInput = LmnIconSize | `${LmnIconSize}`;
+/**
+ * What the `size` input accepts: any positive number of px, bound
+ * (`[size]="40"`) or as a static attribute (`size="40"`). The recommended
+ * {@link LmnIconSize} steps stay in editor autocompletion.
+ */
+export type LmnIconSizeInput =
+  | LmnIconSize
+  | `${LmnIconSize}`
+  // `& {}` keeps the literal steps in autocompletion instead of widening them away.
+  | (number & {})
+  | (`${number}` & {});
 /** What `strokeWidth` and `padding` accept: `[padding]="8"` or `padding="8"`. */
 export type LmnIconNumberInput = number | `${number}`;
 export type LmnIconVariant = 'outline' | 'filled';
@@ -20,7 +33,8 @@ export type LmnIconTone =
   | 'destructive';
 
 export interface LmnIconProps {
-  size?: LmnIconSize;
+  /** Any positive number of px; {@link LmnIconSize} lists the recommended steps. */
+  size?: number;
   strokeWidth?: number;
   ariaLabel?: string;
   animate?: boolean;
@@ -35,7 +49,7 @@ export interface LmnIconProps {
 }
 
 export interface LmnIconInstance {
-  readonly size: InputSignalWithTransform<LmnIconSize, LmnIconSizeInput>;
+  readonly size: InputSignalWithTransform<number, LmnIconSizeInput>;
   readonly strokeWidth: InputSignalWithTransform<number, LmnIconNumberInput>;
   readonly ariaLabel: InputSignal<string | undefined>;
   readonly animate: InputSignal<boolean>;
@@ -48,3 +62,20 @@ export interface LmnIconInstance {
   readonly padding: InputSignalWithTransform<number, LmnIconNumberInput>;
   readonly radius: InputSignalWithTransform<number | string, number | string>;
 }
+
+/**
+ * Every icon input, typed as what it accepts when set — the object to hand
+ * `NgComponentOutlet` (or `ComponentRef.setInput`) when icons come from data:
+ *
+ * ```ts
+ * readonly inputs: LmnIconInputs = { size: 40, background: 'soft', tone: 'primary', radius: '50%' };
+ * ```
+ * ```html
+ * <ng-container *ngComponentOutlet="icon; inputs: inputs" />
+ * ```
+ */
+export type LmnIconInputs = {
+  -readonly [K in keyof LmnIconInstance]?: LmnIconInstance[K] extends InputSignalWithTransform<infer _Value, infer W>
+    ? W
+    : never;
+};

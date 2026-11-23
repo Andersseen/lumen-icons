@@ -9,6 +9,7 @@ import type { LmnIconNumberInput, LmnIconSize, LmnIconSizeInput } from '../types
  * logs a warning. Pure functions — no module-level side effects.
  */
 
+/** The recommended size steps. `size` accepts any positive number. */
 export const LMN_ICON_SIZES: readonly LmnIconSize[] = [12, 14, 16, 20, 24, 32];
 
 export const LMN_DEFAULT_SIZE: LmnIconSize = 24;
@@ -32,11 +33,14 @@ function toNumber(value: unknown): number {
   return Number.NaN;
 }
 
-/** `size`: one of {@link LMN_ICON_SIZES}, as a number or numeric string. */
-export function lmnIconSizeAttribute(value: LmnIconSizeInput): LmnIconSize {
+/**
+ * `size`: any positive number of px, as a number or numeric string.
+ * {@link LMN_ICON_SIZES} are the recommended steps, not a limit.
+ */
+export function lmnIconSizeAttribute(value: LmnIconSizeInput): number {
   const size = toNumber(value);
-  if ((LMN_ICON_SIZES as readonly number[]).includes(size)) return size as LmnIconSize;
-  warnInvalid('size', value, LMN_DEFAULT_SIZE, `one of ${LMN_ICON_SIZES.join(', ')}`);
+  if (Number.isFinite(size) && size > 0) return size;
+  warnInvalid('size', value, LMN_DEFAULT_SIZE, 'a positive number');
   return LMN_DEFAULT_SIZE;
 }
 

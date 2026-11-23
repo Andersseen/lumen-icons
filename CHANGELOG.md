@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-23
+
+### Library API
+
+#### Added
+
+- `LmnIconInputs`: every icon input typed as what it accepts when set, for
+  `NgComponentOutlet` (`*ngComponentOutlet="icon; inputs: inputs"`) or
+  `ComponentRef.setInput`. Rendering icons from data no longer needs a
+  hand-written `{ size, background, tone, … } as const`.
+
+#### Changed
+
+- `size` accepts any positive number of px (`size="40"`, `[size]="40"`).
+  `12 | 14 | 16 | 20 | 24 | 32` stay as the recommended steps: `LmnIconSize` and
+  `LMN_ICON_SIZES` keep listing them and editors still suggest them.
+  `LmnIconSizeInput` is widened accordingly; `size()`, `LmnIconInstance.size` and
+  `LmnIconProps.size` are now `number`. Code that assigned `icon.size()` to an
+  `LmnIconSize` must widen that variable. A non-numeric size (`size="large"`) is
+  still a compile error; a non-positive or non-numeric value at runtime still
+  falls back to `24` with a dev-mode warning.
+
+### Documentation
+
+- README and docs site: tone × background contrast table for the light and dark
+  themes (new "Tones & contrast" reference tab), with guidance on `accent` and
+  the light-mode `success` / `warning` tokens. `pnpm run docs:tone-contrast`
+  (`scripts/tone-contrast.mjs --css <file>`) measures any oklch theme.
+- README: icons from data with `NgComponentOutlet`, sizing an icon from CSS.
+
 ## [0.3.1] - 2026-11-17
 
 ### Changed

@@ -40,3 +40,14 @@ test("the icon table is only built when its tab is opened", async ({ page }) => 
 
   await expect(copyButton.getByText("✓")).toBeVisible();
 });
+
+test("the tones tab shows contrast per tone and theme", async ({ page }) => {
+  await page.goto("/docs");
+
+  await page.getByRole("tab", { name: "Tones & contrast" }).click();
+
+  const table = page.getByRole("table", { name: /contrast ratio per tone/i });
+  await expect(table).toBeVisible();
+  await expect(table.getByRole("rowheader", { name: "primary" })).toBeVisible();
+  await expect(table.getByRole("columnheader", { name: "solid · dark" })).toBeVisible();
+});

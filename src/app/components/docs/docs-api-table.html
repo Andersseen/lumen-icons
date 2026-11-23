@@ -15,9 +15,9 @@
           <tbody class="divide-y divide-border">
             <tr class="bg-background">
               <td class="px-4 py-3 font-mono text-xs">size</td>
-              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">12|14|16|20|24|32</td>
+              <td class="px-4 py-3 font-mono text-xs text-muted-foreground">number</td>
               <td class="px-4 py-3 font-mono text-xs text-muted-foreground">24</td>
-              <td class="px-4 py-3 text-secondary-foreground">Width and height in px</td>
+              <td class="px-4 py-3 text-secondary-foreground">Width and height in px. Any positive number; 12, 14, 16, 20, 24 and 32 are the recommended steps</td>
             </tr>
             <tr class="bg-background">
               <td class="px-4 py-3 font-mono text-xs">strokeWidth</td>
@@ -90,4 +90,10 @@
           </tbody>
         </table>
       </volt-card>
+
+      <p class="mt-5 text-secondary-foreground">
+        Rendering icons from data with <code class="rounded bg-secondary px-1">NgComponentOutlet</code>?
+        Type the inputs object with <code class="rounded bg-secondary px-1">LmnIconInputs</code>:
+      </p>
+      <app-docs-code-block class="mt-3 block" [code]="outletSnippet" label="icons-from-data.ts" copyKey="outlet" />
     </section>

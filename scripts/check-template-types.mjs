@@ -5,7 +5,7 @@
  * `tsc` does not see Angular templates, so this compiles two fixtures with
  * `ngc` + `strictTemplates`:
  *   - tests/types/template-inputs.valid.ts   must compile cleanly
- *   - tests/types/template-inputs.invalid.ts must fail on `size="15"`
+ *   - tests/types/template-inputs.invalid.ts must fail on `size="large"`
  */
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -48,14 +48,14 @@ try {
     }),
   );
   const invalid = compile(invalidConfig);
-  if (!invalid.ok && /Type '"15"' is not assignable to type 'LmnIconSizeInput'/.test(invalid.output)) {
-    console.log('✓ size="15" is rejected with an LmnIconSizeInput error');
+  if (!invalid.ok && /Type '"large"' is not assignable to type 'LmnIconSizeInput'/.test(invalid.output)) {
+    console.log('✓ size="large" is rejected with an LmnIconSizeInput error');
   } else {
     failed = true;
     console.error(
       invalid.ok
-        ? '✗ size="15" compiled, but it must be rejected'
-        : '✗ size="15" failed with an unexpected diagnostic:\n' + invalid.output,
+        ? '✗ size="large" compiled, but it must be rejected'
+        : '✗ size="large" failed with an unexpected diagnostic:\n' + invalid.output,
     );
   }
 } finally {
