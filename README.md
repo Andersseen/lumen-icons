@@ -97,12 +97,12 @@ export class SaveButtonComponent {}
 |---|---|---|
 | `lumen-icons/check` | one icon | **Always prefer this** — best tree-shaking |
 | `lumen-icons/icons` | barrel of every icon | Prototyping, or a dynamic icon picker |
-| `lumen-icons` | types + every icon | You need `LmnIconSize`, `LmnIconVariant`, … |
+| `lumen-icons` | types + every icon | You need `LmnIconInputs`, `LmnIconVariant`, … |
 
 ```ts
 import { LmnCheckIcon } from 'lumen-icons/check';      // ✅ preferred
 import { LmnCheckIcon } from 'lumen-icons/icons';      // ⚠️ barrel
-import type { LmnIconSize } from 'lumen-icons';        // types
+import type { LmnIconInputs } from 'lumen-icons';      // types
 ```
 
 </details>
@@ -147,7 +147,7 @@ Every icon accepts the same twelve optional inputs — all signal-based (`input(
 
 | Input | Type | Default | What it does |
 |---|---|---|---|
-| `size` | `12 \| 14 \| 16 \| 20 \| 24 \| 32` | `24` | Width and height in px; `size="14"` works as well as `[size]="14"` |
+| `size` | `number` | `24` | Width and height in px. Any positive number; `12 \| 14 \| 16 \| 20 \| 24 \| 32` are the recommended steps. `size="40"` works as well as `[size]="40"` |
 | `strokeWidth` | `number` | `2` | Outline thickness; static `strokeWidth="1.5"` works too |
 | `ariaLabel` | `string` | — | Sets `role="img"` + the accessible name. Omit it and the icon is `aria-hidden` |
 | `variant` | `'outline' \| 'filled'` | `'outline'` | Outline or solid rendering |
@@ -187,7 +187,53 @@ Numeric inputs accept a static attribute as well as a binding, so both compile u
 <lmn-check strokeWidth="1.5" />  <!-- same as [strokeWidth]="1.5" -->
 ```
 
-`size` must be one of `12 | 14 | 16 | 20 | 24 | 32`. A size outside that scale (`size="15"`) is a compile error under `strictTemplates`. If a bad value still reaches the icon at runtime, it renders at `24` and logs a warning in dev mode. Invalid `strokeWidth` and `padding` values fall back to their defaults the same way.
+`size` takes any positive number of px — `size="40"` for a hero or 404 illustration is fine. The icons are drawn on a 24 px grid, so `12 | 14 | 16 | 20 | 24 | 32` (the `LmnIconSize` type) are the steps that render crispest, and your editor still suggests them. A non-numeric size (`size="large"`) is a compile error under `strictTemplates`; if a bad or non-positive value still reaches the icon at runtime, it renders at `24` and logs a warning in dev mode. Invalid `strokeWidth` and `padding` values fall back to their defaults the same way.
+
+To size an icon from CSS instead (e.g. `1em` to follow the font size), style the inner `svg`: `lmn-check svg { width: 1em; height: 1em; }`.
+
+#### Icons from data (`NgComponentOutlet`)
+
+`LmnIconInputs` types every input as it is set, so an inputs object needs no hand-written type:
+
+```ts
+import { NgComponentOutlet } from '@angular/common';
+import type { Type } from '@angular/core';
+import type { LmnIconInputs } from 'lumen-icons';
+import { LmnBellIcon } from 'lumen-icons/bell';
+
+readonly icon: Type<unknown> = LmnBellIcon;
+readonly inputs: LmnIconInputs = { size: 40, background: 'soft', tone: 'primary', padding: 8, radius: '50%' };
+```
+
+```html
+<ng-container *ngComponentOutlet="icon; inputs: inputs" />
+```
+
+#### Tones and contrast
+
+`tone` and `backgroundTone` read your theme's CSS variables (`--primary`, `--success`, …), so contrast depends on your tokens. Measured against the demo site's theme (WCAG 2 ratio; icons are graphics, so the bar is **3:1**, and **4.5:1** when the icon stands in for text — ✅ ≥ 4.5 · ⚠️ 3–4.5 · ❌ < 3). `soft` and `solid` columns use the same value for `tone` and `backgroundTone`:
+
+| `tone` / `backgroundTone` | none · light | none · dark | soft · light | soft · dark | solid · light | solid · dark |
+|---|---|---|---|---|---|---|
+| `foreground` | 17.8 ✅ | 19.2 ✅ | 12.1 ✅ | 12.1 ✅ | 17.8 ✅ | 19.2 ✅ |
+| `muted` | 4.7 ✅ | 7.8 ✅ | 4.7 ✅ | 7.7 ✅ | 4.5 ✅ | 6.9 ✅ |
+| `primary` | 5.6 ✅ | 4.7 ✅ | 4.3 ⚠️ | 4.0 ⚠️ | 5.6 ✅ | 4.2 ⚠️ |
+| `secondary` | 10.3 ✅ | 7.8 ✅ | 10.1 ✅ | 7.5 ✅ | 9.4 ✅ | 5.7 ✅ |
+| `accent` | 1.0 ❌ | 1.3 ❌ | 1.0 ❌ | 1.3 ❌ | 9.4 ✅ | 13.9 ✅ |
+| `success` | 2.5 ❌ | 10.4 ✅ | 2.1 ❌ | 7.8 ✅ | 2.5 ❌ | 10.4 ✅ |
+| `info` | 3.6 ⚠️ | 7.9 ✅ | 2.9 ❌ | 6.1 ✅ | 3.6 ⚠️ | 7.9 ✅ |
+| `warning` | 2.1 ❌ | 12.0 ✅ | 1.8 ❌ | 8.8 ✅ | 2.1 ❌ | 12.0 ✅ |
+| `destructive` | 3.7 ⚠️ | 5.3 ✅ | 2.9 ❌ | 4.6 ✅ | 3.7 ⚠️ | 3.7 ⚠️ |
+
+- **`accent` is a hover surface, not an ink colour** — use it only as `backgroundTone` with `background="solid"`.
+- **Light mode:** `success` and `warning` are too light on a white page and carry white on top when solid; `info` and `destructive` fail with `soft`. Use `foreground`, or darken those tokens in your theme.
+- **Dark mode** clears 3:1 everywhere except `accent` as an icon colour.
+
+Measure your own theme from a clone of this repo (the script reads oklch tokens from `:root` and `.dark` blocks):
+
+```bash
+node scripts/tone-contrast.mjs --css path/to/your-theme.css
+```
 
 #### Icons inside buttons: decorative vs meaningful
 

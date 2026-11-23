@@ -26,11 +26,16 @@
       <volt-tabs class="mt-5 block" [(value)]="referenceTab">
         <volt-tabs-list>
           <volt-tabs-trigger value="api">API</volt-tabs-trigger>
+          <volt-tabs-trigger value="tones">Tones &amp; contrast</volt-tabs-trigger>
           <volt-tabs-trigger value="icons">Available icons</volt-tabs-trigger>
         </volt-tabs-list>
 
         <volt-tabs-content value="api">
           <app-docs-api-table />
+        </volt-tabs-content>
+
+        <volt-tabs-content value="tones">
+          <app-docs-tone-contrast />
         </volt-tabs-content>
 
         <volt-tabs-content value="icons">

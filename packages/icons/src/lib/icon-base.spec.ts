@@ -1,11 +1,28 @@
 import { render } from "@testing-library/angular";
 import { describe, expect, it, vi } from "vitest";
 import { LmnCheckIcon } from "../icons/check";
+import type { LmnIconInputs } from "../types/icon.types";
 
 describe("LmnIconBase host bindings", () => {
   it("defaults size to 24", async () => {
     const { fixture } = await render(LmnCheckIcon);
     expect(fixture.componentInstance.size()).toBe(24);
+  });
+
+  it("renders sizes off the recommended scale", async () => {
+    const { container } = await render(LmnCheckIcon, {
+      componentInputs: { size: 40 },
+    });
+    const svg = container.querySelector("svg");
+    expect(svg).toHaveAttribute("width", "40");
+    expect(svg).toHaveAttribute("height", "40");
+  });
+
+  it("accepts an LmnIconInputs object as component inputs", async () => {
+    const inputs: LmnIconInputs = { size: "40", tone: "primary", background: "soft", radius: "50%" };
+    const { fixture } = await render(LmnCheckIcon, { componentInputs: inputs });
+    expect(fixture.componentInstance.size()).toBe(40);
+    expect(fixture.componentInstance.radius()).toBe("50%");
   });
 
   it("defaults strokeWidth to 2", async () => {
@@ -93,10 +110,10 @@ describe("LmnIconBase host bindings", () => {
   it("falls back to size 24 and warns in dev mode for an invalid size", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     try {
-      const { container } = await render(`<lmn-check size="15" />`, { imports: [LmnCheckIcon] });
+      const { container } = await render(`<lmn-check size="large" />`, { imports: [LmnCheckIcon] });
       const svg = container.querySelector("lmn-check svg") as SVGElement;
       expect(svg).toHaveAttribute("width", "24");
-      expect(warn).toHaveBeenCalledWith(expect.stringContaining("Invalid `size` value \"15\""));
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("Invalid `size` value \"large\""));
     } finally {
       warn.mockRestore();
     }

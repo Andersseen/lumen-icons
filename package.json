@@ -44,6 +44,7 @@
     "generate:icons": "node scripts/generate-icons.mjs",
     "motion:inventory": "node scripts/motion-inventory.mjs",
     "motion:filmstrip": "node scripts/motion-filmstrip.mjs",
+    "docs:tone-contrast": "node scripts/tone-contrast.mjs",
     "watch": "vite build --watch",
     "lint": "eslint .",
     "typecheck": "pnpm run typecheck:app && pnpm run typecheck:lib && pnpm run typecheck:templates",

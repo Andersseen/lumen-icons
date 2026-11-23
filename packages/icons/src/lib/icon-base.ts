@@ -2,6 +2,7 @@ import { computed, Directive, input } from '@angular/core';
 import type {
   LmnIconBackground,
   LmnIconInstance,
+  LmnIconSizeInput,
   LmnIconTone,
   LmnIconVariant,
 } from '../types/icon.types';
@@ -69,7 +70,7 @@ const TONE_BACKGROUNDS: Record<LmnIconTone, string | null> = {
   },
 })
 export abstract class LmnIconBase implements LmnIconInstance {
-  readonly size = input(LMN_DEFAULT_SIZE, { transform: lmnIconSizeAttribute });
+  readonly size = input<number, LmnIconSizeInput>(LMN_DEFAULT_SIZE, { transform: lmnIconSizeAttribute });
   readonly strokeWidth = input(LMN_DEFAULT_STROKE_WIDTH, { transform: lmnIconStrokeWidthAttribute });
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly animate = input<boolean>(false);
